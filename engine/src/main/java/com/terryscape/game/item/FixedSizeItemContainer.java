@@ -1,4 +1,4 @@
-package com.terryscape.system.item;
+package com.terryscape.game.item;
 
 import com.terryscape.cache.ItemDefinition;
 import com.terryscape.net.packet.OutgoingPacket;

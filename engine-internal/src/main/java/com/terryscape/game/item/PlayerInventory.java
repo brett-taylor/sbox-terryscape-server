@@ -1,4 +1,4 @@
-package com.terryscape.system.item;
+package com.terryscape.game.item;
 
 public class PlayerInventory extends FixedSizeItemContainer {
     @Override

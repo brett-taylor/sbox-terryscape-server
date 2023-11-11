@@ -1,4 +1,4 @@
-package com.terryscape.system.movement;
+package com.terryscape.game.movement;
 
 import com.google.inject.Inject;
 import com.terryscape.net.packet.OutgoingPacket;

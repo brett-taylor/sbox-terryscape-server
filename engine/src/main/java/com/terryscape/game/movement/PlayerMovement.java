@@ -1,4 +1,4 @@
-package com.terryscape.system.movement;
+package com.terryscape.game.movement;
 
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;

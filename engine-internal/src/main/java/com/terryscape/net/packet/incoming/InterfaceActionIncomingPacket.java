@@ -3,7 +3,7 @@ package com.terryscape.net.packet.incoming;
 import com.google.inject.Singleton;
 import com.terryscape.net.Client;
 import com.terryscape.net.packet.IncomingPacket;
-import com.terryscape.system.equipment.EquipmentSlot;
+import com.terryscape.game.equipment.EquipmentSlot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

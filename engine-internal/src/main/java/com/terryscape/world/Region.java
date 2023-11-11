@@ -2,7 +2,7 @@ package com.terryscape.world;
 
 public class Region {
 
-    private boolean[][] isWalkable;
+    private final boolean[][] isWalkable;
 
     public Region() {
         isWalkable = new boolean[getRegionSize()][getRegionSize()];

@@ -1,10 +1,10 @@
-package com.terryscape.system.chat;
+package com.terryscape.game.chat;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.terryscape.entity.player.Player;
 import com.terryscape.net.PacketManager;
-import com.terryscape.system.chat.packet.GameMessageOutgoingPacket;
+import com.terryscape.game.chat.packet.GameMessageOutgoingPacket;
 
 public class PlayerChatImpl implements PlayerChat {
 

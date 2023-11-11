@@ -10,8 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +52,8 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private void loadItems() throws IOException {
         try (var jsonReader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Config.ITEM_CACHE_LOCATION)))) {
-            var typeToDeserialize = new TypeToken<ArrayList<ItemDefinitionImpl>>() {}.getType();
+            var typeToDeserialize = new TypeToken<ArrayList<ItemDefinitionImpl>>() {
+            }.getType();
 
             ArrayList<ItemDefinitionImpl> itemList = gson.fromJson(jsonReader, typeToDeserialize);
             itemList.forEach(itemDefinition -> items.put(itemDefinition.getId(), itemDefinition));

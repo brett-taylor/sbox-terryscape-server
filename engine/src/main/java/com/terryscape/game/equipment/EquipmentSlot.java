@@ -1,4 +1,4 @@
-package com.terryscape.system.equipment;
+package com.terryscape.game.equipment;
 
 import java.util.Optional;
 

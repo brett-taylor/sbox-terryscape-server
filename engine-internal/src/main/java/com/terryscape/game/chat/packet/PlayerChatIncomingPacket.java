@@ -1,4 +1,4 @@
-package com.terryscape.system.chat.packet;
+package com.terryscape.game.chat.packet;
 
 import com.google.inject.Singleton;
 import com.terryscape.net.Client;

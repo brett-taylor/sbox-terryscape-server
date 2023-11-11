@@ -1,4 +1,4 @@
-package com.terryscape.system.chat.packet;
+package com.terryscape.game.chat.packet;
 
 import com.terryscape.net.packet.OutgoingPacket;
 

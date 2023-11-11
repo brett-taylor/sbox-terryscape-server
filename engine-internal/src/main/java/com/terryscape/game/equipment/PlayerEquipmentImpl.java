@@ -1,7 +1,7 @@
-package com.terryscape.system.equipment;
+package com.terryscape.game.equipment;
 
 import com.terryscape.cache.ItemDefinition;
-import com.terryscape.system.item.FixedSizeItemContainer;
+import com.terryscape.game.item.FixedSizeItemContainer;
 
 import java.util.Optional;
 

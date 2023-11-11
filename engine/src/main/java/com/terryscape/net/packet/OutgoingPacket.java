@@ -5,12 +5,10 @@ import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.UUID;
 
 public interface OutgoingPacket {
 
@@ -49,7 +47,7 @@ public interface OutgoingPacket {
         writeString(packet, entityIdentifier.getValue());
     }
 
-    static void writeDirection(OutputStream packet, Direction direction ) {
+    static void writeDirection(OutputStream packet, Direction direction) {
         writeInt32(packet, direction.getRotation());
     }
 }

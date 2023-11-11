@@ -1,4 +1,4 @@
-package com.terryscape.system.equipment;
+package com.terryscape.game.equipment;
 
 import com.terryscape.cache.ItemDefinition;
 

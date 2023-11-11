@@ -10,11 +10,11 @@ import com.terryscape.net.Client;
 import com.terryscape.net.PacketManager;
 import com.terryscape.net.packet.OutgoingPacket;
 import com.terryscape.net.packet.outgoing.SetLocalPlayerOutgoingPacket;
-import com.terryscape.system.chat.PlayerChatImpl;
-import com.terryscape.system.equipment.PlayerEquipment;
-import com.terryscape.system.equipment.PlayerEquipmentImpl;
-import com.terryscape.system.item.PlayerInventory;
-import com.terryscape.system.movement.PlayerMovementImpl;
+import com.terryscape.game.chat.PlayerChatImpl;
+import com.terryscape.game.equipment.PlayerEquipment;
+import com.terryscape.game.equipment.PlayerEquipmentImpl;
+import com.terryscape.game.item.PlayerInventory;
+import com.terryscape.game.movement.PlayerMovementImpl;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 

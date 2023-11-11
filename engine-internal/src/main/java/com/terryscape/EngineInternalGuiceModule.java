@@ -20,9 +20,9 @@ import com.terryscape.net.packet.IncomingPacket;
 import com.terryscape.net.packet.incoming.InterfaceActionIncomingPacket;
 import com.terryscape.net.packet.incoming.LoginIncomingPacket;
 import com.terryscape.net.packet.incoming.WalkIncomingPacket;
-import com.terryscape.system.chat.PlayerChatImpl;
-import com.terryscape.system.chat.packet.PlayerChatIncomingPacket;
-import com.terryscape.system.movement.PlayerMovementImpl;
+import com.terryscape.game.chat.PlayerChatImpl;
+import com.terryscape.game.chat.packet.PlayerChatIncomingPacket;
+import com.terryscape.game.movement.PlayerMovementImpl;
 import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingManagerImpl;
 

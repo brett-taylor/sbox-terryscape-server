@@ -1,4 +1,4 @@
-package com.terryscape.system.chat;
+package com.terryscape.game.chat;
 
 public interface PlayerChat {
 
