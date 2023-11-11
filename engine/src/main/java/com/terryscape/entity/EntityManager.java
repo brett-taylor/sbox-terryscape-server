@@ -1,12 +1,11 @@
 package com.terryscape.entity;
 
-import com.terryscape.entity.player.Player;
-
 public interface EntityManager {
+
+    Entity createEntity(EntityType entityType);
 
     void registerEntity(Entity entity);
 
-    void unregisterEntity(Entity entity);
+    void deleteEntity(EntityIdentifier entityIdentifier);
 
-    void sendPlayerInitialUpdate(Player player);
 }

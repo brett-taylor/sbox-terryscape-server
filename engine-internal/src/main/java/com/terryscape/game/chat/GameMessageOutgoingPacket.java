@@ -1,6 +1,6 @@
-package com.terryscape.game.chat.packet;
+package com.terryscape.game.chat;
 
-import com.terryscape.net.packet.OutgoingPacket;
+import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 

@@ -1,9 +1,10 @@
 package com.terryscape.game.movement;
 
+import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 
-public interface PlayerMovement {
+public interface PlayerMovementComponent extends NetworkedEntityComponent {
 
     WorldCoordinate getWorldCoordinate();
 

@@ -44,7 +44,7 @@ public class ServerImpl implements Server {
         cacheLoader.loadCache();
 
         packetManager.start();
-        
+
         long endTime = System.currentTimeMillis();
         LOGGER.info("{} has successfully started up in {} milliseconds.", Config.NAME, endTime - startTime);
 

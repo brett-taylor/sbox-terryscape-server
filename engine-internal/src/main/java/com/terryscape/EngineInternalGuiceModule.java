@@ -3,26 +3,22 @@ package com.terryscape;
 import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.multibindings.Multibinder;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.CacheLoaderImpl;
 import com.terryscape.entity.EntityManager;
 import com.terryscape.entity.EntityManagerImpl;
-import com.terryscape.entity.player.PlayerImpl;
 import com.terryscape.event.EventListener;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.event.MockEventListener;
+import com.terryscape.game.chat.PlayerChatIncomingPacket;
+import com.terryscape.game.interfaces.InterfaceActionIncomingPacket;
+import com.terryscape.game.login.LoginIncomingPacket;
+import com.terryscape.game.movement.WalkIncomingPacket;
+import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
 import com.terryscape.net.PacketManagerImpl;
-import com.terryscape.net.packet.IncomingPacket;
-import com.terryscape.net.packet.incoming.InterfaceActionIncomingPacket;
-import com.terryscape.net.packet.incoming.LoginIncomingPacket;
-import com.terryscape.net.packet.incoming.WalkIncomingPacket;
-import com.terryscape.game.chat.PlayerChatImpl;
-import com.terryscape.game.chat.packet.PlayerChatIncomingPacket;
-import com.terryscape.game.movement.PlayerMovementImpl;
 import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingManagerImpl;
 
@@ -45,10 +41,6 @@ public class EngineInternalGuiceModule extends AbstractModule {
 
         var eventListenerMultibinder = Multibinder.newSetBinder(binder(), EventListener.class);
         eventListenerMultibinder.addBinding().to(MockEventListener.class);
-
-        install(new FactoryModuleBuilder().build(PlayerImpl.PlayerImplFactory.class));
-        install(new FactoryModuleBuilder().build(PlayerChatImpl.PlayerChatImplFactory.class));
-        install(new FactoryModuleBuilder().build(PlayerMovementImpl.PlayerMovementImplFactory.class));
     }
 
     @Provides

@@ -1,37 +1,98 @@
 package com.terryscape.entity;
 
-import com.terryscape.net.packet.OutgoingPacket;
+import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.entity.component.EntityComponent;
+import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class EntityImpl implements Entity {
+public class EntityImpl implements Entity {
 
-    private EntityIdentifier entityIdentifier;
+    private final EntityIdentifier entityIdentifier;
+
+    private final EntityType entityType;
+
+    private final List<BaseEntityComponent> components = new ArrayList<>();
+
+    public EntityImpl(EntityIdentifier entityIdentifier, EntityType entityType) {
+        this.entityIdentifier = entityIdentifier;
+        this.entityType = entityType;
+    }
 
     @Override
-    public Optional<EntityIdentifier> getIdentifier() {
-        return Optional.ofNullable(entityIdentifier);
+    public EntityIdentifier getIdentifier() {
+        return entityIdentifier;
     }
 
-    public void setEntityIdentifier(EntityIdentifier entityIdentifier) {
-        this.entityIdentifier = entityIdentifier;
+    @Override
+    public EntityType getEntityType() {
+        return entityType;
     }
 
-    public void tick() {
+    @Override
+    public void addComponent(BaseEntityComponent component) {
+        if (!component.getEntity().equals(this)) {
+            throw new RuntimeException("Attempted to add a component owned by a different entity.");
+        }
+
+        components.add(component);
+
+        component.onAdded();
     }
 
-    public void register() {
-    }
+    @Override
+    public <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType) {
+        for (var component : components) {
+            if (componentType.isAssignableFrom(component.getClass())) {
+                return componentType.cast(component);
+            }
+        }
 
-    public void spawn() {
+        throw new RuntimeException("Attempted to get a component that does not exist on the entity.");
     }
 
     public void writeEntityAddedPacket(OutputStream packet) {
+        OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
         OutgoingPacket.writeString(packet, getEntityType().name());
+
+        for (var networkedComponent : getNetworkedComponents()) {
+            OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
+            networkedComponent.writeEntityAddedPacket(packet);
+        }
     }
 
     public void writeEntityUpdatedPacket(OutputStream packet) {
+        OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
+
+        for (var networkedComponent : getNetworkedComponents()) {
+            OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
+            networkedComponent.writeEntityUpdatedPacket(packet);
+        }
     }
 
+    public void writeEntityRemovedPacket(OutputStream packet) {
+        OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
+    }
+
+    public void onRegister() {
+        components.forEach(BaseEntityComponent::onRegister);
+    }
+
+    public void onSpawn() {
+        components.forEach(BaseEntityComponent::onSpawn);
+    }
+
+    public void tick() {
+        components.forEach(BaseEntityComponent::tick);
+    }
+
+    private List<NetworkedEntityComponent> getNetworkedComponents() {
+        return components.stream()
+            .filter(component -> NetworkedEntityComponent.class.isAssignableFrom(component.getClass()))
+            .map(NetworkedEntityComponent.class::cast)
+            .toList();
+    }
 }

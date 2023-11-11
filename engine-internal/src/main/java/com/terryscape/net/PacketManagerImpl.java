@@ -3,9 +3,9 @@ package com.terryscape.net;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityManager;
-import com.terryscape.net.packet.IncomingPacket;
-import com.terryscape.net.packet.OutgoingPacket;
+import com.terryscape.game.player.PlayerComponent;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
@@ -55,7 +55,9 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
 
         clients.get(conn)
             .getPlayer()
-            .ifPresent(entityManager::unregisterEntity);
+            .map(PlayerComponent::getEntity)
+            .map(Entity::getIdentifier)
+            .ifPresent(entityManager::deleteEntity);
 
         clients.remove(conn);
     }

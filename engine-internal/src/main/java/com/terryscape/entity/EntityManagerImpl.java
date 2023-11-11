@@ -2,11 +2,11 @@ package com.terryscape.entity;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.entity.player.Player;
+import com.terryscape.entity.packet.EntityAddedOutgoingPacket;
+import com.terryscape.entity.packet.EntityRemovedOutgoingPacket;
+import com.terryscape.entity.packet.EntityUpdatedOutgoingPacket;
+import com.terryscape.net.Client;
 import com.terryscape.net.PacketManager;
-import com.terryscape.net.packet.outgoing.EntityAddedOutgoingPacket;
-import com.terryscape.net.packet.outgoing.EntityRemovedOutgoingPacket;
-import com.terryscape.net.packet.outgoing.EntityUpdatedOutgoingPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,6 @@ public class EntityManagerImpl implements EntityManager {
 
     private final Map<EntityIdentifier, EntityImpl> entitiesToRegisterNextTick;
     private final Map<EntityIdentifier, EntityImpl> entitiesToUnregisterNextTick;
-
     private final Map<EntityIdentifier, EntityImpl> entities;
 
     @Inject
@@ -36,42 +35,34 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public void sendPlayerInitialUpdate(Player player) {
-        if (player.getIdentifier().isEmpty()) {
-            LOGGER.error("A player should be registered before sending an initial update.");
-            return;
-        }
+    public Entity createEntity(EntityType entityType) {
+        var newEntity = new EntityImpl(EntityIdentifier.randomIdentifier(), entityType);
+        entitiesToRegisterNextTick.put(newEntity.getIdentifier(), newEntity);
 
-        entities.values().stream()
-            .filter(entity -> !entity.getIdentifier().equals(player.getIdentifier()))
-            .map(entity -> new EntityAddedOutgoingPacket().setEntity(entity))
-            .forEach(packet -> packetManager.send(player.getClient(), packet));
+        return newEntity;
     }
 
     @Override
     public void registerEntity(Entity entity) {
-        if (entity.getIdentifier().isPresent()) {
-            LOGGER.error("Entity already has an identifier, has it been registered already? The player will not be registered.");
-            return;
-        }
-
-        var entityImpl = (EntityImpl) entity;
-
-        var newEntityIdentifier = EntityIdentifier.randomIdentifier();
-        entityImpl.setEntityIdentifier(newEntityIdentifier);
-
-        entitiesToRegisterNextTick.put(newEntityIdentifier, entityImpl);
+        entitiesToRegisterNextTick.put(entity.getIdentifier(), (EntityImpl) entity);
     }
 
     @Override
-    public void unregisterEntity(Entity entity) {
-        if (entity.getIdentifier().isEmpty()) {
-            LOGGER.error("Attempted to unregister an entity without an identifier, was it ever registered?.");
+    public void deleteEntity(EntityIdentifier entityIdentifier) {
+        var entity = entities.get(entityIdentifier);
+
+        if (entity == null) {
+            LOGGER.error("Attempted to delete an entity that no longer exists.");
             return;
         }
 
-        var entityImpl = (EntityImpl) entity;
-        entitiesToUnregisterNextTick.put(entity.getIdentifier().get(), entityImpl);
+        entitiesToUnregisterNextTick.put(entityIdentifier, entity);
+    }
+
+    public void sendInitialUpdate(Client client) {
+        entities.values().stream()
+            .map(entity -> new EntityAddedOutgoingPacket().setEntity(entity))
+            .forEach(packet -> packetManager.send(client, packet));
     }
 
     public void tick() {
@@ -85,33 +76,29 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     private void registerSingleEntity(EntityImpl entity) {
-        var identifier = entity.getIdentifier().orElseThrow();
+        entities.put(entity.getIdentifier(), entity);
 
-        entities.put(identifier, entity);
-
-        entity.register();
+        entity.onRegister();
 
         var packet = new EntityAddedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(packet);
 
-        entity.spawn();
+        entity.onSpawn();
 
-        LOGGER.info("Registered Entity {}", identifier);
+        LOGGER.info("Registered Entity {}", entity.getIdentifier());
     }
 
     private void unregisterSingleEntity(EntityImpl entity) {
-        var identifier = entity.getIdentifier().orElseThrow();
-
-        entities.remove(entity.getIdentifier().get());
+        entities.remove(entity.getIdentifier());
 
         var packet = new EntityRemovedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(packet);
 
-        LOGGER.info("Unregistered Entity {}", identifier);
+        LOGGER.info("Unregistered Entity {}", entity.getIdentifier());
     }
 
     private void tickSingleEntity(EntityImpl entity) {
-        entity.tick();
+         entity.tick();
 
         var updatePacket = new EntityUpdatedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(updatePacket);

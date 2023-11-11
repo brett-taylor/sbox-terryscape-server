@@ -1,20 +1,16 @@
 package com.terryscape.entity;
 
-import java.util.Optional;
+import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.entity.component.EntityComponent;
 
-/**
- * TODO: Entity structure
- * Entity
- *   Mob
- *     Player
- *     Npc
- *   GroundItem
- *   Projectile
- */
 public interface Entity {
 
-    Optional<EntityIdentifier> getIdentifier();
+    EntityIdentifier getIdentifier();
 
     EntityType getEntityType();
+
+    void addComponent(BaseEntityComponent component);
+
+    <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType);
 
 }

@@ -1,7 +1,7 @@
-package com.terryscape.net.packet.outgoing;
+package com.terryscape.entity.packet;
 
 import com.terryscape.entity.EntityImpl;
-import com.terryscape.net.packet.OutgoingPacket;
+import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 
@@ -21,7 +21,6 @@ public class EntityUpdatedOutgoingPacket implements OutgoingPacket {
 
     @Override
     public void writePacket(OutputStream packet) {
-        OutgoingPacket.writeEntityIdentifier(packet, entity.getIdentifier().orElseThrow());
         entity.writeEntityUpdatedPacket(packet);
     }
 }

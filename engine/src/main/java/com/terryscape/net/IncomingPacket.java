@@ -1,4 +1,4 @@
-package com.terryscape.net.packet;
+package com.terryscape.net;
 
 import com.terryscape.Config;
 import com.terryscape.entity.EntityIdentifier;

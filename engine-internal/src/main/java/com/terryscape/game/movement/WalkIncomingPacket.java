@@ -1,8 +1,8 @@
-package com.terryscape.net.packet.incoming;
+package com.terryscape.game.movement;
 
 import com.google.inject.Singleton;
 import com.terryscape.net.Client;
-import com.terryscape.net.packet.IncomingPacket;
+import com.terryscape.net.IncomingPacket;
 
 import java.nio.ByteBuffer;
 
@@ -21,11 +21,12 @@ public class WalkIncomingPacket implements IncomingPacket {
         // TODO Check is valid tile?
 
         var player = client.getPlayer().orElseThrow();
+        var playerMovementComponent = player.getEntity().getComponentOrThrow(PlayerMovementComponent.class);
 
         if (teleport) {
-            player.getPlayerMovement().teleport(destinationTile);
+            playerMovementComponent.teleport(destinationTile);
         } else {
-            player.getPlayerMovement().move(destinationTile);
+            playerMovementComponent.move(destinationTile);
         }
     }
 }

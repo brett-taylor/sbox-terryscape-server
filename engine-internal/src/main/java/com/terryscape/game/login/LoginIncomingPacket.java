@@ -1,12 +1,13 @@
-package com.terryscape.net.packet.incoming;
+package com.terryscape.game.login;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.entity.EntityManager;
-import com.terryscape.entity.player.PlayerImpl;
+import com.terryscape.entity.EntityManagerImpl;
+import com.terryscape.game.player.PlayerComponentImpl;
+import com.terryscape.game.player.PlayerFactory;
 import com.terryscape.net.Client;
 import com.terryscape.net.ClientImpl;
-import com.terryscape.net.packet.IncomingPacket;
+import com.terryscape.net.IncomingPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,14 +18,14 @@ public class LoginIncomingPacket implements IncomingPacket {
 
     private static final Logger LOGGER = LogManager.getLogger(LoginIncomingPacket.class);
 
-    private final EntityManager entityManager;
+    private final EntityManagerImpl entityManager;
 
-    private final PlayerImpl.PlayerImplFactory playerImplFactory;
+    private final PlayerFactory playerFactory;
 
     @Inject
-    public LoginIncomingPacket(EntityManager entityManager, PlayerImpl.PlayerImplFactory playerImplFactory) {
+    public LoginIncomingPacket(EntityManagerImpl entityManager, PlayerFactory playerFactory) {
         this.entityManager = entityManager;
-        this.playerImplFactory = playerImplFactory;
+        this.playerFactory = playerFactory;
     }
 
     @Override
@@ -41,14 +42,18 @@ public class LoginIncomingPacket implements IncomingPacket {
 
         LOGGER.info("Login accepted username={}", username);
 
-        var player = playerImplFactory.create(client);
+        entityManager.sendInitialUpdate(client);
+
+        var playerEntity = playerFactory.createUnregisteredEntityWithAllNecessaryPlayerComponents();
+
+        var player = playerEntity.getComponentOrThrow(PlayerComponentImpl.class);
+        player.setClient(client);
         player.setUsername(username);
 
         var clientImpl = (ClientImpl) client;
         clientImpl.setPlayer(player);
 
-        entityManager.registerEntity(player);
-        entityManager.sendPlayerInitialUpdate(player);
+        entityManager.registerEntity(playerEntity);
     }
 
 }

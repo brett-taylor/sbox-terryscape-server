@@ -1,7 +1,7 @@
 package com.terryscape.game.item;
 
 import com.terryscape.cache.ItemDefinition;
-import com.terryscape.net.packet.OutgoingPacket;
+import com.terryscape.net.OutgoingPacket;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.OutputStream;

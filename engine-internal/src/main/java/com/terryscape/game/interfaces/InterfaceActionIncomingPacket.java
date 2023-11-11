@@ -1,8 +1,8 @@
-package com.terryscape.net.packet.incoming;
+package com.terryscape.game.interfaces;
 
 import com.google.inject.Singleton;
 import com.terryscape.net.Client;
-import com.terryscape.net.packet.IncomingPacket;
+import com.terryscape.net.IncomingPacket;
 import com.terryscape.game.equipment.EquipmentSlot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,8 +27,8 @@ public class InterfaceActionIncomingPacket implements IncomingPacket {
         if (interfaceId.equals("inventory")) {
             var slotNumber = IncomingPacket.readInt32(packet);
 
-            var playerEquipment = client.getPlayer().orElseThrow().getPlayerEquipment();
-            var playerInventory = client.getPlayer().orElseThrow().getPlayerInventory();
+            var playerEquipment = client.getPlayer().orElseThrow().getEquipment();
+            var playerInventory = client.getPlayer().orElseThrow().getInventory();
             var item = playerInventory.getItemAt(slotNumber).orElseThrow();
             playerInventory.removeItemAt(slotNumber);
 
@@ -47,8 +47,8 @@ public class InterfaceActionIncomingPacket implements IncomingPacket {
             var slotNumber = IncomingPacket.readInt32(packet);
             var slot = EquipmentSlot.tryParseFromSlotId(slotNumber).orElseThrow();
 
-            var playerEquipment = client.getPlayer().orElseThrow().getPlayerEquipment();
-            var playerInventory = client.getPlayer().orElseThrow().getPlayerInventory();
+            var playerEquipment = client.getPlayer().orElseThrow().getEquipment();
+            var playerInventory = client.getPlayer().orElseThrow().getInventory();
             var item = playerEquipment.getSlot(slot).orElseThrow();
             playerEquipment.removeSlot(slot);
             playerInventory.addItem(item);
