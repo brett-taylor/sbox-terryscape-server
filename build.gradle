@@ -1,0 +1,35 @@
+allprojects {
+    group = 'com.example.gradle'
+    version = '0.1.0'
+
+    apply plugin: 'java'
+
+    java {
+        sourceCompatibility = '17'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+
+        implementation 'org.java-websocket:Java-WebSocket:1.5.4'
+
+        implementation 'org.apache.commons:commons-lang3:3.13.0'
+        implementation 'org.apache.commons:commons-collections4:4.1'
+
+        implementation 'com.google.inject:guice:7.0.0'
+        implementation 'com.google.inject.extensions:guice-assistedinject:7.0.0'
+        implementation 'com.google.code.gson:gson:2.10.1'
+
+    }
+}
+
+dependencies {
+    implementation project(":engine")
+    implementation project(":engine-internal")
+
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+}

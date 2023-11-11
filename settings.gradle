@@ -1,0 +1,5 @@
+rootProject.name = 'terryscape'
+
+include 'engine'
+include 'engine-internal'
+

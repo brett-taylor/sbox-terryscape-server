@@ -1,0 +1,18 @@
+[
+  {
+    "id": "wooden_longsword",
+    "name": "Wooden Longsword",
+    "description": "A dull Longsword made out of Wood",
+    "modelPath": "code/terryscape/assets/items/wooden_longsword/wooden_longsword.vmdl",
+    "equippedMainHandOffset": "-2,0.8,-6.9",
+    "equippedOffHandOffset": "-2,-0.8,-6.9"
+  },
+  {
+    "id": "wooden_scimitar",
+    "name": "Wooden Scimitar",
+    "description": "A dull Scimitar made out of Wood",
+    "modelPath": "code/terryscape/assets/items/wooden_scimitar/wooden_scimitar.vmdl",
+    "EquippedMainHandOffset": "-1.8,0.5,-4.9",
+    "EquippedOffHandOffset": "-1.8,-0.5,-4.9"
+  }
+]
