@@ -7,16 +7,20 @@ public class Region {
     public Region() {
         isWalkable = new boolean[getRegionSize()][getRegionSize()];
 
-        for (var y = 0; y < getRegionSize(); y++) {
-            for (var x = 0; x < getRegionSize(); x++) {
-                var isWalkable = !(x == y && x != 5);
-                setIsWalkable(x, y, isWalkable);
+        for (var y = 0; y < getRegionSize() - 1; y++) {
+            for (var x = 0; x < getRegionSize() - 1; x++) {
+                if (x == y && (x != 5 && x != 10)) {
+                    setIsWalkable(x, y, false);
+                    continue;
+                }
+
+                setIsWalkable(x, y, true);
             }
         }
     }
 
     public int getRegionSize() {
-        return 10;
+        return 20;
     }
 
     public boolean isWalkable(int x, int y) {

@@ -7,7 +7,7 @@ public interface Entity {
 
     EntityIdentifier getIdentifier();
 
-    EntityType getEntityType();
+    EntityPrefabType getEntityPrefabType();
 
     void addComponent(BaseEntityComponent component);
 

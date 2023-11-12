@@ -13,13 +13,13 @@ public class EntityImpl implements Entity {
 
     private final EntityIdentifier entityIdentifier;
 
-    private final EntityType entityType;
+    private final EntityPrefabType entityPrefabType;
 
     private final List<BaseEntityComponent> components = new ArrayList<>();
 
-    public EntityImpl(EntityIdentifier entityIdentifier, EntityType entityType) {
+    public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType) {
         this.entityIdentifier = entityIdentifier;
-        this.entityType = entityType;
+        this.entityPrefabType = entityPrefabType;
     }
 
     @Override
@@ -28,8 +28,8 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public EntityType getEntityType() {
-        return entityType;
+    public EntityPrefabType getEntityPrefabType() {
+        return entityPrefabType;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class EntityImpl implements Entity {
 
     public void writeEntityAddedPacket(OutputStream packet) {
         OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
-        OutgoingPacket.writeString(packet, getEntityType().name());
+        OutgoingPacket.writeString(packet, getEntityPrefabType().name());
 
         for (var networkedComponent : getNetworkedComponents()) {
             OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());

@@ -35,8 +35,8 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public Entity createEntity(EntityType entityType) {
-        var newEntity = new EntityImpl(EntityIdentifier.randomIdentifier(), entityType);
+    public Entity createEntity(EntityPrefabType entityPrefabType) {
+        var newEntity = new EntityImpl(EntityIdentifier.randomIdentifier(), entityPrefabType);
         entitiesToRegisterNextTick.put(newEntity.getIdentifier(), newEntity);
 
         return newEntity;

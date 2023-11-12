@@ -1,5 +1,6 @@
 package com.terryscape.entity;
 
-public enum EntityType {
+public enum EntityPrefabType {
     PLAYER,
+    NPC,
 }

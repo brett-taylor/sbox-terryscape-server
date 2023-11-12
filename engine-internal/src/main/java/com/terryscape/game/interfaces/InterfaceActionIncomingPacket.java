@@ -1,6 +1,7 @@
 package com.terryscape.game.interfaces;
 
 import com.google.inject.Singleton;
+import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.game.equipment.EquipmentSlot;
@@ -11,8 +12,6 @@ import java.nio.ByteBuffer;
 
 @Singleton
 public class InterfaceActionIncomingPacket implements IncomingPacket {
-
-    private static final Logger LOGGER = LogManager.getLogger(InterfaceActionIncomingPacket.class);
 
     @Override
     public String getPacketName() {
@@ -27,19 +26,23 @@ public class InterfaceActionIncomingPacket implements IncomingPacket {
         if (interfaceId.equals("inventory")) {
             var slotNumber = IncomingPacket.readInt32(packet);
 
-            var playerEquipment = client.getPlayer().orElseThrow().getEquipment();
-            var playerInventory = client.getPlayer().orElseThrow().getInventory();
+            var player = client.getPlayer().orElseThrow();
+            var playerEquipment = player.getEquipment();
+            var playerInventory = player.getInventory();
             var item = playerInventory.getItemAt(slotNumber).orElseThrow();
-            playerInventory.removeItemAt(slotNumber);
 
-            if (interfaceAction.equals("item_action_one")) {
+            if (interfaceAction.equals("item_main_hand")) {
+                playerInventory.removeItemAt(slotNumber);
                 playerEquipment.setSlot(EquipmentSlot.MAIN_HAND, item);
-                LOGGER.info("Main Hand Item %s".formatted(item.getName()));
             }
 
-            if (interfaceAction.equals("item_action_two")) {
+            if (interfaceAction.equals("item_off_hand")) {
+                playerInventory.removeItemAt(slotNumber);
                 playerEquipment.setSlot(EquipmentSlot.OFF_HAND, item);
-                LOGGER.info("Off Hand Item %s".formatted(item.getName()));
+            }
+
+            if (interfaceAction.equals("item_examine")) {
+                player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getDescription());
             }
         }
 
@@ -47,11 +50,20 @@ public class InterfaceActionIncomingPacket implements IncomingPacket {
             var slotNumber = IncomingPacket.readInt32(packet);
             var slot = EquipmentSlot.tryParseFromSlotId(slotNumber).orElseThrow();
 
-            var playerEquipment = client.getPlayer().orElseThrow().getEquipment();
-            var playerInventory = client.getPlayer().orElseThrow().getInventory();
+            var player = client.getPlayer().orElseThrow();
+            var playerEquipment = player.getEquipment();
+            var playerInventory = player.getInventory();
             var item = playerEquipment.getSlot(slot).orElseThrow();
-            playerEquipment.removeSlot(slot);
-            playerInventory.addItem(item);
+
+
+            if (interfaceAction.equals("item_remove")) {
+                playerEquipment.removeSlot(slot);
+                playerInventory.addItem(item);
+            }
+
+            if (interfaceAction.equals("item_examine")) {
+                player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getDescription());
+            }
         }
     }
 }

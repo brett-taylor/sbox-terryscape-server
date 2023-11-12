@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityManager;
-import com.terryscape.entity.EntityType;
+import com.terryscape.entity.EntityPrefabType;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.movement.PlayerMovementComponentImpl;
 import com.terryscape.net.PacketManager;
@@ -31,7 +31,7 @@ public class PlayerFactory {
     }
 
     public Entity createUnregisteredEntityWithAllNecessaryPlayerComponents() {
-        var entity = entityManager.createEntity(EntityType.PLAYER);
+        var entity = entityManager.createEntity(EntityPrefabType.PLAYER);
 
         var playerComponent = new PlayerComponentImpl(entity, packetManager, cacheLoader);
         entity.addComponent(playerComponent);

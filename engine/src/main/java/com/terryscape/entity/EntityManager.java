@@ -2,7 +2,7 @@ package com.terryscape.entity;
 
 public interface EntityManager {
 
-    Entity createEntity(EntityType entityType);
+    Entity createEntity(EntityPrefabType entityPrefabType);
 
     void registerEntity(Entity entity);
 
