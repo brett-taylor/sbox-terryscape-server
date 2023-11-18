@@ -1,5 +1,7 @@
 package com.terryscape.world;
 
+import com.terryscape.util.RandomUtil;
+
 import java.util.Arrays;
 
 public enum Direction {
@@ -34,5 +36,10 @@ public enum Direction {
             .filter(direction -> direction.rotation == rotation)
             .findFirst()
             .orElseThrow(() -> new RuntimeException("Invalid Rotation %s".formatted(rotation)));
+    }
+
+    public static Direction random() {
+        var random = RandomUtil.randomNumber(0, Direction.values().length - 1);
+        return Direction.values()[random];
     }
 }

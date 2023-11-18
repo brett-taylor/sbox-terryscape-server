@@ -15,11 +15,18 @@ public class EntityImpl implements Entity {
 
     private final EntityPrefabType entityPrefabType;
 
+    private final String entityPrefabIdentifier;
+
     private final List<BaseEntityComponent> components = new ArrayList<>();
 
-    public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType) {
+    private boolean hasBeenRegistered = false;
+
+    private boolean hasSpawned = false;
+
+    public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType, String entityPrefabIdentifier) {
         this.entityIdentifier = entityIdentifier;
         this.entityPrefabType = entityPrefabType;
+        this.entityPrefabIdentifier = entityPrefabIdentifier;
     }
 
     @Override
@@ -33,6 +40,11 @@ public class EntityImpl implements Entity {
     }
 
     @Override
+    public String getEntityPrefabIdentifier() {
+        return entityPrefabIdentifier;
+    }
+
+    @Override
     public void addComponent(BaseEntityComponent component) {
         if (!component.getEntity().equals(this)) {
             throw new RuntimeException("Attempted to add a component owned by a different entity.");
@@ -40,7 +52,13 @@ public class EntityImpl implements Entity {
 
         components.add(component);
 
-        component.onAdded();
+        if (hasBeenRegistered) {
+            component.onRegister();
+        }
+
+        if (hasSpawned) {
+            component.onSpawn();
+        }
     }
 
     @Override
@@ -57,6 +75,7 @@ public class EntityImpl implements Entity {
     public void writeEntityAddedPacket(OutputStream packet) {
         OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
         OutgoingPacket.writeString(packet, getEntityPrefabType().name());
+        OutgoingPacket.writeString(packet, getEntityPrefabIdentifier());
 
         for (var networkedComponent : getNetworkedComponents()) {
             OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
@@ -78,10 +97,14 @@ public class EntityImpl implements Entity {
     }
 
     public void onRegister() {
+        hasBeenRegistered = true;
+
         components.forEach(BaseEntityComponent::onRegister);
     }
 
     public void onSpawn() {
+        hasSpawned = true;
+
         components.forEach(BaseEntityComponent::onSpawn);
     }
 

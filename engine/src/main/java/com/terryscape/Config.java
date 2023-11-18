@@ -18,4 +18,6 @@ public class Config {
     public static final String CACHE_LOCATION = "/cache";
 
     public static final String ITEM_CACHE_LOCATION = "%s/Items.json".formatted(CACHE_LOCATION);
+
+    public static final String NPC_CACHE_LOCATION = "%s/Npcs.json".formatted(CACHE_LOCATION);
 }

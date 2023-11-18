@@ -11,11 +11,14 @@ import com.terryscape.entity.EntityManagerImpl;
 import com.terryscape.event.EventListener;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
-import com.terryscape.event.MockEventListener;
+import com.terryscape.game.npc.NpcFactory;
+import com.terryscape.game.npc.NpcFactoryImpl;
+import com.terryscape.game.npc.SpawnSomeTestNpcs;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
 import com.terryscape.game.interfaces.InterfaceActionIncomingPacket;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
+import com.terryscape.game.npc.action.NpcActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
 import com.terryscape.net.PacketManagerImpl;
@@ -32,15 +35,17 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(EventSystem.class).to(EventSystemImpl.class);
         binder().bind(PathfindingManager.class).to(PathfindingManagerImpl.class);
         binder().bind(CacheLoader.class).to(CacheLoaderImpl.class);
+        binder().bind(NpcFactory.class).to(NpcFactoryImpl.class);
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(WalkIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(PlayerChatIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(InterfaceActionIncomingPacket.class);
+        incomingPacketMultibinder.addBinding().to(NpcActionIncomingPacket.class);
 
         var eventListenerMultibinder = Multibinder.newSetBinder(binder(), EventListener.class);
-        eventListenerMultibinder.addBinding().to(MockEventListener.class);
+        eventListenerMultibinder.addBinding().to(SpawnSomeTestNpcs.class);
     }
 
     @Provides

@@ -15,21 +15,15 @@ public abstract class BaseEntityComponent implements EntityComponent {
     }
 
     /**
-     * Called when the component is added to an entity
-     */
-    public void onAdded() {
-    }
-
-    /**
      * Called when the entity has been registered to the world but has not yet spawned.
-     * If the component is added during the lifecycle of the entity rather than at the start, this will not be called.
+     * If the entity has already been registered, then it will be called straight away.
      */
     public void onRegister() {
     }
 
     /**
      * Called when the entity has been spawned into the world.
-     * If the component is added during the lifecycle of the entity rather than at the start, this will not be called.
+     * If the entity has already been spawned, then it will be called straight away.
      */
     public void onSpawn() {
     }

@@ -3,18 +3,14 @@ package com.terryscape.game.player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
-import com.terryscape.entity.Entity;
-import com.terryscape.entity.EntityManager;
-import com.terryscape.entity.EntityPrefabType;
+import com.terryscape.entity.*;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
-import com.terryscape.game.movement.PlayerMovementComponentImpl;
+import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 @Singleton
 public class PlayerFactory {
-
-    private final EntityManager entityManager;
 
     private final PacketManager packetManager;
 
@@ -24,14 +20,13 @@ public class PlayerFactory {
 
     @Inject
     public PlayerFactory(EntityManager entityManager, PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader) {
-        this.entityManager = entityManager;
         this.packetManager = packetManager;
         this.pathfindingManager = pathfindingManager;
         this.cacheLoader = cacheLoader;
     }
 
-    public Entity createUnregisteredEntityWithAllNecessaryPlayerComponents() {
-        var entity = entityManager.createEntity(EntityPrefabType.PLAYER);
+    public Entity createUnregisteredPlayer() {
+        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, "");
 
         var playerComponent = new PlayerComponentImpl(entity, packetManager, cacheLoader);
         entity.addComponent(playerComponent);
@@ -39,7 +34,7 @@ public class PlayerFactory {
         var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager);
         entity.addComponent(playerChatComponent);
 
-        var playerMovementComponent = new PlayerMovementComponentImpl(entity, pathfindingManager);
+        var playerMovementComponent = new MovementComponentImpl(entity, pathfindingManager);
         entity.addComponent(playerMovementComponent);
 
         return entity;

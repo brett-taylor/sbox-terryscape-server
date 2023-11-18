@@ -1,5 +1,6 @@
 package com.terryscape.entity;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class EntityIdentifier {
@@ -29,11 +30,16 @@ public class EntityIdentifier {
 
     @Override
     public boolean equals(Object o) {
-        return identifier.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EntityIdentifier that = (EntityIdentifier) o;
+
+        return Objects.equals(identifier, that.identifier);
     }
 
     @Override
     public int hashCode() {
-        return identifier.hashCode();
+        return identifier != null ? identifier.hashCode() : 0;
     }
 }

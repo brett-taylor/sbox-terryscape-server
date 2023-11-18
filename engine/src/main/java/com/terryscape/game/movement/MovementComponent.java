@@ -4,7 +4,7 @@ import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 
-public interface PlayerMovementComponent extends NetworkedEntityComponent {
+public interface MovementComponent extends NetworkedEntityComponent {
 
     WorldCoordinate getWorldCoordinate();
 

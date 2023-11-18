@@ -6,6 +6,7 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
 import com.terryscape.game.item.FixedSizeItemContainer;
@@ -45,14 +46,6 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
-    public void onAdded() {
-        super.onAdded();
-
-        inventory = new PlayerInventory();
-        equipment = new PlayerEquipmentImpl();
-    }
-
-    @Override
     public Client getClient() {
         return client;
     }
@@ -86,8 +79,12 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     public void onRegister() {
         super.onRegister();
 
+        inventory = new PlayerInventory();
+        equipment = new PlayerEquipmentImpl();
+
         getInventory().addItem(cacheLoader.getItem("wooden_longsword"));
         getInventory().addItem(cacheLoader.getItem("wooden_scimitar"));
+        getEquipment().setSlot(EquipmentSlot.OFF_HAND, cacheLoader.getItem("wooden_scimitar"));
     }
 
     @Override

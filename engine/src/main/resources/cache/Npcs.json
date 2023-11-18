@@ -1,0 +1,14 @@
+[
+  {
+    "id": "citizen_man",
+    "name": "Man",
+    "description": "A regular citizen.",
+    "modelPath": "code/terryscape/assets/npcs/citizen_man.object"
+  },
+  {
+    "id": "citizen_woman",
+    "name": "Woman",
+    "description": "A regular citizen.",
+    "modelPath": "code/terryscape/assets/npcs/citizen_woman.object"
+  }
+]

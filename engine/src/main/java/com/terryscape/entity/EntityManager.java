@@ -1,11 +1,15 @@
 package com.terryscape.entity;
 
-public interface EntityManager {
+import com.terryscape.game.npc.NpcComponent;
+import com.terryscape.net.Client;
 
-    Entity createEntity(EntityPrefabType entityPrefabType);
+public interface EntityManager {
 
     void registerEntity(Entity entity);
 
     void deleteEntity(EntityIdentifier entityIdentifier);
 
+    void sendInitialUpdate(Client client);
+
+    NpcComponent getNpc(EntityIdentifier entityIdentifier);
 }

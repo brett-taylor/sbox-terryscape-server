@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.entity.packet.EntityAddedOutgoingPacket;
 import com.terryscape.entity.packet.EntityRemovedOutgoingPacket;
 import com.terryscape.entity.packet.EntityUpdatedOutgoingPacket;
+import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.PacketManager;
 import org.apache.logging.log4j.LogManager;
@@ -35,14 +36,6 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public Entity createEntity(EntityPrefabType entityPrefabType) {
-        var newEntity = new EntityImpl(EntityIdentifier.randomIdentifier(), entityPrefabType);
-        entitiesToRegisterNextTick.put(newEntity.getIdentifier(), newEntity);
-
-        return newEntity;
-    }
-
-    @Override
     public void registerEntity(Entity entity) {
         entitiesToRegisterNextTick.put(entity.getIdentifier(), (EntityImpl) entity);
     }
@@ -59,10 +52,20 @@ public class EntityManagerImpl implements EntityManager {
         entitiesToUnregisterNextTick.put(entityIdentifier, entity);
     }
 
+    @Override
     public void sendInitialUpdate(Client client) {
         entities.values().stream()
             .map(entity -> new EntityAddedOutgoingPacket().setEntity(entity))
             .forEach(packet -> packetManager.send(client, packet));
+    }
+
+    @Override
+    public NpcComponent getNpc(EntityIdentifier entityIdentifier) {
+        if (!entities.containsKey(entityIdentifier)) {
+            throw new RuntimeException("Failed to find entity with identifier %s".formatted(entityIdentifier));
+        }
+
+        return entities.get(entityIdentifier).getComponentOrThrow(NpcComponent.class);
     }
 
     public void tick() {
@@ -98,7 +101,7 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     private void tickSingleEntity(EntityImpl entity) {
-         entity.tick();
+        entity.tick();
 
         var updatePacket = new EntityUpdatedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(updatePacket);

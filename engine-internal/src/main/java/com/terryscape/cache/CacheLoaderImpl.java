@@ -24,6 +24,8 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
+    private final Map<String, NpcDefinitionImpl> npcs = new HashMap<>();
+
     @Inject
     public CacheLoaderImpl(Gson gson) {
         this.gson = gson;
@@ -34,6 +36,7 @@ public class CacheLoaderImpl implements CacheLoader {
 
         try {
             loadItems();
+            loadNpcs();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load cache", e);
         }
@@ -50,6 +53,15 @@ public class CacheLoaderImpl implements CacheLoader {
         return items.get(id);
     }
 
+    @Override
+    public NpcDefinition getNpc(String id) {
+        if (!npcs.containsKey(id)) {
+            throw new RuntimeException("No npc found with id %s".formatted(id));
+        }
+
+        return npcs.get(id);
+    }
+
     private void loadItems() throws IOException {
         try (var jsonReader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Config.ITEM_CACHE_LOCATION)))) {
             var typeToDeserialize = new TypeToken<ArrayList<ItemDefinitionImpl>>() {
@@ -60,6 +72,18 @@ public class CacheLoaderImpl implements CacheLoader {
         }
 
         LOGGER.info("Loaded {} Items.", items.size());
+    }
+
+    private void loadNpcs() throws IOException {
+        try (var jsonReader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Config.NPC_CACHE_LOCATION)))) {
+            var typeToDeserialize = new TypeToken<ArrayList<NpcDefinitionImpl>>() {
+            }.getType();
+
+            ArrayList<NpcDefinitionImpl> npcList = gson.fromJson(jsonReader, typeToDeserialize);
+            npcList.forEach(npcDefinition -> npcs.put(npcDefinition.getId(), npcDefinition));
+        }
+
+        LOGGER.info("Loaded {} Npcs.", npcs.size());
     }
 
 }

@@ -9,6 +9,8 @@ public interface Entity {
 
     EntityPrefabType getEntityPrefabType();
 
+    String getEntityPrefabIdentifier();
+
     void addComponent(BaseEntityComponent component);
 
     <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType);

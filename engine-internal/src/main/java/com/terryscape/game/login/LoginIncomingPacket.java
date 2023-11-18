@@ -2,12 +2,16 @@ package com.terryscape.game.login;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.entity.EntityManager;
 import com.terryscape.entity.EntityManagerImpl;
+import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.player.PlayerFactory;
 import com.terryscape.net.Client;
 import com.terryscape.net.ClientImpl;
 import com.terryscape.net.IncomingPacket;
+import com.terryscape.world.Direction;
+import com.terryscape.world.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,12 +22,12 @@ public class LoginIncomingPacket implements IncomingPacket {
 
     private static final Logger LOGGER = LogManager.getLogger(LoginIncomingPacket.class);
 
-    private final EntityManagerImpl entityManager;
+    private final EntityManager entityManager;
 
     private final PlayerFactory playerFactory;
 
     @Inject
-    public LoginIncomingPacket(EntityManagerImpl entityManager, PlayerFactory playerFactory) {
+    public LoginIncomingPacket(EntityManager entityManager, PlayerFactory playerFactory) {
         this.entityManager = entityManager;
         this.playerFactory = playerFactory;
     }
@@ -44,11 +48,15 @@ public class LoginIncomingPacket implements IncomingPacket {
 
         entityManager.sendInitialUpdate(client);
 
-        var playerEntity = playerFactory.createUnregisteredEntityWithAllNecessaryPlayerComponents();
+        var playerEntity = playerFactory.createUnregisteredPlayer();
 
         var player = playerEntity.getComponentOrThrow(PlayerComponentImpl.class);
         player.setClient(client);
         player.setUsername(username);
+
+        // TODO REMOVE
+        playerEntity.getComponentOrThrow(MovementComponentImpl.class).teleport(new WorldCoordinate(9, 7));
+        playerEntity.getComponentOrThrow(MovementComponentImpl.class).look(Direction.NORTH);
 
         var clientImpl = (ClientImpl) client;
         clientImpl.setPlayer(player);

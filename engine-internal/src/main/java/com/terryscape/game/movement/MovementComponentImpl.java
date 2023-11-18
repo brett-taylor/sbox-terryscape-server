@@ -11,20 +11,20 @@ import com.terryscape.world.pathfinding.PathfindingRoute;
 
 import java.io.OutputStream;
 
-public class PlayerMovementComponentImpl extends BaseEntityComponent implements PlayerMovementComponent {
+public class MovementComponentImpl extends BaseEntityComponent implements MovementComponent {
 
     private final PathfindingManager pathfindingManager;
 
-    private WorldCoordinate worldCoordinate;
+    private WorldCoordinate worldCoordinate = new WorldCoordinate(0, 0);
 
-    private Direction direction;
+    private Direction direction = Direction.NORTH;
 
     private PathfindingRoute pathfindingRoute;
 
     private boolean nextUpdateWasTeleport = false;
 
     @Inject
-    public PlayerMovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
+    public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
@@ -32,7 +32,7 @@ public class PlayerMovementComponentImpl extends BaseEntityComponent implements 
 
     @Override
     public String getComponentIdentifier() {
-        return "component_player_movement";
+        return "component_movement_component";
     }
 
     @Override
@@ -43,14 +43,6 @@ public class PlayerMovementComponentImpl extends BaseEntityComponent implements 
     @Override
     public Direction getDirection() {
         return direction;
-    }
-
-    @Override
-    public void onAdded() {
-        super.onAdded();
-
-        teleport(new WorldCoordinate(5, 0));
-        look(Direction.NORTH);
     }
 
     @Override
