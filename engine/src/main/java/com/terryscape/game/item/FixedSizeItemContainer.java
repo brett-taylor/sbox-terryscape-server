@@ -2,12 +2,13 @@ package com.terryscape.game.item;
 
 import com.terryscape.cache.ItemDefinition;
 import com.terryscape.net.OutgoingPacket;
+import com.terryscape.net.PacketSerializable;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.OutputStream;
 import java.util.Optional;
 
-public abstract class FixedSizeItemContainer {
+public abstract class FixedSizeItemContainer implements PacketSerializable {
 
     private final ItemDefinition[] items;
 
@@ -42,6 +43,7 @@ public abstract class FixedSizeItemContainer {
         }
     }
 
+    @Override
     public void writeToPacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, items.length);
         for (var item : items) {

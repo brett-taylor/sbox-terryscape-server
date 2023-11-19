@@ -2,8 +2,13 @@ package com.terryscape.game.npc.action;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.EntityManager;
 import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.combat.health.DamageInformation;
+import com.terryscape.game.combat.health.DamageType;
+import com.terryscape.game.combat.health.HealthComponentImpl;
+import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 
@@ -26,7 +31,7 @@ public class NpcActionIncomingPacket implements IncomingPacket {
 
     @Override
     public void handlePacket(Client client, ByteBuffer packet) {
-        var npcIdentifier = IncomingPacket.readEntityIdentifier(packet);
+        var npcIdentifier = EntityIdentifier.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
         var npc = entityManager.getNpc(npcIdentifier);
@@ -38,9 +43,18 @@ public class NpcActionIncomingPacket implements IncomingPacket {
         if (action.equals("attack")) {
             player.getEntity()
                 .getComponentOrThrow(PlayerChatComponent.class)
-                .sendGameMessage("You killed %s.".formatted(npc.getNpcDefinition().getName()));
+                .sendGameMessage("You attacked %s.".formatted(npc.getNpcDefinition().getName()));
 
-            entityManager.deleteEntity(npcIdentifier);
+            if (player.getEquipment().getSlot(EquipmentSlot.MAIN_HAND).isPresent()) {
+                var damage = new DamageInformation().setAmount(25).setType(DamageType.MELEE_MAIN_HAND);
+                npc.getEntity().getComponentOrThrow(HealthComponentImpl.class).takeDamage(damage);
+            } else if (player.getEquipment().getSlot(EquipmentSlot.OFF_HAND).isPresent()) {
+                var damage = new DamageInformation().setAmount(25).setType(DamageType.MELEE_OFF_HAND);
+                npc.getEntity().getComponentOrThrow(HealthComponentImpl.class).takeDamage(damage);
+            }
+
+            var playerDamage = new DamageInformation().setAmount(10).setType(DamageType.TYPELESS);
+            client.getPlayer().orElseThrow().getEntity().getComponentOrThrow(HealthComponentImpl.class).takeDamage(playerDamage);
         }
 
         if (action.equals("examine")) {

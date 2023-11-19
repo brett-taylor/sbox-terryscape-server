@@ -21,6 +21,6 @@ public class SetLocalPlayerOutgoingPacket implements OutgoingPacket {
 
     @Override
     public void writePacket(OutputStream packet) {
-        OutgoingPacket.writeEntityIdentifier(packet, localPlayer.getEntity().getIdentifier());
+        localPlayer.getEntity().getIdentifier().writeToPacket(packet);
     }
 }

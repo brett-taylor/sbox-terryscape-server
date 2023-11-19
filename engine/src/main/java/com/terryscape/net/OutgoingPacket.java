@@ -5,6 +5,7 @@ import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
+import org.checkerframework.common.value.qual.EnumVal;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -38,16 +39,7 @@ public interface OutgoingPacket {
         writeInt32(packet, bool ? 1 : 0);
     }
 
-    static void writeWorldCoordinate(OutputStream packet, WorldCoordinate worldCoordinate) {
-        writeInt32(packet, worldCoordinate.getX());
-        writeInt32(packet, worldCoordinate.getY());
-    }
-
-    static void writeEntityIdentifier(OutputStream packet, EntityIdentifier entityIdentifier) {
-        writeString(packet, entityIdentifier.getValue());
-    }
-
-    static void writeDirection(OutputStream packet, Direction direction) {
-        writeInt32(packet, direction.getRotation());
+    static void writeEnum(OutputStream packet, Enum<?> enumValue) {
+        writeString(packet, enumValue.name());
     }
 }

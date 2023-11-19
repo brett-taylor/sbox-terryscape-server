@@ -30,10 +30,10 @@ public class PathfindingManagerImpl implements PathfindingManager {
 
         var timeTakenMicroSeconds = (System.nanoTime() - startTime) / 1000;
         if (optionalPath.isPresent()) {
-            LOGGER.info("Successfully found a navigation path in {} microseconds.", timeTakenMicroSeconds);
+            LOGGER.debug("Successfully found a navigation path in {} microseconds.", timeTakenMicroSeconds);
             return Optional.of(new PathfindingRouteImpl(optionalPath.get()));
         } else {
-            LOGGER.info("Failed to find a navigation path in {} microseconds.", timeTakenMicroSeconds);
+            LOGGER.debug("Failed to find a navigation path in {} microseconds.", timeTakenMicroSeconds);
             return Optional.empty();
         }
     }

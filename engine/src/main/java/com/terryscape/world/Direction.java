@@ -1,7 +1,11 @@
 package com.terryscape.world;
 
+import com.terryscape.net.IncomingPacket;
+import com.terryscape.net.OutgoingPacket;
 import com.terryscape.util.RandomUtil;
 
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public enum Direction {
@@ -41,5 +45,13 @@ public enum Direction {
     public static Direction random() {
         var random = RandomUtil.randomNumber(0, Direction.values().length - 1);
         return Direction.values()[random];
+    }
+
+    public static void writeToPacket(OutputStream packet, Direction direction) {
+        OutgoingPacket.writeInt32(packet, direction.getRotation());
+    }
+
+    public static Direction readFromPacket(ByteBuffer packet) {
+        return Direction.fromRotation(IncomingPacket.readInt32(packet));
     }
 }

@@ -95,15 +95,15 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     @Override
     public void writeEntityAddedPacket(OutputStream packet) {
-        OutgoingPacket.writeWorldCoordinate(packet, getWorldCoordinate());
-        OutgoingPacket.writeDirection(packet, getDirection());
+        getWorldCoordinate().writeToPacket(packet);
+        Direction.writeToPacket(packet, getDirection());
     }
 
     @Override
     public void writeEntityUpdatedPacket(OutputStream packet) {
-        OutgoingPacket.writeWorldCoordinate(packet, getWorldCoordinate());
+        getWorldCoordinate().writeToPacket(packet);
         OutgoingPacket.writeBoolean(packet, nextUpdateWasTeleport);
-        OutgoingPacket.writeDirection(packet, getDirection());
+        Direction.writeToPacket(packet, getDirection());
 
         nextUpdateWasTeleport = false;
     }

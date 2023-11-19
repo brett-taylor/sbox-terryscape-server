@@ -73,8 +73,8 @@ public class EntityImpl implements Entity {
     }
 
     public void writeEntityAddedPacket(OutputStream packet) {
-        OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
-        OutgoingPacket.writeString(packet, getEntityPrefabType().name());
+        getIdentifier().writeToPacket(packet);
+        OutgoingPacket.writeEnum(packet, getEntityPrefabType());
         OutgoingPacket.writeString(packet, getEntityPrefabIdentifier());
 
         for (var networkedComponent : getNetworkedComponents()) {
@@ -84,7 +84,7 @@ public class EntityImpl implements Entity {
     }
 
     public void writeEntityUpdatedPacket(OutputStream packet) {
-        OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
+        getIdentifier().writeToPacket(packet);
 
         for (var networkedComponent : getNetworkedComponents()) {
             OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
@@ -93,7 +93,7 @@ public class EntityImpl implements Entity {
     }
 
     public void writeEntityRemovedPacket(OutputStream packet) {
-        OutgoingPacket.writeEntityIdentifier(packet, getIdentifier());
+        getIdentifier().writeToPacket(packet);
     }
 
     public void onRegister() {

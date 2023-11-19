@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.*;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
+import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.pathfinding.PathfindingManager;
@@ -19,7 +20,7 @@ public class PlayerFactory {
     private final CacheLoader cacheLoader;
 
     @Inject
-    public PlayerFactory(EntityManager entityManager, PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader) {
+    public PlayerFactory(PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader) {
         this.packetManager = packetManager;
         this.pathfindingManager = pathfindingManager;
         this.cacheLoader = cacheLoader;
@@ -36,6 +37,11 @@ public class PlayerFactory {
 
         var playerMovementComponent = new MovementComponentImpl(entity, pathfindingManager);
         entity.addComponent(playerMovementComponent);
+
+        var healthComponent = new HealthComponentImpl(entity);
+        healthComponent.setMaxHealth(100);
+        healthComponent.setHealth(100);
+        entity.addComponent(healthComponent);
 
         return entity;
     }

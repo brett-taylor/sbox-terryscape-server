@@ -1,9 +1,15 @@
 package com.terryscape.world;
 
+import com.terryscape.net.IncomingPacket;
+import com.terryscape.net.OutgoingPacket;
+import com.terryscape.net.PacketSerializable;
+
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class WorldCoordinate {
+public class WorldCoordinate implements PacketSerializable {
 
     private final int x;
 
@@ -57,5 +63,16 @@ public class WorldCoordinate {
             .filter(direction -> direction.toWorldCoordinate().equals(worldCoordinate))
             .findFirst()
             .orElse(Direction.NORTH);
+    }
+
+
+    @Override
+    public void writeToPacket(OutputStream packet) {
+        OutgoingPacket.writeInt32(packet, getX());
+        OutgoingPacket.writeInt32(packet, getY());
+    }
+
+    public static WorldCoordinate readFromPacket(ByteBuffer packet) {
+        return new WorldCoordinate(IncomingPacket.readInt32(packet), IncomingPacket.readInt32(packet));
     }
 }

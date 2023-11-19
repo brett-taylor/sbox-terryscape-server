@@ -3,6 +3,7 @@ package com.terryscape.game.movement;
 import com.google.inject.Singleton;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
+import com.terryscape.world.WorldCoordinate;
 
 import java.nio.ByteBuffer;
 
@@ -15,7 +16,7 @@ public class WalkIncomingPacket implements IncomingPacket {
 
     @Override
     public void handlePacket(Client client, ByteBuffer packet) {
-        var destinationTile = IncomingPacket.readWorldCoordinate(packet);
+        var destinationTile = WorldCoordinate.readFromPacket(packet);
         var teleport = IncomingPacket.readBoolean(packet);
 
         // TODO Check is valid tile?

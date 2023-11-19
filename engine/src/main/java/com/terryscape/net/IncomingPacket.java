@@ -31,15 +31,8 @@ public interface IncomingPacket {
         return int32 == 1;
     }
 
-    static WorldCoordinate readWorldCoordinate(ByteBuffer packet) {
-        return new WorldCoordinate(readInt32(packet), readInt32(packet));
-    }
-
-    static EntityIdentifier readEntityIdentifier(ByteBuffer packet) {
-        return EntityIdentifier.fromString(readString(packet));
-    }
-
-    static Direction readDirection(ByteBuffer packet) {
-        return Direction.fromRotation(readInt32(packet));
+    static <T extends Enum<T>> T readEnum(Class<T> enumClass, ByteBuffer packet) {
+        var name = IncomingPacket.readString(packet);
+        return Enum.valueOf(enumClass, name);
     }
 }

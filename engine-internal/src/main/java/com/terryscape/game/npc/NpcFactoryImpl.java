@@ -7,6 +7,7 @@ import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.EntityImpl;
 import com.terryscape.entity.EntityPrefabType;
+import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
@@ -30,6 +31,11 @@ public class NpcFactoryImpl implements NpcFactory {
 
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         entity.addComponent(movementComponent);
+
+        var healthComponent = new HealthComponentImpl(entity);
+        healthComponent.setMaxHealth(250);
+        healthComponent.setHealth(250);
+        entity.addComponent(healthComponent);
 
         return entity;
     }
