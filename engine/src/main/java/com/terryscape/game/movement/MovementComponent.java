@@ -14,7 +14,7 @@ public interface MovementComponent extends NetworkedEntityComponent {
 
     void teleport(WorldCoordinate destination);
 
-    void move(WorldCoordinate destination);
+    boolean move(WorldCoordinate destination);
 
     void stop();
 }

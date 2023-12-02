@@ -5,6 +5,8 @@ import com.terryscape.game.task.step.Step;
 
 public interface TaskComponent extends EntityComponent {
 
-    Task setTask(Step... steps);
+    Task setPrimaryTask(Step... steps);
+
+    boolean hasPrimaryTask();
 
 }

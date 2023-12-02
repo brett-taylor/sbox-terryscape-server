@@ -25,15 +25,19 @@ public class PathfindingManagerImpl implements PathfindingManager {
     public Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
         var startTime = System.nanoTime();
 
+        if (!region.isWalkable(destinationTile.getX(), destinationTile.getY())) {
+            return Optional.empty();
+        }
+
         var pathfinder = new AStarPathFinder(region, startingTile, destinationTile);
         var optionalPath = pathfinder.find();
 
         var timeTakenMicroSeconds = (System.nanoTime() - startTime) / 1000;
         if (optionalPath.isPresent()) {
-            LOGGER.debug("Successfully found a navigation path in {} microseconds.", timeTakenMicroSeconds);
+            LOGGER.debug("Successfully found a navigation path in {} microseconds from {} to {}.", timeTakenMicroSeconds, startingTile, destinationTile);
             return Optional.of(new PathfindingRouteImpl(optionalPath.get()));
         } else {
-            LOGGER.debug("Failed to find a navigation path in {} microseconds.", timeTakenMicroSeconds);
+            LOGGER.warn("Failed to find a navigation path in {} microseconds from {} to {}.", timeTakenMicroSeconds, startingTile, destinationTile);
             return Optional.empty();
         }
     }

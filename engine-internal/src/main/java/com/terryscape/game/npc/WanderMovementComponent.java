@@ -3,60 +3,84 @@ package com.terryscape.game.npc;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.game.movement.MovementComponentImpl;
+import com.terryscape.game.task.Task;
+import com.terryscape.game.task.TaskComponent;
+import com.terryscape.game.task.step.impl.ImmediateStep;
+import com.terryscape.game.task.step.impl.WaitStep;
+import com.terryscape.game.task.step.impl.WalkToStep;
 import com.terryscape.util.RandomUtil;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 
 public class WanderMovementComponent extends BaseEntityComponent {
 
+    private final int wanderSize;
+
+    private WorldCoordinate wanderCenter;
+
+    private boolean isWandering;
+
     private MovementComponent movementComponent;
 
-    private WorldCoordinate center;
+    private TaskComponent taskComponent;
 
-    private int wanderSize;
+    private Task wanderTask;
 
-    private int tickCountSinceLastWander;
-
-    private int nextWanderTickCount;
-
-    public WanderMovementComponent(Entity entity) {
+    public WanderMovementComponent(Entity entity, int wanderSize) {
         super(entity);
+
+        this.wanderSize = wanderSize;
     }
 
-    public void startWander(WorldCoordinate center, int wanderSize) {
-        this.center = center;
-        this.wanderSize = wanderSize;
+    @Override
+    public void onSpawn() {
+        super.onSpawn();
 
         movementComponent = getEntity().getComponentOrThrow(MovementComponent.class);
+        taskComponent = getEntity().getComponentOrThrow(TaskComponent.class);
+
+        isWandering = true;
+
+        wanderCenter = movementComponent.getWorldCoordinate();
         movementComponent.teleport(randomCoordinateInWanderZone());
         movementComponent.look(Direction.random());
-        pickNewRandomInterval();
+    }
+
+    public void stopWander() {
+        if (wanderTask != null) {
+            wanderTask.cancel();
+        }
+
+        isWandering = false;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        // TODO Swap to some sort of task system.
-        // TODO Should get like some notify callback on the move.
-
-        if (tickCountSinceLastWander >= nextWanderTickCount) {
-            movementComponent.move(randomCoordinateInWanderZone());
-            tickCountSinceLastWander = 0;
-            pickNewRandomInterval();
-        } else {
-            tickCountSinceLastWander += 1;
+        if (!isWandering || wanderTask != null) {
+            return;
         }
+
+        createWanderTask();
+    }
+
+    private void createWanderTask() {
+        wanderTask = taskComponent.setPrimaryTask(
+            WaitStep.ticks(randomWaitInterval()),
+            WalkToStep.worldCoordinate(movementComponent, randomCoordinateInWanderZone())
+        );
+
+        wanderTask.onFinished(() -> wanderTask = null);
     }
 
     private WorldCoordinate randomCoordinateInWanderZone() {
         var randomX = RandomUtil.randomNumber(-wanderSize, wanderSize);
         var randomY = RandomUtil.randomNumber(-wanderSize, wanderSize);
-        return center.add(new WorldCoordinate(randomX, randomY));
+        return wanderCenter.add(new WorldCoordinate(randomX, randomY));
     }
 
-    private void pickNewRandomInterval() {
-        nextWanderTickCount = RandomUtil.randomNumber(10, 50);
+    private int randomWaitInterval() {
+        return RandomUtil.randomNumber(5, 80);
     }
 }

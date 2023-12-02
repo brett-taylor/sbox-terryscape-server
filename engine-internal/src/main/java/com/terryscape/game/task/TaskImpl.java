@@ -10,21 +10,57 @@ public class TaskImpl implements Task {
 
     private Step currentStep;
 
+    private boolean isCancelled;
+
+    private boolean isFirstTickForStep;
+
+    private Runnable onFinishedRunnable;
+
     public TaskImpl(Queue<Step> steps) {
         this.steps = steps;
 
-        this.currentStep = this.steps.poll();
+        getNextStep();
     }
 
     public void tick() {
-        this.currentStep.tick();
+        if (isFirstTickForStep) {
+            currentStep.firstTick();
+            isFirstTickForStep = false;
+        }
 
-        if (this.currentStep.isFinished()) {
-            this.currentStep = steps.poll();
+        currentStep.tick();
+
+        if (currentStep.isFinished()) {
+            getNextStep();
         }
     }
 
     public boolean isFinished() {
         return currentStep == null && steps.isEmpty();
+    }
+
+    @Override
+    public void cancel() {
+        isCancelled = true;
+    }
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    @Override
+    public void onFinished(Runnable runnable) {
+        this.onFinishedRunnable = runnable;
+    }
+
+    public void onFinished() {
+        if (onFinishedRunnable != null) {
+            onFinishedRunnable.run();
+        }
+    }
+
+    private void getNextStep() {
+        this.isFirstTickForStep = true;
+        this.currentStep = steps.poll();
     }
 }

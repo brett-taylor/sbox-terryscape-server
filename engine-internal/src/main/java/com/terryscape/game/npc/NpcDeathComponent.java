@@ -25,9 +25,9 @@ public class NpcDeathComponent extends BaseEntityComponent {
         getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
 
         getEntity().getComponentOrThrow(MovementComponent.class).stop();
-        getEntity().removeComponent(WanderMovementComponent.class);
+        getEntity().getComponent(WanderMovementComponent.class).ifPresent(WanderMovementComponent::stopWander);
 
-        getEntity().getComponentOrThrow(TaskComponent.class).setTask(
+        getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitStep.ticks(5),
             ImmediateStep.run(() -> entityManager.deleteEntity(getEntity().getIdentifier()))
         );

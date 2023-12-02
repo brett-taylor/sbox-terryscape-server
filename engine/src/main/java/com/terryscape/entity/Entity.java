@@ -18,8 +18,6 @@ public interface Entity {
 
     void addComponent(BaseEntityComponent component);
 
-    <T extends EntityComponent> void removeComponent(Class<T> componentType);
-
     <T extends EntityComponent> Optional<T> getComponent(Class<T> componentType);
 
     <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType);

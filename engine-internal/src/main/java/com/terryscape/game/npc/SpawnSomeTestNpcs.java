@@ -6,6 +6,7 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.EntityManager;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
+import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.world.WorldCoordinate;
 
 @Singleton
@@ -27,28 +28,31 @@ public class SpawnSomeTestNpcs {
     }
 
     public void onGameStartedEvent(OnGameStartedSystemEvent event) {
+        var spawnCoordinate = new WorldCoordinate(10, 10);
+        var wanderRadius = 9;
+
         for (int i = 0; i < 4; i++) {
             var npc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin"));
-            npc1.addComponent(new WanderMovementComponent(npc1));
-            npc1.getComponentOrThrow(WanderMovementComponent.class).startWander(new WorldCoordinate(10, 10), 9);
+            npc1.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
+            npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
             entityManager.registerEntity(npc1);
         }
 
         for (int i = 0; i < 4; i++) {
             var npc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_warrior"));
-            npc1.addComponent(new WanderMovementComponent(npc1));
-            npc1.getComponentOrThrow(WanderMovementComponent.class).startWander(new WorldCoordinate(10, 10), 9);
+            npc1.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
+            npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
             entityManager.registerEntity(npc1);
         }
 
         var npc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_shaman"));
-        npc1.addComponent(new WanderMovementComponent(npc1));
-        npc1.getComponentOrThrow(WanderMovementComponent.class).startWander(new WorldCoordinate(10, 10), 9);
+        npc1.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
+        npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
         entityManager.registerEntity(npc1);
 
         var npc2 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_chief"));
-        npc2.addComponent(new WanderMovementComponent(npc2));
-        npc2.getComponentOrThrow(WanderMovementComponent.class).startWander(new WorldCoordinate(10, 10), 9);
+        npc2.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
+        npc2.addComponent(new WanderMovementComponent(npc2, wanderRadius));
         entityManager.registerEntity(npc2);
     }
 

@@ -15,7 +15,7 @@ public class ImmediateStep implements Step {
     }
 
     @Override
-    public void tick() {
+    public void firstTick() {
         runnable.run();
     }
 

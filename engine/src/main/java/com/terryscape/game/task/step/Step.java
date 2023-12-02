@@ -2,7 +2,11 @@ package com.terryscape.game.task.step;
 
 public interface Step {
 
-    void tick();
+    default void firstTick() {
+    }
+
+    default void tick() {
+    }
 
     boolean isFinished();
 

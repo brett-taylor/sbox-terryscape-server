@@ -70,17 +70,6 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public <T extends EntityComponent> void removeComponent(Class<T> componentType) {
-        var component = getComponent(componentType);
-
-        if (component.isEmpty()) {
-            return;
-        }
-
-        components.remove(component.get());
-    }
-
-    @Override
     public <T extends EntityComponent> Optional<T> getComponent(Class<T> componentType) {
         for (var component : components) {
             if (componentType.isAssignableFrom(component.getClass())) {

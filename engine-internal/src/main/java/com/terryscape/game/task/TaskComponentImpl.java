@@ -10,29 +10,41 @@ import java.util.Queue;
 
 public class TaskComponentImpl extends BaseEntityComponent implements TaskComponent {
 
-    private TaskImpl runningTask;
+    private TaskImpl runningPrimaryTask;
 
     public TaskComponentImpl(Entity entity) {
         super(entity);
     }
 
     @Override
-    public Task setTask(Step... steps) {
+    public Task setPrimaryTask(Step... steps) {
         Queue<Step> queue = new LinkedList<>(List.of(steps));
-        runningTask = new TaskImpl(queue);
-        return runningTask;
+        runningPrimaryTask = new TaskImpl(queue);
+        return runningPrimaryTask;
+    }
+
+    @Override
+    public boolean hasPrimaryTask() {
+        return runningPrimaryTask != null;
     }
 
     @Override
     public void tick() {
-        if (runningTask == null) {
+        if (runningPrimaryTask == null) {
             return;
         }
 
-        runningTask.tick();
+        if (runningPrimaryTask.isCancelled()) {
+            runningPrimaryTask.onFinished();
+            runningPrimaryTask = null;
+            return;
+        }
 
-        if (runningTask.isFinished()) {
-            runningTask = null;
+        runningPrimaryTask.tick();
+
+        if (runningPrimaryTask.isFinished()) {
+            runningPrimaryTask.onFinished();
+            runningPrimaryTask = null;
         }
     }
 }

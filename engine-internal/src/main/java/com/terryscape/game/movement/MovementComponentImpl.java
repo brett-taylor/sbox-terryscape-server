@@ -61,14 +61,15 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     }
 
     @Override
-    public void move(WorldCoordinate destination) {
+    public boolean move(WorldCoordinate destination) {
         var result = this.pathfindingManager.findRoute(getWorldCoordinate(), destination);
 
         if (result.isEmpty()) {
-            return;
+            return false;
         }
 
         pathfindingRoute = result.get();
+        return true;
     }
 
     @Override
