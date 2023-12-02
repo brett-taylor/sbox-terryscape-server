@@ -1,34 +1,37 @@
 package com.terryscape.cache;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.Config;
+import com.terryscape.cache.item.ItemCacheLoader;
+import com.terryscape.cache.item.ItemDefinition;
+import com.terryscape.cache.item.ItemDefinitionImpl;
+import com.terryscape.cache.npc.NpcCacheLoader;
+import com.terryscape.cache.npc.NpcDefinition;
+import com.terryscape.cache.npc.NpcDefinitionImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Singleton
 public class CacheLoaderImpl implements CacheLoader {
 
     private static final Logger LOGGER = LogManager.getLogger(CacheLoaderImpl.class);
 
-    private final Gson gson;
+    private final ItemCacheLoader itemCacheLoader;
+
+    private final NpcCacheLoader npcCacheLoader;
 
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
     private final Map<String, NpcDefinitionImpl> npcs = new HashMap<>();
 
     @Inject
-    public CacheLoaderImpl(Gson gson) {
-        this.gson = gson;
+    public CacheLoaderImpl(ItemCacheLoader itemCacheLoader, NpcCacheLoader npcCacheLoader) {
+        this.itemCacheLoader = itemCacheLoader;
+        this.npcCacheLoader = npcCacheLoader;
     }
 
     public void loadCache() {
@@ -63,26 +66,12 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     private void loadItems() throws IOException {
-        try (var jsonReader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Config.ITEM_CACHE_LOCATION)))) {
-            var typeToDeserialize = new TypeToken<ArrayList<ItemDefinitionImpl>>() {
-            }.getType();
-
-            ArrayList<ItemDefinitionImpl> itemList = gson.fromJson(jsonReader, typeToDeserialize);
-            itemList.forEach(itemDefinition -> items.put(itemDefinition.getId(), itemDefinition));
-        }
-
+        items.putAll(itemCacheLoader.readItemsFromCache());
         LOGGER.info("Loaded {} Items.", items.size());
     }
 
     private void loadNpcs() throws IOException {
-        try (var jsonReader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Config.NPC_CACHE_LOCATION)))) {
-            var typeToDeserialize = new TypeToken<ArrayList<NpcDefinitionImpl>>() {
-            }.getType();
-
-            ArrayList<NpcDefinitionImpl> npcList = gson.fromJson(jsonReader, typeToDeserialize);
-            npcList.forEach(npcDefinition -> npcs.put(npcDefinition.getId(), npcDefinition));
-        }
-
+        npcs.putAll(npcCacheLoader.readNpcsFromCache());
         LOGGER.info("Loaded {} Npcs.", npcs.size());
     }
 

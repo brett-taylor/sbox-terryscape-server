@@ -1,4 +1,4 @@
 package com.terryscape.event;
 
-public interface EventListener {
+public interface SystemEvent {
 }

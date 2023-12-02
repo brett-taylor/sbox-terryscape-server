@@ -83,7 +83,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         equipment = new PlayerEquipmentImpl();
 
         getInventory().addItem(cacheLoader.getItem("wooden_longsword"));
-        getInventory().addItem(cacheLoader.getItem("wooden_scimitar"));
+        getInventory().addItem(cacheLoader.getItem("wooden_longsword"));
+        getEquipment().setSlot(EquipmentSlot.MAIN_HAND, cacheLoader.getItem("wooden_scimitar"));
         getEquipment().setSlot(EquipmentSlot.OFF_HAND, cacheLoader.getItem("wooden_scimitar"));
     }
 
@@ -110,4 +111,5 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         getInventory().writeToPacket(packet);
         getEquipment().writeToPacket(packet);
     }
+
 }

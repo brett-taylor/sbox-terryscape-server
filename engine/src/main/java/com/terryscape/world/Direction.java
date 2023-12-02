@@ -43,8 +43,7 @@ public enum Direction {
     }
 
     public static Direction random() {
-        var random = RandomUtil.randomNumber(0, Direction.values().length - 1);
-        return Direction.values()[random];
+        return RandomUtil.randomCollection(Direction.values());
     }
 
     public static void writeToPacket(OutputStream packet, Direction direction) {

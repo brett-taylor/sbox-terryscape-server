@@ -1,4 +1,4 @@
-package com.terryscape.cache;
+package com.terryscape.cache.item;
 
 public class ItemDefinitionImpl implements ItemDefinition {
 
@@ -7,6 +7,10 @@ public class ItemDefinitionImpl implements ItemDefinition {
     private String name;
 
     private String description;
+
+    private String animationMainHandAttack;
+
+    private String animationOffHandAttack;
 
     @Override
     public String getId() {
@@ -35,6 +39,26 @@ public class ItemDefinitionImpl implements ItemDefinition {
 
     public ItemDefinitionImpl setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    @Override
+    public String getAnimationMainHandAttack() {
+        return animationMainHandAttack;
+    }
+
+    public ItemDefinitionImpl setAnimationMainHandAttack(String animationMainHandAttack) {
+        this.animationMainHandAttack = animationMainHandAttack;
+        return this;
+    }
+
+    @Override
+    public String getAnimationOffHandAttack() {
+        return animationOffHandAttack;
+    }
+
+    public ItemDefinitionImpl setAnimationOffHandAttack(String animationOffHandAttack) {
+        this.animationOffHandAttack = animationOffHandAttack;
         return this;
     }
 

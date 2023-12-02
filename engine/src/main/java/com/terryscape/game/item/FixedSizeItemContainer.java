@@ -1,6 +1,6 @@
 package com.terryscape.game.item;
 
-import com.terryscape.cache.ItemDefinition;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketSerializable;
 import org.apache.commons.lang3.ArrayUtils;
@@ -47,7 +47,7 @@ public abstract class FixedSizeItemContainer implements PacketSerializable {
     public void writeToPacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, items.length);
         for (var item : items) {
-            OutgoingPacket.writeString(packet, item == null ? "" : item.getId());
+            OutgoingPacket.writeString(packet, item == null ? null : item.getId());
         }
     }
 

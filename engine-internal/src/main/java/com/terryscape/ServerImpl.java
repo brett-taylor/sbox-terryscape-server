@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoaderImpl;
 import com.terryscape.entity.EntityManagerImpl;
 import com.terryscape.event.EventSystemImpl;
-import com.terryscape.event.type.OnGameStartedEvent;
+import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.net.PacketManagerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,8 +40,6 @@ public class ServerImpl implements Server {
         long startTime = System.currentTimeMillis();
         LOGGER.info("Starting {}...", Config.NAME);
 
-        eventSystem.start();
-
         cacheLoader.loadCache();
 
         packetManager.start();
@@ -53,7 +51,7 @@ public class ServerImpl implements Server {
         ScheduledExecutorService gameThreadExecutor = Executors.newSingleThreadScheduledExecutor();
         gameThreadExecutor.scheduleAtFixedRate(this::gameThreadTick, 0, Config.TICK_TIME_MS, TimeUnit.MILLISECONDS);
 
-        eventSystem.invoke(new OnGameStartedEvent());
+        eventSystem.invoke(OnGameStartedSystemEvent.class, new OnGameStartedSystemEvent());
     }
 
     private void gameThreadTick() {

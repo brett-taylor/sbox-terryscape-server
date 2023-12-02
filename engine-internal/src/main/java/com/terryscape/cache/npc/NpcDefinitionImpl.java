@@ -1,4 +1,6 @@
-package com.terryscape.cache;
+package com.terryscape.cache.npc;
+
+import java.util.Optional;
 
 public class NpcDefinitionImpl implements NpcDefinition {
 
@@ -7,6 +9,8 @@ public class NpcDefinitionImpl implements NpcDefinition {
     private String name;
 
     private String description;
+
+    private NpcDefinitionSimpleNpcImpl simpleNpc;
 
     @Override
     public String getId() {
@@ -35,6 +39,16 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     public NpcDefinitionImpl setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    @Override
+    public Optional<NpcDefinitionSimpleNpc> getSimpleNpc() {
+        return Optional.ofNullable(simpleNpc);
+    }
+
+    public NpcDefinitionImpl setSimpleNpc(NpcDefinitionSimpleNpcImpl simpleNpc) {
+        this.simpleNpc = simpleNpc;
         return this;
     }
 

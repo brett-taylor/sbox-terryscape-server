@@ -1,11 +1,11 @@
 allprojects {
-    group = 'com.example.gradle'
+    group = 'com.terryscape'
     version = '0.1.0'
 
     apply plugin: 'java'
 
     java {
-        sourceCompatibility = '17'
+        sourceCompatibility = '21'
     }
 
     repositories {

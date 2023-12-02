@@ -3,13 +3,19 @@ package com.terryscape.entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.entity.event.EntityEvent;
 import com.terryscape.net.OutgoingPacket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class EntityImpl implements Entity {
+
+    private static final Logger LOGGER = LogManager.getLogger(EntityImpl.class);
 
     private final EntityIdentifier entityIdentifier;
 
@@ -18,6 +24,8 @@ public class EntityImpl implements Entity {
     private final String entityPrefabIdentifier;
 
     private final List<BaseEntityComponent> components = new ArrayList<>();
+
+    private final Map<Type, List<Consumer<? extends EntityEvent>>> entityEventConsumers = new HashMap<>();
 
     private boolean hasBeenRegistered = false;
 
@@ -62,14 +70,53 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType) {
+    public <T extends EntityComponent> void removeComponent(Class<T> componentType) {
+        var component = getComponent(componentType);
+
+        if (component.isEmpty()) {
+            return;
+        }
+
+        components.remove(component.get());
+    }
+
+    @Override
+    public <T extends EntityComponent> Optional<T> getComponent(Class<T> componentType) {
         for (var component : components) {
             if (componentType.isAssignableFrom(component.getClass())) {
-                return componentType.cast(component);
+                return Optional.of(componentType.cast(component));
             }
         }
 
-        throw new RuntimeException("Attempted to get a component that does not exist on the entity.");
+        return Optional.empty();
+    }
+
+    @Override
+    public <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType) {
+        return getComponent(componentType)
+            .orElseThrow(() -> new RuntimeException("Attempted to get a component that does not exist on the entity."));
+    }
+
+    @Override
+    public <T extends EntityEvent> void subscribe(Class<T> eventType, Consumer<T> eventConsumer) {
+        if (!entityEventConsumers.containsKey(eventType)) {
+            entityEventConsumers.put(eventType, new ArrayList<>());
+        }
+
+        entityEventConsumers.get(eventType).add(eventConsumer);
+    }
+
+    @Override
+    public <T extends EntityEvent> void invoke(Class<T> eventType, T entityEvent) {
+        if (!entityEventConsumers.containsKey(eventType)) {
+            LOGGER.error("Attempted to invoke entity event %s that has no subscribed listeners".formatted(eventType.getName()));
+            return;
+        }
+
+        for (Consumer<? extends EntityEvent> consumer : entityEventConsumers.get(eventType)) {
+            var typedConsumer = (Consumer<T>) consumer;
+            typedConsumer.accept(entityEvent);
+        }
     }
 
     public void writeEntityAddedPacket(OutputStream packet) {

@@ -1,6 +1,6 @@
 package com.terryscape.game.equipment;
 
-import com.terryscape.cache.ItemDefinition;
+import com.terryscape.cache.item.ItemDefinition;
 
 import java.io.OutputStream;
 import java.util.Optional;

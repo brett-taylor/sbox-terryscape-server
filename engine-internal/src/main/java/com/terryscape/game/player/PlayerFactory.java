@@ -6,7 +6,10 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.*;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
+import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
+import com.terryscape.game.npc.NpcDeathComponent;
+import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
@@ -27,7 +30,7 @@ public class PlayerFactory {
     }
 
     public Entity createUnregisteredPlayer() {
-        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, "");
+        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
         var playerComponent = new PlayerComponentImpl(entity, packetManager, cacheLoader);
         entity.addComponent(playerComponent);
@@ -39,9 +42,18 @@ public class PlayerFactory {
         entity.addComponent(playerMovementComponent);
 
         var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(100);
-        healthComponent.setHealth(100);
+        healthComponent.setMaxHealth(10);
+        healthComponent.setHealth(1);
         entity.addComponent(healthComponent);
+
+        var playerDeathComponent = new PlayerDeathComponent(entity);
+        entity.addComponent(playerDeathComponent);
+
+        var animationComponent = new AnimationComponentImpl(entity);
+        entity.addComponent(animationComponent);
+
+        var taskComponent = new TaskComponentImpl(entity);
+        entity.addComponent(taskComponent);
 
         return entity;
     }

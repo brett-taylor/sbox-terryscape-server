@@ -1,23 +1,20 @@
 package com.terryscape;
 
-import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
 import com.google.inject.multibindings.Multibinder;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.CacheLoaderImpl;
 import com.terryscape.entity.EntityManager;
 import com.terryscape.entity.EntityManagerImpl;
-import com.terryscape.event.EventListener;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
-import com.terryscape.game.npc.NpcFactory;
-import com.terryscape.game.npc.NpcFactoryImpl;
-import com.terryscape.game.npc.SpawnSomeTestNpcs;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
 import com.terryscape.game.interfaces.InterfaceActionIncomingPacket;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
+import com.terryscape.game.npc.NpcFactory;
+import com.terryscape.game.npc.NpcFactoryImpl;
+import com.terryscape.game.npc.SpawnSomeTestNpcs;
 import com.terryscape.game.npc.action.NpcActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
@@ -37,19 +34,14 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(CacheLoader.class).to(CacheLoaderImpl.class);
         binder().bind(NpcFactory.class).to(NpcFactoryImpl.class);
 
+        binder().bind(SpawnSomeTestNpcs.class).asEagerSingleton();
+
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(WalkIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(PlayerChatIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(InterfaceActionIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(NpcActionIncomingPacket.class);
-
-        var eventListenerMultibinder = Multibinder.newSetBinder(binder(), EventListener.class);
-        eventListenerMultibinder.addBinding().to(SpawnSomeTestNpcs.class);
     }
 
-    @Provides
-    public static Gson provideGson() {
-        return new Gson();
-    }
 }

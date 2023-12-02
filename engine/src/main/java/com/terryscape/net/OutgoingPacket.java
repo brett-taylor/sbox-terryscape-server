@@ -18,9 +18,14 @@ public interface OutgoingPacket {
     void writePacket(OutputStream packet);
 
     static void writeString(OutputStream packet, String string) {
+        if (string == null) {
+            writeInt32(packet, -1);
+            return;
+        }
+
         try {
             var bytes = string.getBytes(Config.CHARSET);
-            packet.write(ByteBuffer.allocate(4).putInt(bytes.length).array());
+            writeInt32(packet, bytes.length);
             packet.write(bytes);
         } catch (IOException e) {
             LogManager.getLogger(OutgoingPacket.class).error("Failed writing string", e);

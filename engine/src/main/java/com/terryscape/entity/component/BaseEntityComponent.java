@@ -6,6 +6,8 @@ public abstract class BaseEntityComponent implements EntityComponent {
 
     private final Entity entity;
 
+    private boolean enabled;
+
     public BaseEntityComponent(Entity entity) {
         this.entity = entity;
     }
