@@ -1,6 +1,5 @@
 package com.terryscape.world.pathfinding;
 
-import com.terryscape.world.Direction;
 import com.terryscape.world.Region;
 import com.terryscape.world.WorldCoordinate;
 
@@ -80,10 +79,10 @@ class AStarPathFinder {
 
         var list = new ArrayList<PathfindingNode>();
 
-        var north = current.getWorldCoordinate().add(Direction.NORTH.toWorldCoordinate());
-        var south = current.getWorldCoordinate().add(Direction.SOUTH.toWorldCoordinate());
-        var east = current.getWorldCoordinate().add(Direction.EAST.toWorldCoordinate());
-        var west = current.getWorldCoordinate().add(Direction.WEST.toWorldCoordinate());
+        var north = current.getWorldCoordinate().north();
+        var south = current.getWorldCoordinate().south();
+        var east = current.getWorldCoordinate().east();
+        var west = current.getWorldCoordinate().west();
 
         var isNorthValid = isValidWorldCoordinate(north);
         if (isNorthValid) {
@@ -110,7 +109,7 @@ class AStarPathFinder {
         }
 
         if (isNorthValid && isEastValid) {
-            var northEast = current.getWorldCoordinate().add(Direction.NORTH_EAST.toWorldCoordinate());
+            var northEast = current.getWorldCoordinate().northEast();
             if (isValidWorldCoordinate(northEast)) {
                 var node = new PathfindingNode(northEast).setParent(current);
                 list.add(node);
@@ -118,7 +117,7 @@ class AStarPathFinder {
         }
 
         if (isEastValid && isSouthValid) {
-            var southEast = current.getWorldCoordinate().add(Direction.SOUTH_EAST.toWorldCoordinate());
+            var southEast = current.getWorldCoordinate().southEast();
             if (isValidWorldCoordinate(southEast)) {
                 var node = new PathfindingNode(southEast).setParent(current);
                 list.add(node);
@@ -126,7 +125,7 @@ class AStarPathFinder {
         }
 
         if (isSouthValid && isWestValid) {
-            var southWest = current.getWorldCoordinate().add(Direction.SOUTH_WEST.toWorldCoordinate());
+            var southWest = current.getWorldCoordinate().southWest();
             if (isValidWorldCoordinate(southWest)) {
                 var node = new PathfindingNode(southWest).setParent(current);
                 list.add(node);
@@ -134,7 +133,7 @@ class AStarPathFinder {
         }
 
         if (isWestValid && isNorthValid) {
-            var northWest = current.getWorldCoordinate().add(Direction.NORTH_WEST.toWorldCoordinate());
+            var northWest = current.getWorldCoordinate().northWest();
             if (isValidWorldCoordinate(northWest)) {
                 var node = new PathfindingNode(northWest).setParent(current);
                 list.add(node);
@@ -160,10 +159,7 @@ class AStarPathFinder {
             return false;
         }
 
-        var costToNewNeighbour = areCoordinatesDiagonal(current.getWorldCoordinate(), neighbour.getWorldCoordinate())
-            ? DIAGONAL_TILE_COST
-            : ADJACENT_TILE_COST;
-
+        var costToNewNeighbour = current.getWorldCoordinate().distance(neighbour.getWorldCoordinate());
         var newDistanceToStartNode = current.getDistanceToStartNode() + costToNewNeighbour;
         neighbour.setDistanceToStartNode(newDistanceToStartNode);
 
@@ -178,31 +174,7 @@ class AStarPathFinder {
     }
 
     private float heuristic(WorldCoordinate a, WorldCoordinate b) {
-        if (areCoordinatesAdjacent(a, b)) {
-            return ADJACENT_TILE_COST;
-        }
-
-        if (areCoordinatesDiagonal(a, b)) {
-            return DIAGONAL_TILE_COST;
-        }
-
-        var xDiff = Math.abs(a.getX() - b.getX());
-        var yDiff = Math.abs(a.getY() - b.getY());
-        return (float) Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-    }
-
-    private boolean areCoordinatesAdjacent(WorldCoordinate a, WorldCoordinate b) {
-        var xDiff = Math.abs(a.getX() - b.getX());
-        var yDiff = Math.abs(a.getY() - b.getY());
-
-        return xDiff + yDiff == 1;
-    }
-
-    private boolean areCoordinatesDiagonal(WorldCoordinate a, WorldCoordinate b) {
-        var xDiff = Math.abs(a.getX() - b.getX());
-        var yDiff = Math.abs(a.getY() - b.getY());
-
-        return xDiff == 1 && yDiff == 1;
+        return a.distance(b);
     }
 
     private ArrayList<WorldCoordinate> generatePath() {

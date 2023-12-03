@@ -4,7 +4,7 @@ import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.Step;
 import com.terryscape.world.WorldCoordinate;
 
-public class WalkToStep implements Step {
+public class WalkToStep extends Step {
 
     public static WalkToStep worldCoordinate(MovementComponent movementComponent, WorldCoordinate destination) {
         return new WalkToStep(movementComponent, destination);
@@ -13,8 +13,6 @@ public class WalkToStep implements Step {
     private final MovementComponent movementComponent;
 
     private final WorldCoordinate destination;
-
-    private boolean finished;
 
     private WalkToStep(MovementComponent movementComponent, WorldCoordinate destination) {
         this.movementComponent = movementComponent;
@@ -26,19 +24,12 @@ public class WalkToStep implements Step {
         var success = movementComponent.move(destination);
 
         if (!success) {
-            finished = true;
-        }
-    }
-
-    @Override
-    public void tick() {
-        if (movementComponent.getWorldCoordinate().equals(destination)) {
-            finished = true;
+            failed();
         }
     }
 
     @Override
     public boolean isFinished() {
-        return finished;
+        return movementComponent.getWorldCoordinate().equals(destination);
     }
 }

@@ -4,11 +4,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.*;
+import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
+import com.terryscape.game.combat.health.NpcDeathComponent;
+import com.terryscape.game.combat.script.SimpleNpcCombatScript;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.task.TaskComponentImpl;
-import com.terryscape.util.RandomUtil;
+import com.terryscape.maths.RandomUtil;
+import com.terryscape.world.WorldClock;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 @Singleton
@@ -18,10 +22,13 @@ public class NpcFactoryImpl implements NpcFactory {
 
     private final PathfindingManager pathfindingManager;
 
+    private final WorldClock worldClock;
+
     @Inject
-    public NpcFactoryImpl(EntityManager entityManager, PathfindingManager pathfindingManager) {
+    public NpcFactoryImpl(EntityManager entityManager, PathfindingManager pathfindingManager, WorldClock worldClock) {
         this.entityManager = entityManager;
         this.pathfindingManager = pathfindingManager;
+        this.worldClock = worldClock;
     }
 
     @Override
@@ -39,6 +46,9 @@ public class NpcFactoryImpl implements NpcFactory {
 
         entity.addComponent(npcComponent);
 
+        var taskComponent = new TaskComponentImpl(entity);
+        entity.addComponent(taskComponent);
+
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         entity.addComponent(movementComponent);
 
@@ -53,8 +63,9 @@ public class NpcFactoryImpl implements NpcFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var taskComponent = new TaskComponentImpl(entity);
-        entity.addComponent(taskComponent);
+        var combatScript = new SimpleNpcCombatScript(worldClock, npcComponent);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatScript);
+        entity.addComponent(combatComponent);
 
         return entity;
     }

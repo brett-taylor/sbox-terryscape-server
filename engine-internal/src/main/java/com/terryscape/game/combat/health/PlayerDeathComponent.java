@@ -1,4 +1,4 @@
-package com.terryscape.game.player;
+package com.terryscape.game.combat.health;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;

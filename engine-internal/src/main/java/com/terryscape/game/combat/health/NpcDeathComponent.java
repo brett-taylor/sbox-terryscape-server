@@ -1,4 +1,4 @@
-package com.terryscape.game.npc;
+package com.terryscape.game.combat.health;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityManager;
@@ -6,6 +6,7 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.movement.WanderMovementComponent;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateStep;
 import com.terryscape.game.task.step.impl.WaitStep;

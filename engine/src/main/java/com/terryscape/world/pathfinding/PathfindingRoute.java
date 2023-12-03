@@ -4,7 +4,11 @@ import com.terryscape.world.WorldCoordinate;
 
 public interface PathfindingRoute {
 
-    boolean hasNextTile();
+    boolean hasNextWorldCoordinate();
 
-    WorldCoordinate getNextTile();
+    WorldCoordinate getNextWorldCoordinate();
+
+    int size();
+
+    WorldCoordinate getWorldCoordinateFromEnd(int fromEnd);
 }

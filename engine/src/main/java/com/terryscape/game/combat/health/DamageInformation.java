@@ -11,6 +11,11 @@ public class DamageInformation implements PacketSerializable {
 
     private DamageType type;
 
+    public DamageInformation() {
+        amount = 0;
+        type = DamageType.TYPELESS;
+    }
+
     public int getAmount() {
         return amount;
     }

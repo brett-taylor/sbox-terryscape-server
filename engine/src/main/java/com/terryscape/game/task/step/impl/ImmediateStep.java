@@ -2,7 +2,7 @@ package com.terryscape.game.task.step.impl;
 
 import com.terryscape.game.task.step.Step;
 
-public class ImmediateStep implements Step {
+public class ImmediateStep extends Step {
 
     public static ImmediateStep run(Runnable runnable) {
         return new ImmediateStep(runnable);

@@ -19,6 +19,8 @@ import com.terryscape.game.npc.action.NpcActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
 import com.terryscape.net.PacketManagerImpl;
+import com.terryscape.world.WorldClock;
+import com.terryscape.world.WorldClockImpl;
 import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingManagerImpl;
 
@@ -33,6 +35,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(PathfindingManager.class).to(PathfindingManagerImpl.class);
         binder().bind(CacheLoader.class).to(CacheLoaderImpl.class);
         binder().bind(NpcFactory.class).to(NpcFactoryImpl.class);
+        binder().bind(WorldClock.class).to(WorldClockImpl.class);
 
         binder().bind(SpawnSomeTestNpcs.class).asEagerSingleton();
 

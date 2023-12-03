@@ -7,6 +7,7 @@ import com.terryscape.entity.EntityManagerImpl;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.net.PacketManagerImpl;
+import com.terryscape.world.WorldClockImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,12 +28,17 @@ public class ServerImpl implements Server {
 
     private final CacheLoaderImpl cacheLoader;
 
+    private final WorldClockImpl worldClock;
+
     @Inject
-    public ServerImpl(EventSystemImpl eventSystem, PacketManagerImpl packetManager, EntityManagerImpl entityManager, CacheLoaderImpl cacheLoader) {
+    public ServerImpl(EventSystemImpl eventSystem, PacketManagerImpl packetManager, EntityManagerImpl entityManager, CacheLoaderImpl cacheLoader,
+                      WorldClockImpl worldClock) {
+
         this.eventSystem = eventSystem;
         this.packetManager = packetManager;
         this.entityManager = entityManager;
         this.cacheLoader = cacheLoader;
+        this.worldClock = worldClock;
     }
 
     @Override
@@ -58,10 +64,12 @@ public class ServerImpl implements Server {
         try {
             var start = System.currentTimeMillis();
 
+            worldClock.incrementTickCount();
+
             entityManager.tick();
 
             var end = System.currentTimeMillis();
-            LOGGER.debug("Game tick executed in {} miliseconds.", end - start);
+            LOGGER.debug("Game tick executed in {} milliseconds.", end - start);
         } catch (Exception e) {
             LOGGER.error("Main game thread exception.", e);
         }

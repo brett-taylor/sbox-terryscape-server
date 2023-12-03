@@ -92,6 +92,8 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     private void unregisterSingleEntity(EntityImpl entity) {
+        entity.delete();
+
         entities.remove(entity.getIdentifier());
 
         var packet = new EntityRemovedOutgoingPacket().setEntity(entity);

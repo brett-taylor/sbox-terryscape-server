@@ -47,8 +47,18 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     }
 
     @Override
+    public boolean isDying() {
+        return health <= 0;
+    }
+
+    @Override
     public void takeDamage(DamageInformation damageInformation) {
+        if (isDying()) {
+            return;
+        }
+
         health = health - damageInformation.getAmount();
+        health = Math.max(0, health);
 
         recentDamage.add(damageInformation);
 

@@ -2,6 +2,7 @@ package com.terryscape.game.movement;
 
 import com.google.inject.Inject;
 import com.terryscape.entity.Entity;
+import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.world.Direction;
@@ -10,6 +11,7 @@ import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingRoute;
 
 import java.io.OutputStream;
+import java.util.Optional;
 
 public class MovementComponentImpl extends BaseEntityComponent implements MovementComponent {
 
@@ -18,6 +20,8 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     private WorldCoordinate worldCoordinate = new WorldCoordinate(0, 0);
 
     private Direction direction = Direction.NORTH;
+
+    private MovementComponent facing;
 
     private PathfindingRoute pathfindingRoute;
 
@@ -52,6 +56,11 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     }
 
     @Override
+    public void face(MovementComponent movementComponentToFace) {
+        facing = movementComponentToFace;
+    }
+
+    @Override
     public void teleport(WorldCoordinate destination) {
         this.worldCoordinate = destination;
 
@@ -63,7 +72,6 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     @Override
     public boolean move(WorldCoordinate destination) {
         var result = this.pathfindingManager.findRoute(getWorldCoordinate(), destination);
-
         if (result.isEmpty()) {
             return false;
         }
@@ -77,21 +85,32 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         pathfindingRoute = null;
     }
 
+    @Override
+    public void stopFacing() {
+        facing = null;
+    }
+
     public void tick() {
+        if (facing != null) {
+            this.direction = getWorldCoordinate().directionTo(facing.getWorldCoordinate());
+        }
+
         if (pathfindingRoute == null) {
             return;
         }
 
-        if (!pathfindingRoute.hasNextTile()) {
+        if (!pathfindingRoute.hasNextWorldCoordinate()) {
             pathfindingRoute = null;
             return;
         }
 
-        var newTile = pathfindingRoute.getNextTile();
+        var newTile = pathfindingRoute.getNextWorldCoordinate();
         var newDirection = getWorldCoordinate().directionTo(newTile);
 
         this.worldCoordinate = newTile;
-        this.direction = newDirection;
+        if (facing == null) {
+            this.direction = newDirection;
+        }
     }
 
     @Override
@@ -105,6 +124,12 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         getWorldCoordinate().writeToPacket(packet);
         OutgoingPacket.writeBoolean(packet, nextUpdateWasTeleport);
         Direction.writeToPacket(packet, getDirection());
+
+        if (facing == null) {
+            EntityIdentifier.writeToPacketNullIdentifier(packet);
+        } else {
+            facing.getEntity().getIdentifier().writeToPacket(packet);
+        }
 
         nextUpdateWasTeleport = false;
     }

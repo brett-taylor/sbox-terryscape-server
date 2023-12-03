@@ -3,6 +3,7 @@ package com.terryscape.game.task;
 import com.terryscape.game.task.step.Step;
 
 import java.util.Queue;
+import java.util.function.Consumer;
 
 public class TaskImpl implements Task {
 
@@ -14,7 +15,11 @@ public class TaskImpl implements Task {
 
     private boolean isFirstTickForStep;
 
-    private Runnable onFinishedRunnable;
+    private boolean hasFailed;
+
+    private boolean cancellable;
+
+    private Consumer<TaskFinishedReason> onFinishedConsumer;
 
     public TaskImpl(Queue<Step> steps) {
         this.steps = steps;
@@ -23,6 +28,10 @@ public class TaskImpl implements Task {
     }
 
     public void tick() {
+        if (isFinished()) {
+            return;
+        }
+
         if (isFirstTickForStep) {
             currentStep.firstTick();
             isFirstTickForStep = false;
@@ -30,33 +39,64 @@ public class TaskImpl implements Task {
 
         currentStep.tick();
 
+        if (currentStep.hasFailed()) {
+            hasFailed = true;
+            currentStep.cancel();
+            return;
+        }
+
         if (currentStep.isFinished()) {
             getNextStep();
         }
     }
 
-    public boolean isFinished() {
-        return currentStep == null && steps.isEmpty();
-    }
-
     @Override
     public void cancel() {
+        if (currentStep != null) {
+            currentStep.cancel();
+        }
+
         isCancelled = true;
     }
 
-    public boolean isCancelled() {
-        return isCancelled;
+    @Override
+    public boolean isFinished() {
+        return hasFailed || isCancelled || (currentStep == null && steps.isEmpty());
     }
 
     @Override
-    public void onFinished(Runnable runnable) {
-        this.onFinishedRunnable = runnable;
+    public void onFinished(Consumer<TaskFinishedReason> consumer) {
+        this.onFinishedConsumer = consumer;
     }
 
     public void onFinished() {
-        if (onFinishedRunnable != null) {
-            onFinishedRunnable.run();
+        if (onFinishedConsumer != null) {
+            onFinishedConsumer.accept(getFinishedReason());
         }
+    }
+
+    public boolean isCancellable() {
+        return cancellable;
+    }
+
+    public void setCancellable(boolean cancellable) {
+        this.cancellable = cancellable;
+    }
+
+    private TaskFinishedReason getFinishedReason() {
+        if (!isFinished()) {
+            throw new RuntimeException("Attempted to get a finished reason on a task that is still running.");
+        }
+
+        if (hasFailed) {
+            return TaskFinishedReason.FAILED;
+        }
+
+        if (isCancelled) {
+            return TaskFinishedReason.CANCELLED;
+        }
+
+        return TaskFinishedReason.SUCCEED;
     }
 
     private void getNextStep() {

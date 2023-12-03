@@ -15,17 +15,27 @@ public class PathfindingRouteImpl implements PathfindingRoute {
     }
 
     @Override
-    public boolean hasNextTile() {
+    public boolean hasNextWorldCoordinate() {
         return currentPosition < path.size() - 1;
     }
 
     @Override
-    public WorldCoordinate getNextTile() {
-        if (!hasNextTile()) {
+    public WorldCoordinate getNextWorldCoordinate() {
+        if (!hasNextWorldCoordinate()) {
             return null;
         }
 
         currentPosition += 1;
         return path.get(currentPosition);
+    }
+
+    @Override
+    public int size() {
+        return path.size();
+    }
+
+    @Override
+    public WorldCoordinate getWorldCoordinateFromEnd(int fromEnd) {
+        return path.get(size() - 1 - fromEnd);
     }
 }

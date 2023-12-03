@@ -1,12 +1,16 @@
 package com.terryscape.game.task;
 
+import java.util.function.Consumer;
+
 public interface Task {
 
     void cancel();
 
+    boolean isFinished();
+
     /**
-     * Will execute the runnable when the task finishes either because it naturally finishes or because it was cancelled.
+     * Will execute the consumer when the task finishes with a reason why it finished
      */
-    void onFinished(Runnable runnable);
+    void onFinished(Consumer<TaskFinishedReason> consumer);
 
 }

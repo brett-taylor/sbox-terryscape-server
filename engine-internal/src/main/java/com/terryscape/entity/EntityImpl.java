@@ -31,6 +31,8 @@ public class EntityImpl implements Entity {
 
     private boolean hasSpawned = false;
 
+    private boolean isValid = true;
+
     public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType, String entityPrefabIdentifier) {
         this.entityIdentifier = entityIdentifier;
         this.entityPrefabType = entityPrefabType;
@@ -50,6 +52,11 @@ public class EntityImpl implements Entity {
     @Override
     public String getEntityPrefabIdentifier() {
         return entityPrefabIdentifier;
+    }
+
+    @Override
+    public boolean isValid() {
+        return isValid;
     }
 
     @Override
@@ -146,6 +153,10 @@ public class EntityImpl implements Entity {
 
     public void tick() {
         components.forEach(BaseEntityComponent::tick);
+    }
+
+    public void delete() {
+        isValid = false;
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {

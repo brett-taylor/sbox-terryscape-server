@@ -5,12 +5,15 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.*;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
+import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
+import com.terryscape.game.combat.health.PlayerDeathComponent;
+import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
-import com.terryscape.game.npc.NpcDeathComponent;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.net.PacketManager;
+import com.terryscape.world.WorldClock;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 @Singleton
@@ -22,11 +25,14 @@ public class PlayerFactory {
 
     private final CacheLoader cacheLoader;
 
+    private final WorldClock worldClock;
+
     @Inject
-    public PlayerFactory(PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader) {
+    public PlayerFactory(PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader, WorldClock worldClock) {
         this.packetManager = packetManager;
         this.pathfindingManager = pathfindingManager;
         this.cacheLoader = cacheLoader;
+        this.worldClock = worldClock;
     }
 
     public Entity createUnregisteredPlayer() {
@@ -38,12 +44,15 @@ public class PlayerFactory {
         var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager);
         entity.addComponent(playerChatComponent);
 
-        var playerMovementComponent = new MovementComponentImpl(entity, pathfindingManager);
-        entity.addComponent(playerMovementComponent);
+        var taskComponent = new TaskComponentImpl(entity);
+        entity.addComponent(taskComponent);
+
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        entity.addComponent(movementComponent);
 
         var healthComponent = new HealthComponentImpl(entity);
         healthComponent.setMaxHealth(10);
-        healthComponent.setHealth(1);
+        healthComponent.setHealth(10);
         entity.addComponent(healthComponent);
 
         var playerDeathComponent = new PlayerDeathComponent(entity);
@@ -52,8 +61,9 @@ public class PlayerFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var taskComponent = new TaskComponentImpl(entity);
-        entity.addComponent(taskComponent);
+        var combatScript = new PlayerCombatScript(worldClock, playerComponent);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatScript);
+        entity.addComponent(combatComponent);
 
         return entity;
     }

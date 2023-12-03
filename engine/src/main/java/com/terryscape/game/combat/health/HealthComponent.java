@@ -12,6 +12,8 @@ public interface HealthComponent extends NetworkedEntityComponent {
 
     void setHealth(int newHealth);
 
+    boolean isDying();
+
     void takeDamage(DamageInformation damageInformation);
 
     void resetHealthToMax();

@@ -1,13 +1,25 @@
 package com.terryscape.game.task.step;
 
-public interface Step {
+public abstract class Step {
 
-    default void firstTick() {
+    private boolean failed;
+
+    public void firstTick() {
     }
 
-    default void tick() {
+    public void tick() {
     }
 
-    boolean isFinished();
+    public abstract boolean isFinished();
 
+    public boolean hasFailed() {
+        return failed;
+    }
+
+    public void failed() {
+        failed = true;
+    }
+
+    public void cancel() {
+    }
 }

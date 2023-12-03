@@ -2,7 +2,7 @@ package com.terryscape.world;
 
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.OutgoingPacket;
-import com.terryscape.util.RandomUtil;
+import com.terryscape.maths.RandomUtil;
 
 import java.io.OutputStream;
 import java.nio.ByteBuffer;

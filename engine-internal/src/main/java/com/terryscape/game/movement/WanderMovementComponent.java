@@ -1,14 +1,13 @@
-package com.terryscape.game.npc;
+package com.terryscape.game.movement;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
 import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.game.task.step.impl.WalkToStep;
-import com.terryscape.util.RandomUtil;
+import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 
@@ -66,12 +65,19 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     private void createWanderTask() {
-        wanderTask = taskComponent.setPrimaryTask(
+        if (taskComponent.hasPrimaryTask()) {
+            return;
+        }
+
+        var wanderTaskOptional = taskComponent.setCancellablePrimaryTask(
             WaitStep.ticks(randomWaitInterval()),
             WalkToStep.worldCoordinate(movementComponent, randomCoordinateInWanderZone())
         );
 
-        wanderTask.onFinished(() -> wanderTask = null);
+        if (wanderTaskOptional.isPresent()) {
+            wanderTask = wanderTaskOptional.get();
+            wanderTask.onFinished(ignored -> wanderTask = null);
+        }
     }
 
     private WorldCoordinate randomCoordinateInWanderZone() {

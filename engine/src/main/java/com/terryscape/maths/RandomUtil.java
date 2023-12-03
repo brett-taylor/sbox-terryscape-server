@@ -1,4 +1,4 @@
-package com.terryscape.util;
+package com.terryscape.maths;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

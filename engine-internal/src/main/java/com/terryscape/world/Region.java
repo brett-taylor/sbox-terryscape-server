@@ -1,5 +1,7 @@
 package com.terryscape.world;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class Region {
 
     private final boolean[][] isWalkable;
@@ -10,6 +12,22 @@ public class Region {
         for (var y = 0; y < getRegionSize(); y++) {
             for (var x = 0; x < getRegionSize(); x++) {
                 if (x == y && (x != 5 && x != 10)) {
+                    setIsWalkable(x, y, false);
+                    continue;
+                }
+
+                if (x == 7 && y == 2) {
+                    setIsWalkable(x, y, false);
+                    continue;
+                }
+
+                if (x == 6 && y == 8) {
+                    setIsWalkable(x, y, false);
+                    continue;
+                }
+
+
+                if (x == 8 && y == 6) {
                     setIsWalkable(x, y, false);
                     continue;
                 }

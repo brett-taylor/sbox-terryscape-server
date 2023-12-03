@@ -46,6 +46,10 @@ public class EntityIdentifier implements PacketSerializable {
         OutgoingPacket.writeString(packet, getValue());
     }
 
+    public static void writeToPacketNullIdentifier(OutputStream packet) {
+        OutgoingPacket.writeString(packet, null);
+    }
+
     public static EntityIdentifier readFromPacket(ByteBuffer packet) {
         var identifier = IncomingPacket.readString(packet);
         return new EntityIdentifier(UUID.fromString(identifier));

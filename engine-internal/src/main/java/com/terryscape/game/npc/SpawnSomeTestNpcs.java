@@ -7,6 +7,7 @@ import com.terryscape.entity.EntityManager;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.movement.WanderMovementComponent;
 import com.terryscape.world.WorldCoordinate;
 
 @Singleton
@@ -54,6 +55,14 @@ public class SpawnSomeTestNpcs {
         npc2.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
         npc2.addComponent(new WanderMovementComponent(npc2, wanderRadius));
         entityManager.registerEntity(npc2);
+
+        var staticNpc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_warrior"));
+        staticNpc1.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(6, 7));
+        entityManager.registerEntity(staticNpc1);
+
+        var staticNpc2 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_warrior"));
+        staticNpc2.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(7, 6));
+        entityManager.registerEntity(staticNpc2);
     }
 
 }

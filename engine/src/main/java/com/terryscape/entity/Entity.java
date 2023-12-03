@@ -16,6 +16,8 @@ public interface Entity {
 
     String getEntityPrefabIdentifier();
 
+    boolean isValid();
+
     void addComponent(BaseEntityComponent component);
 
     <T extends EntityComponent> Optional<T> getComponent(Class<T> componentType);
