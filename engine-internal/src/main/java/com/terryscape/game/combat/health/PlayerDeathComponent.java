@@ -25,6 +25,7 @@ public class PlayerDeathComponent extends BaseEntityComponent {
         getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
         getEntity().getComponentOrThrow(MovementComponent.class).stop();
 
+        // TODO: Make dying take longer
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitStep.ticks(5),
             ImmediateStep.run(this::respawn)

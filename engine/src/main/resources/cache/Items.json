@@ -1,26 +1,27 @@
 [
   {
-    "id": "wooden_longsword",
-    "name": "Wooden Longsword",
-    "description": "A dull Longsword made out of Wood.",
-    "modelPath": "code/terryscape/assets/items/wooden_longsword/wooden_longsword.vmdl",
-    "equippedMainHandOffset": "1.47,4.37,-7.61",
-    "equippedOffHandOffset": "-1.47,4.46,-7.6",
-    "equippedMainHandRotation": "-8.67,0,21.58",
-    "equippedOffHandRotation": "8.67,0,21.58",
-    "animationMainHandAttack": "longsword_mainhand_attack",
-    "animationOffHandAttack": "longsword_offhand_attack"
+    "id": "basic_scimitar",
+    "name": "Basic Scimitar",
+    "description": "A basic scimitar.",
+    "modelPath": "code/terryscape/assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+    "ignore_EquippedMainHandOffset": "-1.6,1.15,-0.81",
+    "equippedMainHandOffset": "2.38,-1.54,-0.00",
+    "equippedOffHandOffset": "1.90,1.85,0.00",
+    "equippedMainHandRotation": "0,0,-6.40",
+    "equippedOffHandRotation": "0,0,6.40",
+    "animationMainHandAttack": "Sword_Attack_L3",
+    "animationOffHandAttack": "Sword_Attack_R3"
   },
   {
-    "id": "wooden_scimitar",
-    "name": "Wooden Scimitar",
-    "description": "A dull Scimitar made out of Wood.",
-    "modelPath": "code/terryscape/assets/items/wooden_scimitar/wooden_scimitar.vmdl",
-    "EquippedMainHandOffset": "3.39,4.71,-6.17",
-    "EquippedOffHandOffset": "-3.39,4.71,-6.17",
-    "equippedMainHandRotation": "-27.23,3.318,23.61",
-    "equippedOffHandRotation": "27.23,3.318,23.61",
-    "animationMainHandAttack": "longsword_mainhand_attack",
-    "animationOffHandAttack": "longsword_offhand_attack"
+    "id": "basic_sword",
+    "name": "Basic Sword",
+    "description": "A basic sword.",
+    "modelPath": "code/terryscape/assets/items/weapons/basic_sword/basic_sword.vmdl",
+    "equippedMainHandOffset": "1.84,-1.01,2.38",
+    "equippedOffHandOffset": "1.84,1.29,2.50",
+    "equippedMainHandRotation": "0,0,9.14",
+    "equippedOffHandRotation": "0,0,9.14",
+    "animationMainHandAttack": "Sword_Attack_L4",
+    "animationOffHandAttack": "Sword_Attack_R4"
   }
 ]
