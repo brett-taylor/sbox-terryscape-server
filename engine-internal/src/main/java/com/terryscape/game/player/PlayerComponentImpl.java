@@ -98,8 +98,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
         packetManager.send(getClient(), setLocalEntityPacket);
 
-        var welcomeMessage = "Welcome to %s, %s.".formatted(Config.NAME, getUsername());
-        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(welcomeMessage);
+        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Welcome to %s, %s.".formatted(Config.NAME, getUsername()));
+        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Say ::help to see commands.");
     }
 
     @Override
