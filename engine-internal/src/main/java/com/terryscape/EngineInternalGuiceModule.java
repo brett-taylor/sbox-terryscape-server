@@ -14,7 +14,6 @@ import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcFactory;
 import com.terryscape.game.npc.NpcFactoryImpl;
-import com.terryscape.game.npc.SpawnSomeTestNpcs;
 import com.terryscape.game.npc.action.NpcActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
@@ -36,8 +35,6 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(CacheLoader.class).to(CacheLoaderImpl.class);
         binder().bind(NpcFactory.class).to(NpcFactoryImpl.class);
         binder().bind(WorldClock.class).to(WorldClockImpl.class);
-
-        binder().bind(SpawnSomeTestNpcs.class).asEagerSingleton();
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);

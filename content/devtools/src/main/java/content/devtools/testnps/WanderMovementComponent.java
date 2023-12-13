@@ -1,8 +1,9 @@
-package com.terryscape.game.movement;
+package content.devtools.testnps;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.WaitStep;
@@ -10,6 +11,8 @@ import com.terryscape.game.task.step.impl.WalkToStep;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
+
+// TODO: This should move back into engine internal when the npc factory is more complex and can handle conditionally adding components
 
 public class WanderMovementComponent extends BaseEntityComponent {
 

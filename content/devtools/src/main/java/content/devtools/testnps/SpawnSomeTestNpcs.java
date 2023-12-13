@@ -1,4 +1,4 @@
-package com.terryscape.game.npc;
+package content.devtools.testnps;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -7,7 +7,7 @@ import com.terryscape.entity.EntityManager;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.game.movement.WanderMovementComponent;
+import com.terryscape.game.npc.NpcFactory;
 import com.terryscape.world.WorldCoordinate;
 
 @Singleton
