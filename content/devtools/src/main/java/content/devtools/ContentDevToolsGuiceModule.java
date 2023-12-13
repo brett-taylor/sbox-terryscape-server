@@ -16,6 +16,7 @@ public class ContentDevToolsGuiceModule extends AbstractModule {
         commandMultibinder.addBinding().to(SetHealthCommand.class);
         commandMultibinder.addBinding().to(CoordinatesCommand.class);
         commandMultibinder.addBinding().to(AnimationCommand.class);
+        commandMultibinder.addBinding().to(SetRunCommand.class);
 
         binder().bind(SpawnSomeTestNpcs.class).asEagerSingleton();
     }

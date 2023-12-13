@@ -28,6 +28,8 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     private boolean nextUpdateWasTeleport = false;
 
+    private MovementSpeed movementSpeed = MovementSpeed.WALK;
+
     @Inject
     public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
         super(entity);
@@ -50,6 +52,11 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     @Override
     public Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public void setMovementSpeed(MovementSpeed movementSpeed) {
+        this.movementSpeed = movementSpeed;
     }
 
     @Override
@@ -107,13 +114,17 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
             return;
         }
 
-        var newTile = pathfindingRoute.getNextWorldCoordinate();
-        var newDirection = getWorldCoordinate().directionTo(newTile);
-
-        this.worldCoordinate = newTile;
-        if (facing == null) {
-            this.direction = newDirection;
+        WorldCoordinate newDestinationTile;
+        if (movementSpeed == MovementSpeed.RUN && pathfindingRoute.remaining() >= 2) {
+            pathfindingRoute.getNextWorldCoordinate();
+            newDestinationTile = pathfindingRoute.getNextWorldCoordinate();
+        } else {
+            newDestinationTile = pathfindingRoute.getNextWorldCoordinate();
         }
+
+        var newDirection = getWorldCoordinate().directionTo(newDestinationTile);
+        this.worldCoordinate = newDestinationTile;
+        setDirectionIfNotFacing(newDirection);
     }
 
     @Override
@@ -139,5 +150,11 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
         stop();
+    }
+
+    private void setDirectionIfNotFacing(Direction newDirection) {
+        if (facing == null) {
+            this.direction = newDirection;
+        }
     }
 }

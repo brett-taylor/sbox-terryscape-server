@@ -1,7 +1,6 @@
 package com.terryscape.game.movement;
 
 import com.google.inject.Singleton;
-import com.terryscape.game.npc.SpawnSomeTestNpcs;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;

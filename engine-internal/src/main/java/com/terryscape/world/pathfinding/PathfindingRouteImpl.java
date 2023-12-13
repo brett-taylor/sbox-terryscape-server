@@ -35,6 +35,11 @@ public class PathfindingRouteImpl implements PathfindingRoute {
     }
 
     @Override
+    public int remaining() {
+        return path.size() - (currentPosition + 1);
+    }
+
+    @Override
     public WorldCoordinate getWorldCoordinateFromEnd(int fromEnd) {
         return path.get(size() - 1 - fromEnd);
     }

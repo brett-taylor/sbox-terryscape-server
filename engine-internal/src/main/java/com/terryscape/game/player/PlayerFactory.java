@@ -14,6 +14,7 @@ import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
+import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.WorldClock;
@@ -54,6 +55,7 @@ public class PlayerFactory {
         entity.addComponent(taskComponent);
 
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        movementComponent.setMovementSpeed(MovementSpeed.RUN);
         entity.addComponent(movementComponent);
 
         var healthComponent = new HealthComponentImpl(entity);

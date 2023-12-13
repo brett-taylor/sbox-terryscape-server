@@ -9,6 +9,7 @@ import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
+import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.WorldClock;
@@ -49,6 +50,7 @@ public class NpcFactoryImpl implements NpcFactory {
         entity.addComponent(taskComponent);
 
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
         var healthComponent = new HealthComponentImpl(entity);

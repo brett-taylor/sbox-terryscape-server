@@ -10,5 +10,7 @@ public interface PathfindingRoute {
 
     int size();
 
+    int remaining();
+
     WorldCoordinate getWorldCoordinateFromEnd(int fromEnd);
 }
