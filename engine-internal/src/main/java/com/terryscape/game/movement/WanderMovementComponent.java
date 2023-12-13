@@ -2,7 +2,7 @@ package com.terryscape.game.movement;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.WaitStep;
@@ -29,6 +29,8 @@ public class WanderMovementComponent extends BaseEntityComponent {
         super(entity);
 
         this.wanderSize = wanderSize;
+
+        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
@@ -88,5 +90,9 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
     private int randomWaitInterval() {
         return RandomUtil.randomNumber(5, 80);
+    }
+
+    private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
+        stopWander();
     }
 }

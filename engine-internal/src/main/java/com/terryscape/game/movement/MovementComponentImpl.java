@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
@@ -32,6 +33,8 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
+
+        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
@@ -134,4 +137,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         nextUpdateWasTeleport = false;
     }
 
+    private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
+        stop();
+    }
 }

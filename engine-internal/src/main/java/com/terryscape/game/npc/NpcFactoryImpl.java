@@ -6,7 +6,6 @@ import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.*;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
-import com.terryscape.game.combat.health.NpcDeathComponent;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
@@ -35,7 +34,7 @@ public class NpcFactoryImpl implements NpcFactory {
     public Entity createUnregisteredNpc(NpcDefinition npcDefinition) {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
 
-        var npcComponent = new NpcComponentImpl(entity);
+        var npcComponent = new NpcComponentImpl(entity, entityManager);
         npcComponent.setNpcDefinition(npcDefinition);
 
         if (npcDefinition.getSimpleNpc().isPresent()) {
@@ -56,9 +55,6 @@ public class NpcFactoryImpl implements NpcFactory {
         healthComponent.setMaxHealth(10);
         healthComponent.setHealth(10);
         entity.addComponent(healthComponent);
-
-        var npcDeathComponent = new NpcDeathComponent(entity, entityManager);
-        entity.addComponent(npcDeathComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);

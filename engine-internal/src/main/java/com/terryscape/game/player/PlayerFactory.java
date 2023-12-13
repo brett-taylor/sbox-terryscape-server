@@ -11,7 +11,6 @@ import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
-import com.terryscape.game.combat.health.PlayerDeathComponent;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
@@ -61,9 +60,6 @@ public class PlayerFactory {
         healthComponent.setMaxHealth(10);
         healthComponent.setHealth(10);
         entity.addComponent(healthComponent);
-
-        var playerDeathComponent = new PlayerDeathComponent(entity);
-        entity.addComponent(playerDeathComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);

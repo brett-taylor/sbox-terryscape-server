@@ -5,15 +5,23 @@ import com.terryscape.Config;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.PlayerInventory;
 import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
+import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.task.TaskComponent;
+import com.terryscape.game.task.step.impl.ImmediateStep;
+import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketManager;
+import com.terryscape.world.WorldCoordinate;
 
 import java.io.OutputStream;
 
@@ -36,6 +44,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         super(entity);
 
         this.packetManager = packetManager;
+
+        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
@@ -117,4 +127,20 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         OutgoingPacket.writeEnum(packet, getGender());
     }
 
+    private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
+        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("You died!");
+        getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
+
+        getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
+            WaitStep.ticks(8),
+            ImmediateStep.run(this::respawn)
+        );
+    }
+
+    private void respawn() {
+        getEntity().getComponentOrThrow(AnimationComponent.class).resetAnimation();
+        getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(1, 0));
+
+        getEntity().getComponentOrThrow(HealthComponent.class).resetHealthToMax();
+    }
 }
