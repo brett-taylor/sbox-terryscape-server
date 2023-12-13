@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class CacheLoaderImpl implements CacheLoader {
@@ -54,6 +55,11 @@ public class CacheLoaderImpl implements CacheLoader {
         }
 
         return items.get(id);
+    }
+
+    @Override
+    public Optional<ItemDefinition> getItemSafe(String id) {
+        return Optional.ofNullable(items.get(id));
     }
 
     @Override

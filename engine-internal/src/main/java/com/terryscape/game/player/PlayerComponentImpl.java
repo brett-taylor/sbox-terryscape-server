@@ -6,7 +6,6 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
-import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
 import com.terryscape.game.item.FixedSizeItemContainer;
@@ -22,8 +21,6 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private final PacketManager packetManager;
 
-    private final CacheLoader cacheLoader;
-
     private Client client;
 
     private String username;
@@ -32,12 +29,13 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private PlayerEquipment equipment;
 
+    private PlayerGender playerGender;
+
     @Inject
-    public PlayerComponentImpl(Entity entity, PacketManager packetManager, CacheLoader cacheLoader) {
+    public PlayerComponentImpl(Entity entity, PacketManager packetManager) {
         super(entity);
 
         this.packetManager = packetManager;
-        this.cacheLoader = cacheLoader;
     }
 
     @Override
@@ -76,17 +74,21 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
+    public void setGender(PlayerGender gender) {
+        playerGender = gender;
+    }
+
+    @Override
+    public PlayerGender getGender() {
+        return playerGender;
+    }
+
+    @Override
     public void onRegister() {
         super.onRegister();
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
-
-        getInventory().addItem(cacheLoader.getItem("basic_sword"));
-        getInventory().addItem(cacheLoader.getItem("basic_scimitar"));
-        getInventory().addItem(cacheLoader.getItem("basic_sword"));
-        getInventory().addItem(cacheLoader.getItem("basic_scimitar"));
-        getEquipment().setSlot(EquipmentSlot.MAIN_HAND, cacheLoader.getItem("basic_scimitar"));
     }
 
     @Override
@@ -105,12 +107,14 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         OutgoingPacket.writeString(packet, getUsername());
         getInventory().writeToPacket(packet);
         getEquipment().writeToPacket(packet);
+        OutgoingPacket.writeEnum(packet, getGender());
     }
 
     @Override
     public void writeEntityUpdatedPacket(OutputStream packet) {
         getInventory().writeToPacket(packet);
         getEquipment().writeToPacket(packet);
+        OutgoingPacket.writeEnum(packet, getGender());
     }
 
 }

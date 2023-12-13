@@ -6,36 +6,36 @@
     "simpleNpc": {
       "variants": {
         "green_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
         },
         "red_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         },
         "blue_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
         },
         "yellow_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
         },
         "green_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
         },
         "red_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         },
         "blue_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
         },
         "yellow_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
         }
       }
     }
@@ -47,36 +47,36 @@
     "simpleNpc": {
       "variants": {
         "green_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
         },
         "red_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         },
         "blue_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
         },
         "yellow_male": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
         },
         "green_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
         },
         "red_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         },
         "blue_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
         },
         "yellow_female": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
         }
       }
     }
@@ -88,27 +88,24 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "code/terryscape/assets/npcs/goblin/goblin_shaman.vmdl",
-          "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "modelPath": "assets/npcs/goblin/goblin_shaman.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         }
       }
     }
   },
-{
-  "id": "goblin_chief",
-  "name": "Goblin Chief",
-  "description": "He seems to be in charge of the disgusting beasts.",
-  "simpleNpc": {
-    "variants": {
-      "default": {
-        "modelPath": "code/terryscape/assets/npcs/goblin/goblin_chief.vmdl",
-        "texturePath": "code/terryscape/assets/npcs/goblin/material/goblin_red_albedo.vmat"
+  {
+    "id": "goblin_chief",
+    "name": "Goblin Chief",
+    "description": "He seems to be in charge of the disgusting beasts.",
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/goblin/goblin_chief.vmdl",
+          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+        }
       }
     }
-  },
-  "combat": {
-    "level": 125,
-    "attack": 10
   }
-}
 ]
+

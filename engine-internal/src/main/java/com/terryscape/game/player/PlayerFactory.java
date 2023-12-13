@@ -3,8 +3,12 @@ package com.terryscape.game.player;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
-import com.terryscape.entity.*;
+import com.terryscape.entity.Entity;
+import com.terryscape.entity.EntityIdentifier;
+import com.terryscape.entity.EntityImpl;
+import com.terryscape.entity.EntityPrefabType;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
+import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.health.PlayerDeathComponent;
@@ -23,25 +27,28 @@ public class PlayerFactory {
 
     private final PathfindingManager pathfindingManager;
 
-    private final CacheLoader cacheLoader;
-
     private final WorldClock worldClock;
 
+    private final CommandManager commandManager;
+
     @Inject
-    public PlayerFactory(PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader, WorldClock worldClock) {
+    public PlayerFactory(PacketManager packetManager, PathfindingManager pathfindingManager, CacheLoader cacheLoader, WorldClock worldClock,
+                         CommandManager commandManager) {
+
         this.packetManager = packetManager;
         this.pathfindingManager = pathfindingManager;
-        this.cacheLoader = cacheLoader;
         this.worldClock = worldClock;
+        this.commandManager = commandManager;
     }
 
     public Entity createUnregisteredPlayer() {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(entity, packetManager, cacheLoader);
+        var playerComponent = new PlayerComponentImpl(entity, packetManager);
+        playerComponent.setGender(PlayerGender.MALE);
         entity.addComponent(playerComponent);
 
-        var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager);
+        var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager, commandManager);
         entity.addComponent(playerChatComponent);
 
         var taskComponent = new TaskComponentImpl(entity);

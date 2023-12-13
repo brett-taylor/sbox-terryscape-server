@@ -27,6 +27,12 @@ public abstract class FixedSizeItemContainer implements PacketSerializable {
         this.items[freeSpot] = item;
     }
 
+    public void addItem(ItemDefinition item, int amount) {
+        for (int i = 0; i < amount; i++) {
+            addItem(item);
+        }
+    }
+
     public Optional<ItemDefinition> getItemAt(int slotNumber) {
         return Optional.ofNullable(ArrayUtils.get(items, slotNumber, null));
     }
