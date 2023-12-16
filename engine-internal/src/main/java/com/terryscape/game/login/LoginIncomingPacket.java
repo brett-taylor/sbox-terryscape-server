@@ -54,10 +54,6 @@ public class LoginIncomingPacket implements IncomingPacket {
         player.setClient(client);
         player.setUsername(username);
 
-        // TODO REMOVE
-        playerEntity.getComponentOrThrow(MovementComponentImpl.class).teleport(new WorldCoordinate(9, 7));
-        playerEntity.getComponentOrThrow(MovementComponentImpl.class).look(Direction.NORTH);
-
         var clientImpl = (ClientImpl) client;
         clientImpl.setPlayer(player);
 

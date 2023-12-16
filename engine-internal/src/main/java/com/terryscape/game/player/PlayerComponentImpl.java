@@ -21,6 +21,7 @@ import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketManager;
+import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
 
 import java.io.OutputStream;
@@ -99,6 +100,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
+
+        respawn();
     }
 
     @Override
@@ -140,6 +143,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     private void respawn() {
         getEntity().getComponentOrThrow(AnimationComponent.class).resetAnimation();
         getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(1, 0));
+        getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.NORTH);
 
         getEntity().getComponentOrThrow(HealthComponent.class).resetHealthToMax();
     }

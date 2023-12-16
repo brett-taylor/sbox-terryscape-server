@@ -54,8 +54,8 @@ public class NpcFactoryImpl implements NpcFactory {
         entity.addComponent(movementComponent);
 
         var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(10);
-        healthComponent.setHealth(10);
+        healthComponent.setMaxHealth(5);
+        healthComponent.setHealth(5);
         entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
