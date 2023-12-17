@@ -1,8 +1,8 @@
-package content.devtools.testnps;
+/*package content.devtools.testnps;
 
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.game.BaseEntityComponentImpl;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
@@ -14,7 +14,7 @@ import com.terryscape.world.WorldCoordinate;
 
 // TODO: This should move back into engine internal when the npc factory is more complex and can handle conditionally adding components
 
-public class WanderMovementComponent extends BaseEntityComponent {
+public class WanderMovementComponent extends BaseEntityComponentImpl {
 
     private final int wanderSize;
 
@@ -33,7 +33,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
         this.wanderSize = wanderSize;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
     }
 
     @Override
@@ -99,3 +99,4 @@ public class WanderMovementComponent extends BaseEntityComponent {
         stopWander();
     }
 }
+*/
