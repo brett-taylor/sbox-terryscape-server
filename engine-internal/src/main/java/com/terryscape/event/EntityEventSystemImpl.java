@@ -1,5 +1,6 @@
 package com.terryscape.event;
 
+import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.event.EntityEvent;
 import org.apache.logging.log4j.LogManager;
@@ -10,8 +11,8 @@ import java.util.*;
 
 public class EntityEventSystemImpl implements EntityEventSystem {
     private static final Logger LOGGER = LogManager.getLogger(EntityEventSystemImpl.class);
-    private final HashMap<EntityComponent, HashMap<EntityComponent, HashSet<Class<EntityEvent>>>> subscribers = new HashMap<>();
-    private final HashMap<EntityComponent, HashMap<Class<EntityEvent>, HashMap<EntityComponent, List<Method>>>> events = new HashMap<>();
+    private final HashMap<EntityComponent, HashMap<Entity, HashSet<Class<EntityEvent>>>> subscribers = new HashMap<>();
+    private final HashMap<Entity, HashMap<Class<EntityEvent>, HashMap<EntityComponent, List<Method>>>> events = new HashMap<>();
 
     private static <T extends EntityEvent> Method getMethod(EntityComponent subscriber, String method, Class<T> event) {
         try {
@@ -28,7 +29,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
     private static String getFullyQualifiedName(EntityComponent component) {
         return component.getEntity().getIdentifier() + "'s " + component.getClass().getName();
     }
-    public <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event2, EntityComponent subscriber, String method) {
+    public <T extends EntityEvent> void subscribe(Entity broadcaster, Class<T> event2, EntityComponent subscriber, String method) {
         var eventMethod = getMethod(subscriber, method, event2);
         var event = (Class<EntityEvent>) event2; //TODO: Check if this even works
         if(eventMethod == null) return;
@@ -51,7 +52,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
         if(listenerList.stream().anyMatch((x) -> x.getName().equals(eventMethod.getName()))) {
             String errorMsg = String.format("%s is already subscribed to %s w/ method: %s ",
                     getFullyQualifiedName(subscriber),
-                    getFullyQualifiedName(broadcaster),
+                    broadcaster.getIdentifier(),
                     method);
             LOGGER.error(errorMsg);
             return;
@@ -59,7 +60,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
         listenerList.add(eventMethod);
     }
 
-    public <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent subscriber, String method) {
+    public <T extends EntityEvent> void unsubscribe(Entity broadcaster, Class<T> event, EntityComponent subscriber, String method) {
         if(!subscribers.containsKey(subscriber)){
             var errorMsg = String.format("%s isn't subscribed to anything.",
                     getFullyQualifiedName(subscriber));
@@ -69,14 +70,14 @@ public class EntityEventSystemImpl implements EntityEventSystem {
             if(!subscribersEvents.containsKey(broadcaster)) {
                 var errorMsg = String.format("%s isn't subscribed to %s.",
                         getFullyQualifiedName(subscriber),
-                        getFullyQualifiedName(broadcaster));
+                        broadcaster.getIdentifier());
                 LOGGER.error(errorMsg);
             } else {
                 var subscriberEventList = subscribersEvents.get(broadcaster);
                 if(!subscriberEventList.contains(event)) {
                     var errorMsg = String.format("%s isn't subscribed to %s's %s event.",
                             getFullyQualifiedName(subscriber),
-                            getFullyQualifiedName(broadcaster),
+                            broadcaster.getIdentifier(),
                             event.getName());
                     LOGGER.error(errorMsg);
                 }
@@ -86,20 +87,20 @@ public class EntityEventSystemImpl implements EntityEventSystem {
 
         if(!events.containsKey(broadcaster)) {
             var errorMsg = String.format("%s isn't broadcasting to anything.",
-                    getFullyQualifiedName(broadcaster));
+                    broadcaster.getIdentifier());
             LOGGER.error(errorMsg);
         } else {
             var broadcasterEvents = events.get(broadcaster);
             if(!broadcasterEvents.containsKey(event)) {
                 var errorMsg = String.format("%s isn't broadcasting on event %s.",
-                        getFullyQualifiedName(broadcaster),
+                        broadcaster.getIdentifier(),
                         event.getName());
                 LOGGER.error(errorMsg);
             } else {
                 var broadcasterEventSubscribers = broadcasterEvents.get(event);
                 if(!broadcasterEventSubscribers.containsKey(subscriber)) {
                     var errorMsg = String.format("%s is broadcasting event %s, but %s isn't subscribed.",
-                            getFullyQualifiedName(broadcaster),
+                            broadcaster.getIdentifier(),
                             event.getName(),
                             getFullyQualifiedName(subscriber));
                     LOGGER.error(errorMsg);
@@ -108,7 +109,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                     var removed = broadcasterEventSubscriberMethods.removeIf(x -> x.getName().equals(method));
                     if(!removed) {
                         var errorMsg = String.format("%s is broadcasting event %s, %s is subscribed, but not on method %s.",
-                                getFullyQualifiedName(broadcaster),
+                                broadcaster.getIdentifier(),
                                 event.getName(),
                                 getFullyQualifiedName(subscriber),
                                 method);
@@ -119,7 +120,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
         }
     }
 
-    public void invoke(EntityComponent broadcaster, EntityEvent event) {
+    public void invoke(Entity broadcaster, EntityEvent event) {
         if(!events.containsKey(broadcaster)) {
             return;
         }
@@ -146,9 +147,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                             .append("' for event '")
                             .append(event.getClass().getName())
                             .append("' triggered by broadcaster '")
-                            .append(broadcaster.getClass().getName())
-                            .append("' on entity '")
-                            .append(broadcaster.getEntity().getIdentifier())
+                            .append(broadcaster.getIdentifier())
                             .append("'.");
                     //Failed to invoke method '%s' on subscriber '%s' on entity '%s' for event '%s' triggered by broadcaster '%s' on entity '%s'.
                     LOGGER.error(errorBuilder);
@@ -167,8 +166,8 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                 if(!events.containsKey(broadcaster)) {
                     var errorMsg = String.format("%s should be subscribed to %s, but %s doesn't have any events.",
                             getFullyQualifiedName(component),
-                            getFullyQualifiedName(broadcaster),
-                            getFullyQualifiedName(broadcaster));
+                            broadcaster.getIdentifier(),
+                            broadcaster.getIdentifier());
                     LOGGER.error(errorMsg);
                 } else {
                     var broadcastersEvents = events.get(broadcaster);
@@ -181,7 +180,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                     if (!broadcasterHasAnEvent){
                         var errorMsg = String.format("%s should be subscribed to %s, but isn't.",
                                 getFullyQualifiedName(component),
-                                getFullyQualifiedName(broadcaster));
+                                broadcaster.getIdentifier());
                         LOGGER.error(errorMsg);
                     }
                 }
@@ -190,14 +189,15 @@ public class EntityEventSystemImpl implements EntityEventSystem {
             removedSubscriber = true;
         }
 
-        if(events.containsKey(component)) {
-            var broadcastingEvents = events.get(component);
+        var componentBroadcaster = component.getEntity();
+        if(events.containsKey(componentBroadcaster)) {
+            var broadcastingEvents = events.get(componentBroadcaster);
             for(var eventBroadcasts : broadcastingEvents.entrySet()){
                 for(var subscriber : eventBroadcasts.getValue().keySet()) {
                     if (!subscribers.containsKey(subscriber)) {
                         var errorMsg = String.format("%s should be broadcast to by %s, but isn't in the subscriber list.",
                                 getFullyQualifiedName(subscriber),
-                                getFullyQualifiedName(component));
+                                componentBroadcaster.getIdentifier());
                         LOGGER.error(errorMsg);
                     }
                     else {
@@ -212,7 +212,7 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                     }
                 }
             }
-            events.remove(component);
+            events.remove(componentBroadcaster);
             removedBroadcaster = true;
         }
         StringBuilder completionMessage = new StringBuilder();

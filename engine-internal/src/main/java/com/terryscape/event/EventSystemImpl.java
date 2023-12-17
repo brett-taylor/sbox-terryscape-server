@@ -43,13 +43,13 @@ public class EventSystemImpl implements EventSystem {
     }
 
     public static <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent subscriber, String method) {
-        entityEventSystem.subscribe(broadcaster, event, subscriber, method);
+        entityEventSystem.subscribe(broadcaster.getEntity(), event, subscriber, method);
     }
     public static <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent subscriber, String method) {
-        entityEventSystem.unsubscribe(broadcaster, event,subscriber,method);
+        entityEventSystem.unsubscribe(broadcaster.getEntity(), event,subscriber,method);
     }
     public static <T extends EntityEvent> void invoke(EntityComponent broadcaster, T event) {
-        entityEventSystem.invoke(broadcaster, event);
+        entityEventSystem.invoke(broadcaster.getEntity(), event);
     }
     public static void purgeComponentEvents(EntityComponent component) {
         entityEventSystem.onComponentDestroy(component);
