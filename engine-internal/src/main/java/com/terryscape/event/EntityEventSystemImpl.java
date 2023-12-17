@@ -3,36 +3,24 @@ package com.terryscape.event;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.event.EntityEvent;
+import jakarta.inject.Singleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Consumer;
 
+@Singleton
 public class EntityEventSystemImpl implements EntityEventSystem {
     private static final Logger LOGGER = LogManager.getLogger(EntityEventSystemImpl.class);
     private final HashMap<EntityComponent, HashMap<Entity, HashSet<Class<EntityEvent>>>> subscribers = new HashMap<>();
-    private final HashMap<Entity, HashMap<Class<EntityEvent>, HashMap<EntityComponent, List<Method>>>> events = new HashMap<>();
+    private final HashMap<Entity, HashMap<Class<EntityEvent>, HashMap<EntityComponent, Consumer<EntityEvent>>>> events = new HashMap<>();
 
-    private static <T extends EntityEvent> Method getMethod(EntityComponent subscriber, String method, Class<T> event) {
-        try {
-            var methodImpl = subscriber.getClass().getDeclaredMethod(method, event);
-            methodImpl.setAccessible(true);
-            return methodImpl;
-        } catch (NoSuchMethodException e) {
-            String errorMsg = String.format("Method Name: '%s' w/ Event Parameter: '%s' does not exist within class '%s'.",
-                    method, event.getName(), subscriber.getClass().getName());
-            LOGGER.error(errorMsg);
-            return null;
-        }
-    }
     private static String getFullyQualifiedName(EntityComponent component) {
         return component.getEntity().getIdentifier() + "'s " + component.getClass().getName();
     }
-    public <T extends EntityEvent> void subscribe(Entity broadcaster, Class<T> event2, EntityComponent subscriber, String method) {
-        var eventMethod = getMethod(subscriber, method, event2);
+    public <T extends EntityEvent> void subscribe(Entity broadcaster, Class<T> event2, EntityComponent subscriber, Consumer<T> method) {
         var event = (Class<EntityEvent>) event2; //TODO: Check if this even works
-        if(eventMethod == null) return;
 
         subscribers.putIfAbsent(subscriber, new HashMap<>());
         var subscribedEvents = subscribers.get(subscriber);
@@ -46,21 +34,19 @@ public class EntityEventSystemImpl implements EntityEventSystem {
         broadcastersEvents.putIfAbsent(event, new HashMap<>());
         var eventListeners = broadcastersEvents.get(event);
 
-        eventListeners.putIfAbsent(subscriber, new ArrayList<>());
-        var listenerList = eventListeners.get(subscriber);
-
-        if(listenerList.stream().anyMatch((x) -> x.getName().equals(eventMethod.getName()))) {
-            String errorMsg = String.format("%s is already subscribed to %s w/ method: %s ",
+        if(eventListeners.containsKey(subscriber)) {
+            String errorMsg = String.format("%s is already subscribed to %s on Event: %s ",
                     getFullyQualifiedName(subscriber),
                     broadcaster.getIdentifier(),
-                    method);
+                    event2.getName());
             LOGGER.error(errorMsg);
             return;
+        } else {
+            eventListeners.put(subscriber, (Consumer<EntityEvent>)method);
         }
-        listenerList.add(eventMethod);
     }
 
-    public <T extends EntityEvent> void unsubscribe(Entity broadcaster, Class<T> event, EntityComponent subscriber, String method) {
+    public <T extends EntityEvent> void unsubscribe(Entity broadcaster, Class<T> event, EntityComponent subscriber) {
         if(!subscribers.containsKey(subscriber)){
             var errorMsg = String.format("%s isn't subscribed to anything.",
                     getFullyQualifiedName(subscriber));
@@ -105,22 +91,13 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                             getFullyQualifiedName(subscriber));
                     LOGGER.error(errorMsg);
                 } else {
-                    var broadcasterEventSubscriberMethods = broadcasterEventSubscribers.get(subscriber);
-                    var removed = broadcasterEventSubscriberMethods.removeIf(x -> x.getName().equals(method));
-                    if(!removed) {
-                        var errorMsg = String.format("%s is broadcasting event %s, %s is subscribed, but not on method %s.",
-                                broadcaster.getIdentifier(),
-                                event.getName(),
-                                getFullyQualifiedName(subscriber),
-                                method);
-                        LOGGER.error(errorMsg);
-                    }
+                    broadcasterEventSubscribers.remove(subscriber);
                 }
             }
         }
     }
 
-    public void invoke(Entity broadcaster, EntityEvent event) {
+    public <T extends EntityEvent> void invoke(Entity broadcaster, T event) {
         if(!events.containsKey(broadcaster)) {
             return;
         }
@@ -130,29 +107,9 @@ public class EntityEventSystemImpl implements EntityEventSystem {
             return;
         }
         var eventListeners = broadcasterEvents.get(eventClass);
-        for (Map.Entry<EntityComponent, List<Method>> entry : eventListeners.entrySet()) {
-            var component = entry.getKey();
-            var methodList = entry.getValue();
-            for(var method : methodList) {
-                try {
-                    method.invoke(component, event);
-                } catch (Exception e) {
-                    var errorBuilder = new StringBuilder();
-                    errorBuilder.append("Failed to invoke method '")
-                            .append(method.getName())
-                            .append("' on subscriber '")
-                            .append(component.getClass().getName())
-                            .append("' on entity '")
-                            .append(component.getEntity().getIdentifier())
-                            .append("' for event '")
-                            .append(event.getClass().getName())
-                            .append("' triggered by broadcaster '")
-                            .append(broadcaster.getIdentifier())
-                            .append("'.");
-                    //Failed to invoke method '%s' on subscriber '%s' on entity '%s' for event '%s' triggered by broadcaster '%s' on entity '%s'.
-                    LOGGER.error(errorBuilder);
-                }
-            }
+        for (Consumer<EntityEvent> entry : eventListeners.values()) {
+            var consumer = (Consumer<T>)entry;
+            consumer.accept(event);
         }
     }
 

@@ -4,6 +4,8 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.entity.event.EntityEvent;
+import com.terryscape.event.EntityEventSystem;
+import com.terryscape.event.EntityEventSystemImpl;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.net.OutgoingPacket;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +19,7 @@ import java.util.function.Consumer;
 public class EntityImpl implements Entity {
 
     private static final Logger LOGGER = LogManager.getLogger(EntityImpl.class);
+    private static final EntityEventSystem entityEventSystem = new EntityEventSystemImpl();
 
     private final EntityIdentifier entityIdentifier;
 
@@ -134,8 +137,8 @@ public class EntityImpl implements Entity {
 
     public void delete() {
         isValid = false;
-        components.forEach(EventSystemImpl::purgeComponentEvents);
-        EventSystemImpl.purgeEntityEvents(this);
+        components.forEach(entityEventSystem::onComponentDestroy);
+        entityEventSystem.onEntityDestroy(this);
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {
@@ -146,17 +149,17 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, String method) {
-        EventSystemImpl.subscribe(broadcaster.getEntity(), event, component, method);
+    public <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, Consumer<T> method) {
+        entityEventSystem.subscribe(broadcaster.getEntity(), event, component, method);
     }
 
     @Override
-    public <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, String method) {
-        EventSystemImpl.unsubscribe(broadcaster.getEntity(), event, component, method);
+    public <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component) {
+        entityEventSystem.unsubscribe(broadcaster.getEntity(), event, component);
     }
 
     @Override
     public <T extends EntityEvent> void invoke(T event) {
-        EventSystemImpl.invoke(this, event);
+        entityEventSystem.invoke(this, event);
     }
 }

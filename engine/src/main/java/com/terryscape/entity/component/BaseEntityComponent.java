@@ -3,6 +3,8 @@ package com.terryscape.entity.component;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.event.EntityEvent;
 
+import java.util.function.Consumer;
+
 public abstract class BaseEntityComponent implements EntityComponent {
 
     private final Entity entity;
@@ -32,16 +34,16 @@ public abstract class BaseEntityComponent implements EntityComponent {
     public void tick() {
     }
 
-    protected <T extends EntityEvent> void subscribe(Class<T> event, String method) {
+    protected <T extends EntityEvent> void subscribe(Class<T> event, Consumer<T> method) {
         subscribe(this, event, method);
     }
 
-    protected <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, String method) {
+    protected <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, Consumer<T> method) {
         getEntity().subscribe(broadcaster, event, this, method);
     }
 
-    protected <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, String method) {
-        getEntity().unsubscribe(broadcaster, event, this, method);
+    protected <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event) {
+        getEntity().unsubscribe(broadcaster, event, this);
     }
 
     protected <T extends EntityEvent> void invoke(T event) {

@@ -33,7 +33,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
         this.wanderSize = wanderSize;
 
-        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
+        subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override

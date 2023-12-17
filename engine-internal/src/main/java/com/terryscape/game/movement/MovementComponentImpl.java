@@ -35,7 +35,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
         this.pathfindingManager = pathfindingManager;
 
-        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
+        subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override

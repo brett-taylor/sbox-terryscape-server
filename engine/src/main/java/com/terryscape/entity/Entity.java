@@ -25,6 +25,6 @@ public interface Entity {
     <T extends EntityComponent> T getComponentOrThrow(Class<T> componentType);
 
     <T extends EntityEvent> void invoke(T event);
-    <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, String method);
-    <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, String method);
+    <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, Consumer<T> method);
+    <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component);
 }

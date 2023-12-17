@@ -45,7 +45,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         this.packetManager = packetManager;
 
-        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
+        subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
