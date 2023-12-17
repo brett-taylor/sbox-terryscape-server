@@ -44,6 +44,11 @@ public class PlayerFactory {
     public Entity createUnregisteredPlayer() {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
+        var healthComponent = new HealthComponentImpl(entity);
+        healthComponent.setMaxHealth(10);
+        healthComponent.setHealth(10);
+        entity.addComponent(healthComponent);
+
         var playerComponent = new PlayerComponentImpl(entity, packetManager);
         playerComponent.setGender(PlayerGender.MALE);
         entity.addComponent(playerComponent);
@@ -58,10 +63,6 @@ public class PlayerFactory {
         movementComponent.setMovementSpeed(MovementSpeed.RUN);
         entity.addComponent(movementComponent);
 
-        var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(10);
-        healthComponent.setHealth(10);
-        entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);

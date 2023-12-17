@@ -35,6 +35,11 @@ public class NpcFactoryImpl implements NpcFactory {
     public Entity createUnregisteredNpc(NpcDefinition npcDefinition) {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
 
+        var healthComponent = new HealthComponentImpl(entity);
+        healthComponent.setMaxHealth(5);
+        healthComponent.setHealth(5);
+        entity.addComponent(healthComponent);
+
         var npcComponent = new NpcComponentImpl(entity, entityManager);
         npcComponent.setNpcDefinition(npcDefinition);
 
@@ -48,15 +53,10 @@ public class NpcFactoryImpl implements NpcFactory {
 
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
-
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(5);
-        healthComponent.setHealth(5);
-        entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
