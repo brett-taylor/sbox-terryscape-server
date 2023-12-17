@@ -27,8 +27,7 @@ public class NpcComponentImpl extends BaseEntityComponentImpl implements NpcComp
 
         this.entityManager = entityManager;
 
-        var healthComponent = getEntity().getComponent(HealthComponentImpl.class).get();
-        subscribe(healthComponent, OnEntityDeathEntityEvent.class, "onDeath");
+        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
     }
 
     @Override

@@ -46,8 +46,7 @@ public class PlayerComponentImpl extends BaseEntityComponentImpl implements Play
 
         this.packetManager = packetManager;
 
-        var healthComponent = getEntity().getComponent(HealthComponentImpl.class).get();
-        subscribe(healthComponent, OnEntityDeathEntityEvent.class, "onDeath");
+        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
     }
 
     @Override

@@ -35,8 +35,8 @@ public class MovementComponentImpl extends BaseEntityComponentImpl implements Mo
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
-        var healthComponent = getEntity().getComponent(HealthComponentImpl.class).get();
-        subscribe(healthComponent, OnEntityDeathEntityEvent.class, "onDeath");
+
+        subscribe(OnEntityDeathEntityEvent.class, "onDeath");
     }
 
     @Override
