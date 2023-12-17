@@ -94,6 +94,6 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     }
 
     private void handleDeath() {
-        getEntity().invoke(OnEntityDeathEntityEvent.class, new OnEntityDeathEntityEvent());
+        invoke(new OnEntityDeathEntityEvent());
     }
 }

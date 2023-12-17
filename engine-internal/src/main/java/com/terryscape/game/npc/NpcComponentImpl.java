@@ -26,7 +26,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         this.entityManager = entityManager;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 public class CombatComponentImpl extends BaseEntityComponent implements CombatComponent {

@@ -4,6 +4,9 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.entity.event.EntityEvent;
+import com.terryscape.event.EntityEventSystem;
+import com.terryscape.event.EntityEventSystemImpl;
+import com.terryscape.event.EventSystemImpl;
 import com.terryscape.net.OutgoingPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +19,7 @@ import java.util.function.Consumer;
 public class EntityImpl implements Entity {
 
     private static final Logger LOGGER = LogManager.getLogger(EntityImpl.class);
+    private static final EntityEventSystem entityEventSystem = new EntityEventSystemImpl();
 
     private final EntityIdentifier entityIdentifier;
 
@@ -24,8 +28,6 @@ public class EntityImpl implements Entity {
     private final String entityPrefabIdentifier;
 
     private final List<BaseEntityComponent> components = new ArrayList<>();
-
-    private final Map<Type, List<Consumer<? extends EntityEvent>>> entityEventConsumers = new HashMap<>();
 
     private boolean hasBeenRegistered = false;
 
@@ -93,28 +95,6 @@ public class EntityImpl implements Entity {
             .orElseThrow(() -> new RuntimeException("Attempted to get a component that does not exist on the entity."));
     }
 
-    @Override
-    public <T extends EntityEvent> void subscribe(Class<T> eventType, Consumer<T> eventConsumer) {
-        if (!entityEventConsumers.containsKey(eventType)) {
-            entityEventConsumers.put(eventType, new ArrayList<>());
-        }
-
-        entityEventConsumers.get(eventType).add(eventConsumer);
-    }
-
-    @Override
-    public <T extends EntityEvent> void invoke(Class<T> eventType, T entityEvent) {
-        if (!entityEventConsumers.containsKey(eventType)) {
-            LOGGER.error("Attempted to invoke entity event %s that has no subscribed listeners".formatted(eventType.getName()));
-            return;
-        }
-
-        for (Consumer<? extends EntityEvent> consumer : entityEventConsumers.get(eventType)) {
-            var typedConsumer = (Consumer<T>) consumer;
-            typedConsumer.accept(entityEvent);
-        }
-    }
-
     public void writeEntityAddedPacket(OutputStream packet) {
         getIdentifier().writeToPacket(packet);
         OutgoingPacket.writeEnum(packet, getEntityPrefabType());
@@ -157,6 +137,8 @@ public class EntityImpl implements Entity {
 
     public void delete() {
         isValid = false;
+        components.forEach(entityEventSystem::onComponentDestroy);
+        entityEventSystem.onEntityDestroy(this);
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {
@@ -164,5 +146,20 @@ public class EntityImpl implements Entity {
             .filter(component -> NetworkedEntityComponent.class.isAssignableFrom(component.getClass()))
             .map(NetworkedEntityComponent.class::cast)
             .toList();
+    }
+
+    @Override
+    public <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, Consumer<T> method) {
+        entityEventSystem.subscribe(broadcaster.getEntity(), event, component, method);
+    }
+
+    @Override
+    public <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component) {
+        entityEventSystem.unsubscribe(broadcaster.getEntity(), event, component);
+    }
+
+    @Override
+    public <T extends EntityEvent> void invoke(T event) {
+        entityEventSystem.invoke(this, event);
     }
 }

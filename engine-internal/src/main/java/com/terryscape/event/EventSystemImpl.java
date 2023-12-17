@@ -13,9 +13,7 @@ import java.util.function.Consumer;
 
 @Singleton
 public class EventSystemImpl implements EventSystem {
-
     private static final Logger LOGGER = LogManager.getLogger(EventSystemImpl.class);
-
     private final Map<Type, List<Consumer<? extends SystemEvent>>> consumers = new HashMap<>();
 
     @Override
@@ -39,5 +37,4 @@ public class EventSystemImpl implements EventSystem {
             typedConsumer.accept(systemEvent);
         }
     }
-
 }

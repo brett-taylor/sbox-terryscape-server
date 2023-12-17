@@ -12,7 +12,6 @@ import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingRoute;
 
 import java.io.OutputStream;
-import java.util.Optional;
 
 public class MovementComponentImpl extends BaseEntityComponent implements MovementComponent {
 
@@ -36,7 +35,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
         this.pathfindingManager = pathfindingManager;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
