@@ -55,4 +55,8 @@ public class EventSystemImpl implements EventSystem {
     public static void purgeComponentEvents(EntityComponent component) {
         entityEventSystem.onComponentDestroy(component);
     }
+
+    public static void purgeEntityEvents(Entity entity) {
+        entityEventSystem.onEntityDestroy(entity);
+    }
 }

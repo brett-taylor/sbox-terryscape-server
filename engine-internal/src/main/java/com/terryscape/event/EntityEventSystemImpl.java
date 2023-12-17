@@ -197,4 +197,43 @@ public class EntityEventSystemImpl implements EntityEventSystem {
                 .append("subscribed to other events.");
         LOGGER.info(completionMessage);
     }
+
+    @Override
+    public void onEntityDestroy(Entity entity) {
+        boolean removedBroadcaster = false;
+        if(events.containsKey(entity)) {
+            var broadcastingEvents = events.get(entity);
+            for(var eventBroadcasts : broadcastingEvents.entrySet()){
+                for(var subscriber : eventBroadcasts.getValue().keySet()) {
+                    if (!subscribers.containsKey(subscriber)) {
+                        var errorMsg = String.format("%s should be broadcast to by %s, but isn't in the subscriber list.",
+                                getFullyQualifiedName(subscriber),
+                                entity.getIdentifier());
+                        LOGGER.error(errorMsg);
+                    }
+                    else {
+                        var subscriberListeners = subscribers.get(subscriber);
+                        if (!subscriberListeners.containsKey(entity)) {
+                            var errorMsg = String.format("%s should be broadcast to by %s, but isn't subscribed.",
+                                    getFullyQualifiedName(subscriber),
+                                    entity.getIdentifier());
+                            LOGGER.error(errorMsg);
+                        } else {
+                            subscriberListeners.remove(entity);
+                        }
+                    }
+                }
+            }
+            events.remove(entity);
+            removedBroadcaster = true;
+        }
+        StringBuilder completionMessage = new StringBuilder();
+        completionMessage
+                .append(entity.getIdentifier())
+                .append(" was removed from the event system.")
+                .append(" It was ")
+                .append((removedBroadcaster) ? "" : "not ")
+                .append("broadcasting to other events.");
+        LOGGER.info(completionMessage);
+    }
 }

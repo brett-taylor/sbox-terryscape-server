@@ -135,6 +135,7 @@ public class EntityImpl implements Entity {
     public void delete() {
         isValid = false;
         components.forEach(EventSystemImpl::purgeComponentEvents);
+        EventSystemImpl.purgeEntityEvents(this);
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {
