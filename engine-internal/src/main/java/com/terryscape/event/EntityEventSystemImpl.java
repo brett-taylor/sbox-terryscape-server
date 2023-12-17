@@ -158,7 +158,6 @@ public class EntityEventSystemImpl implements EntityEventSystem {
 
     public void onComponentDestroy(EntityComponent component) {
         boolean removedSubscriber = false;
-        boolean removedBroadcaster = false;
         if(subscribers.containsKey(component)) {
             var subscribedEvents = subscribers.get(component);
             //TODO: Change this for to EntrySet and check for correctness on all events.
@@ -189,41 +188,13 @@ public class EntityEventSystemImpl implements EntityEventSystem {
             removedSubscriber = true;
         }
 
-        var componentBroadcaster = component.getEntity();
-        if(events.containsKey(componentBroadcaster)) {
-            var broadcastingEvents = events.get(componentBroadcaster);
-            for(var eventBroadcasts : broadcastingEvents.entrySet()){
-                for(var subscriber : eventBroadcasts.getValue().keySet()) {
-                    if (!subscribers.containsKey(subscriber)) {
-                        var errorMsg = String.format("%s should be broadcast to by %s, but isn't in the subscriber list.",
-                                getFullyQualifiedName(subscriber),
-                                componentBroadcaster.getIdentifier());
-                        LOGGER.error(errorMsg);
-                    }
-                    else {
-                        if (!subscribers.get(subscriber).containsKey(component)) {
-                            var errorMsg = String.format("%s should be broadcast to by %s, but isn't subscribed.",
-                                    getFullyQualifiedName(subscriber),
-                                    getFullyQualifiedName(component));
-                            LOGGER.error(errorMsg);
-                        } else {
-                            subscribers.get(subscriber).remove(component);
-                        }
-                    }
-                }
-            }
-            events.remove(componentBroadcaster);
-            removedBroadcaster = true;
-        }
         StringBuilder completionMessage = new StringBuilder();
         completionMessage
                 .append(getFullyQualifiedName(component))
                 .append(" was removed from the event system.")
                 .append(" It was ")
                 .append((removedSubscriber) ? "" : "not ")
-                .append("subscribed to and ")
-                .append((removedBroadcaster) ? "" : "not ")
-                .append("broadcasting.");
+                .append("subscribed to other events.");
         LOGGER.info(completionMessage);
     }
 }
