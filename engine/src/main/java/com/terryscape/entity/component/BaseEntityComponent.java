@@ -32,10 +32,19 @@ public abstract class BaseEntityComponent implements EntityComponent {
     public void tick() {
     }
 
-    abstract public void destroy();
+    protected <T extends EntityEvent> void subscribe(Class<T> event, String method) {
+        subscribe(this, event, method);
+    }
 
-    abstract protected <T extends EntityEvent> void subscribe(Class<T> event, String method);
-    abstract protected <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, String method);
-    abstract protected <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, String method);
-    abstract protected <T extends EntityEvent> void invoke(T event);
+    protected <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, String method) {
+        getEntity().subscribe(broadcaster, event, this, method);
+    }
+
+    protected <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, String method) {
+        getEntity().unsubscribe(broadcaster, event, this, method);
+    }
+
+    protected <T extends EntityEvent> void invoke(T event) {
+        getEntity().invoke(event);
+    }
 }

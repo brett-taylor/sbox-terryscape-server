@@ -12,27 +12,23 @@ public abstract class BaseEntityComponentImpl extends BaseEntityComponent {
     }
 
     @Override
-    public void destroy() {
-        EventSystemImpl.purgeComponentEvents(this);
-    }
-
-    @Override
     protected <T extends EntityEvent> void subscribe(Class<T> event, String method) {
+
         subscribe(this, event, method);
     }
 
     @Override
     protected <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, String method) {
-        EventSystemImpl.subscribe(broadcaster, event, this, method);
+        getEntity().subscribe(broadcaster, event, this, method);
     }
 
     @Override
     protected <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, String method) {
-        EventSystemImpl.unsubscribe(broadcaster, event, this, method);
+        getEntity().unsubscribe(broadcaster, event, this, method);
     }
 
     @Override
     protected <T extends EntityEvent> void invoke(T event) {
-        EventSystemImpl.invoke(this, event);
+        getEntity().invoke(event);
     }
 }

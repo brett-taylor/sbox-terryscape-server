@@ -1,6 +1,7 @@
 package com.terryscape.event;
 
 import com.google.inject.Singleton;
+import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.event.EntityEvent;
 import org.apache.logging.log4j.LogManager;
@@ -42,14 +43,14 @@ public class EventSystemImpl implements EventSystem {
         }
     }
 
-    public static <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent subscriber, String method) {
-        entityEventSystem.subscribe(broadcaster.getEntity(), event, subscriber, method);
+    public static <T extends EntityEvent> void subscribe(Entity broadcaster, Class<T> event, EntityComponent subscriber, String method) {
+        entityEventSystem.subscribe(broadcaster, event, subscriber, method);
     }
-    public static <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent subscriber, String method) {
-        entityEventSystem.unsubscribe(broadcaster.getEntity(), event,subscriber,method);
+    public static <T extends EntityEvent> void unsubscribe(Entity broadcaster, Class<T> event, EntityComponent subscriber, String method) {
+        entityEventSystem.unsubscribe(broadcaster, event,subscriber,method);
     }
-    public static <T extends EntityEvent> void invoke(EntityComponent broadcaster, T event) {
-        entityEventSystem.invoke(broadcaster.getEntity(), event);
+    public static <T extends EntityEvent> void invoke(Entity broadcaster, T event) {
+        entityEventSystem.invoke(broadcaster, event);
     }
     public static void purgeComponentEvents(EntityComponent component) {
         entityEventSystem.onComponentDestroy(component);

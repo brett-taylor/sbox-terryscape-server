@@ -4,6 +4,7 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.entity.event.EntityEvent;
+import com.terryscape.event.EventSystemImpl;
 import com.terryscape.net.OutgoingPacket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -133,7 +134,7 @@ public class EntityImpl implements Entity {
 
     public void delete() {
         isValid = false;
-        components.forEach(BaseEntityComponent::destroy);
+        components.forEach(EventSystemImpl::purgeComponentEvents);
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {
@@ -141,5 +142,20 @@ public class EntityImpl implements Entity {
             .filter(component -> NetworkedEntityComponent.class.isAssignableFrom(component.getClass()))
             .map(NetworkedEntityComponent.class::cast)
             .toList();
+    }
+
+    @Override
+    public <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, String method) {
+        EventSystemImpl.subscribe(broadcaster.getEntity(), event, component, method);
+    }
+
+    @Override
+    public <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, EntityComponent component, String method) {
+        EventSystemImpl.unsubscribe(broadcaster.getEntity(), event, component, method);
+    }
+
+    @Override
+    public <T extends EntityEvent> void invoke(T event) {
+        EventSystemImpl.invoke(this, event);
     }
 }
