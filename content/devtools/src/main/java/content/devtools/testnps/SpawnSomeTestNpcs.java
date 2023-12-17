@@ -35,25 +35,25 @@ public class SpawnSomeTestNpcs {
         for (int i = 0; i < 4; i++) {
             var npc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin"));
             npc1.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
-            //npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
+            npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
             entityManager.registerEntity(npc1);
         }
 
         for (int i = 0; i < 4; i++) {
             var npc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_warrior"));
             npc1.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
-            //npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
+            npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
             entityManager.registerEntity(npc1);
         }
 
         var npc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_shaman"));
         npc1.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
-        //npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
+        npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
         entityManager.registerEntity(npc1);
 
         var npc2 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_chief"));
         npc2.getComponentOrThrow(MovementComponent.class).teleport(spawnCoordinate);
-        //npc2.addComponent(new WanderMovementComponent(npc2, wanderRadius));
+        npc2.addComponent(new WanderMovementComponent(npc2, wanderRadius));
         entityManager.registerEntity(npc2);
 
         var staticNpc1 = npcFactory.createUnregisteredNpc(cacheLoader.getNpc("goblin_warrior"));
