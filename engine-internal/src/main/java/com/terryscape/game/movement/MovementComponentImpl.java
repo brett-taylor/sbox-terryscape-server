@@ -3,9 +3,8 @@ package com.terryscape.game.movement;
 import com.google.inject.Inject;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
+import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
-import com.terryscape.game.BaseEntityComponentImpl;
-import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
@@ -14,7 +13,7 @@ import com.terryscape.world.pathfinding.PathfindingRoute;
 
 import java.io.OutputStream;
 
-public class MovementComponentImpl extends BaseEntityComponentImpl implements MovementComponent {
+public class MovementComponentImpl extends BaseEntityComponent implements MovementComponent {
 
     private final PathfindingManager pathfindingManager;
 

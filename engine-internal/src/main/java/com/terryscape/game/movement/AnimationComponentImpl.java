@@ -1,12 +1,12 @@
 package com.terryscape.game.movement;
 
 import com.terryscape.entity.Entity;
-import com.terryscape.game.BaseEntityComponentImpl;
+import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 
-public class AnimationComponentImpl extends BaseEntityComponentImpl implements AnimationComponent {
+public class AnimationComponentImpl extends BaseEntityComponent implements AnimationComponent {
 
     private String playingAnimation;
 

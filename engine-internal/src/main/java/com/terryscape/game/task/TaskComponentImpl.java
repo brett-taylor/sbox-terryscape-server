@@ -1,7 +1,7 @@
 package com.terryscape.game.task;
 
 import com.terryscape.entity.Entity;
-import com.terryscape.game.BaseEntityComponentImpl;
+import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.task.step.Step;
 
 import java.util.LinkedList;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-public class TaskComponentImpl extends BaseEntityComponentImpl implements TaskComponent {
+public class TaskComponentImpl extends BaseEntityComponent implements TaskComponent {
 
     private TaskImpl runningPrimaryTask;
 
