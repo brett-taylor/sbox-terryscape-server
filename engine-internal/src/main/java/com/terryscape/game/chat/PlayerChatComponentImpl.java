@@ -1,12 +1,12 @@
 package com.terryscape.game.chat;
 
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.game.BaseEntityComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.PacketManager;
 
-public class PlayerChatComponentImpl extends BaseEntityComponent implements PlayerChatComponent {
+public class PlayerChatComponentImpl extends BaseEntityComponentImpl implements PlayerChatComponent {
 
     private final PacketManager packetManager;
 

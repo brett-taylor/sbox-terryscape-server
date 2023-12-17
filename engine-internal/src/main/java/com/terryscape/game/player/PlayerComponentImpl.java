@@ -2,12 +2,12 @@ package com.terryscape.game.player;
 
 import com.google.inject.Inject;
 import com.terryscape.Config;
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.game.BaseEntityComponentImpl;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
+import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
 import com.terryscape.game.item.FixedSizeItemContainer;
@@ -26,7 +26,7 @@ import com.terryscape.world.WorldCoordinate;
 
 import java.io.OutputStream;
 
-public class PlayerComponentImpl extends BaseEntityComponent implements PlayerComponent {
+public class PlayerComponentImpl extends BaseEntityComponentImpl implements PlayerComponent {
 
     private final PacketManager packetManager;
 
@@ -46,7 +46,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         this.packetManager = packetManager;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        var healthComponent = getEntity().getComponent(HealthComponentImpl.class).get();
+        subscribe(healthComponent, OnEntityDeathEntityEvent.class, "onDeath");
     }
 
     @Override

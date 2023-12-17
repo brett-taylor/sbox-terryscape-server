@@ -3,8 +3,9 @@ package com.terryscape.game.npc;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityManager;
-import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.game.BaseEntityComponentImpl;
+import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateStep;
@@ -13,7 +14,7 @@ import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 
-public class NpcComponentImpl extends BaseEntityComponent implements NpcComponent {
+public class NpcComponentImpl extends BaseEntityComponentImpl implements NpcComponent {
 
     private final EntityManager entityManager;
 
@@ -26,7 +27,8 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         this.entityManager = entityManager;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        var healthComponent = getEntity().getComponent(HealthComponentImpl.class).get();
+        subscribe(healthComponent, OnEntityDeathEntityEvent.class, "onDeath");
     }
 
     @Override

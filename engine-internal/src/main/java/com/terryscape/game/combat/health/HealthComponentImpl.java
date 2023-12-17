@@ -1,15 +1,15 @@
 package com.terryscape.game.combat.health;
 
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.game.BaseEntityComponentImpl;
 import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HealthComponentImpl extends BaseEntityComponent implements HealthComponent {
+public class HealthComponentImpl extends BaseEntityComponentImpl implements HealthComponent {
 
     private final List<DamageInformation> recentDamage = new ArrayList<>();
 
@@ -94,6 +94,6 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     }
 
     private void handleDeath() {
-        getEntity().invoke(OnEntityDeathEntityEvent.class, new OnEntityDeathEntityEvent());
+        invoke(new OnEntityDeathEntityEvent());
     }
 }

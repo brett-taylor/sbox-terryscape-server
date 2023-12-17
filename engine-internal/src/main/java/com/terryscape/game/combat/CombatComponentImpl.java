@@ -1,7 +1,7 @@
 package com.terryscape.game.combat;
 
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.game.BaseEntityComponentImpl;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.movement.MovementComponent;
@@ -9,11 +9,9 @@ import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
-public class CombatComponentImpl extends BaseEntityComponent implements CombatComponent {
+public class CombatComponentImpl extends BaseEntityComponentImpl implements CombatComponent {
 
     private final PathfindingManager pathfindingManager;
 
