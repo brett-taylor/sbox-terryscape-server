@@ -25,8 +25,6 @@ public class EntityImpl implements Entity {
 
     private final List<BaseEntityComponent> components = new ArrayList<>();
 
-    private final Map<Type, List<Consumer<? extends EntityEvent>>> entityEventConsumers = new HashMap<>();
-
     private boolean hasBeenRegistered = false;
 
     private boolean hasSpawned = false;
@@ -93,28 +91,6 @@ public class EntityImpl implements Entity {
             .orElseThrow(() -> new RuntimeException("Attempted to get a component that does not exist on the entity."));
     }
 
-    @Override
-    public <T extends EntityEvent> void subscribe(Class<T> eventType, Consumer<T> eventConsumer) {
-        if (!entityEventConsumers.containsKey(eventType)) {
-            entityEventConsumers.put(eventType, new ArrayList<>());
-        }
-
-        entityEventConsumers.get(eventType).add(eventConsumer);
-    }
-
-    @Override
-    public <T extends EntityEvent> void invoke(Class<T> eventType, T entityEvent) {
-        if (!entityEventConsumers.containsKey(eventType)) {
-            LOGGER.error("Attempted to invoke entity event %s that has no subscribed listeners".formatted(eventType.getName()));
-            return;
-        }
-
-        for (Consumer<? extends EntityEvent> consumer : entityEventConsumers.get(eventType)) {
-            var typedConsumer = (Consumer<T>) consumer;
-            typedConsumer.accept(entityEvent);
-        }
-    }
-
     public void writeEntityAddedPacket(OutputStream packet) {
         getIdentifier().writeToPacket(packet);
         OutgoingPacket.writeEnum(packet, getEntityPrefabType());
@@ -157,6 +133,7 @@ public class EntityImpl implements Entity {
 
     public void delete() {
         isValid = false;
+        components.forEach(BaseEntityComponent::destroy);
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {

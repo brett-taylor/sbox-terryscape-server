@@ -1,6 +1,7 @@
 package com.terryscape.entity.component;
 
 import com.terryscape.entity.Entity;
+import com.terryscape.entity.event.EntityEvent;
 
 public abstract class BaseEntityComponent implements EntityComponent {
 
@@ -30,4 +31,11 @@ public abstract class BaseEntityComponent implements EntityComponent {
 
     public void tick() {
     }
+
+    abstract public void destroy();
+
+    abstract protected <T extends EntityEvent> void subscribe(Class<T> event, String method);
+    abstract protected <T extends EntityEvent> void subscribe(EntityComponent broadcaster, Class<T> event, String method);
+    abstract protected <T extends EntityEvent> void unsubscribe(EntityComponent broadcaster, Class<T> event, String method);
+    abstract protected <T extends EntityEvent> void invoke(T event);
 }
