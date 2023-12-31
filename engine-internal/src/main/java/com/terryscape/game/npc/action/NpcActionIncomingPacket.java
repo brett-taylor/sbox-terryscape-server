@@ -3,31 +3,25 @@ package com.terryscape.game.npc.action;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.entity.EntityIdentifier;
-import com.terryscape.entity.EntityManager;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.health.DamageInformation;
-import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
-import com.terryscape.game.combat.health.HealthComponentImpl;
-import com.terryscape.game.equipment.EquipmentSlot;
-import com.terryscape.game.movement.AnimationComponent;
-import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WaitStep;
+import com.terryscape.game.npc.NpcComponentImpl;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
+import com.terryscape.world.WorldManager;
 
 import java.nio.ByteBuffer;
 
 @Singleton
 public class NpcActionIncomingPacket implements IncomingPacket {
 
-    private final EntityManager entityManager;
+    private final WorldManager worldManager;
 
     @Inject
-    public NpcActionIncomingPacket(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public NpcActionIncomingPacket(WorldManager worldManager) {
+        this.worldManager = worldManager;
     }
 
     @Override
@@ -40,7 +34,7 @@ public class NpcActionIncomingPacket implements IncomingPacket {
         var npcIdentifier = EntityIdentifier.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
-        var npc = entityManager.getNpc(npcIdentifier);
+        var npc = worldManager.getEntity(npcIdentifier).getComponentOrThrow(NpcComponentImpl.class);
         var player = client.getPlayer().orElseThrow();
 
         if (action.equals("examine")) {

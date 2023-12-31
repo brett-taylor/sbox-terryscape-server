@@ -1,5 +1,7 @@
 package com.terryscape;
 
+import com.terryscape.maths.Vector2Int;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -20,4 +22,8 @@ public class Config {
     public static final String ITEM_CACHE_LOCATION = "%s/Items.json".formatted(CACHE_LOCATION);
 
     public static final String NPC_CACHE_LOCATION = "%s/Npcs.json".formatted(CACHE_LOCATION);
+
+    public static final String WORLD_REGION_CACHE_LOCATION_DIRECTORY = "%s/Regions".formatted(CACHE_LOCATION);
+
+    public static final Vector2Int WORLD_REGION_SIZE = new Vector2Int(10, 10);
 }

@@ -4,7 +4,6 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.event.EntityEvent;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -12,11 +11,9 @@ public interface Entity {
 
     EntityIdentifier getIdentifier();
 
-    EntityPrefabType getEntityPrefabType();
+    EntityPrefabType getPrefabType();
 
-    String getEntityPrefabIdentifier();
-
-    boolean isValid();
+    String getPrefabIdentifier();
 
     void addComponent(BaseEntityComponent component);
 

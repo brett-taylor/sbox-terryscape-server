@@ -2,16 +2,13 @@ package com.terryscape.game.login;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.entity.EntityManager;
-import com.terryscape.entity.EntityManagerImpl;
-import com.terryscape.game.movement.MovementComponentImpl;
+import com.terryscape.entity.EntityPrefabFactory;
+import com.terryscape.entity.EntityPrefabFactoryImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
-import com.terryscape.game.player.PlayerFactory;
 import com.terryscape.net.Client;
 import com.terryscape.net.ClientImpl;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.Direction;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.WorldManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,14 +19,14 @@ public class LoginIncomingPacket implements IncomingPacket {
 
     private static final Logger LOGGER = LogManager.getLogger(LoginIncomingPacket.class);
 
-    private final EntityManager entityManager;
+    private final WorldManager worldManager;
 
-    private final PlayerFactory playerFactory;
+    private final EntityPrefabFactory entityFactory;
 
     @Inject
-    public LoginIncomingPacket(EntityManager entityManager, PlayerFactory playerFactory) {
-        this.entityManager = entityManager;
-        this.playerFactory = playerFactory;
+    public LoginIncomingPacket(WorldManager worldManager, EntityPrefabFactory entityFactory) {
+        this.worldManager = worldManager;
+        this.entityFactory = entityFactory;
     }
 
     @Override
@@ -46,9 +43,7 @@ public class LoginIncomingPacket implements IncomingPacket {
 
         LOGGER.info("Login accepted username={}", username);
 
-        entityManager.sendInitialUpdate(client);
-
-        var playerEntity = playerFactory.createUnregisteredPlayer();
+        var playerEntity = entityFactory.createPlayerPrefab();
 
         var player = playerEntity.getComponentOrThrow(PlayerComponentImpl.class);
         player.setClient(client);
@@ -57,7 +52,7 @@ public class LoginIncomingPacket implements IncomingPacket {
         var clientImpl = (ClientImpl) client;
         clientImpl.setPlayer(player);
 
-        entityManager.registerEntity(playerEntity);
+        worldManager.registerEntity(playerEntity);
     }
 
 }

@@ -144,8 +144,8 @@ class AStarPathFinder {
     }
 
     private boolean isValidWorldCoordinate(WorldCoordinate worldCoordinate) {
-        var validX = worldCoordinate.getX() >= 0 && worldCoordinate.getX() < region.getRegionSize();
-        var validY = worldCoordinate.getY() >= 0 && worldCoordinate.getY() < region.getRegionSize();
+        var validX = worldCoordinate.getX() >= -10 && worldCoordinate.getX() < 30;
+        var validY = worldCoordinate.getY() >= -10 && worldCoordinate.getY() < 30;
 
         if (!validX || !validY) {
             return false;

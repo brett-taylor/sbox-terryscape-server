@@ -56,44 +56,44 @@ public class WorldCoordinate implements PacketSerializable {
     public Direction directionTo(WorldCoordinate other) {
         var xDiff = Math.max(Math.min(other.getX() - getX(), 1), -1);
         var yDiff = Math.max(Math.min(other.getY() - getY(), 1), -1);
-        var worldCoordinate = new WorldCoordinate(xDiff, yDiff);
+        var vector = new Vector2Int(xDiff, yDiff);
 
         return Arrays.stream(Direction.values())
-            .filter(direction -> direction.toWorldCoordinate().equals(worldCoordinate))
+            .filter(direction -> direction.asCoordinates().equals(vector))
             .findFirst()
             .orElse(Direction.NORTH);
     }
 
     public WorldCoordinate north() {
-        return add(Direction.NORTH.toWorldCoordinate());
+        return add(Direction.NORTH.asCoordinates());
     }
 
     public WorldCoordinate northEast() {
-        return add(Direction.NORTH_EAST.toWorldCoordinate());
+        return add(Direction.NORTH_EAST.asCoordinates());
     }
 
     public WorldCoordinate east() {
-        return add(Direction.EAST.toWorldCoordinate());
+        return add(Direction.EAST.asCoordinates());
     }
 
     public WorldCoordinate southEast() {
-        return add(Direction.SOUTH_EAST.toWorldCoordinate());
+        return add(Direction.SOUTH_EAST.asCoordinates());
     }
 
     public WorldCoordinate south() {
-        return add(Direction.SOUTH.toWorldCoordinate());
+        return add(Direction.SOUTH.asCoordinates());
     }
 
     public WorldCoordinate southWest() {
-        return add(Direction.SOUTH_WEST.toWorldCoordinate());
+        return add(Direction.SOUTH_WEST.asCoordinates());
     }
 
     public WorldCoordinate west() {
-        return add(Direction.WEST.toWorldCoordinate());
+        return add(Direction.WEST.asCoordinates());
     }
 
     public WorldCoordinate northWest() {
-        return add(Direction.NORTH_WEST.toWorldCoordinate());
+        return add(Direction.NORTH_WEST.asCoordinates());
     }
 
     public WorldCoordinate[] getCardinalNeighbours() {
@@ -122,11 +122,6 @@ public class WorldCoordinate implements PacketSerializable {
     }
 
     @Override
-    public String toString() {
-        return "WorldCoordinate(x=%s,y=%s)".formatted(getX(), getY());
-    }
-
-    @Override
     public void writeToPacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, getX());
         OutgoingPacket.writeInt32(packet, getY());
@@ -134,6 +129,11 @@ public class WorldCoordinate implements PacketSerializable {
 
     public static WorldCoordinate readFromPacket(ByteBuffer packet) {
         return new WorldCoordinate(IncomingPacket.readInt32(packet), IncomingPacket.readInt32(packet));
+    }
+
+    @Override
+    public String toString() {
+        return "WorldCoordinate(x=%s,y=%s)".formatted(getX(), getY());
     }
 
     @Override
@@ -147,5 +147,9 @@ public class WorldCoordinate implements PacketSerializable {
     @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
+    }
+
+    private WorldCoordinate add(Vector2Int other) {
+        return new WorldCoordinate(vector2Int.add(other));
     }
 }

@@ -29,10 +29,7 @@ public class EntityImpl implements Entity {
 
     private boolean hasBeenRegistered = false;
 
-    private boolean hasSpawned = false;
-
-    private boolean isValid = true;
-
+    // TODO: Change EntityPrefabType to EntityTags and network those instead.
     public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType, String entityPrefabIdentifier) {
         this.entityIdentifier = entityIdentifier;
         this.entityPrefabType = entityPrefabType;
@@ -45,18 +42,13 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public EntityPrefabType getEntityPrefabType() {
+    public EntityPrefabType getPrefabType() {
         return entityPrefabType;
     }
 
     @Override
-    public String getEntityPrefabIdentifier() {
+    public String getPrefabIdentifier() {
         return entityPrefabIdentifier;
-    }
-
-    @Override
-    public boolean isValid() {
-        return isValid;
     }
 
     @Override
@@ -68,11 +60,7 @@ public class EntityImpl implements Entity {
         components.add(component);
 
         if (hasBeenRegistered) {
-            component.onRegister();
-        }
-
-        if (hasSpawned) {
-            component.onSpawn();
+            component.onRegistered();
         }
     }
 
@@ -117,8 +105,8 @@ public class EntityImpl implements Entity {
 
     public void writeEntityAddedPacket(OutputStream packet) {
         getIdentifier().writeToPacket(packet);
-        OutgoingPacket.writeEnum(packet, getEntityPrefabType());
-        OutgoingPacket.writeString(packet, getEntityPrefabIdentifier());
+        OutgoingPacket.writeEnum(packet, getPrefabType());
+        OutgoingPacket.writeString(packet, getPrefabIdentifier());
 
         for (var networkedComponent : getNetworkedComponents()) {
             OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
@@ -139,24 +127,14 @@ public class EntityImpl implements Entity {
         getIdentifier().writeToPacket(packet);
     }
 
-    public void onRegister() {
+    public void onRegistered() {
         hasBeenRegistered = true;
 
-        components.forEach(BaseEntityComponent::onRegister);
-    }
-
-    public void onSpawn() {
-        hasSpawned = true;
-
-        components.forEach(BaseEntityComponent::onSpawn);
+        components.forEach(BaseEntityComponent::onRegistered);
     }
 
     public void tick() {
         components.forEach(BaseEntityComponent::tick);
-    }
-
-    public void delete() {
-        isValid = false;
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {

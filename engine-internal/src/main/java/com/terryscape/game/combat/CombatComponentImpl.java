@@ -32,9 +32,10 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         this.combatScript = combatScript;
     }
 
+
     @Override
-    public void onSpawn() {
-        super.onSpawn();
+    public void onRegistered() {
+        super.onRegistered();
 
         taskComponent = getEntity().getComponentOrThrow(TaskComponent.class);
     }

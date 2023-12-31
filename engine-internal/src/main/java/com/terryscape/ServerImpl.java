@@ -1,13 +1,14 @@
 package com.terryscape;
 
+import com.google.common.base.Stopwatch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoaderImpl;
-import com.terryscape.entity.EntityManagerImpl;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.net.PacketManagerImpl;
 import com.terryscape.world.WorldClockImpl;
+import com.terryscape.world.WorldManagerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,34 +25,35 @@ public class ServerImpl implements Server {
 
     private final PacketManagerImpl packetManager;
 
-    private final EntityManagerImpl entityManager;
+    private final WorldManagerImpl worldManager;
 
     private final CacheLoaderImpl cacheLoader;
 
     private final WorldClockImpl worldClock;
 
     @Inject
-    public ServerImpl(EventSystemImpl eventSystem, PacketManagerImpl packetManager, EntityManagerImpl entityManager, CacheLoaderImpl cacheLoader,
+    public ServerImpl(EventSystemImpl eventSystem, PacketManagerImpl packetManager, WorldManagerImpl worldManager, CacheLoaderImpl cacheLoader,
                       WorldClockImpl worldClock) {
 
         this.eventSystem = eventSystem;
         this.packetManager = packetManager;
-        this.entityManager = entityManager;
+        this.worldManager = worldManager;
         this.cacheLoader = cacheLoader;
         this.worldClock = worldClock;
     }
 
     @Override
     public void start() {
-        long startTime = System.currentTimeMillis();
+        var stopwatch = Stopwatch.createStarted();
         LOGGER.info("Starting {}...", Config.NAME);
 
         cacheLoader.loadCache();
 
+        worldManager.initialise();
+
         packetManager.start();
 
-        long endTime = System.currentTimeMillis();
-        LOGGER.info("{} has successfully started up in {} milliseconds.", Config.NAME, endTime - startTime);
+        LOGGER.info("{} has successfully started up in {} milliseconds.", Config.NAME, stopwatch.elapsed(TimeUnit.MILLISECONDS));
 
         LOGGER.info("Starting game loop tick...");
         ScheduledExecutorService gameThreadExecutor = Executors.newSingleThreadScheduledExecutor();
@@ -62,14 +64,13 @@ public class ServerImpl implements Server {
 
     private void gameThreadTick() {
         try {
-            var start = System.currentTimeMillis();
+            var stopwatch = Stopwatch.createStarted();
 
             worldClock.incrementTickCount();
 
-            entityManager.tick();
+            worldManager.tick();
 
-            var end = System.currentTimeMillis();
-            LOGGER.debug("Game tick executed in {} milliseconds.", end - start);
+            LOGGER.debug("Game tick executed in {} milliseconds.", stopwatch.elapsed(TimeUnit.MILLISECONDS));
         } catch (Exception e) {
             LOGGER.error("Main game thread exception.", e);
         }

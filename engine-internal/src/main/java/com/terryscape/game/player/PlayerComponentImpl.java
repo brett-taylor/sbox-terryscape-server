@@ -46,6 +46,9 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         this.packetManager = packetManager;
 
+        inventory = new PlayerInventory();
+        equipment = new PlayerEquipmentImpl();
+
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
 
@@ -95,24 +98,16 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
-    public void onRegister() {
-        super.onRegister();
-
-        inventory = new PlayerInventory();
-        equipment = new PlayerEquipmentImpl();
+    public void onRegistered() {
+        super.onRegistered();
 
         respawn();
-    }
-
-    @Override
-    public void onSpawn() {
-        super.onSpawn();
-
-        var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
-        packetManager.send(getClient(), setLocalEntityPacket);
 
         getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Welcome to %s, %s.".formatted(Config.NAME, getUsername()));
         getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Say ::help to see commands.");
+
+        var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
+        packetManager.send(getClient(), setLocalEntityPacket);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.terryscape.game.npc;
 
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.EntityManager;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.game.movement.AnimationComponent;
@@ -10,21 +9,22 @@ import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateStep;
 import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.net.OutgoingPacket;
+import com.terryscape.world.WorldManager;
 
 import java.io.OutputStream;
 
 public class NpcComponentImpl extends BaseEntityComponent implements NpcComponent {
 
-    private final EntityManager entityManager;
+    private final WorldManager worldManager;
 
     private NpcDefinition npcDefinition;
 
     private String npcVariant;
 
-    public NpcComponentImpl(Entity entity, EntityManager entityManager) {
+    public NpcComponentImpl(Entity entity, WorldManager worldManager) {
         super(entity);
 
-        this.entityManager = entityManager;
+        this.worldManager = worldManager;
 
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
@@ -67,7 +67,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitStep.ticks(8),
-            ImmediateStep.run(() -> entityManager.deleteEntity(getEntity().getIdentifier()))
+            ImmediateStep.run(() -> worldManager.deleteEntity(getEntity().getIdentifier()))
         );
     }
 }

@@ -37,8 +37,8 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     @Override
-    public void onSpawn() {
-        super.onSpawn();
+    public void onRegistered() {
+        super.onRegistered();
 
         movementComponent = getEntity().getComponentOrThrow(MovementComponent.class);
         taskComponent = getEntity().getComponentOrThrow(TaskComponent.class);
@@ -92,7 +92,8 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     private int randomWaitInterval() {
-        return RandomUtil.randomNumber(5, 80);
+        //return RandomUtil.randomNumber(5, 80);
+        return 2;
     }
 
     private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {

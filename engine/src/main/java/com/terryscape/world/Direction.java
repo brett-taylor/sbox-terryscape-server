@@ -1,5 +1,6 @@
 package com.terryscape.world;
 
+import com.terryscape.maths.Vector2Int;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.maths.RandomUtil;
@@ -9,30 +10,30 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public enum Direction {
-    NORTH(90, new WorldCoordinate(0, 1)),
-    NORTH_EAST(45, new WorldCoordinate(1, 1)),
-    EAST(0, new WorldCoordinate(1, 0)),
-    SOUTH_EAST(315, new WorldCoordinate(1, -1)),
-    SOUTH(270, new WorldCoordinate(0, -1)),
-    SOUTH_WEST(225, new WorldCoordinate(-1, -1)),
-    WEST(180, new WorldCoordinate(-1, 0)),
-    NORTH_WEST(135, new WorldCoordinate(-1, 1));
+    NORTH(90, new Vector2Int(0, 1)),
+    NORTH_EAST(45, new Vector2Int(1, 1)),
+    EAST(0, new Vector2Int(1, 0)),
+    SOUTH_EAST(315, new Vector2Int(1, -1)),
+    SOUTH(270, new Vector2Int(0, -1)),
+    SOUTH_WEST(225, new Vector2Int(-1, -1)),
+    WEST(180, new Vector2Int(-1, 0)),
+    NORTH_WEST(135, new Vector2Int(-1, 1));
 
     private final int rotation;
 
-    private final WorldCoordinate worldCoordinate;
+    private final Vector2Int asCoordinate;
 
-    Direction(int rotation, WorldCoordinate worldCoordinate) {
+    Direction(int rotation, Vector2Int asCoordinate) {
         this.rotation = rotation;
-        this.worldCoordinate = worldCoordinate;
+        this.asCoordinate = asCoordinate;
     }
 
     public int getRotation() {
         return rotation;
     }
 
-    public WorldCoordinate toWorldCoordinate() {
-        return worldCoordinate;
+    public Vector2Int asCoordinates() {
+        return asCoordinate;
     }
 
     public static Direction fromRotation(int rotation) {

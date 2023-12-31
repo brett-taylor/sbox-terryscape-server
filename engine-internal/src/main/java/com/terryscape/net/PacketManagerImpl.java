@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.EntityManager;
 import com.terryscape.game.player.PlayerComponent;
+import com.terryscape.world.WorldManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
@@ -30,12 +30,12 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
 
     private final Map<String, IncomingPacket> incomingPacketHandlers = new HashMap<>();
 
-    private final EntityManager entityManager;
+    private final WorldManager worldManager;
 
     @Inject
-    public PacketManagerImpl(Set<IncomingPacket> incomingPackets, EntityManager entityManager) {
+    public PacketManagerImpl(Set<IncomingPacket> incomingPackets, WorldManager worldManager) {
         super(new InetSocketAddress(Config.PORT));
-        this.entityManager = entityManager;
+        this.worldManager = worldManager;
 
         setConnectionLostTimeout(Config.WEBSOCKET_PING_TIMEOUT_SECONDS);
 
@@ -57,7 +57,7 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
             .getPlayer()
             .map(PlayerComponent::getEntity)
             .map(Entity::getIdentifier)
-            .ifPresent(entityManager::deleteEntity);
+            .ifPresent(worldManager::deleteEntity);
 
         clients.remove(conn);
     }
