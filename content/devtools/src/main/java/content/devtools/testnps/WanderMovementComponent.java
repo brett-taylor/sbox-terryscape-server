@@ -92,8 +92,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     private int randomWaitInterval() {
-        //return RandomUtil.randomNumber(5, 80);
-        return 2;
+        return RandomUtil.randomNumber(5, 80);
     }
 
     private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {

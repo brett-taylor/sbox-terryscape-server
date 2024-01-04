@@ -34,6 +34,7 @@ class AStarPathFinder {
         totalScores = new HashMap<>();
     }
 
+    // TODO We should probably verify the starting and ending tiles are walkable
     public Optional<ArrayList<WorldCoordinate>> find() {
         var start = new PathfindingNode(startingTile);
         addNodeToOpenSet(start);
@@ -143,13 +144,17 @@ class AStarPathFinder {
         return list;
     }
 
+    // TODO: This should probably refer to a WorldRegion::isValidCoordinate or something
+    @Deprecated
     private boolean isValidWorldCoordinate(WorldCoordinate worldCoordinate) {
-        var validX = worldCoordinate.getX() >= -10 && worldCoordinate.getX() < 30;
-        var validY = worldCoordinate.getY() >= -10 && worldCoordinate.getY() < 30;
+         var validX = worldCoordinate.getX() >= -30 && worldCoordinate.getX() < 60;
+         var validY = worldCoordinate.getY() >= -30 && worldCoordinate.getY() < 60;
 
-        if (!validX || !validY) {
-            return false;
-        }
+         if (!validX || !validY) {
+             return false;
+         }
+
+        // TODO: Check coordinate is actually valid
 
         return region.isWalkable(worldCoordinate.getX(), worldCoordinate.getY());
     }

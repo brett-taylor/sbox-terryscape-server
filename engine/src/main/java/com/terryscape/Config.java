@@ -25,5 +25,5 @@ public class Config {
 
     public static final String WORLD_REGION_CACHE_LOCATION_DIRECTORY = "%s/Regions".formatted(CACHE_LOCATION);
 
-    public static final Vector2Int WORLD_REGION_SIZE = new Vector2Int(10, 10);
+    public static final int WORLD_REGION_SIZE = 30;
 }

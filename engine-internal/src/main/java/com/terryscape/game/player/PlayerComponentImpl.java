@@ -137,7 +137,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private void respawn() {
         getEntity().getComponentOrThrow(AnimationComponent.class).resetAnimation();
-        getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(1, 0));
+        getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(15, 15));
         getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.NORTH);
 
         getEntity().getComponentOrThrow(HealthComponent.class).resetHealthToMax();

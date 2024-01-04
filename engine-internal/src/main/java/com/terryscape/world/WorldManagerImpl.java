@@ -152,8 +152,8 @@ public class WorldManagerImpl implements WorldManager {
 
     private WorldRegionCoordinate getWorldRegionCoordinateFromWorldCoordinate(WorldCoordinate worldCoordinate) {
         return new WorldRegionCoordinate(
-            (int) Math.floor((double) worldCoordinate.getX() / Config.WORLD_REGION_SIZE.getX()),
-            (int) Math.floor((double) worldCoordinate.getY() / Config.WORLD_REGION_SIZE.getY())
+            (int) Math.floor((double) worldCoordinate.getX() / Config.WORLD_REGION_SIZE),
+            (int) Math.floor((double) worldCoordinate.getY() / Config.WORLD_REGION_SIZE)
         );
     }
 

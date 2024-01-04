@@ -36,6 +36,6 @@ public class CoordinatesCommand implements Command {
         var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var movement = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
 
-        chat.sendGameMessage("World Coordinate: %s facing %s".formatted(movement.getWorldCoordinate(), movement.getDirection()));
+        chat.sendGameMessage("%s facing %s".formatted(movement.getWorldCoordinate(), movement.getDirection()));
     }
 }

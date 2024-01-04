@@ -29,10 +29,10 @@ public class SpawnSomeTestNpcs {
     }
 
     public void onGameStartedEvent(OnGameStartedSystemEvent event) {
-        var spawnCoordinate = new WorldCoordinate(10, 10);
-        var wanderRadius = 19;
+        var spawnCoordinate = new WorldCoordinate(15, 15);
+        var wanderRadius = 40;
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin"));
             var movement = npc.getComponentOrThrow(MovementComponent.class);
             movement.teleport(spawnCoordinate);
@@ -40,7 +40,7 @@ public class SpawnSomeTestNpcs {
             worldManager.registerEntity(npc, worldManager.getWorldRegionFromWorldCoordinate(movement.getWorldCoordinate()));
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
             var movement = npc.getComponentOrThrow(MovementComponent.class);
             movement.teleport(spawnCoordinate);
