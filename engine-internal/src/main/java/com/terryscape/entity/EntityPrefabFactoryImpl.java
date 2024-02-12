@@ -98,7 +98,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         entity.addComponent(taskComponent);
 
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager, worldManager);
-        movementComponent.setMovementSpeed(MovementSpeed.RUN);
+        movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
         var healthComponent = new HealthComponentImpl(entity);
