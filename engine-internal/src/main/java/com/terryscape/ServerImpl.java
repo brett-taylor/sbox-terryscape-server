@@ -49,8 +49,6 @@ public class ServerImpl implements Server {
 
         cacheLoader.loadCache();
 
-        worldManager.initialise();
-
         packetManager.start();
 
         LOGGER.info("{} has successfully started up in {} milliseconds.", Config.NAME, stopwatch.elapsed(TimeUnit.MILLISECONDS));

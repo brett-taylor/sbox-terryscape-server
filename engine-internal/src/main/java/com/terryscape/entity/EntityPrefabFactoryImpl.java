@@ -64,7 +64,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager, worldManager);
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
@@ -97,7 +97,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager, worldManager);
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 

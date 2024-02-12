@@ -8,6 +8,7 @@ import com.terryscape.Config;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -17,7 +18,8 @@ import java.util.stream.Collectors;
 public class ItemCacheLoader {
 
     public Map<String, ItemDefinitionImpl> readItemsFromCache() throws IOException {
-        try (var input = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Config.ITEM_CACHE_LOCATION)))) {
+        var inputStream = Objects.requireNonNull(getClass().getResourceAsStream(Config.ITEM_CACHE_LOCATION));
+        try (var input = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
             var reader = JsonParser.parseReader(input);
             var array = reader.getAsJsonArray();
 

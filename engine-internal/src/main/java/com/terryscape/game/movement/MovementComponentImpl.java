@@ -8,18 +8,14 @@ import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldCoordinate;
-import com.terryscape.world.WorldManager;
 import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingRoute;
 
 import java.io.OutputStream;
-import java.util.Optional;
 
 public class MovementComponentImpl extends BaseEntityComponent implements MovementComponent {
 
     private final PathfindingManager pathfindingManager;
-
-    private final WorldManager worldManager;
 
     private WorldCoordinate worldCoordinate = new WorldCoordinate(0, 0);
 
@@ -34,11 +30,10 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     private MovementSpeed movementSpeed = MovementSpeed.WALK;
 
     @Inject
-    public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager, WorldManager worldManager) {
+    public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
-        this.worldManager = worldManager;
 
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
@@ -76,7 +71,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     @Override
     public void teleport(WorldCoordinate destination) {
-        setWorldCoordinateAndUpdateWorldManager(destination);
+        this.worldCoordinate = destination;
 
         stop();
 
@@ -127,7 +122,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         }
 
         var newDirection = getWorldCoordinate().directionTo(newDestinationTile);
-        setWorldCoordinateAndUpdateWorldManager(newDestinationTile);
+        this.worldCoordinate = newDestinationTile;
         setDirectionIfNotFacing(newDirection);
     }
 
@@ -162,10 +157,4 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         }
     }
 
-    private void setWorldCoordinateAndUpdateWorldManager(WorldCoordinate worldCoordinate) {
-        this.worldCoordinate = worldCoordinate;
-
-        var worldRegion = worldManager.getWorldRegionFromWorldCoordinate(worldCoordinate);
-        worldManager.registerEntityToWorldRegion(getEntity().getIdentifier(), worldRegion);
-    }
 }

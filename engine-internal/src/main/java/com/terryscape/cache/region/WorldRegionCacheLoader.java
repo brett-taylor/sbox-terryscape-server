@@ -1,39 +1,31 @@
 package com.terryscape.cache.region;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
 import com.terryscape.world.WorldRegionCoordinate;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Singleton
 public class WorldRegionCacheLoader {
 
-    public Map<WorldRegionCoordinate, WorldTileDefinitionImpl> readWorldRegionsFromCache() throws IOException, URISyntaxException {
-        var map = new HashMap<WorldRegionCoordinate, WorldTileDefinitionImpl>();
+    public Map<WorldRegionCoordinate, Object> readWorldRegionsFromCache() throws IOException, URISyntaxException {
 
-        for (var regionPath : getAllRegionPaths()) {
-            try (var input = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(regionPath.toString())))) {
-                var reader = JsonParser.parseReader(input);
-                var jsonObject = reader.getAsJsonObject();
+//        for (var regionPath : getAllRegionPaths()) {
+//            try (var input = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(regionPath.toString())))) {
+//                var reader = JsonParser.parseReader(input);
+//                var jsonObject = reader.getAsJsonObject();
+//            }
+//        }
 
-                map.put(getWorldRegionCoordinateFromRegionFile(regionPath), createWorldTileDefinitionImplFromJson(jsonObject));
-            }
-        }
-
-        return map;
+        return null;
     }
 
     // https://mkyong.com/java/java-read-a-file-from-resources-folder/
@@ -55,10 +47,6 @@ public class WorldRegionCacheLoader {
             Integer.parseInt(nameParts[0]),
             Integer.parseInt(nameParts[1])
         );
-    }
-
-    private WorldTileDefinitionImpl createWorldTileDefinitionImplFromJson(JsonObject jsonObject) {
-        return new WorldTileDefinitionImpl();
     }
 
 }

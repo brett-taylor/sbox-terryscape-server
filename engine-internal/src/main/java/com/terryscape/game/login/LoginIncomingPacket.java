@@ -43,6 +43,8 @@ public class LoginIncomingPacket implements IncomingPacket {
 
         LOGGER.info("Login accepted username={}", username);
 
+        worldManager.sendInitialUpdate(client);
+
         var playerEntity = entityFactory.createPlayerPrefab();
 
         var player = playerEntity.getComponentOrThrow(PlayerComponentImpl.class);

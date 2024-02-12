@@ -9,8 +9,6 @@ import com.terryscape.cache.npc.NpcCacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionImpl;
 import com.terryscape.cache.region.WorldRegionCacheLoader;
-import com.terryscape.cache.region.WorldTileDefinitionImpl;
-import com.terryscape.world.WorldRegionCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +17,6 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Singleton
 public class CacheLoaderImpl implements CacheLoader {
@@ -35,8 +32,6 @@ public class CacheLoaderImpl implements CacheLoader {
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
     private final Map<String, NpcDefinitionImpl> npcs = new HashMap<>();
-
-    private final Map<WorldRegionCoordinate, WorldTileDefinitionImpl> worldRegions = new HashMap<>();
 
     @Inject
     public CacheLoaderImpl(ItemCacheLoader itemCacheLoader, NpcCacheLoader npcCacheLoader, WorldRegionCacheLoader worldRegionCacheLoader) {
@@ -82,11 +77,6 @@ public class CacheLoaderImpl implements CacheLoader {
         return npcs.get(id);
     }
 
-    @Override
-    public Set<WorldRegionCoordinate> getAllWorldRegions() {
-        return worldRegions.keySet();
-    }
-
     private void loadItems() throws IOException {
         items.putAll(itemCacheLoader.readItemsFromCache());
         LOGGER.info("Loaded {} Items.", items.size());
@@ -98,8 +88,8 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     private void loadWorldRegions() throws IOException, URISyntaxException {
-        worldRegions.putAll(worldRegionCacheLoader.readWorldRegionsFromCache());
-        LOGGER.info("Loaded {} World Regions.", worldRegions.size());
+        worldRegionCacheLoader.readWorldRegionsFromCache();
+        LOGGER.info("Loaded {} World Regions.", -999999);
     }
 
 }
