@@ -99,5 +99,10 @@
     "id": "sm_prop_sign_iron_09_and_sm_prop_sign_bracket_05",
     "modelPath": "assets/world/polygonfantasykingdom/buildingdecoration/sm_prop_sign_iron_09_and_sm_prop_sign_bracket_05.vmdl",
     "scale": "0.25,0.25,0.25"
+  },
+  {
+    "id": "coin_table",
+    "modelPath": "assets/world/polygonfantasykingdom/interior/cointable.vmdl",
+    "scale": "0.45,0.45,0.45"
   }
 ]
