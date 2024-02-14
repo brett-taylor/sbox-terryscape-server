@@ -104,6 +104,12 @@ public class WorldCoordinate implements PacketSerializable {
         };
     }
 
+    public WorldCoordinate[] getCardinalAndIntercardinalNeighbours() {
+        return new WorldCoordinate[]{
+            north(), east(), south(), west(), northEast(), southEast(), southWest(), northWest()
+        };
+    }
+
     public static WorldCoordinate getClosestWorldCoordinate(WorldCoordinate from, List<WorldCoordinate> worldCoordinates) {
         var closestDistance = Float.MAX_VALUE;
         var closestNeighbour = worldCoordinates.get(0);

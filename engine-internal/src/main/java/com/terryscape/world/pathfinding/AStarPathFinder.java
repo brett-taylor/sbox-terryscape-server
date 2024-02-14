@@ -72,7 +72,7 @@ class AStarPathFinder {
     }
 
     private List<PathfindingNode> getValidNeighbours() {
-        return Arrays.stream(current.getWorldCoordinate().getCardinalNeighbours())
+        return Arrays.stream(current.getWorldCoordinate().getCardinalAndIntercardinalNeighbours())
             .filter(this::isValidWorldCoordinate)
             .map(worldCoordinate -> new PathfindingNode(worldCoordinate).setParent(current))
             .toList();
