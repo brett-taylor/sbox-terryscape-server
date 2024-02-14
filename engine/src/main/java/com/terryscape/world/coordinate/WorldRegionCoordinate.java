@@ -1,6 +1,7 @@
-package com.terryscape.world;
+package com.terryscape.world.coordinate;
 
 import com.terryscape.maths.Vector2Int;
+import com.terryscape.world.Direction;
 
 import java.util.Objects;
 

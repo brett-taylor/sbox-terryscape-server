@@ -8,7 +8,9 @@ import com.terryscape.cache.item.ItemDefinitionImpl;
 import com.terryscape.cache.npc.NpcCacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionImpl;
-import com.terryscape.cache.region.WorldRegionCacheLoader;
+import com.terryscape.cache.world.WorldRegionCacheLoader;
+import com.terryscape.cache.world.WorldRegionDefinitionImpl;
+import com.terryscape.world.coordinate.WorldRegionCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +34,8 @@ public class CacheLoaderImpl implements CacheLoader {
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
     private final Map<String, NpcDefinitionImpl> npcs = new HashMap<>();
+
+    private final Map<WorldRegionCoordinate, WorldRegionDefinitionImpl> worldRegions = new HashMap<>();
 
     @Inject
     public CacheLoaderImpl(ItemCacheLoader itemCacheLoader, NpcCacheLoader npcCacheLoader, WorldRegionCacheLoader worldRegionCacheLoader) {
@@ -88,8 +92,8 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     private void loadWorldRegions() throws IOException, URISyntaxException {
-        worldRegionCacheLoader.readWorldRegionsFromCache();
-        LOGGER.info("Loaded {} World Regions.", -999999);
+        worldRegions.putAll(worldRegionCacheLoader.readWorldRegionsFromCache());
+        LOGGER.info("Loaded {} World Regions.", worldRegions.size());
     }
 
 }

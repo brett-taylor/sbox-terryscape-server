@@ -7,7 +7,7 @@ import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.WorldManager;
 
 @Singleton
@@ -30,7 +30,7 @@ public class SpawnSomeTestNpcs {
 
     public void onGameStartedEvent(OnGameStartedSystemEvent event) {
         var spawnCoordinate = new WorldCoordinate(15, 15);
-        var wanderRadius = 40;
+        var wanderRadius = 10;
 
         for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin"));
@@ -62,12 +62,12 @@ public class SpawnSomeTestNpcs {
 
         var staticNpc1 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
         var staticNpc1Movement = staticNpc1.getComponentOrThrow(MovementComponent.class);
-        staticNpc1Movement.teleport(new WorldCoordinate(6, 7));
+        staticNpc1Movement.teleport(new WorldCoordinate(7, 7));
         worldManager.registerEntity(staticNpc1);
 
         var staticNpc2 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
         var staticNpc2Movement = staticNpc2.getComponentOrThrow(MovementComponent.class);
-        staticNpc2Movement.teleport(new WorldCoordinate(7, 6));
+        staticNpc2Movement.teleport(new WorldCoordinate(8, 6));
         worldManager.registerEntity(staticNpc2);
     }
 

@@ -2,7 +2,7 @@ package com.terryscape.game.task.step.impl;
 
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.Step;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 
 public class WalkToStep extends Step {
 

@@ -10,7 +10,7 @@ import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.game.task.step.impl.WalkToStep;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.Direction;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 
 // TODO: This should move back into engine internal when the npc factory is more complex and can handle conditionally adding components
 

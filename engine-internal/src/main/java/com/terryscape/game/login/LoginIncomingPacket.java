@@ -3,7 +3,6 @@ package com.terryscape.game.login;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.entity.EntityPrefabFactory;
-import com.terryscape.entity.EntityPrefabFactoryImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.net.Client;
 import com.terryscape.net.ClientImpl;

@@ -1,10 +1,6 @@
 package com.terryscape.net;
 
 import com.terryscape.Config;
-import com.terryscape.entity.EntityIdentifier;
-import com.terryscape.net.Client;
-import com.terryscape.world.Direction;
-import com.terryscape.world.WorldCoordinate;
 
 import java.nio.ByteBuffer;
 

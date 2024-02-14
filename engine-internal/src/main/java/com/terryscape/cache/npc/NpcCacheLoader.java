@@ -5,12 +5,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,16 +17,18 @@ import java.util.stream.Collectors;
 public class NpcCacheLoader {
 
     public Map<String, NpcDefinitionImpl> readNpcsFromCache() throws IOException {
-        var inputStream = Objects.requireNonNull(getClass().getResourceAsStream(Config.NPC_CACHE_LOCATION));
-        try (var input = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-            var reader = JsonParser.parseReader(input);
-            var array = reader.getAsJsonArray();
+        var jsonInput = new PathMatchingResourcePatternResolver()
+            .getResource(Config.NPC_CACHE_LOCATION)
+            .getContentAsString(StandardCharsets.UTF_8);
 
-            return array.asList().stream()
-                .map(JsonElement::getAsJsonObject)
-                .map(this::createNpcDefinitionFromJson)
-                .collect(Collectors.toMap(NpcDefinitionImpl::getId, Function.identity()));
-        }
+        var array = JsonParser
+            .parseString(jsonInput)
+            .getAsJsonArray();
+
+        return array.asList().stream()
+            .map(JsonElement::getAsJsonObject)
+            .map(this::createNpcDefinitionFromJson)
+            .collect(Collectors.toMap(NpcDefinitionImpl::getId, Function.identity()));
     }
 
     private NpcDefinitionImpl createNpcDefinitionFromJson(JsonObject jsonObject) {

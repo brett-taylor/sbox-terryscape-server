@@ -2,7 +2,6 @@ package com.terryscape.game.player;
 
 import com.google.inject.Inject;
 import com.terryscape.Config;
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
@@ -22,7 +21,7 @@ import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.Direction;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 
 import java.io.OutputStream;
 

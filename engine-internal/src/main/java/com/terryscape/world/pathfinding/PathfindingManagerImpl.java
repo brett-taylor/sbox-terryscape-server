@@ -3,7 +3,7 @@ package com.terryscape.world.pathfinding;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.world.Region;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

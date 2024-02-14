@@ -1,11 +1,7 @@
 package com.terryscape.net;
 
 import com.terryscape.Config;
-import com.terryscape.entity.EntityIdentifier;
-import com.terryscape.world.Direction;
-import com.terryscape.world.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
-import org.checkerframework.common.value.qual.EnumVal;
 
 import java.io.IOException;
 import java.io.OutputStream;

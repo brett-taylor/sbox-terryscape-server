@@ -1,6 +1,6 @@
 package com.terryscape.world.pathfinding;
 
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 
 import java.util.Objects;
 

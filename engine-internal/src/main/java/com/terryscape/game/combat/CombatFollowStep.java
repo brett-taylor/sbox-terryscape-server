@@ -3,7 +3,7 @@ package com.terryscape.game.combat;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.Step;
 import com.terryscape.world.Region;
-import com.terryscape.world.WorldCoordinate;
+import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 import java.util.Arrays;

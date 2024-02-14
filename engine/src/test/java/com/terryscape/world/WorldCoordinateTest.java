@@ -1,5 +1,6 @@
 package com.terryscape.world;
 
+import com.terryscape.world.coordinate.WorldCoordinate;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
