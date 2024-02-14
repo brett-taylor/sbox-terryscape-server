@@ -1,5 +1,6 @@
 package com.terryscape.game.combat;
 
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
@@ -9,8 +10,6 @@ import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WaitStep;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 public class CombatComponentImpl extends BaseEntityComponent implements CombatComponent {
@@ -19,19 +18,21 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private final CombatScript combatScript;
 
+    private final CacheLoader cacheLoader;
+
     private TaskComponent taskComponent;
 
     private CombatComponent victim;
 
     private Task combatTask;
 
-    public CombatComponentImpl(Entity entity, PathfindingManager pathfindingManager, CombatScript combatScript) {
+    public CombatComponentImpl(Entity entity, PathfindingManager pathfindingManager, CacheLoader cacheLoader, CombatScript combatScript) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
+        this.cacheLoader = cacheLoader;
         this.combatScript = combatScript;
     }
-
 
     @Override
     public void onRegistered() {
@@ -45,7 +46,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         var selfMovement = getEntity().getComponentOrThrow(MovementComponent.class);
         var victimMovement = victim.getEntity().getComponentOrThrow(MovementComponent.class);
 
-        var task = taskComponent.setCancellablePrimaryTask(new CombatFollowStep(pathfindingManager, selfMovement, victimMovement));
+        var task = taskComponent.setCancellablePrimaryTask(new CombatFollowStep(pathfindingManager, cacheLoader, selfMovement, victimMovement));
         if (task.isPresent()) {
             this.victim = victim;
 

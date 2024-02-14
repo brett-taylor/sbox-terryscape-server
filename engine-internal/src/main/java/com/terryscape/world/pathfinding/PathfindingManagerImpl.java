@@ -1,43 +1,54 @@
 package com.terryscape.world.pathfinding;
 
+import com.google.common.base.Stopwatch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.world.Region;
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class PathfindingManagerImpl implements PathfindingManager {
 
     private static final Logger LOGGER = LogManager.getLogger(PathfindingManagerImpl.class);
 
-    private final Region region;
+    private final CacheLoader cacheLoader;
 
     @Inject
-    public PathfindingManagerImpl() {
-        region = new Region();
+    public PathfindingManagerImpl(CacheLoader cacheLoader) {
+        this.cacheLoader = cacheLoader;
     }
 
     @Override
     public Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
-        var startTime = System.nanoTime();
+        var stopwatch = Stopwatch.createStarted();
 
-        if (!region.isWalkable(destinationTile.getX(), destinationTile.getY())) {
+        var isStartTileWalkable = cacheLoader
+            .getWorldRegion(startingTile.toWorldRegionCoordinate())
+            .getWorldTileDefinition(startingTile.toWorldRegionLocalCoordinate())
+            .isWalkable();
+
+        var isDestinationTileWalkable = cacheLoader
+            .getWorldRegion(destinationTile.toWorldRegionCoordinate())
+            .getWorldTileDefinition(destinationTile.toWorldRegionLocalCoordinate())
+            .isWalkable();
+
+        if (!isStartTileWalkable || !isDestinationTileWalkable) {
             return Optional.empty();
         }
 
-        var pathfinder = new AStarPathFinder(region, startingTile, destinationTile);
+        var pathfinder = new AStarPathFinder(startingTile, destinationTile, cacheLoader);
         var optionalPath = pathfinder.find();
 
-        var timeTakenMicroSeconds = (System.nanoTime() - startTime) / 1000;
         if (optionalPath.isPresent()) {
-            LOGGER.debug("Successfully found a navigation path in {} microseconds from {} to {}.", timeTakenMicroSeconds, startingTile, destinationTile);
+            LOGGER.info("Successfully found a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);
             return Optional.of(new PathfindingRouteImpl(optionalPath.get()));
         } else {
-            LOGGER.warn("Failed to find a navigation path in {} microseconds from {} to {}.", timeTakenMicroSeconds, startingTile, destinationTile);
+            LOGGER.warn("Failed to find a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);
             return Optional.empty();
         }
     }

@@ -1,5 +1,6 @@
 package com.terryscape.world.coordinate;
 
+import com.terryscape.Config;
 import com.terryscape.maths.Vector2Int;
 import com.terryscape.world.Direction;
 
@@ -61,6 +62,10 @@ public class WorldRegionCoordinate {
         return new WorldRegionCoordinate[]{
             north(), east(), south(), west(), northEast(), southEast(), southWest(), northWest()
         };
+    }
+
+    public WorldCoordinate toWorldCoordinateOrigin() {
+        return new WorldCoordinate( getX() * Config.WORLD_REGION_SIZE, getY() * Config.WORLD_REGION_SIZE );
     }
 
     @Override

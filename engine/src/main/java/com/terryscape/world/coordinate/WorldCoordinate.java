@@ -1,5 +1,6 @@
 package com.terryscape.world.coordinate;
 
+import com.terryscape.Config;
 import com.terryscape.maths.Vector2Int;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.OutgoingPacket;
@@ -120,6 +121,21 @@ public class WorldCoordinate implements PacketSerializable {
 
     public WorldCoordinate getClosestCardinalNeighbourFrom(WorldCoordinate from) {
         return getClosestWorldCoordinate(from, Arrays.stream(getCardinalNeighbours()).toList());
+    }
+
+    public WorldRegionCoordinate toWorldRegionCoordinate() {
+        return new WorldRegionCoordinate(
+            (int) Math.floor( getX() / (float) Config.WORLD_REGION_SIZE ),
+            (int) Math.floor( getY() / (float) Config.WORLD_REGION_SIZE )
+        );
+    }
+
+    public WorldRegionLocalCoordinate toWorldRegionLocalCoordinate() {
+        var worldRegionCoordinate = toWorldRegionCoordinate().toWorldCoordinateOrigin();
+        return new WorldRegionLocalCoordinate(
+            getX() - worldRegionCoordinate.getX(),
+            getY() - worldRegionCoordinate.getY()
+        );
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.terryscape.entity;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
@@ -35,15 +36,22 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final CommandManager commandManager;
 
+    private final CacheLoader cacheLoader;
+
     @Inject
-    public EntityPrefabFactoryImpl(WorldManager worldManager, PathfindingManager pathfindingManager, WorldClock worldClock, PacketManager packetManager,
-                                   CommandManager commandManager) {
+    public EntityPrefabFactoryImpl(WorldManager worldManager,
+                                   PathfindingManager pathfindingManager,
+                                   WorldClock worldClock,
+                                   PacketManager packetManager,
+                                   CommandManager commandManager,
+                                   CacheLoader cacheLoader) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
         this.packetManager = packetManager;
         this.commandManager = commandManager;
+        this.cacheLoader = cacheLoader;
     }
 
     @Override
@@ -77,7 +85,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         entity.addComponent(animationComponent);
 
         var combatScript = new SimpleNpcCombatScript(worldClock, npcComponent);
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatScript);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
 
         return entity;
@@ -110,7 +118,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         entity.addComponent(animationComponent);
 
         var combatScript = new PlayerCombatScript(worldClock, playerComponent);
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatScript);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
 
         return entity;

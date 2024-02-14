@@ -2,6 +2,8 @@ package com.terryscape.cache;
 
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
+import com.terryscape.cache.world.WorldRegionDefinition;
+import com.terryscape.world.coordinate.WorldRegionCoordinate;
 
 import java.util.Optional;
 
@@ -13,4 +15,5 @@ public interface CacheLoader {
 
     NpcDefinition getNpc(String id);
 
+    WorldRegionDefinition getWorldRegion(WorldRegionCoordinate worldRegionCoordinate);
 }

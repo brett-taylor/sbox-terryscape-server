@@ -1,8 +1,8 @@
 package com.terryscape.game.combat;
 
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.Step;
-import com.terryscape.world.Region;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
@@ -12,6 +12,8 @@ public class CombatFollowStep extends Step {
 
     private final PathfindingManager pathfindingManager;
 
+    private final CacheLoader cacheLoader;
+
     private final MovementComponent attacker;
 
     private final MovementComponent victim;
@@ -19,8 +21,13 @@ public class CombatFollowStep extends Step {
     private WorldCoordinate lastTickVictimWorldCoordinate;
     private WorldCoordinate destinationTile;
 
-    public CombatFollowStep(PathfindingManager pathfindingManager, MovementComponent attacker, MovementComponent victim) {
+    public CombatFollowStep(PathfindingManager pathfindingManager,
+                            CacheLoader cacheLoader,
+                            MovementComponent attacker,
+                            MovementComponent victim) {
+
         this.pathfindingManager = pathfindingManager;
+        this.cacheLoader = cacheLoader;
         this.attacker = attacker;
         this.victim = victim;
     }
@@ -87,12 +94,13 @@ public class CombatFollowStep extends Step {
     }
 
     private WorldCoordinate getWalkableNeighbourOnVictim() {
-        // TODO: Swap this to the world or region or something.
-        var region = new Region();
         var cardinalNeighbours = victim.getWorldCoordinate().getCardinalNeighbours();
 
         for (WorldCoordinate cardinalNeighbour : cardinalNeighbours) {
-            if (region.isWalkable(cardinalNeighbour.getX(), cardinalNeighbour.getY())) {
+            var region = cacheLoader.getWorldRegion(cardinalNeighbour.toWorldRegionCoordinate());
+            var isWalkable = region.getWorldTileDefinition(cardinalNeighbour.toWorldRegionLocalCoordinate()).isWalkable();
+
+            if (isWalkable) {
                 return cardinalNeighbour;
             }
         }

@@ -9,6 +9,7 @@ import com.terryscape.cache.npc.NpcCacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionImpl;
 import com.terryscape.cache.world.WorldRegionCacheLoader;
+import com.terryscape.cache.world.WorldRegionDefinition;
 import com.terryscape.cache.world.WorldRegionDefinitionImpl;
 import com.terryscape.world.coordinate.WorldRegionCoordinate;
 import org.apache.logging.log4j.LogManager;
@@ -79,6 +80,15 @@ public class CacheLoaderImpl implements CacheLoader {
         }
 
         return npcs.get(id);
+    }
+
+    @Override
+    public WorldRegionDefinition getWorldRegion(WorldRegionCoordinate worldRegionCoordinate) {
+        if (!worldRegions.containsKey(worldRegionCoordinate)) {
+            throw new RuntimeException("No WorldRegion found with at %s".formatted(worldRegionCoordinate));
+        }
+
+        return worldRegions.get(worldRegionCoordinate);
     }
 
     private void loadItems() throws IOException {
