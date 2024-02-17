@@ -37,7 +37,7 @@ public class LoginIncomingPacket implements IncomingPacket {
     public void handlePacket(Client client, ByteBuffer packet) {
         var receivedUsername = IncomingPacket.readString(packet).trim();
 
-        var randomPostfix = String.valueOf(Math.random() * 1000).subSequence(0, 3);
+        var randomPostfix = String.valueOf(Math.random() * 10000).subSequence(0, 3);
         var username = "%s %s".formatted(receivedUsername, randomPostfix);
 
         LOGGER.info("Login accepted username={}", username);

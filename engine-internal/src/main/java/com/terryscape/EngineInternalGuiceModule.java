@@ -13,6 +13,7 @@ import com.terryscape.game.interfaces.InterfaceActionIncomingPacket;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.action.NpcActionIncomingPacket;
+import com.terryscape.game.worldobject.WorldObjectActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
 import com.terryscape.net.PacketManagerImpl;
@@ -42,6 +43,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         incomingPacketMultibinder.addBinding().to(PlayerChatIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(InterfaceActionIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(NpcActionIncomingPacket.class);
+        incomingPacketMultibinder.addBinding().to(WorldObjectActionIncomingPacket.class);
     }
 
 }

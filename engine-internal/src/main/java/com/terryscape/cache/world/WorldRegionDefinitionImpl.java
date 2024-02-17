@@ -8,6 +8,8 @@ public class WorldRegionDefinitionImpl implements WorldRegionDefinition {
 
     private HashMap<WorldRegionLocalCoordinate, WorldTileDefinitionImpl> tiles;
 
+    private HashMap<String, WorldObjectDefinitionImpl> objects;
+
     @Override
     public WorldTileDefinition getWorldTileDefinition(WorldRegionLocalCoordinate worldRegionLocalCoordinate) {
         if (tiles.containsKey(worldRegionLocalCoordinate)) {
@@ -19,6 +21,20 @@ public class WorldRegionDefinitionImpl implements WorldRegionDefinition {
 
     public WorldRegionDefinitionImpl setTiles(HashMap<WorldRegionLocalCoordinate, WorldTileDefinitionImpl> tiles) {
         this.tiles = tiles;
+        return this;
+    }
+
+    @Override
+    public WorldObjectDefinition getWorldObjectDefinition(String worldObjectId) {
+        if (objects.containsKey(worldObjectId)) {
+            return objects.get(worldObjectId);
+        }
+
+        throw new IllegalArgumentException("World Object with id %s does not exist".formatted(worldObjectId));
+    }
+
+    public WorldRegionDefinitionImpl setObjects(HashMap<String, WorldObjectDefinitionImpl> objects) {
+        this.objects = objects;
         return this;
     }
 }

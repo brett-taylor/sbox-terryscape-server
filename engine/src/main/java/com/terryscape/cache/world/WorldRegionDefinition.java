@@ -6,4 +6,6 @@ public interface WorldRegionDefinition {
 
     WorldTileDefinition getWorldTileDefinition(WorldRegionLocalCoordinate worldRegionLocalCoordinate);
 
+    WorldObjectDefinition getWorldObjectDefinition(String worldObjectId);
+
 }

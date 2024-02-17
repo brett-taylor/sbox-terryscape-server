@@ -8,6 +8,9 @@ import com.terryscape.cache.item.ItemDefinitionImpl;
 import com.terryscape.cache.npc.NpcCacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionImpl;
+import com.terryscape.cache.object.ObjectCacheLoader;
+import com.terryscape.cache.object.ObjectDefinition;
+import com.terryscape.cache.object.ObjectDefinitionImpl;
 import com.terryscape.cache.world.WorldRegionCacheLoader;
 import com.terryscape.cache.world.WorldRegionDefinition;
 import com.terryscape.cache.world.WorldRegionDefinitionImpl;
@@ -30,18 +33,27 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final NpcCacheLoader npcCacheLoader;
 
+    private final ObjectCacheLoader objectCacheLoader;
+
     private final WorldRegionCacheLoader worldRegionCacheLoader;
 
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
     private final Map<String, NpcDefinitionImpl> npcs = new HashMap<>();
 
+    private final Map<String, ObjectDefinitionImpl> objects = new HashMap<>();
+
     private final Map<WorldRegionCoordinate, WorldRegionDefinitionImpl> worldRegions = new HashMap<>();
 
     @Inject
-    public CacheLoaderImpl(ItemCacheLoader itemCacheLoader, NpcCacheLoader npcCacheLoader, WorldRegionCacheLoader worldRegionCacheLoader) {
+    public CacheLoaderImpl(ItemCacheLoader itemCacheLoader,
+                           NpcCacheLoader npcCacheLoader,
+                           ObjectCacheLoader objectCacheLoader,
+                           WorldRegionCacheLoader worldRegionCacheLoader) {
+
         this.itemCacheLoader = itemCacheLoader;
         this.npcCacheLoader = npcCacheLoader;
+        this.objectCacheLoader = objectCacheLoader;
         this.worldRegionCacheLoader = worldRegionCacheLoader;
     }
 
@@ -51,6 +63,7 @@ public class CacheLoaderImpl implements CacheLoader {
         try {
             loadItems();
             loadNpcs();
+            loadObjects();
             loadWorldRegions();
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("Failed to load cache", e);
@@ -83,6 +96,15 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
+    public ObjectDefinition getObjectDefinition(String id) {
+        if (!objects.containsKey(id)) {
+            throw new RuntimeException("No object found with id %s".formatted(id));
+        }
+
+        return objects.get(id);
+    }
+
+    @Override
     public WorldRegionDefinition getWorldRegion(WorldRegionCoordinate worldRegionCoordinate) {
         if (!worldRegions.containsKey(worldRegionCoordinate)) {
             throw new RuntimeException("No WorldRegion found with at %s".formatted(worldRegionCoordinate));
@@ -99,6 +121,11 @@ public class CacheLoaderImpl implements CacheLoader {
     private void loadNpcs() throws IOException {
         npcs.putAll(npcCacheLoader.readNpcsFromCache());
         LOGGER.info("Loaded {} Npcs.", npcs.size());
+    }
+
+    private void loadObjects() throws IOException {
+        objects.putAll(objectCacheLoader.readObjectsFromCache());
+        LOGGER.info("Loaded {} Objects.", objects.size());
     }
 
     private void loadWorldRegions() throws IOException, URISyntaxException {

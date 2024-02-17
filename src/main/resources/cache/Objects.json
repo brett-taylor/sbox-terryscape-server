@@ -2,107 +2,170 @@
   {
     "id": "sm_env_tree_round_01",
     "modelPath": "assets/world/polygonfantasykingdom/trees/sm_env_tree_round_01.vmdl",
-    "scale": "0.241,0.241,0.241"
+    "scale": "0.241,0.241,0.241",
+    "interactable": true,
+    "name": "Tree",
+    "description": "What a small tree, bet I could climb it."
   },
   {
     "id": "sm_env_tree_round_03",
     "modelPath": "assets/world/polygonfantasykingdom/trees/sm_env_tree_round_03.vmdl",
-    "scale": "0.241,0.241,0.241"
+    "scale": "0.241,0.241,0.241",
+    "interactable": true,
+    "name": "Oak Tree",
+    "description": "What a Oak!"
   },
   {
     "id": "sm_bld_house_wall_03",
     "modelPath": "assets/world/polygonfantasykingdom/walls/sm_bld_house_wall_03.vmdl",
-    "scale": "0.285,0.2,0.434"
+    "scale": "0.285,0.2,0.434",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_bld_house_wall_window_06",
     "modelPath": "assets/world/polygonfantasykingdom/walls/sm_bld_house_wall_window_06.vmdl",
-    "scale": "0.285,0.2,0.434"
+    "scale": "0.285,0.2,0.434",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_barrel_01",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_barrel_01.vmdl",
-    "scale": "0.241,0.241,0.241"
+    "scale": "0.241,0.241,0.241",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_crate_wood_01",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_crate_wood_01.vmdl",
-    "scale": "0.241,0.241,0.241"
+    "scale": "0.241,0.241,0.241",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_bld_house_floor_stone_01",
     "modelPath": "assets/world/polygonfantasykingdom/floors/sm_bld_house_floor_stone_01.vmdl",
-    "scale": "0.2,0.2,0.2"
+    "scale": "0.2,0.2,0.2",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_bld_house_floor_wood_02",
     "modelPath": "assets/world/polygonfantasykingdom/floors/sm_bld_house_floor_wood_02.vmdl",
-    "scale": "0.2,0.2,0.2"
+    "scale": "0.2,0.2,0.2",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
 
   {
     "id": "sm_bld_house_railing_01",
     "modelPath": "assets/world/polygonfantasykingdom/outside/sm_bld_house_railing_01.vmdl",
-    "scale": "0.285,0.2,0.434"
+    "scale": "0.285,0.2,0.434",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_bld_house_railing_beam_01",
     "modelPath": "assets/world/polygonfantasykingdom/outside/sm_bld_house_railing_beam_01.vmdl",
-    "scale": "0.285,0.2,0.434"
+    "scale": "0.285,0.2,0.434",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_chair_wood_04",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_chair_wood_04.vmdl",
-    "scale": "0.5,0.5,0.5"
+    "scale": "0.5,0.5,0.5",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_crate_stack_02",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_crate_stack_02.vmdl",
-    "scale": "0.3,0.3,0.3"
+    "scale": "0.3,0.3,0.3",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_crate_stack_04",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_crate_stack_04.vmdl",
-    "scale": "0.3,0.3,0.3"
+    "scale": "0.3,0.3,0.3",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_ladder_stackable_01_half",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_ladder_stackable_01_half.vmdl",
-    "scale": "0.5,0.5,0.5"
+    "scale": "0.5,0.5,0.5",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_planterbox_preset_03",
     "modelPath": "assets/world/polygonfantasykingdom/buildingdecoration/sm_prop_planterbox_preset_03.vmdl",
-    "scale": "0.45,0.45,0.45"
+    "scale": "0.45,0.45,0.45",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_stool_02",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_stool_02.vmdl",
-    "scale": "0.5,0.5,0.5"
+    "scale": "0.5,0.5,0.5",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_table_wood_06",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_table_wood_06.vmdl",
-    "scale": "0.45,0.45,0.45"
+    "scale": "0.45,0.45,0.45",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_table_wood_07",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_table_wood_07.vmdl",
-    "scale": "0.45,0.45,0.45"
+    "scale": "0.45,0.45,0.45",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_tablecloth_05",
     "modelPath": "assets/world/polygonfantasykingdom/interior/sm_prop_tablecloth_05.vmdl",
-    "scale": "0.45,0.45,0.45"
+    "scale": "0.45,0.45,0.45",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "sm_prop_sign_iron_09_and_sm_prop_sign_bracket_05",
     "modelPath": "assets/world/polygonfantasykingdom/buildingdecoration/sm_prop_sign_iron_09_and_sm_prop_sign_bracket_05.vmdl",
-    "scale": "0.25,0.25,0.25"
+    "scale": "0.25,0.25,0.25",
+    "interactable": false,
+    "name": "",
+    "description": ""
   },
   {
     "id": "coin_table",
     "modelPath": "assets/world/polygonfantasykingdom/interior/cointable.vmdl",
-    "scale": "0.45,0.45,0.45"
+    "scale": "0.45,0.45,0.45",
+    "interactable": true,
+    "name": "Coin Table",
+    "description": "Wow! This is going to make me rich."
   }
 ]

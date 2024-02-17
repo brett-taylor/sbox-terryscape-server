@@ -2,8 +2,10 @@ package com.terryscape.world.coordinate;
 
 import com.terryscape.Config;
 import com.terryscape.maths.Vector2Int;
+import com.terryscape.net.IncomingPacket;
 import com.terryscape.world.Direction;
 
+import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class WorldRegionCoordinate {
@@ -65,7 +67,7 @@ public class WorldRegionCoordinate {
     }
 
     public WorldCoordinate toWorldCoordinateOrigin() {
-        return new WorldCoordinate( getX() * Config.WORLD_REGION_SIZE, getY() * Config.WORLD_REGION_SIZE );
+        return new WorldCoordinate(getX() * Config.WORLD_REGION_SIZE, getY() * Config.WORLD_REGION_SIZE);
     }
 
     @Override
@@ -84,6 +86,10 @@ public class WorldRegionCoordinate {
     @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
+    }
+
+    public static WorldRegionCoordinate readFromPacket(ByteBuffer packet) {
+        return new WorldRegionCoordinate(IncomingPacket.readInt32(packet), IncomingPacket.readInt32(packet));
     }
 
     private WorldRegionCoordinate add(Vector2Int other) {
