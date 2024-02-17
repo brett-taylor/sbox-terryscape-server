@@ -1,11 +1,10 @@
-package content.devtools;
+package content.commands;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import com.terryscape.game.chat.command.Command;
-import content.devtools.commands.*;
 
-public class ContentDevToolsGuiceModule extends AbstractModule {
+public class ContentCommandsGuiceModule extends AbstractModule {
 
     @Override
     protected void configure() {

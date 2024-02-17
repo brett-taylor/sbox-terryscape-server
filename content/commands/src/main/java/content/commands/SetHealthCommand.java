@@ -1,41 +1,34 @@
-package content.devtools.commands;
+package content.commands;
 
 import com.google.inject.Singleton;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.command.CommandArgumentDescription;
 import com.terryscape.game.chat.command.CommandDescription;
+import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.player.PlayerComponent;
-import com.terryscape.game.player.PlayerGender;
 
 import java.util.List;
 
 @Singleton
-public class GenderCommand implements Command {
+public class SetHealthCommand implements Command {
 
     @Override
     public String getPhrase() {
-        return "gender";
+        return "set_health";
     }
 
     @Override
     public CommandDescription getDescription() {
-        return CommandDescription.of("Change your player's gender", CommandArgumentDescription.mandatory(String.class, "male/female"));
+        return CommandDescription.of("Set your player's health", CommandArgumentDescription.mandatory(Integer.class, "health"));
     }
 
     @Override
     public void execute(PlayerComponent playerComponent, List<String> arguments) {
         var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
-        var gender = arguments.get(0);
+        var newHealth = Integer.parseInt(arguments.get(0));
 
-        if (gender.equals("male")) {
-            chat.sendGameMessage("You have swapped to a Male.");
-            playerComponent.setGender(PlayerGender.MALE);
-        }
-
-        if (gender.equals("female")) {
-            chat.sendGameMessage("You have swapped to a Female.");
-            playerComponent.setGender(PlayerGender.FEMALE);
-        }
+        playerComponent.getEntity().getComponentOrThrow(HealthComponent.class).setHealth(newHealth);
+        chat.sendGameMessage("You have set your health to %s.".formatted(newHealth));
     }
 }

@@ -2,5 +2,6 @@ rootProject.name = 'terryscape'
 
 include 'engine'
 include 'engine-internal'
-include 'content:devtools'
+
+include 'content:commands'
 include 'content:startingzone'

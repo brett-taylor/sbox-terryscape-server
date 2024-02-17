@@ -1,4 +1,4 @@
-package content.devtools.commands;
+package content.commands;
 
 import com.google.inject.Singleton;
 import com.terryscape.game.chat.PlayerChatComponent;
