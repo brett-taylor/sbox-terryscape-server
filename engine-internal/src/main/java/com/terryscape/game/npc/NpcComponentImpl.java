@@ -19,8 +19,6 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
     private NpcDefinition npcDefinition;
 
-    private String npcVariant;
-
     public NpcComponentImpl(Entity entity, WorldManager worldManager) {
         super(entity);
 
@@ -44,18 +42,8 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
     }
 
     @Override
-    public String getNpcVariant() {
-        return npcVariant;
-    }
-
-    public void setNpcVariant(String npcVariant) {
-        this.npcVariant = npcVariant;
-    }
-
-    @Override
     public void writeEntityAddedPacket(OutputStream packet) {
         OutgoingPacket.writeString(packet, npcDefinition.getId());
-        OutgoingPacket.writeString(packet, getNpcVariant());
     }
 
     @Override

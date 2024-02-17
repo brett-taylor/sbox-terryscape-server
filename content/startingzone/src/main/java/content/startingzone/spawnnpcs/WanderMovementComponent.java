@@ -1,4 +1,4 @@
-package content.startingzone;
+package content.startingzone.spawnnpcs;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
@@ -19,6 +19,8 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
     private final WorldCoordinate maxWanderZone;
 
+    private final boolean teleportToSpot;
+
     private boolean isWandering;
 
     private MovementComponent movementComponent;
@@ -27,11 +29,12 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
     private Task wanderTask;
 
-    public WanderMovementComponent(Entity entity, WorldCoordinate minWanderZone, WorldCoordinate maxWanderZone) {
+    public WanderMovementComponent(Entity entity, WorldCoordinate minWanderZone, WorldCoordinate maxWanderZone, boolean teleportToSpot) {
         super(entity);
 
         this.minWanderZone = minWanderZone;
         this.maxWanderZone = maxWanderZone;
+        this.teleportToSpot = teleportToSpot;
 
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
@@ -45,8 +48,10 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
         isWandering = true;
 
-        movementComponent.teleport(randomCoordinateInWanderZone());
-        movementComponent.look(Direction.random());
+        if (teleportToSpot) {
+            movementComponent.teleport(randomCoordinateInWanderZone());
+            movementComponent.look(Direction.random());
+        }
     }
 
     public void stopWander() {

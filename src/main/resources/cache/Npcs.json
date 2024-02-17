@@ -106,5 +106,23 @@
         }
       }
     }
+  },
+  {
+    "id": "shop_keeper",
+    "name": "Shop Keeper",
+    "description": "I wonder what she sells?",
+    "humanoidNpc":
+    {
+      "gender": "FEMALE"
+    }
+  },
+  {
+    "id": "guide",
+    "name": "Guide",
+    "description": "Maybe I should speak to him?",
+    "humanoidNpc":
+    {
+      "gender": "MALE"
+    }
   }
 ]

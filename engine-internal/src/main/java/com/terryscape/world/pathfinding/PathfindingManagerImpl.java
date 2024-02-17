@@ -45,7 +45,8 @@ public class PathfindingManagerImpl implements PathfindingManager {
         var optionalPath = pathfinder.find();
 
         if (optionalPath.isPresent()) {
-            LOGGER.info("Successfully found a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);
+            // TODO: Log slow pathfinds
+            LOGGER.debug("Successfully found a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);
             return Optional.of(new PathfindingRouteImpl(optionalPath.get()));
         } else {
             LOGGER.warn("Failed to find a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);

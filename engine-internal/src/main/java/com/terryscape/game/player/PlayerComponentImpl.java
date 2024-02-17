@@ -5,6 +5,7 @@ import com.terryscape.Config;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.PlayerEquipment;
@@ -29,15 +30,15 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private final PacketManager packetManager;
 
+    private final FixedSizeItemContainer inventory;
+
+    private final PlayerEquipment equipment;
+
     private Client client;
 
     private String username;
 
-    private FixedSizeItemContainer inventory;
-
-    private PlayerEquipment equipment;
-
-    private PlayerGender playerGender;
+    private HumanoidGender gender;
 
     @Inject
     public PlayerComponentImpl(Entity entity, PacketManager packetManager) {
@@ -87,13 +88,13 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
-    public void setGender(PlayerGender gender) {
-        playerGender = gender;
+    public void setGender(HumanoidGender gender) {
+        this.gender = gender;
     }
 
     @Override
-    public PlayerGender getGender() {
-        return playerGender;
+    public HumanoidGender getGender() {
+        return gender;
     }
 
     @Override

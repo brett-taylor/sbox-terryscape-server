@@ -2,10 +2,12 @@ package com.terryscape.game.npc.action;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.npc.NpcComponentImpl;
+import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.world.WorldManager;
@@ -37,7 +39,16 @@ public class NpcActionIncomingPacket implements IncomingPacket {
 
         if (action.equals("examine")) {
             var npcDefinition = npc.getNpcDefinition();
-            var description = "%s (id=%s, variant=%s)".formatted(npcDefinition.getDescription(), npcDefinition.getId(), npc.getNpcVariant());
+
+            var extraInformation = "";
+            if (npcDefinition.getAppearanceType() == NpcDefinitionNpcAppearanceType.HUMANOID) {
+                extraInformation = ", humanoid=true";
+            } else if (npcDefinition.getAppearanceType() == NpcDefinitionNpcAppearanceType.SIMPLE) {
+                var variant = npc.getEntity().getComponentOrThrow(SimpleNpcAppearanceComponent.class).getVariant();
+                extraInformation = ", variant=%s".formatted(variant);
+            }
+
+            var description = "%s (id=%s%s)".formatted(npcDefinition.getDescription(), npcDefinition.getId(), extraInformation);
             player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(description);
         }
 

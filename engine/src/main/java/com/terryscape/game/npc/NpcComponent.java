@@ -7,6 +7,4 @@ public interface NpcComponent extends NetworkedEntityComponent {
 
     NpcDefinition getNpcDefinition();
 
-    String getNpcVariant();
-
 }

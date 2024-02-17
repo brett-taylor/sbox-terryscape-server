@@ -1,4 +1,4 @@
-package content.startingzone;
+package content.startingzone.worldobjecthandlers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

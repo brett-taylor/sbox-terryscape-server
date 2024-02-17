@@ -1,6 +1,7 @@
 package com.terryscape.game.player;
 
 import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.net.Client;
@@ -15,7 +16,7 @@ public interface PlayerComponent extends NetworkedEntityComponent {
 
     PlayerEquipment getEquipment();
 
-    void setGender(PlayerGender gender);
+    void setGender(HumanoidGender gender);
 
-    PlayerGender getGender();
+    HumanoidGender getGender();
 }

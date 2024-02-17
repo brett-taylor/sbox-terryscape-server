@@ -10,6 +10,8 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     private String description;
 
+    private NpcDefinitionNpcAppearanceType appearanceType;
+
     private NpcDefinitionSimpleNpcImpl simpleNpc;
 
     @Override
@@ -39,6 +41,16 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     public NpcDefinitionImpl setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    @Override
+    public NpcDefinitionNpcAppearanceType getAppearanceType() {
+        return appearanceType;
+    }
+
+    public NpcDefinitionImpl setAppearanceType(NpcDefinitionNpcAppearanceType appearanceType) {
+        this.appearanceType = appearanceType;
         return this;
     }
 

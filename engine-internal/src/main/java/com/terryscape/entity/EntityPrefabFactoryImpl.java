@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
+import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.combat.CombatComponentImpl;
@@ -14,8 +15,9 @@ import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.NpcComponentImpl;
+import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
 import com.terryscape.game.player.PlayerComponentImpl;
-import com.terryscape.game.player.PlayerGender;
+import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
@@ -60,14 +62,16 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         var npcComponent = new NpcComponentImpl(entity, worldManager);
         npcComponent.setNpcDefinition(npcDefinition);
-
-        if (npcDefinition.getSimpleNpc().isPresent()) {
-            var variants = npcDefinition.getSimpleNpc().get().getVariants();
-            var randomVariant = RandomUtil.randomCollection(variants);
-            npcComponent.setNpcVariant(randomVariant);
-        }
-
         entity.addComponent(npcComponent);
+
+        if (npcDefinition.getAppearanceType() == NpcDefinitionNpcAppearanceType.SIMPLE) {
+            var variants = npcDefinition.getSimpleNpc().orElseThrow().getVariants();
+            var randomVariant = RandomUtil.randomCollection(variants);
+
+            var simpleNpcAppearanceComponent = new SimpleNpcAppearanceComponent(entity);
+            simpleNpcAppearanceComponent.setVariant(randomVariant);
+            entity.addComponent(simpleNpcAppearanceComponent);
+        }
 
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
@@ -96,7 +100,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
         var playerComponent = new PlayerComponentImpl(entity, packetManager);
-        playerComponent.setGender(PlayerGender.MALE);
+        playerComponent.setGender(HumanoidGender.MALE);
         entity.addComponent(playerComponent);
 
         var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager, commandManager);

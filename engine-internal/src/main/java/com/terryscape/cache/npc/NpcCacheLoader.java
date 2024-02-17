@@ -32,15 +32,34 @@ public class NpcCacheLoader {
     }
 
     private NpcDefinitionImpl createNpcDefinitionFromJson(JsonObject jsonObject) {
-        return new NpcDefinitionImpl()
+        var npcDefinition = new NpcDefinitionImpl()
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
-            .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
-            .setSimpleNpc(createSimpleNpcFromJson(jsonObject.getAsJsonObject("simpleNpc")));
+            .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString());
+
+        setAppearanceType(npcDefinition, jsonObject);
+
+        return npcDefinition;
     }
 
-    private NpcDefinitionSimpleNpcImpl createSimpleNpcFromJson(JsonObject jsonObject) {
-        return new NpcDefinitionSimpleNpcImpl()
-            .setVariants(jsonObject.getAsJsonObject("variants").keySet().stream().toList());
+    private void setAppearanceType(NpcDefinitionImpl npcDefinition, JsonObject jsonObject) {
+        var simpleNpcJsonObject = jsonObject.getAsJsonObject("simpleNpc");
+        var humanoidNpcJsonObject = jsonObject.getAsJsonObject("humanoidNpc");
+
+        if (simpleNpcJsonObject != null) {
+            var simpleNpc = new NpcDefinitionSimpleNpcImpl()
+                .setVariants(simpleNpcJsonObject.getAsJsonObject("variants").keySet().stream().toList());
+
+            npcDefinition.setSimpleNpc(simpleNpc);
+            npcDefinition.setAppearanceType(NpcDefinitionNpcAppearanceType.SIMPLE);
+        }
+
+        if (humanoidNpcJsonObject != null) {
+            npcDefinition.setAppearanceType(NpcDefinitionNpcAppearanceType.HUMANOID);
+        }
+
+        if (npcDefinition.getAppearanceType() == null) {
+            throw new RuntimeException("Could not calculate appearance type for %s".formatted(npcDefinition.getId()));
+        }
     }
 }

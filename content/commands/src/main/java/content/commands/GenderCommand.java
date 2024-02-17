@@ -6,7 +6,7 @@ import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.command.CommandArgumentDescription;
 import com.terryscape.game.chat.command.CommandDescription;
 import com.terryscape.game.player.PlayerComponent;
-import com.terryscape.game.player.PlayerGender;
+import com.terryscape.game.appearance.HumanoidGender;
 
 import java.util.List;
 
@@ -30,12 +30,12 @@ public class GenderCommand implements Command {
 
         if (gender.equals("male")) {
             chat.sendGameMessage("You have swapped to a Male.");
-            playerComponent.setGender(PlayerGender.MALE);
+            playerComponent.setGender(HumanoidGender.MALE);
         }
 
         if (gender.equals("female")) {
             chat.sendGameMessage("You have swapped to a Female.");
-            playerComponent.setGender(PlayerGender.FEMALE);
+            playerComponent.setGender(HumanoidGender.FEMALE);
         }
     }
 }

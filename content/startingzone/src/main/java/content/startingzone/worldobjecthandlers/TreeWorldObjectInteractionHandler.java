@@ -1,4 +1,4 @@
-package content.startingzone;
+package content.startingzone.worldobjecthandlers;
 
 import com.google.inject.Singleton;
 import com.terryscape.cache.world.WorldObjectDefinition;

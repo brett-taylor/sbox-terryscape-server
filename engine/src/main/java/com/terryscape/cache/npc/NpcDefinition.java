@@ -10,6 +10,8 @@ public interface NpcDefinition {
 
     String getDescription();
 
+    NpcDefinitionNpcAppearanceType getAppearanceType();
+
     Optional<NpcDefinitionSimpleNpc> getSimpleNpc();
 
 }
