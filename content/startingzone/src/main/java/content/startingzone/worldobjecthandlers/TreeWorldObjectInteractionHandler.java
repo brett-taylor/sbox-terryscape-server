@@ -18,7 +18,7 @@ import java.util.Set;
 public class TreeWorldObjectInteractionHandler implements WorldObjectInteractionHandler {
 
     @Override
-    public Set<String> getObjectId() {
+    public Set<String> getObjectIds() {
         return Set.of("sm_env_tree_round_01", "sm_env_tree_round_03");
     }
 

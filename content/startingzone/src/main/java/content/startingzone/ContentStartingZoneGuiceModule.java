@@ -2,7 +2,10 @@ package content.startingzone;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
+import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
+import content.startingzone.npchandlers.GuideNpcInteractionHandler;
+import content.startingzone.npchandlers.ShopKeeperNpcInteractionHandler;
 import content.startingzone.spawnnpcs.SpawnGoblins;
 import content.startingzone.spawnnpcs.SpawnHumans;
 import content.startingzone.worldobjecthandlers.CoinTableWorldObjectInteractionHandler;
@@ -18,6 +21,10 @@ public class ContentStartingZoneGuiceModule extends AbstractModule {
         var worldObjectInteractionHandler = Multibinder.newSetBinder(binder(), WorldObjectInteractionHandler.class);
         worldObjectInteractionHandler.addBinding().to(CoinTableWorldObjectInteractionHandler.class);
         worldObjectInteractionHandler.addBinding().to(TreeWorldObjectInteractionHandler.class);
+
+        var npcInteractionHandler = Multibinder.newSetBinder(binder(), NpcInteractionHandler.class);
+        npcInteractionHandler.addBinding().to(ShopKeeperNpcInteractionHandler.class);
+        npcInteractionHandler.addBinding().to(GuideNpcInteractionHandler.class);
     }
 
 }

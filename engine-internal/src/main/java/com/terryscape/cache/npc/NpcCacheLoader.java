@@ -35,7 +35,9 @@ public class NpcCacheLoader {
         var npcDefinition = new NpcDefinitionImpl()
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
-            .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString());
+            .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
+            .setInteractable(jsonObject.getAsJsonPrimitive("interactable").getAsBoolean())
+            .setAttackable(jsonObject.getAsJsonPrimitive("attackable").getAsBoolean());
 
         setAppearanceType(npcDefinition, jsonObject);
 

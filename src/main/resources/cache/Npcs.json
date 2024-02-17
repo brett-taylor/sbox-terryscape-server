@@ -3,6 +3,8 @@
     "id": "goblin",
     "name": "Goblin",
     "description": "A disgusting beast.",
+    "attackable": true,
+    "interactable": false,
     "simpleNpc": {
       "variants": {
         "green_male": {
@@ -44,6 +46,8 @@
     "id": "goblin_warrior",
     "name": "Goblin Warrior",
     "description": "A scarier looking disgusting beast.",
+    "attackable": true,
+    "interactable": false,
     "simpleNpc": {
       "variants": {
         "green_male": {
@@ -85,6 +89,8 @@
     "id": "goblin_shaman",
     "name": "Goblin Shaman",
     "description": "A magical looking disgusting beast.",
+    "attackable": true,
+    "interactable": false,
     "simpleNpc": {
       "variants": {
         "default": {
@@ -98,6 +104,8 @@
     "id": "goblin_chief",
     "name": "Goblin Chief",
     "description": "He seems to be in charge of the disgusting beasts.",
+    "attackable": true,
+    "interactable": false,
     "simpleNpc": {
       "variants": {
         "default": {
@@ -111,6 +119,8 @@
     "id": "shop_keeper",
     "name": "Shop Keeper",
     "description": "I wonder what she sells?",
+    "attackable": false,
+    "interactable": true,
     "humanoidNpc":
     {
       "gender": "FEMALE"
@@ -120,6 +130,8 @@
     "id": "guide",
     "name": "Guide",
     "description": "Maybe I should speak to him?",
+    "attackable": false,
+    "interactable": true,
     "humanoidNpc":
     {
       "gender": "MALE"

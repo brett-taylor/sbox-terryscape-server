@@ -10,6 +10,10 @@ public interface NpcDefinition {
 
     String getDescription();
 
+    boolean isInteractable();
+
+    boolean isAttackable();
+
     NpcDefinitionNpcAppearanceType getAppearanceType();
 
     Optional<NpcDefinitionSimpleNpc> getSimpleNpc();

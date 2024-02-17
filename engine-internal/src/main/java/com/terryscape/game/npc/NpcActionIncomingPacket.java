@@ -1,4 +1,4 @@
-package com.terryscape.game.npc.action;
+package com.terryscape.game.npc;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -6,8 +6,6 @@ import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
-import com.terryscape.game.npc.NpcComponentImpl;
-import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.world.WorldManager;
@@ -19,9 +17,12 @@ public class NpcActionIncomingPacket implements IncomingPacket {
 
     private final WorldManager worldManager;
 
+    private final NpcInteractionManager npcInteractionManager;
+
     @Inject
-    public NpcActionIncomingPacket(WorldManager worldManager) {
+    public NpcActionIncomingPacket(WorldManager worldManager, NpcInteractionManager npcInteractionManager) {
         this.worldManager = worldManager;
+        this.npcInteractionManager = npcInteractionManager;
     }
 
     @Override
@@ -54,10 +55,14 @@ public class NpcActionIncomingPacket implements IncomingPacket {
 
         // TODO check the player can interact with npcs currently?
 
-        if (action.equals("attack")) {
+        if (npc.getNpcDefinition().isAttackable() && action.equals("attack")) {
             var npcCombat = npc.getEntity().getComponentOrThrow(CombatComponent.class);
             var playerCombat = player.getEntity().getComponentOrThrow(CombatComponent.class);
             playerCombat.attack(npcCombat);
+        }
+
+        if (npc.getNpcDefinition().isInteractable() && action.equals("interact")) {
+            npcInteractionManager.dispatchNpcInteraction(client, npc);
         }
     }
 }

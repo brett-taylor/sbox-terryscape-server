@@ -47,7 +47,7 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
 
         // TODO check the player can interact with world objects currently?
 
-        if (action.equals("interact")) {
+        if (objectDefinition.isInteractable() && action.equals("interact")) {
             worldObjectInteractionManager.dispatchWorldObjectInteraction(client, worldObject);
         }
     }

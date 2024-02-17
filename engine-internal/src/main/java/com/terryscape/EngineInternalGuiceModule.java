@@ -12,7 +12,7 @@ import com.terryscape.game.chat.PlayerChatIncomingPacket;
 import com.terryscape.game.interfaces.InterfaceActionIncomingPacket;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
-import com.terryscape.game.npc.action.NpcActionIncomingPacket;
+import com.terryscape.game.npc.NpcActionIncomingPacket;
 import com.terryscape.game.worldobject.WorldObjectActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;

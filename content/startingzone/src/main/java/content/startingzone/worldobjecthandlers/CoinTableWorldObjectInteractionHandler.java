@@ -34,7 +34,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
     }
 
     @Override
-    public Set<String> getObjectId() {
+    public Set<String> getObjectIds() {
         return Set.of("coin_table");
     }
 

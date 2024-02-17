@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface WorldObjectInteractionHandler {
 
-    Set<String> getObjectId();
+    Set<String> getObjectIds();
 
     void invoke(Client client, WorldObjectDefinition worldObjectDefinition);
 

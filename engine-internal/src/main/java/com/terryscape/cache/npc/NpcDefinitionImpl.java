@@ -10,6 +10,10 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     private String description;
 
+    private boolean interactable;
+
+    private boolean attackable;
+
     private NpcDefinitionNpcAppearanceType appearanceType;
 
     private NpcDefinitionSimpleNpcImpl simpleNpc;
@@ -41,6 +45,26 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     public NpcDefinitionImpl setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    @Override
+    public boolean isInteractable() {
+        return interactable;
+    }
+
+    public NpcDefinitionImpl setInteractable(boolean interactable) {
+        this.interactable = interactable;
+        return this;
+    }
+
+    @Override
+    public boolean isAttackable() {
+        return attackable;
+    }
+
+    public NpcDefinitionImpl setAttackable(boolean attackable) {
+        this.attackable = attackable;
         return this;
     }
 
