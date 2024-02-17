@@ -2,6 +2,7 @@ package com.terryscape;
 
 import com.google.inject.Guice;
 import content.devtools.ContentDevToolsGuiceModule;
+import content.startingzone.ContentStartingZoneGuiceModule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,8 @@ public class ServerLauncher {
         var guice = Guice.createInjector(
             new EngineInternalGuiceModule(),
 
-            new ContentDevToolsGuiceModule()
+            new ContentDevToolsGuiceModule(),
+            new ContentStartingZoneGuiceModule()
         );
 
         long endTime = System.currentTimeMillis();

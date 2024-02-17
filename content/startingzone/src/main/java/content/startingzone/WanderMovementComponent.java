@@ -1,4 +1,4 @@
-package content.devtools.testnps;
+package content.startingzone;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
@@ -13,12 +13,11 @@ import com.terryscape.world.Direction;
 import com.terryscape.world.coordinate.WorldCoordinate;
 
 // TODO: This should move back into engine internal when the npc factory is more complex and can handle conditionally adding components
-
 public class WanderMovementComponent extends BaseEntityComponent {
 
-    private final int wanderSize;
+    private final WorldCoordinate minWanderZone;
 
-    private WorldCoordinate wanderCenter;
+    private final WorldCoordinate maxWanderZone;
 
     private boolean isWandering;
 
@@ -28,10 +27,11 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
     private Task wanderTask;
 
-    public WanderMovementComponent(Entity entity, int wanderSize) {
+    public WanderMovementComponent(Entity entity, WorldCoordinate minWanderZone, WorldCoordinate maxWanderZone) {
         super(entity);
 
-        this.wanderSize = wanderSize;
+        this.minWanderZone = minWanderZone;
+        this.maxWanderZone = maxWanderZone;
 
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
@@ -45,7 +45,6 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
         isWandering = true;
 
-        wanderCenter = movementComponent.getWorldCoordinate();
         movementComponent.teleport(randomCoordinateInWanderZone());
         movementComponent.look(Direction.random());
     }
@@ -86,9 +85,9 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     private WorldCoordinate randomCoordinateInWanderZone() {
-        var randomX = RandomUtil.randomNumber(-wanderSize, wanderSize);
-        var randomY = RandomUtil.randomNumber(-wanderSize, wanderSize);
-        return wanderCenter.add(new WorldCoordinate(randomX, randomY));
+        var randomX = RandomUtil.randomNumber(minWanderZone.getX(), maxWanderZone.getX());
+        var randomY = RandomUtil.randomNumber(minWanderZone.getY(), maxWanderZone.getY());
+        return new WorldCoordinate(randomX, randomY);
     }
 
     private int randomWaitInterval() {

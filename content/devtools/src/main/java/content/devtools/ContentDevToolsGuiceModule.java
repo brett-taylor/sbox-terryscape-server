@@ -4,7 +4,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import com.terryscape.game.chat.command.Command;
 import content.devtools.commands.*;
-import content.devtools.testnps.SpawnSomeTestNpcs;
 
 public class ContentDevToolsGuiceModule extends AbstractModule {
 
@@ -17,8 +16,6 @@ public class ContentDevToolsGuiceModule extends AbstractModule {
         commandMultibinder.addBinding().to(CoordinatesCommand.class);
         commandMultibinder.addBinding().to(AnimationCommand.class);
         commandMultibinder.addBinding().to(SetRunCommand.class);
-
-        binder().bind(SpawnSomeTestNpcs.class).asEagerSingleton();
     }
 
 }

@@ -1,4 +1,4 @@
-package content.devtools.testnps;
+package content.startingzone;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -7,6 +7,7 @@ import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.world.Direction;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.WorldManager;
 
@@ -29,45 +30,39 @@ public class SpawnSomeTestNpcs {
     }
 
     public void onGameStartedEvent(OnGameStartedSystemEvent event) {
-        var spawnCoordinate = new WorldCoordinate(15, 15);
-        var wanderRadius = 10;
+        var minWanderZone = new WorldCoordinate(3, -16);
+        var maxWanderZone = new WorldCoordinate(24, 24);
 
         for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin"));
-            var movement = npc.getComponentOrThrow(MovementComponent.class);
-            movement.teleport(spawnCoordinate);
-            npc.addComponent(new WanderMovementComponent(npc, wanderRadius));
+            npc.addComponent(new WanderMovementComponent(npc, minWanderZone, maxWanderZone));
             worldManager.registerEntity(npc);
         }
 
         for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
-            var movement = npc.getComponentOrThrow(MovementComponent.class);
-            movement.teleport(spawnCoordinate);
-            npc.addComponent(new WanderMovementComponent(npc, wanderRadius));
+            npc.addComponent(new WanderMovementComponent(npc, minWanderZone, maxWanderZone));
             worldManager.registerEntity(npc);
         }
 
         var npc1 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_shaman"));
-        var npc1Movement = npc1.getComponentOrThrow(MovementComponent.class);
-        npc1Movement.teleport(spawnCoordinate);
-        npc1.addComponent(new WanderMovementComponent(npc1, wanderRadius));
+        npc1.addComponent(new WanderMovementComponent(npc1, minWanderZone, maxWanderZone));
         worldManager.registerEntity(npc1);
 
         var npc2 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_chief"));
-        var npc2Movement = npc2.getComponentOrThrow(MovementComponent.class);
-        npc2Movement.teleport(spawnCoordinate);
-        npc2.addComponent(new WanderMovementComponent(npc2, wanderRadius));
+        npc2.addComponent(new WanderMovementComponent(npc2, minWanderZone, maxWanderZone));
         worldManager.registerEntity(npc2);
 
         var staticNpc1 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
         var staticNpc1Movement = staticNpc1.getComponentOrThrow(MovementComponent.class);
-        staticNpc1Movement.teleport(new WorldCoordinate(7, 7));
+        staticNpc1Movement.teleport(new WorldCoordinate(14, 23));
+        staticNpc1Movement.look(Direction.SOUTH);
         worldManager.registerEntity(staticNpc1);
 
         var staticNpc2 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
         var staticNpc2Movement = staticNpc2.getComponentOrThrow(MovementComponent.class);
-        staticNpc2Movement.teleport(new WorldCoordinate(8, 6));
+        staticNpc2Movement.teleport(new WorldCoordinate(15, 23));
+        staticNpc2Movement.look(Direction.SOUTH);
         worldManager.registerEntity(staticNpc2);
     }
 
