@@ -15,9 +15,12 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
 
     private final CacheLoader cacheLoader;
 
+    private final WorldObjectInteractionManager worldObjectInteractionManager;
+
     @Inject
-    public WorldObjectActionIncomingPacket(CacheLoader cacheLoader) {
+    public WorldObjectActionIncomingPacket(CacheLoader cacheLoader, WorldObjectInteractionManager worldObjectInteractionManager) {
         this.cacheLoader = cacheLoader;
+        this.worldObjectInteractionManager = worldObjectInteractionManager;
     }
 
     @Override
@@ -40,6 +43,12 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
         if (action.equals("examine")) {
             var description = "%s (id=%s)".formatted(objectDefinition.getDescription(), objectDefinition.getId());
             player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(description);
+        }
+
+        // TODO check the player can interact with world objects currently?
+
+        if (action.equals("interact")) {
+            worldObjectInteractionManager.dispatchWorldObjectInteraction(client, worldObject);
         }
     }
 }

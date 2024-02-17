@@ -5,8 +5,6 @@ import com.google.inject.Singleton;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
-import com.terryscape.game.combat.health.DamageInformation;
-import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.npc.NpcComponentImpl;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
@@ -41,8 +39,6 @@ public class NpcActionIncomingPacket implements IncomingPacket {
             var npcDefinition = npc.getNpcDefinition();
             var description = "%s (id=%s, variant=%s)".formatted(npcDefinition.getDescription(), npcDefinition.getId(), npc.getNpcVariant());
             player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(description);
-
-            player.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(new DamageInformation().setAmount(100));
         }
 
         // TODO check the player can interact with npcs currently?

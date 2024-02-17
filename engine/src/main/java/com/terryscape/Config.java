@@ -26,4 +26,6 @@ public class Config {
     public static final String WORLD_REGION_CACHE_LOCATION_DIRECTORY = "%s/Regions".formatted(CACHE_LOCATION);
 
     public static final int WORLD_REGION_SIZE = 30;
+
+    public static final int WORLD_TILE_SIZE = 50;
 }

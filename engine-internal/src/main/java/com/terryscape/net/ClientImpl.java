@@ -5,7 +5,7 @@ import org.java_websocket.WebSocket;
 
 import java.util.Optional;
 
-public class ClientImpl implements Client {
+public class ClientImpl implements com.terryscape.net.Client {
 
     private final WebSocket connection;
 

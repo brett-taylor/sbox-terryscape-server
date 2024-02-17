@@ -26,7 +26,7 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
 
     private static final Logger LOGGER = LogManager.getLogger(PacketManagerImpl.class);
 
-    private final BidiMap<WebSocket, Client> clients = new DualHashBidiMap<>();
+    private final BidiMap<WebSocket, com.terryscape.net.Client> clients = new DualHashBidiMap<>();
 
     private final Map<String, IncomingPacket> incomingPacketHandlers = new HashMap<>();
 
@@ -91,7 +91,7 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
     }
 
     @Override
-    public void send(Client client, OutgoingPacket outgoingPacket) {
+    public void send(com.terryscape.net.Client client, OutgoingPacket outgoingPacket) {
         var packet = generatePacket(outgoingPacket).toByteArray();
         client.getConnection().send(packet);
     }
@@ -102,7 +102,7 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
         broadcast(packet);
     }
 
-    private void handleIncomingPacket(Client client, String packetName, ByteBuffer packet) {
+    private void handleIncomingPacket(com.terryscape.net.Client client, String packetName, ByteBuffer packet) {
         if (!incomingPacketHandlers.containsKey(packetName)) {
             LOGGER.error("Unhandled packet type {}.", packetName);
             return;

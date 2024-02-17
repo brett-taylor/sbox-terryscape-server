@@ -1,6 +1,5 @@
 package com.terryscape.cache.world;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
@@ -8,6 +7,7 @@ import com.google.inject.Singleton;
 import com.terryscape.Config;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.object.ObjectDefinitionImpl;
+import com.terryscape.world.coordinate.WorldRealPosition;
 import com.terryscape.world.coordinate.WorldRegionCoordinate;
 import com.terryscape.world.coordinate.WorldRegionLocalCoordinate;
 import org.springframework.core.io.Resource;
@@ -34,10 +34,12 @@ public class WorldRegionCacheLoader {
         var worldRegions = new HashMap<WorldRegionCoordinate, WorldRegionDefinitionImpl>();
 
         var worldRegionResources = getAllWorldRegionResources();
-        worldRegionResources.forEach(resource -> worldRegions.put(
-            getWorldRegionCoordinateFromRegionFile(resource.getFilename()),
-            createWorldRegionDefinition(resource)
-        ));
+        for (var resource : worldRegionResources) {
+            var worldRegionCoordinate = getWorldRegionCoordinateFromRegionFile(resource.getFilename());
+            var worldRegionDefinition = createWorldRegionDefinition(worldRegionCoordinate, resource);
+
+            worldRegions.put(worldRegionCoordinate, worldRegionDefinition);
+        }
 
         return worldRegions;
     }
@@ -58,12 +60,12 @@ public class WorldRegionCacheLoader {
         );
     }
 
-    private WorldRegionDefinitionImpl createWorldRegionDefinition(Resource resource) {
+    private WorldRegionDefinitionImpl createWorldRegionDefinition(WorldRegionCoordinate worldRegionCoordinate, Resource resource) {
         var jsonObject = getJsonObjectFromResource(resource);
         var worldRegionDefinition = new WorldRegionDefinitionImpl();
 
         loadAndSetTileFlags(worldRegionDefinition, jsonObject);
-        loadAndSetObjects(worldRegionDefinition, jsonObject);
+        loadAndSetObjects(worldRegionCoordinate, worldRegionDefinition, jsonObject);
 
         return worldRegionDefinition;
     }
@@ -102,7 +104,7 @@ public class WorldRegionCacheLoader {
         worldRegionDefinition.setTiles(tilesToSet);
     }
 
-    private void loadAndSetObjects(WorldRegionDefinitionImpl worldRegionDefinition, JsonObject jsonObject) {
+    private void loadAndSetObjects(WorldRegionCoordinate worldRegionCoordinate, WorldRegionDefinitionImpl worldRegionDefinition, JsonObject jsonObject) {
         var objectsJson = jsonObject.get("Objects").getAsJsonArray();
         var objectsToSet = new HashMap<String, WorldObjectDefinitionImpl>();
 
@@ -112,7 +114,16 @@ public class WorldRegionCacheLoader {
             var objectDefinitionId = object.getAsJsonObject().getAsJsonPrimitive("ObjectDefinitionId").getAsString();
             var objectDefinition = (ObjectDefinitionImpl) cacheLoader.getObjectDefinition(objectDefinitionId);
 
-            var worldObjectDefinition = new WorldObjectDefinitionImpl().setObjectDefinition(objectDefinition);
+            var positionJsonString = object.getAsJsonObject().getAsJsonPrimitive("Position").getAsString();
+            var realPosition = WorldRealPosition.fromJsonString(positionJsonString);
+
+            // The position in the cache is stored relative to the region, we must mae it an absolute world coordinate.
+            var worldCoordinate = realPosition.asWorldRegionLocalCoordinate().toWorldCoordinate(worldRegionCoordinate);
+
+            var worldObjectDefinition = new WorldObjectDefinitionImpl()
+                .setObjectDefinition(objectDefinition)
+                .setWorldCoordinate(worldCoordinate);
+
             objectsToSet.put(worldObjectId, worldObjectDefinition);
         }
 

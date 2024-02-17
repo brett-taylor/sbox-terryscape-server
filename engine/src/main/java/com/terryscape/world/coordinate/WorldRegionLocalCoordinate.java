@@ -12,16 +12,19 @@ public class WorldRegionLocalCoordinate {
         this.vector2Int = new Vector2Int(x, y);
     }
 
-    private WorldRegionLocalCoordinate(Vector2Int vector2Int) {
-        this(vector2Int.getX(), vector2Int.getY());
-    }
-
     public int getX() {
         return vector2Int.getX();
     }
 
     public int getY() {
         return vector2Int.getY();
+    }
+
+    public WorldCoordinate toWorldCoordinate(WorldRegionCoordinate worldRegionCoordinate) {
+        return new WorldCoordinate(
+            getX() + worldRegionCoordinate.toWorldCoordinateOrigin().getX(),
+            getY() + worldRegionCoordinate.toWorldCoordinateOrigin().getY()
+        );
     }
 
     @Override
