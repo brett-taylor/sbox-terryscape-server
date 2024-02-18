@@ -1,8 +1,24 @@
 package com.terryscape.game.combat.health;
 
 public enum DamageType {
-    MELEE_MAIN_HAND,
-    MELEE_OFF_HAND,
+    SLASH,
+    SMASH,
+    PIERCE,
+    THROWN,
+    SHOT,
+    DRAWN,
+    FIRE,
+    WATER,
+    EARTH,
+    AIR,
+    TYPELESS;
 
-    TYPELESS,
+    public static AttackType GetAttackType(DamageType type) {
+        return switch (type) {
+            case SLASH, SMASH, PIERCE -> AttackType.MELEE;
+            case THROWN, SHOT, DRAWN -> AttackType.BOW;
+            case FIRE, WATER, EARTH, AIR -> AttackType.MAGIC;
+            default -> AttackType.TYPELESS;
+        };
+    }
 }
