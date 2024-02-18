@@ -17,12 +17,12 @@ public class NpcActionIncomingPacket implements IncomingPacket {
 
     private final WorldManager worldManager;
 
-    private final NpcInteractionManager npcInteractionManager;
+    private final NpcInteractionDispatcher npcInteractionDispatcher;
 
     @Inject
-    public NpcActionIncomingPacket(WorldManager worldManager, NpcInteractionManager npcInteractionManager) {
+    public NpcActionIncomingPacket(WorldManager worldManager, NpcInteractionDispatcher npcInteractionDispatcher) {
         this.worldManager = worldManager;
-        this.npcInteractionManager = npcInteractionManager;
+        this.npcInteractionDispatcher = npcInteractionDispatcher;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class NpcActionIncomingPacket implements IncomingPacket {
         }
 
         if (npc.getNpcDefinition().isInteractable() && action.equals("interact")) {
-            npcInteractionManager.dispatchNpcInteraction(client, npc);
+            npcInteractionDispatcher.dispatchNpcInteraction(client, npc);
         }
     }
 }

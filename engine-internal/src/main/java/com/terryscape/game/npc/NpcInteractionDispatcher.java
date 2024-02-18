@@ -11,17 +11,18 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class NpcInteractionManager {
+public class NpcInteractionDispatcher {
 
-    private static final Logger LOGGER = LogManager.getLogger(NpcInteractionManager.class);
+    private static final Logger LOGGER = LogManager.getLogger(NpcInteractionDispatcher.class);
 
     private final Map<String, NpcInteractionHandler> npcHandlers;
 
     @Inject
-    public NpcInteractionManager(Set<NpcInteractionHandler> handlers) {
+    public NpcInteractionDispatcher(Set<NpcInteractionHandler> handlers) {
         npcHandlers = new HashMap<>();
 
         handlers.forEach(this::registerSingleNpcInteractionHandler);
+        LOGGER.info("Registered interaction handlers for {} npcs.", npcHandlers.size());
     }
 
     public void dispatchNpcInteraction(Client client, NpcComponent npcComponent) {
@@ -38,7 +39,7 @@ public class NpcInteractionManager {
     private void registerSingleNpcInteractionHandler(NpcInteractionHandler handler) {
         for (var npcId : handler.getNpcIds()) {
             if (npcHandlers.containsKey(npcId)) {
-                throw new RuntimeException("A handler can't be registered to npc %s as it already has one".formatted(npcId));
+                throw new RuntimeException("A NpcInteractionHandler can't be registered to npc %s as it already has one".formatted(npcId));
             }
 
             npcHandlers.put(npcId, handler);

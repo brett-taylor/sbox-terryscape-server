@@ -9,7 +9,12 @@ import com.terryscape.entity.EntityPrefabFactoryImpl;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
-import com.terryscape.game.interfaces.InterfaceActionIncomingPacket;
+import com.terryscape.game.equipment.PlayerEquipmentInterfaceHandler;
+import com.terryscape.game.interfaces.InterfaceActionHandler;
+import com.terryscape.game.interfaces.packet.InterfaceActionIncomingPacket;
+import com.terryscape.game.interfaces.InterfaceManager;
+import com.terryscape.game.interfaces.InterfaceManagerImpl;
+import com.terryscape.game.item.PlayerInventoryInterfaceHandler;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
@@ -36,6 +41,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(WorldClock.class).to(WorldClockImpl.class);
         binder().bind(WorldManager.class).to(WorldManagerImpl.class);
         binder().bind(EntityPrefabFactory.class).to(EntityPrefabFactoryImpl.class);
+        binder().bind(InterfaceManager.class).to(InterfaceManagerImpl.class);
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);
@@ -44,6 +50,10 @@ public class EngineInternalGuiceModule extends AbstractModule {
         incomingPacketMultibinder.addBinding().to(InterfaceActionIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(NpcActionIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(WorldObjectActionIncomingPacket.class);
+
+        var interfaceActionHandlerMultibinder = Multibinder.newSetBinder(binder(), InterfaceActionHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(PlayerEquipmentInterfaceHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(PlayerInventoryInterfaceHandler.class);
     }
 
 }

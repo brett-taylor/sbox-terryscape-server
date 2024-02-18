@@ -5,19 +5,20 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
+import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
+import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.NpcComponentImpl;
 import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
 import com.terryscape.game.player.PlayerComponentImpl;
-import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
@@ -40,13 +41,16 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final CacheLoader cacheLoader;
 
+    private final InterfaceManager interfaceManager;
+
     @Inject
     public EntityPrefabFactoryImpl(WorldManager worldManager,
                                    PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
                                    PacketManager packetManager,
                                    CommandManager commandManager,
-                                   CacheLoader cacheLoader) {
+                                   CacheLoader cacheLoader,
+                                   InterfaceManager interfaceManager) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
@@ -54,6 +58,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.packetManager = packetManager;
         this.commandManager = commandManager;
         this.cacheLoader = cacheLoader;
+        this.interfaceManager = interfaceManager;
     }
 
     @Override
@@ -99,7 +104,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createPlayerPrefab() {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(entity, packetManager);
+        var playerComponent = new PlayerComponentImpl(entity, packetManager, interfaceManager);
         playerComponent.setGender(HumanoidGender.MALE);
         entity.addComponent(playerComponent);
 

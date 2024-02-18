@@ -68,6 +68,7 @@ public class ServerImpl implements Server {
 
             worldManager.tick();
 
+            // TODO: Log slow tick updates
             LOGGER.debug("Game tick executed in {} milliseconds.", stopwatch.elapsed(TimeUnit.MILLISECONDS));
         } catch (Exception e) {
             LOGGER.error("Main game thread exception.", e);

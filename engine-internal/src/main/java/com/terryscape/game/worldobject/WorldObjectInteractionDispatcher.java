@@ -12,17 +12,18 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class WorldObjectInteractionManager {
+public class WorldObjectInteractionDispatcher {
 
-    private static final Logger LOGGER = LogManager.getLogger(WorldObjectInteractionManager.class);
+    private static final Logger LOGGER = LogManager.getLogger(WorldObjectInteractionDispatcher.class);
 
     private final Map<String, WorldObjectInteractionHandler> worldObjectHandlers;
 
     @Inject
-    public WorldObjectInteractionManager(Set<WorldObjectInteractionHandler> handlers) {
+    public WorldObjectInteractionDispatcher(Set<WorldObjectInteractionHandler> handlers) {
         worldObjectHandlers = new HashMap<>();
 
         handlers.forEach(this::registerSingleWorldObjectInteractionHandler);
+        LOGGER.info("Registered interaction handlers for {} world objects.", worldObjectHandlers.size());
     }
 
     public void dispatchWorldObjectInteraction(Client client, WorldObjectDefinition worldObjectDefinition) {
@@ -39,7 +40,7 @@ public class WorldObjectInteractionManager {
     private void registerSingleWorldObjectInteractionHandler(WorldObjectInteractionHandler handler) {
         for (var objectId : handler.getObjectIds()) {
             if (worldObjectHandlers.containsKey(objectId)) {
-                throw new RuntimeException("A handler can't be registered to object %s as it already has one".formatted(objectId));
+                throw new RuntimeException("A WorldObjectInteractionHandler can't be registered to object %s as it already has one".formatted(objectId));
             }
 
             worldObjectHandlers.put(objectId, handler);

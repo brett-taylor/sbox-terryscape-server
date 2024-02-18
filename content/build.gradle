@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(":content:commands")
+    implementation project(":content:startingzone")
+    implementation project(":content:interfaces")
+}

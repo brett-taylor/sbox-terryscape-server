@@ -15,12 +15,12 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
 
     private final CacheLoader cacheLoader;
 
-    private final WorldObjectInteractionManager worldObjectInteractionManager;
+    private final WorldObjectInteractionDispatcher worldObjectInteractionDispatcher;
 
     @Inject
-    public WorldObjectActionIncomingPacket(CacheLoader cacheLoader, WorldObjectInteractionManager worldObjectInteractionManager) {
+    public WorldObjectActionIncomingPacket(CacheLoader cacheLoader, WorldObjectInteractionDispatcher worldObjectInteractionDispatcher) {
         this.cacheLoader = cacheLoader;
-        this.worldObjectInteractionManager = worldObjectInteractionManager;
+        this.worldObjectInteractionDispatcher = worldObjectInteractionDispatcher;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
         // TODO check the player can interact with world objects currently?
 
         if (objectDefinition.isInteractable() && action.equals("interact")) {
-            worldObjectInteractionManager.dispatchWorldObjectInteraction(client, worldObject);
+            worldObjectInteractionDispatcher.dispatchWorldObjectInteraction(client, worldObject);
         }
     }
 }

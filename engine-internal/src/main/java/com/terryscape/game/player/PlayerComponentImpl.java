@@ -1,7 +1,6 @@
 package com.terryscape.game.player;
 
 import com.google.inject.Inject;
-import com.terryscape.Config;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
@@ -10,6 +9,7 @@ import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
+import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.PlayerInventory;
 import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
@@ -30,6 +30,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private final PacketManager packetManager;
 
+    private final InterfaceManager interfaceManager;
+
     private final FixedSizeItemContainer inventory;
 
     private final PlayerEquipment equipment;
@@ -41,10 +43,11 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     private HumanoidGender gender;
 
     @Inject
-    public PlayerComponentImpl(Entity entity, PacketManager packetManager) {
+    public PlayerComponentImpl(Entity entity, PacketManager packetManager, InterfaceManager interfaceManager) {
         super(entity);
 
         this.packetManager = packetManager;
+        this.interfaceManager = interfaceManager;
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
@@ -103,8 +106,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         respawn();
 
-        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Welcome to %s, %s.".formatted(Config.NAME, getUsername()));
-        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Say ::help to see commands.");
+        interfaceManager.showInterface(getClient(), "welcome_screen");
 
         var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
         packetManager.send(getClient(), setLocalEntityPacket);
@@ -137,8 +139,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private void respawn() {
         getEntity().getComponentOrThrow(AnimationComponent.class).resetAnimation();
-        getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(15, 15));
-        getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.NORTH);
+        getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(14, 20));
+        getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
 
         getEntity().getComponentOrThrow(HealthComponent.class).resetHealthToMax();
     }
