@@ -86,9 +86,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
+        var maxHealth = 40;
         var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(5);
-        healthComponent.setHealth(5);
+        healthComponent.setMaxHealth(maxHealth);
+        healthComponent.setHealth(maxHealth);
         entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
@@ -118,10 +119,11 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
-
+		
+        var maxHealth = 100;
         var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(10);
-        healthComponent.setHealth(10);
+        healthComponent.setMaxHealth(maxHealth);
+        healthComponent.setHealth(maxHealth);
         entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
