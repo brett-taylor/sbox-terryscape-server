@@ -107,6 +107,7 @@ public class PlayerCombatScript implements CombatScript {
     private void slap(CombatComponent victim, WeaponDefinitionImpl weapon) {
         nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
 
+        animationComponent.playAnimation(weapon.getAttackAnimation());
         var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
         var attackerStats = playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
 
@@ -129,7 +130,6 @@ public class PlayerCombatScript implements CombatScript {
         damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
 
         var damage = new DamageInformation().setAmount(damageAmount);
-        animationComponent.playAnimation(weapon.getAttackAnimation());
 
         damage.setType(weaponDamageType);
 

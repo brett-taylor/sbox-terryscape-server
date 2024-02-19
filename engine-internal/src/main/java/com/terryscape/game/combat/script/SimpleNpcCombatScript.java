@@ -46,6 +46,7 @@ public class SimpleNpcCombatScript implements CombatScript {
 
         lastAttackTime = worldClock.getNowTick();
 
+        animationComponent.playAnimation("attack");
         var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
         var attackerStats = npcComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
 
@@ -59,8 +60,7 @@ public class SimpleNpcCombatScript implements CombatScript {
             hitChance = attackerAccuracy / victimEvasion;
         }
         var hitAttempt = rand.nextDouble();
-
-        if(hitChance < hitAttempt) return true;
+        var hit = hitChance < hitAttempt;
 
         var damageAmount = attackerStats.GetProficiency(weaponDamageType);
         var randomDouble = rand.nextDouble();
@@ -69,7 +69,6 @@ public class SimpleNpcCombatScript implements CombatScript {
         damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
 
         var damage = new DamageInformation().setAmount(damageAmount);
-        animationComponent.playAnimation("attack");
 
         damage.setType(weaponDamageType);
 
