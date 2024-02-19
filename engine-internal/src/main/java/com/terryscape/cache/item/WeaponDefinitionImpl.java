@@ -48,7 +48,11 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
 
     @Override
     public Boolean attack(long currentTick) {
-        return nextAttackOpportunity <= currentTick;
+        var canAttack = nextAttackOpportunity <= currentTick;
+        if(canAttack) {
+            nextAttackOpportunity = currentTick + attackDelay;
+        }
+        return canAttack;
     }
 
     @Override
