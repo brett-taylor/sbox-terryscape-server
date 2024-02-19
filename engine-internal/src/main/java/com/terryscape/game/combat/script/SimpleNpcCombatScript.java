@@ -75,8 +75,9 @@ public class SimpleNpcCombatScript implements CombatScript {
                 .setType(weaponDamageType)
                 .setAmount(damageAmount);
 
-        victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
-
+        if(hit) {
+            victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
+        }
         return true;
     }
 }
