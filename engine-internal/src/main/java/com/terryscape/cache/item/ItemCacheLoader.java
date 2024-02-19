@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.game.combat.health.AttackType;
+import com.terryscape.game.combat.health.DamageType;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
@@ -32,12 +34,30 @@ public class ItemCacheLoader {
     }
 
     private ItemDefinitionImpl createItemDefinitionFromJson(JsonObject jsonObject) {
-        return new ItemDefinitionImpl()
+        ItemType itemType = ItemType.values()[jsonObject.getAsJsonPrimitive("itemType").getAsInt()];
+        ItemDefinitionImpl item = switch (itemType){
+            case WEAPON -> createWeaponDefinitionFromJson(jsonObject);
+            case CLOTHING -> createClothingDefinitionFromJson(jsonObject);
+            default -> new ItemDefinitionImpl();
+        };
+
+        return item
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
-            .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
-            .setAnimationMainHandAttack(jsonObject.getAsJsonPrimitive("animationMainHandAttack").getAsString())
-            .setAnimationOffHandAttack(jsonObject.getAsJsonPrimitive("animationOffHandAttack").getAsString());
+            .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString());
+    }
+
+    private ItemDefinitionImpl createClothingDefinitionFromJson(JsonObject jsonObject) {
+        return new ClothingDefinitionImpl();
+    }
+
+    private ItemDefinitionImpl createWeaponDefinitionFromJson(JsonObject jsonObject) {
+        return new WeaponDefinitionImpl()
+                .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationName").getAsString())
+                .setAttackDelay(jsonObject.getAsJsonPrimitive("attackDelay").getAsInt())
+                .setAttributeBonus(jsonObject.getAsJsonPrimitive("attributeBonus").getAsInt())
+                .setDamageType(DamageType.values()[jsonObject.getAsJsonPrimitive("damageType").getAsInt()])
+                .setPrimaryAttribute(AttackType.values()[jsonObject.getAsJsonPrimitive("primaryAttribute").getAsInt()]);
     }
 
 }
