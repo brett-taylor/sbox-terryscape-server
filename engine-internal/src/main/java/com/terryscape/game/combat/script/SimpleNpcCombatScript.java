@@ -68,9 +68,11 @@ public class SimpleNpcCombatScript implements CombatScript {
 
         damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
 
-        var damage = new DamageInformation().setAmount(damageAmount);
-
-        damage.setType(weaponDamageType);
+        var damage = new DamageInformation()
+                .setHit(hit)
+                .setIsUsingMainHand(true)
+                .setType(weaponDamageType)
+                .setAmount(damageAmount);
 
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
 

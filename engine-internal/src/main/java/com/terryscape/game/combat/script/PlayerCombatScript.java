@@ -61,7 +61,7 @@ public class PlayerCombatScript implements CombatScript {
             return handleAttackWithWeapon(victim);
         }
 
-        slap(victim, unarmed);
+        slap(victim, unarmed, true);
         return true;
     }
 
@@ -87,7 +87,7 @@ public class PlayerCombatScript implements CombatScript {
         if (mainHand.isPresent()) {
             WeaponDefinitionImpl weapon = (WeaponDefinitionImpl) mainHand.get();
             if(weapon.attack(worldClock.getNowTick())) {
-                slap(victim, weapon);
+                slap(victim, weapon, true);
                 return true;
             }
         }
@@ -96,7 +96,7 @@ public class PlayerCombatScript implements CombatScript {
         if (offHand.isPresent()) {
             WeaponDefinitionImpl weapon = (WeaponDefinitionImpl) offHand.get();
             if(weapon.attack(worldClock.getNowTick())) {
-                slap(victim, weapon);
+                slap(victim, weapon, false);
                 return true;
             }
         }
@@ -104,7 +104,7 @@ public class PlayerCombatScript implements CombatScript {
         return false;
     }
 
-    private void slap(CombatComponent victim, WeaponDefinitionImpl weapon) {
+    private void slap(CombatComponent victim, WeaponDefinitionImpl weapon, boolean mainHand) {
         nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
 
         animationComponent.playAnimation(weapon.getAttackAnimation());
@@ -121,7 +121,7 @@ public class PlayerCombatScript implements CombatScript {
 
         System.out.println(hitChance + " " + hitAttempt + " " + attackerAccuracy + " " + victimEvasion);
 
-        if(hitChance < hitAttempt) return;
+        var hit = hitChance < hitAttempt;
 
         var damageAmount = weapon.getPrimaryAttributeBonus() + attackerStats.GetProficiency(weaponDamageType);
         var randomDouble = rand.nextDouble();
@@ -129,9 +129,11 @@ public class PlayerCombatScript implements CombatScript {
 
         damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
 
-        var damage = new DamageInformation().setAmount(damageAmount);
-
-        damage.setType(weaponDamageType);
+        var damage = new DamageInformation()
+                .setHit(hit)
+                .setIsUsingMainHand(mainHand)
+                .setType(weaponDamageType)
+                .setAmount(damageAmount);
 
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
     }
