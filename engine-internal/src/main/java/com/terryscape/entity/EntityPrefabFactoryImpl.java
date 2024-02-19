@@ -127,7 +127,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         entity.addComponent(taskComponent);
 
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
-        movementComponent.setMovementSpeed(MovementSpeed.WALK);
+        movementComponent.setMovementSpeed(MovementSpeed.RUN);
         entity.addComponent(movementComponent);
 		
         var maxHealth = 160;
