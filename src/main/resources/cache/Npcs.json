@@ -5,6 +5,16 @@
     "description": "A disgusting beast.",
     "attackable": true,
     "interactable": false,
+    "stats": {
+      "primaryDamageType": "SMASH",
+      "combatStats": {
+        "attack": 30,
+        "defense": 20,
+        "mage": 0,
+        "range": 0,
+        "melee": 5
+      }
+    },
     "simpleNpc": {
       "variants": {
         "green_male": {
@@ -48,108 +58,123 @@
     "description": "A scarier looking disgusting beast.",
     "attackable": true,
     "interactable": false,
-    "simpleNpc": {
-      "variants": {
-        "green_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
-        },
-        "red_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
-        },
-        "blue_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
-        },
-        "yellow_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
-        },
-        "green_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
-        },
-        "red_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
-        },
-        "blue_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
-        },
-        "yellow_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
-        }
-      }
-    }
-  },
-  {
-    "id": "goblin_shaman",
-    "name": "Goblin Shaman",
-    "description": "A magical looking disgusting beast.",
-    "attackable": true,
-    "interactable": false,
-    "simpleNpc": {
-      "variants": {
-        "default": {
-          "modelPath": "assets/npcs/goblin/goblin_shaman.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
-        }
-      }
-    }
-  },
-  {
-    "id": "goblin_chief",
-    "name": "Goblin Chief",
-    "description": "He seems to be in charge of the disgusting beasts.",
-    "attackable": true,
-    "interactable": false,
     "stats": {
+      "primaryDamageType": "SMASH",
       "combatStats": {
-        "attack": 999,
-        "defense": 0,
+        "attack": 60,
+        "defense": 70,
         "mage": 0,
         "range": 0,
-        "melee": 1000
-      },
-      "attackBonuses": {
-        "SLASH": 10
-      },
-      "defenseBonuses": {
-        "SMASH": -100
+        "melee": 7
       }
     },
-    "simpleNpc": {
-      "variants": {
-        "default": {
-          "modelPath": "assets/npcs/goblin/goblin_chief.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+      "simpleNpc": {
+        "variants": {
+          "green_male": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          },
+          "red_male": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          },
+          "blue_male": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          },
+          "yellow_male": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          },
+          "green_female": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          },
+          "red_female": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          },
+          "blue_female": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          },
+          "yellow_female": {
+            "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          }
         }
       }
-    }
-  },
-  {
-    "id": "shop_keeper",
-    "name": "Shop Keeper",
-    "description": "I wonder what she sells?",
-    "attackable": false,
-    "interactable": true,
-    "humanoidNpc":
+    },
     {
-      "gender": "FEMALE"
-    }
-  },
-  {
-    "id": "guide",
-    "name": "Guide",
-    "description": "Maybe I should speak to him?",
-    "attackable": false,
-    "interactable": true,
-    "humanoidNpc":
+      "id": "goblin_shaman",
+      "name": "Goblin Shaman",
+      "description": "A magical looking disgusting beast.",
+      "attackable": true,
+      "interactable": false,
+      "stats": {
+        "primaryDamageType": "WATER",
+        "combatStats": {
+          "attack": 90,
+          "defense": 100,
+          "mage": 15,
+          "range": 0,
+          "melee": 0
+        },
+        "defenseBonuses": {
+          "SMASH": -100
+        }
+      },
+      "simpleNpc": {
+        "variants": {
+          "default": {
+            "modelPath": "assets/npcs/goblin/goblin_shaman.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          }
+        }
+      }
+    },
     {
-      "gender": "MALE"
+      "id": "goblin_chief",
+      "name": "Goblin Chief",
+      "description": "He seems to be in charge of the disgusting beasts.",
+      "attackable": true,
+      "interactable": false,
+      "stats": {
+        "combatStats": {
+          "attack": 999,
+          "defense": 120,
+          "mage": 0,
+          "range": 0,
+          "melee": 1000
+        }
+      },
+      "simpleNpc": {
+        "variants": {
+          "default": {
+            "modelPath": "assets/npcs/goblin/goblin_chief.vmdl",
+            "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          }
+        }
+      }
+    },
+    {
+      "id": "shop_keeper",
+      "name": "Shop Keeper",
+      "description": "I wonder what she sells?",
+      "attackable": false,
+      "interactable": true,
+      "humanoidNpc": {
+        "gender": "FEMALE"
+      }
+    },
+    {
+      "id": "guide",
+      "name": "Guide",
+      "description": "Maybe I should speak to him?",
+      "attackable": false,
+      "interactable": true,
+      "humanoidNpc": {
+        "gender": "MALE"
+      }
     }
-  }
 ]

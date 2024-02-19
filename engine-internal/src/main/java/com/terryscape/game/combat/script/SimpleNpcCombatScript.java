@@ -14,7 +14,7 @@ import com.terryscape.world.WorldClock;
 import java.util.Random;
 
 public class SimpleNpcCombatScript implements CombatScript {
-
+    private final DamageType damageType;
     private final WorldClock worldClock;
 
     private final NpcComponent npcComponent;
@@ -25,9 +25,10 @@ public class SimpleNpcCombatScript implements CombatScript {
 
     private long lastAttackTime;
 
-    public SimpleNpcCombatScript(WorldClock worldClock, NpcComponent npcComponent) {
+    public SimpleNpcCombatScript(WorldClock worldClock, NpcComponent npcComponent, DamageType damageType) {
         this.worldClock = worldClock;
         this.npcComponent = npcComponent;
+        this.damageType = damageType;
         this.movementComponent = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = npcComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
     }
@@ -50,7 +51,7 @@ public class SimpleNpcCombatScript implements CombatScript {
         var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
         var attackerStats = npcComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
 
-        var weaponDamageType = DamageType.SMASH;
+        var weaponDamageType = damageType;
         double victimEvasion = victimStats.GetEvasion(weaponDamageType);
         double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
 

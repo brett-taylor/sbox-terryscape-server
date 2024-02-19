@@ -34,7 +34,7 @@ public class ItemCacheLoader {
     }
 
     private ItemDefinitionImpl createItemDefinitionFromJson(JsonObject jsonObject) {
-        ItemType itemType = ItemType.values()[jsonObject.getAsJsonPrimitive("itemType").getAsInt()];
+        ItemType itemType = ItemType.valueOf(jsonObject.getAsJsonPrimitive("itemType").getAsString());
         ItemDefinitionImpl item = switch (itemType){
             case WEAPON -> createWeaponDefinitionFromJson(jsonObject);
             case CLOTHING -> createClothingDefinitionFromJson(jsonObject);
@@ -57,8 +57,8 @@ public class ItemCacheLoader {
                 .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationOffHandAttack").getAsString(), false)
                 .setAttackDelay(jsonObject.getAsJsonPrimitive("attackDelay").getAsInt())
                 .setAttributeBonus(jsonObject.getAsJsonPrimitive("attributeBonus").getAsInt())
-                .setDamageType(DamageType.values()[jsonObject.getAsJsonPrimitive("damageType").getAsInt()])
-                .setPrimaryAttribute(AttackType.values()[jsonObject.getAsJsonPrimitive("primaryAttribute").getAsInt()]);
+                .setDamageType(DamageType.valueOf(jsonObject.getAsJsonPrimitive("damageType").getAsString()))
+                .setPrimaryAttribute(AttackType.valueOf(jsonObject.getAsJsonPrimitive("primaryAttribute").getAsString()));
     }
 
 }

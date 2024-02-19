@@ -22,6 +22,7 @@ public interface NpcDefinition {
 
     Optional<NpcDefinitionSimpleNpc> getSimpleNpc();
 
+    DamageType getDamageType();
     CombatStats getCombatStats();
     List<Pair<DamageType,Integer>> getAttackBonuses();
     List<Pair<DamageType,Integer>> getDefenseBonuses();

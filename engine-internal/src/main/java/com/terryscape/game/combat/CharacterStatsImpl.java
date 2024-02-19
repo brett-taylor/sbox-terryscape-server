@@ -50,7 +50,8 @@ public class CharacterStatsImpl extends BaseEntityComponent {
             case MELEE -> Melee;
             case BOW -> Range;
             case MAGIC -> Mage;
-            default -> 0;
+            //TODO: Change the default back to 0
+            default -> Melee;
         };
     }
 

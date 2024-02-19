@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class NpcDefinitionImpl implements NpcDefinition {
+    private DamageType damageType;
     private CombatStats baseStats;
     private List<Pair<DamageType, Integer>> attackBonuses, defenseBonuses;
 
@@ -29,6 +30,7 @@ public class NpcDefinitionImpl implements NpcDefinition {
         attackBonuses = new ArrayList<>();
         defenseBonuses = new ArrayList<>();
         baseStats = new CombatStats();
+        damageType = DamageType.TYPELESS;
     }
 
     @Override
@@ -71,6 +73,11 @@ public class NpcDefinitionImpl implements NpcDefinition {
         return this;
     }
 
+    public NpcDefinitionImpl setDamageType(DamageType damageType){
+        this.damageType = damageType;
+        return this;
+    }
+
     public NpcDefinitionImpl setCombatStats(CombatStats stats){
         this.baseStats = stats;
         return this;
@@ -109,6 +116,11 @@ public class NpcDefinitionImpl implements NpcDefinition {
     @Override
     public Optional<NpcDefinitionSimpleNpc> getSimpleNpc() {
         return Optional.ofNullable(simpleNpc);
+    }
+
+    @Override
+    public DamageType getDamageType() {
+        return damageType;
     }
 
     @Override

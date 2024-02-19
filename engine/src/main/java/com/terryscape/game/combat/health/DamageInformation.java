@@ -46,7 +46,11 @@ public class DamageInformation implements PacketSerializable {
         OutgoingPacket.writeBoolean(packet, getHit());
         OutgoingPacket.writeBoolean(packet, getIsUsingMainHand());
         OutgoingPacket.writeInt32(packet, getAmount());
-        OutgoingPacket.writeEnum(packet, getType());
+        String typeless = "TYPELESS";
+        if(getType() != DamageType.TYPELESS) {
+            typeless = DamageType.GetAttackType(getType()).name();
+        }
+        OutgoingPacket.writeString(packet, typeless);
     }
 
     public DamageInformation setIsUsingMainHand(boolean mainHand){

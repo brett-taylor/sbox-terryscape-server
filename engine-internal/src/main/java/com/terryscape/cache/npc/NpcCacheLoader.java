@@ -56,6 +56,11 @@ public class NpcCacheLoader {
     private void setStats(NpcDefinitionImpl npcDefinition, JsonObject jsonObject) {
         CombatStats stats = new CombatStats();
 
+        var primaryDamageType = DamageType.TYPELESS; //The default
+        if(jsonObject.has("primaryDamageType")){
+            primaryDamageType = DamageType.valueOf(jsonObject.getAsJsonPrimitive("primaryDamageType").getAsString());
+        }
+
         var combatStats = jsonObject.getAsJsonObject("combatStats");
         stats.Attack = combatStats.getAsJsonPrimitive("attack").getAsInt();
         stats.Defense = combatStats.getAsJsonPrimitive("defense").getAsInt();
@@ -88,6 +93,7 @@ public class NpcCacheLoader {
         }
 
         npcDefinition
+                .setDamageType(primaryDamageType)
                 .setCombatStats(stats)
                 .setAttackBonuses(attackBonuses)
                 .setDefenseBonuses(defenseBonuses);

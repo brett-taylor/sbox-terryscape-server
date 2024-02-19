@@ -98,7 +98,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var combatScript = new SimpleNpcCombatScript(worldClock, npcComponent);
+        var combatScript = new SimpleNpcCombatScript(worldClock, npcComponent, npcDefinition.getDamageType());
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
 
@@ -130,7 +130,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 		
-        var maxHealth = 100;
+        var maxHealth = 160;
         var healthComponent = new HealthComponentImpl(entity);
         healthComponent.setMaxHealth(maxHealth);
         healthComponent.setHealth(maxHealth);

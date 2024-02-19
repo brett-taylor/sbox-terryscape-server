@@ -1,6 +1,6 @@
 ﻿[
   {
-    "itemType": 0,
+    "itemType": "WEAPON",
     "id": "basic_scimitar",
     "name": "Basic Scimitar",
     "description": "A basic scimitar.",
@@ -12,13 +12,13 @@
     "equippedOffHandRotation": "0,0,6.40",
     "animationMainHandAttack": "Sword_Attack_L3",
     "animationOffHandAttack": "Sword_Attack_R3",
-    "damageType": 1,
-    "primaryAttribute": 0,
+    "damageType": "PIERCE",
+    "primaryAttribute": "MELEE",
     "attackDelay": 6,
     "attributeBonus": 10
   },
   {
-    "itemType": 0,
+    "itemType": "WEAPON",
     "id": "basic_sword",
     "name": "Basic Sword",
     "description": "A basic sword.",
@@ -29,8 +29,8 @@
     "equippedOffHandRotation": "0,0,9.14",
     "animationMainHandAttack": "Sword_Attack_L4",
     "animationOffHandAttack": "Sword_Attack_R4",
-    "damageType": 0,
-    "primaryAttribute": 0,
+    "damageType": "SLASH",
+    "primaryAttribute": "MELEE",
     "attackDelay": 6,
     "attributeBonus": 10
   }
