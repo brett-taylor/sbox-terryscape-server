@@ -2,7 +2,9 @@ package com.terryscape.game.item;
 
 import com.google.inject.Singleton;
 import com.terryscape.cache.item.ClothingDefinition;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.item.WeaponDefinition;
+import com.terryscape.cache.item.WeaponDefinitionImpl;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.equipment.EquipmentSlot;
@@ -12,6 +14,7 @@ import com.terryscape.net.IncomingPacket;
 
 import java.nio.ByteBuffer;
 import java.util.Set;
+import java.util.Optional;
 
 @Singleton
 public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHandler {
@@ -36,32 +39,46 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             return;
         }
 
-        EquipmentSlot equipmentSlot;
-        switch (interfaceAction) {
-            case "item_main_hand" -> equipmentSlot = EquipmentSlot.MAIN_HAND;
-            case "item_off_hand" -> equipmentSlot = EquipmentSlot.OFF_HAND;
-            case "item_equip" -> {
-                if (item instanceof ClothingDefinition) {
-                    equipmentSlot = ((ClothingDefinition) item).getSlot();
-                } else {
-                    System.err.println("Cannot equip " + item.getName() + " it is not clothing.");
+        EquipmentSlot equipmentSlot = null;
+        boolean isWeapon = item instanceof WeaponDefinition;
+        WeaponDefinition weapon = null;
+        if(isWeapon) {
+            weapon = (WeaponDefinition)item;
+            switch (interfaceAction) {
+                case "item_main_hand" -> equipmentSlot = EquipmentSlot.MAIN_HAND;
+                case "item_off_hand" -> equipmentSlot = EquipmentSlot.OFF_HAND;
+                default -> {
+                    System.err.println("This is an invalid option for weapons: " + interfaceAction);
                     return;
                 }
             }
-            default -> {
-                System.err.println("Invalid interfaceAction: " + interfaceAction);
+        }
+
+        boolean isClothing = item instanceof ClothingDefinition;
+        ClothingDefinition clothing = null;
+        if (isClothing) {
+            clothing = (ClothingDefinition) item;
+            if (interfaceAction.equals("item_equip")) {
+                equipmentSlot = clothing.getSlot();
+            } else {
+                System.err.println("Cannot equip " + item.getName() + " it is not clothing.");
                 return;
             }
+        }
+
+        if(equipmentSlot == null){
+            System.err.println("equipmentSlot was never assigned.");
+            return;
         }
 
         playerInventory.removeItemAt(slotNumber);
         var occupiedSlot = playerEquipment.getSlot(equipmentSlot);
         if (occupiedSlot.isPresent()) {
             var removedEquipment = occupiedSlot.get();
-            if(removedEquipment instanceof ClothingDefinition equipment) {
-                equipment.getBonuses().forEach(x -> playerStats.RemoveDefenseBonus(x.getLeft(), x.getRight()));
-            } else if(removedEquipment instanceof WeaponDefinition equipment) {
-                equipment.getBonuses().forEach(x -> playerStats.RemoveAttackBonus(x.getLeft(), x.getRight()));
+            if(isClothing) {
+                clothing.getBonuses().forEach(x -> playerStats.RemoveDefenseBonus(x.getLeft(), x.getRight()));
+            } else {
+                weapon.getBonuses().forEach(x -> playerStats.RemoveAttackBonus(x.getLeft(), x.getRight()));
             }
             playerInventory.addItem(removedEquipment);
             playerEquipment.removeSlot(equipmentSlot);
@@ -69,8 +86,11 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         playerEquipment.setSlot(equipmentSlot, item);
 
         switch (equipmentSlot) {
-            case MAIN_HAND, OFF_HAND -> ((WeaponDefinition)item).getBonuses().forEach(x -> playerStats.AddAttackBonus(x.getLeft(), x.getRight()));
-            case TORSO -> ((ClothingDefinition)item).getBonuses().forEach(x -> playerStats.AddDefenseBonus(x.getLeft(), x.getRight()));
+            case MAIN_HAND, OFF_HAND -> {
+                assert weapon != null;
+                weapon.getBonuses().forEach(x -> playerStats.AddAttackBonus(x.getLeft(), x.getRight()));
+            }
+            case TORSO -> clothing.getBonuses().forEach(x -> playerStats.AddDefenseBonus(x.getLeft(), x.getRight()));
         }
     }
 }
