@@ -57,11 +57,11 @@ public class SimpleNpcCombatScript implements CombatScript {
 
         var rand = new Random();
         double hitChance = 1;
-        if(victimEvasion > 0) {
+        if (victimEvasion > 0) {
             hitChance = attackerAccuracy / victimEvasion;
         }
         var hitAttempt = rand.nextDouble();
-        var hit = hitChance < hitAttempt;
+        var hit = hitChance > hitAttempt;
 
         var damageAmount = attackerStats.GetProficiency(weaponDamageType);
         var randomDouble = rand.nextDouble();
@@ -75,9 +75,8 @@ public class SimpleNpcCombatScript implements CombatScript {
                 .setType(weaponDamageType)
                 .setAmount(damageAmount);
 
-        if(hit) {
-            victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
-        }
+        victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
+
         return true;
     }
 }

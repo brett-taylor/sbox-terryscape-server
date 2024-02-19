@@ -62,7 +62,7 @@ public class DamageInformation implements PacketSerializable {
         return mainHand;
     }
 
-    private boolean getHit() {
+    public boolean getHit() {
         return hit;
     }
 }
