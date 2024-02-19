@@ -1,8 +1,15 @@
 package com.terryscape.cache.npc;
 
+import com.terryscape.game.combat.health.DamageType;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class NpcDefinitionImpl implements NpcDefinition {
+    private CombatStats baseStats;
+    private List<Pair<DamageType, Integer>> attackBonuses, defenseBonuses;
 
     private String id;
 
@@ -17,6 +24,12 @@ public class NpcDefinitionImpl implements NpcDefinition {
     private NpcDefinitionNpcAppearanceType appearanceType;
 
     private NpcDefinitionSimpleNpcImpl simpleNpc;
+
+    public NpcDefinitionImpl(){
+        attackBonuses = new ArrayList<>();
+        defenseBonuses = new ArrayList<>();
+        baseStats = new CombatStats();
+    }
 
     @Override
     public String getId() {
@@ -58,6 +71,21 @@ public class NpcDefinitionImpl implements NpcDefinition {
         return this;
     }
 
+    public NpcDefinitionImpl setCombatStats(CombatStats stats){
+        this.baseStats = stats;
+        return this;
+    }
+
+    public NpcDefinitionImpl setAttackBonuses(List<Pair<DamageType, Integer>> attackBonuses){
+        this.attackBonuses = attackBonuses;
+        return this;
+    }
+
+    public NpcDefinitionImpl setDefenseBonuses(List<Pair<DamageType, Integer>> defenseBonuses){
+        this.defenseBonuses = defenseBonuses;
+        return this;
+    }
+
     @Override
     public boolean isAttackable() {
         return attackable;
@@ -81,6 +109,21 @@ public class NpcDefinitionImpl implements NpcDefinition {
     @Override
     public Optional<NpcDefinitionSimpleNpc> getSimpleNpc() {
         return Optional.ofNullable(simpleNpc);
+    }
+
+    @Override
+    public CombatStats getCombatStats() {
+        return baseStats;
+    }
+
+    @Override
+    public List<Pair<DamageType, Integer>> getAttackBonuses() {
+        return attackBonuses;
+    }
+
+    @Override
+    public List<Pair<DamageType, Integer>> getDefenseBonuses() {
+        return defenseBonuses;
     }
 
     public NpcDefinitionImpl setSimpleNpc(NpcDefinitionSimpleNpcImpl simpleNpc) {

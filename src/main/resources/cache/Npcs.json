@@ -106,6 +106,21 @@
     "description": "He seems to be in charge of the disgusting beasts.",
     "attackable": true,
     "interactable": false,
+    "stats": {
+      "combatStats": {
+        "attack": 999,
+        "defense": 0,
+        "mage": 0,
+        "range": 0,
+        "melee": 1000
+      },
+      "attackBonuses": {
+        "SLASH": 10
+      },
+      "defenseBonuses": {
+        "SMASH": -100
+      }
+    },
     "simpleNpc": {
       "variants": {
         "default": {

@@ -54,7 +54,10 @@ public class SimpleNpcCombatScript implements CombatScript {
         double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
 
         var rand = new Random();
-        var hitChance = attackerAccuracy / victimEvasion;
+        double hitChance = 1;
+        if(victimEvasion > 0) {
+            hitChance = attackerAccuracy / victimEvasion;
+        }
         var hitAttempt = rand.nextDouble();
 
         if(hitChance < hitAttempt) return true;

@@ -105,10 +105,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var statsComponent = new CharacterStatsImpl(entity);
         entity.addComponent(statsComponent);
 
-        statsComponent.AddDefenseBonus(DamageType.SMASH, 500);
-        statsComponent.AddDefenseBonus(DamageType.SLASH, -45);
-        statsComponent.SetProficiency(AttackType.MELEE, 10);
-
+        statsComponent.SetStats(npcDefinition.getCombatStats());
+        npcDefinition.getAttackBonuses().forEach(x -> statsComponent.AddAttackBonus(x.getLeft(), x.getRight()));
+        npcDefinition.getDefenseBonuses().forEach(x -> statsComponent.AddDefenseBonus(x.getLeft(), x.getRight()));
+        
         return entity;
     }
 

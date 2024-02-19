@@ -1,5 +1,6 @@
 package com.terryscape.game.combat;
 
+import com.terryscape.cache.npc.CombatStats;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.combat.health.AttackType;
@@ -21,6 +22,14 @@ public class CharacterStatsImpl extends BaseEntityComponent {
 
         AttackBonuses.put(DamageType.TYPELESS, 0);
         DefenseBonuses.put(DamageType.TYPELESS, 0);
+    }
+
+    public void SetStats(CombatStats stats) {
+        Attack = stats.Attack;
+        Defense = stats.Defense;
+        Mage = stats.Mage;
+        Range = stats.Range;
+        Melee = stats.Melee;
     }
 
     public int GetEvasion(DamageType type) {
@@ -56,5 +65,10 @@ public class CharacterStatsImpl extends BaseEntityComponent {
     public void AddDefenseBonus(DamageType type, int amount){
         int currentBonus = DefenseBonuses.getOrDefault(type, 0);
         DefenseBonuses.put(type, currentBonus + amount);
+    }
+
+    public void AddAttackBonus(DamageType type, int amount) {
+        int currentBonus = AttackBonuses.getOrDefault(type, 0);
+        AttackBonuses.put(type, currentBonus + amount);
     }
 }

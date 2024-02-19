@@ -5,10 +5,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.game.combat.health.DamageType;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -41,7 +46,51 @@ public class NpcCacheLoader {
 
         setAppearanceType(npcDefinition, jsonObject);
 
+        if(jsonObject.has("stats")){
+            setStats(npcDefinition, jsonObject.getAsJsonObject("stats"));
+        }
+
         return npcDefinition;
+    }
+
+    private void setStats(NpcDefinitionImpl npcDefinition, JsonObject jsonObject) {
+        CombatStats stats = new CombatStats();
+
+        var combatStats = jsonObject.getAsJsonObject("combatStats");
+        stats.Attack = combatStats.getAsJsonPrimitive("attack").getAsInt();
+        stats.Defense = combatStats.getAsJsonPrimitive("defense").getAsInt();
+        stats.Mage = combatStats.getAsJsonPrimitive("mage").getAsInt();
+        stats.Range = combatStats.getAsJsonPrimitive("range").getAsInt();
+        stats.Melee = combatStats.getAsJsonPrimitive("melee").getAsInt();
+
+        List<Pair<DamageType, Integer>> attackBonuses = new ArrayList<>();
+        if(jsonObject.has("attackBonuses")){
+            var bonuses = jsonObject.getAsJsonObject("attackBonuses");
+            bonuses.entrySet()
+                    .stream()
+                    .map(x -> {
+                        var damageType = DamageType.valueOf(x.getKey());
+                        return new ImmutablePair(damageType, x.getValue().getAsInt());
+                    })
+                    .forEach(attackBonuses::add);
+        }
+
+        List<Pair<DamageType, Integer>> defenseBonuses = new ArrayList<>();
+        if(jsonObject.has("defenseBonuses")){
+            var bonuses = jsonObject.getAsJsonObject("defenseBonuses");
+            bonuses.entrySet()
+                    .stream()
+                    .map(x -> {
+                        var damageType = DamageType.valueOf(x.getKey());
+                        return new ImmutablePair(damageType, x.getValue().getAsInt());
+                    })
+                    .forEach(defenseBonuses::add);
+        }
+
+        npcDefinition
+                .setCombatStats(stats)
+                .setAttackBonuses(attackBonuses)
+                .setDefenseBonuses(defenseBonuses);
     }
 
     private void setAppearanceType(NpcDefinitionImpl npcDefinition, JsonObject jsonObject) {
