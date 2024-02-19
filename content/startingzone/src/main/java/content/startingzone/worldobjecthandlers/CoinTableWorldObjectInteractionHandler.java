@@ -42,6 +42,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
     public void invoke(Client client, WorldObjectDefinition worldObjectDefinition) {
         var basicScimitar = cacheLoader.getItem("basic_scimitar");
         var basicSword = cacheLoader.getItem("basic_sword");
+        var clothTunic = cacheLoader.getItem("cloth_tunic");
 
         var player = client.getPlayer().orElseThrow();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
@@ -62,13 +63,16 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
             WaitStep.ticks(1),
             ImmediateStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
             WaitStep.ticks(1),
-            ImmediateStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
-            WaitStep.ticks(1),
+                ImmediateStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+                WaitStep.ticks(1),
+                ImmediateStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+                WaitStep.ticks(1),
 
             ImmediateStep.run(() -> {
                 playerChat.sendGameMessage("You receive a %s and a %s.".formatted(basicScimitar.getName(), basicSword.getName()));
                 player.getInventory().addItem(basicScimitar, 1);
                 player.getInventory().addItem(basicSword, 1);
+                player.getInventory().addItem(clothTunic, 1);
             })
         );
     }

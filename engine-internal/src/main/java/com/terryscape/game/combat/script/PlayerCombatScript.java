@@ -122,8 +122,6 @@ public class PlayerCombatScript implements CombatScript {
         }
         var hitAttempt = rand.nextDouble();
 
-        System.out.println(hitChance + " " + hitAttempt + " " + attackerAccuracy + " " + victimEvasion);
-
         var hit = hitChance > hitAttempt;
 
         var damageAmount = weapon.getPrimaryAttributeBonus() + attackerStats.GetProficiency(weaponDamageType);

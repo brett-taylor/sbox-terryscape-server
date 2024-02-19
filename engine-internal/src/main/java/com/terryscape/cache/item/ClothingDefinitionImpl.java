@@ -19,4 +19,14 @@ public class ClothingDefinitionImpl extends ItemDefinitionImpl implements Clothi
     public EquipmentSlot getSlot() {
         return slot;
     }
+
+    public ClothingDefinitionImpl setEquipmentSlot(EquipmentSlot slot){
+        this.slot = slot;
+        return this;
+    }
+
+    public ClothingDefinitionImpl setBonuses(List<Pair<DamageType, Integer>> bonuses){
+        this.bonuses = bonuses;
+        return this;
+    }
 }

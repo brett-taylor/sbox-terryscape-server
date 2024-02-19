@@ -33,5 +33,17 @@
     "primaryAttribute": "MELEE",
     "attackDelay": 6,
     "attributeBonus": 10
+  },
+  {
+    "itemType": "CLOTHING",
+    "id": "cloth_tunic",
+    "name": "Cloth Tunic",
+    "description": "Old rags haphazardly stitched together.",
+    "equipmentSlot": "TORSO",
+    "bonuses": {
+      "TYPELESS": 1000,
+      "SMASH": 1000,
+      "WATER": 1000
+    }
   }
 ]

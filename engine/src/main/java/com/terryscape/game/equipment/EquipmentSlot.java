@@ -4,7 +4,8 @@ import java.util.Optional;
 
 public enum EquipmentSlot {
     MAIN_HAND(0),
-    OFF_HAND(1);
+    OFF_HAND(1),
+    TORSO(2);
 
     private final int slotId;
 
@@ -17,12 +18,11 @@ public enum EquipmentSlot {
     }
 
     public static Optional<EquipmentSlot> tryParseFromSlotId(int slotId) {
-        if (slotId == 0) {
-            return Optional.of(MAIN_HAND);
-        } else if (slotId == 1) {
-            return Optional.of(OFF_HAND);
-        }
-
-        return Optional.empty();
+        return switch (slotId) {
+            case 0 -> Optional.of(MAIN_HAND);
+            case 1 -> Optional.of(OFF_HAND);
+            case 2 -> Optional.of(TORSO);
+            default -> Optional.empty();
+        };
     }
 }

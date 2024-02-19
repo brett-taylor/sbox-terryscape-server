@@ -7,10 +7,15 @@ import com.google.inject.Singleton;
 import com.terryscape.Config;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
+import com.terryscape.game.equipment.EquipmentSlot;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -48,7 +53,25 @@ public class ItemCacheLoader {
     }
 
     private ItemDefinitionImpl createClothingDefinitionFromJson(JsonObject jsonObject) {
-        return new ClothingDefinitionImpl();
+        var equipmentSlot = EquipmentSlot.valueOf(jsonObject.getAsJsonPrimitive("equipmentSlot").getAsString());
+
+        List<Pair<DamageType, Integer>> defenseBonuses = new ArrayList<>();
+        if(jsonObject.has("bonuses")){
+            var bonuses = jsonObject.getAsJsonObject("bonuses");
+
+            bonuses.entrySet()
+                    .stream()
+                    .map(x -> {
+                        var damageType = DamageType.valueOf(x.getKey());
+                        return new ImmutablePair(damageType, x.getValue().getAsInt());
+                    })
+                    .forEach(defenseBonuses::add);
+        }
+
+
+        return new ClothingDefinitionImpl()
+                .setEquipmentSlot(equipmentSlot)
+                .setBonuses(defenseBonuses);
     }
 
     private ItemDefinitionImpl createWeaponDefinitionFromJson(JsonObject jsonObject) {

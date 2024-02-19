@@ -19,9 +19,6 @@ public class CharacterStatsImpl extends BaseEntityComponent {
         Mage = Range = Melee = 2;
         AttackBonuses = new Hashtable<>();
         DefenseBonuses = new Hashtable<>();
-
-        AttackBonuses.put(DamageType.TYPELESS, 0);
-        DefenseBonuses.put(DamageType.TYPELESS, 0);
     }
 
     public void SetStats(CombatStats stats) {
@@ -71,5 +68,15 @@ public class CharacterStatsImpl extends BaseEntityComponent {
     public void AddAttackBonus(DamageType type, int amount) {
         int currentBonus = AttackBonuses.getOrDefault(type, 0);
         AttackBonuses.put(type, currentBonus + amount);
+    }
+
+    public void RemoveDefenseBonus(DamageType type, int amount){
+        int currentBonus = DefenseBonuses.getOrDefault(type, 0);
+        DefenseBonuses.put(type, currentBonus - amount);
+    }
+
+    public void RemoveAttackBonus(DamageType type, int amount) {
+        int currentBonus = AttackBonuses.getOrDefault(type, 0);
+        AttackBonuses.put(type, currentBonus - amount);
     }
 }
