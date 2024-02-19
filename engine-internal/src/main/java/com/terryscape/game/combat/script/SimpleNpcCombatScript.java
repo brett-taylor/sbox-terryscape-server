@@ -43,7 +43,7 @@ public class SimpleNpcCombatScript implements CombatScript {
 
         lastAttackTime = worldClock.getNowTick();
 
-        var damage = new DamageInformation().setAmount(1).setType(DamageType.MELEE_MAIN_HAND);
+        var damage = new DamageInformation().setAmount(1).setType(DamageType.SLASH);
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
 
         animationComponent.playAnimation("attack");

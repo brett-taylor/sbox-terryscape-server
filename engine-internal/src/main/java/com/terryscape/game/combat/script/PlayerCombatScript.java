@@ -1,7 +1,9 @@
 package com.terryscape.game.combat.script;
 
+import com.terryscape.cache.item.WeaponDefinitionImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
+import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
@@ -13,28 +15,30 @@ import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.WorldClock;
 
 import java.util.List;
+import java.util.Random;
 
 public class PlayerCombatScript implements CombatScript {
-
     private final WorldClock worldClock;
-
     private final PlayerComponent playerComponent;
-
     private final MovementComponent movementComponent;
-
     private final AnimationComponent animationComponent;
-
-    private long lastAttackTime;
-
-    private long lastMainHandAttackTime;
-
-    private long lastOffHandAttackTime;
+    private WeaponDefinitionImpl unarmed;
+    private long nextAttackOpportunity;
+    private int attackDelay;
 
     public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent) {
         this.worldClock = worldClock;
         this.playerComponent = playerComponent;
         this.movementComponent = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = playerComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
+        this.attackDelay = 3;
+
+        unarmed = new WeaponDefinitionImpl()
+                .setPrimaryAttribute(AttackType.MELEE)
+                .setDamageType(DamageType.SMASH)
+                .setAttributeBonus(5)
+                .setAttackAnimation(pickUnarmedAttackAnimationId())
+                .setAttackDelay(attackDelay);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class PlayerCombatScript implements CombatScript {
 
     @Override
     public boolean attack(CombatComponent victim) {
-        if (lastAttackTime + 3 > worldClock.getNowTick()) {
+        if (nextAttackOpportunity >= worldClock.getNowTick()) {
             return false;
         }
 
@@ -56,7 +60,7 @@ public class PlayerCombatScript implements CombatScript {
             return handleAttackWithWeapon(victim);
         }
 
-        slap(victim, true, pickUnarmedAttackAnimationId());
+        slap(victim, unarmed);
         return true;
     }
 
@@ -79,37 +83,39 @@ public class PlayerCombatScript implements CombatScript {
 
     private boolean handleAttackWithWeapon(CombatComponent victim) {
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
-        var isMainHandOffCooldown = lastMainHandAttackTime + 6 < worldClock.getNowTick();
-
-        if (mainHand.isPresent() && isMainHandOffCooldown) {
-            slap(victim, true, mainHand.get().getAnimationMainHandAttack());
-            return true;
+        if (mainHand.isPresent()) {
+            WeaponDefinitionImpl weapon = (WeaponDefinitionImpl) mainHand.get();
+            if(weapon.attack(worldClock.getNowTick())) {
+                slap(victim, weapon);
+                return true;
+            }
         }
 
         var offHand = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
-        var isOffHandOffCooldown = lastOffHandAttackTime + 6 < worldClock.getNowTick();
-
-        if (offHand.isPresent() && isOffHandOffCooldown) {
-            slap(victim, false, offHand.get().getAnimationOffHandAttack());
-            return true;
+        if (offHand.isPresent()) {
+            WeaponDefinitionImpl weapon = (WeaponDefinitionImpl) offHand.get();
+            if(weapon.attack(worldClock.getNowTick())) {
+                slap(victim, weapon);
+                return true;
+            }
         }
 
         return false;
     }
 
-    private void slap(CombatComponent victim, boolean mainHand, String animationIdToPlay) {
-        lastAttackTime = worldClock.getNowTick();
+    private void slap(CombatComponent victim, WeaponDefinitionImpl weapon) {
+        nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
 
-        var damage = new DamageInformation().setAmount(1);
-        animationComponent.playAnimation(animationIdToPlay);
+        var damageAmount = weapon.getPrimaryAttributeBonus();
+        var randomDouble = new Random().nextDouble();
+        var positiveBias = Math.pow(randomDouble, 0.4);
 
-        if (mainHand) {
-            lastMainHandAttackTime = worldClock.getNowTick();
-            damage.setType(DamageType.MELEE_MAIN_HAND);
-        } else {
-            lastOffHandAttackTime = worldClock.getNowTick();
-            damage.setType(DamageType.MELEE_OFF_HAND);
-        }
+        damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
+
+        var damage = new DamageInformation().setAmount(damageAmount);
+        animationComponent.playAnimation(weapon.getAttackAnimation());
+
+        damage.setType(weapon.getDamageType());
 
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
     }
