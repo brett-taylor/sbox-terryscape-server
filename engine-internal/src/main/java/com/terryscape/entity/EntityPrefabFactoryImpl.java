@@ -9,7 +9,10 @@ import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponentImpl;
+import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponentImpl;
+import com.terryscape.game.combat.health.AttackType;
+import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
@@ -99,6 +102,13 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
 
+        var statsComponent = new CharacterStatsImpl(entity);
+        entity.addComponent(statsComponent);
+
+        statsComponent.AddDefenseBonus(DamageType.SMASH, 500);
+        statsComponent.AddDefenseBonus(DamageType.SLASH, -45);
+        statsComponent.SetProficiency(AttackType.MELEE, 10);
+
         return entity;
     }
 
@@ -135,6 +145,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         var dialogueComponent = new PlayerDialogueComponentImpl(entity, interfaceManager);
         entity.addComponent(dialogueComponent);
+
+        var statsComponent = new CharacterStatsImpl(entity);
+        entity.addComponent(statsComponent);
 
         return entity;
     }

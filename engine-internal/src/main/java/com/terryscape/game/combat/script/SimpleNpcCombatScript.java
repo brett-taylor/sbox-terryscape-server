@@ -1,5 +1,6 @@
 package com.terryscape.game.combat.script;
 
+import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.health.DamageInformation;
@@ -9,6 +10,8 @@ import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.world.WorldClock;
+
+import java.util.Random;
 
 public class SimpleNpcCombatScript implements CombatScript {
 
@@ -43,10 +46,31 @@ public class SimpleNpcCombatScript implements CombatScript {
 
         lastAttackTime = worldClock.getNowTick();
 
-        var damage = new DamageInformation().setAmount(1).setType(DamageType.SLASH);
-        victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
+        var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
+        var attackerStats = npcComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
 
+        var weaponDamageType = DamageType.SMASH;
+        double victimEvasion = victimStats.GetEvasion(weaponDamageType);
+        double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
+
+        var rand = new Random();
+        var hitChance = attackerAccuracy / victimEvasion;
+        var hitAttempt = rand.nextDouble();
+
+        if(hitChance < hitAttempt) return true;
+
+        var damageAmount = attackerStats.GetProficiency(weaponDamageType);
+        var randomDouble = rand.nextDouble();
+        var positiveBias = Math.pow(randomDouble, 0.4);
+
+        damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
+
+        var damage = new DamageInformation().setAmount(damageAmount);
         animationComponent.playAnimation("attack");
+
+        damage.setType(weaponDamageType);
+
+        victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
 
         return true;
     }

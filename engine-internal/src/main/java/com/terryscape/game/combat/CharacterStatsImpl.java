@@ -5,7 +5,6 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
 
-import java.util.Dictionary;
 import java.util.Hashtable;
 
 public class CharacterStatsImpl extends BaseEntityComponent {
@@ -14,7 +13,9 @@ public class CharacterStatsImpl extends BaseEntityComponent {
 
     public CharacterStatsImpl(Entity entity) {
         super(entity);
-        Attack = Defense = Mage = Range = Melee = 0;
+        Attack = 50;
+        Defense = 100;
+        Mage = Range = Melee = 2;
         AttackBonuses = new Hashtable<>();
         DefenseBonuses = new Hashtable<>();
 
@@ -42,5 +43,18 @@ public class CharacterStatsImpl extends BaseEntityComponent {
             case MAGIC -> Mage;
             default -> 0;
         };
+    }
+
+    public void SetProficiency(AttackType attackType, int amount){
+        switch (attackType){
+            case MELEE -> Melee = amount;
+            case BOW -> Range = amount;
+            case MAGIC -> Mage = amount;
+        }
+    }
+
+    public void AddDefenseBonus(DamageType type, int amount){
+        int currentBonus = DefenseBonuses.getOrDefault(type, 0);
+        DefenseBonuses.put(type, currentBonus + amount);
     }
 }

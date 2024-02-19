@@ -1,6 +1,7 @@
 package com.terryscape.game.combat.script;
 
 import com.terryscape.cache.item.WeaponDefinitionImpl;
+import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.health.AttackType;
@@ -106,8 +107,23 @@ public class PlayerCombatScript implements CombatScript {
     private void slap(CombatComponent victim, WeaponDefinitionImpl weapon) {
         nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
 
-        var damageAmount = weapon.getPrimaryAttributeBonus();
-        var randomDouble = new Random().nextDouble();
+        var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
+        var attackerStats = playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
+
+        var weaponDamageType = weapon.getDamageType();
+        double victimEvasion = victimStats.GetEvasion(weaponDamageType);
+        double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
+
+        var rand = new Random();
+        var hitChance = attackerAccuracy / victimEvasion;
+        var hitAttempt = rand.nextDouble();
+
+        System.out.println(hitChance + " " + hitAttempt + " " + attackerAccuracy + " " + victimEvasion);
+
+        if(hitChance < hitAttempt) return;
+
+        var damageAmount = weapon.getPrimaryAttributeBonus() + attackerStats.GetProficiency(weaponDamageType);
+        var randomDouble = rand.nextDouble();
         var positiveBias = Math.pow(randomDouble, 0.4);
 
         damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
@@ -115,7 +131,7 @@ public class PlayerCombatScript implements CombatScript {
         var damage = new DamageInformation().setAmount(damageAmount);
         animationComponent.playAnimation(weapon.getAttackAnimation());
 
-        damage.setType(weapon.getDamageType());
+        damage.setType(weaponDamageType);
 
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
     }
