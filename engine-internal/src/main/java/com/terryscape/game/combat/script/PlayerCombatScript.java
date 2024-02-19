@@ -38,7 +38,7 @@ public class PlayerCombatScript implements CombatScript {
                 .setPrimaryAttribute(AttackType.MELEE)
                 .setDamageType(DamageType.SMASH)
                 .setAttributeBonus(5)
-                .setAttackAnimation(pickUnarmedAttackAnimationId())
+                .setAttackAnimation(pickUnarmedAttackAnimationId(), true)
                 .setAttackDelay(attackDelay);
     }
 
@@ -107,7 +107,7 @@ public class PlayerCombatScript implements CombatScript {
     private void slap(CombatComponent victim, WeaponDefinitionImpl weapon, boolean mainHand) {
         nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
 
-        animationComponent.playAnimation(weapon.getAttackAnimation());
+        animationComponent.playAnimation(weapon.getAttackAnimation(mainHand));
         var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
         var attackerStats = playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
 
@@ -116,7 +116,10 @@ public class PlayerCombatScript implements CombatScript {
         double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
 
         var rand = new Random();
-        var hitChance = attackerAccuracy / victimEvasion;
+        double hitChance = 1;
+        if(victimEvasion > 0) {
+            hitChance = attackerAccuracy / victimEvasion;
+        }
         var hitAttempt = rand.nextDouble();
 
         System.out.println(hitChance + " " + hitAttempt + " " + attackerAccuracy + " " + victimEvasion);

@@ -14,7 +14,7 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
     private int primaryAttributeBonus;
     private List<Pair<DamageType, Integer>> bonuses;
     private DamageType damageType;
-    private String attackAnimation;
+    private String mainHandAttackAnimation, offHandAttackAnimation;
 
     public WeaponDefinitionImpl setPrimaryAttribute(AttackType attackType){
         primaryAttribute = attackType;
@@ -36,8 +36,12 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
         return this;
     }
 
-    public WeaponDefinitionImpl setAttackAnimation(String attackAnimation){
-        this.attackAnimation = attackAnimation;
+    public WeaponDefinitionImpl setAttackAnimation(String attackAnimation, boolean mainHand){
+        if(mainHand) {
+            mainHandAttackAnimation = attackAnimation;
+        } else {
+            offHandAttackAnimation = attackAnimation;
+        }
         return this;
     }
 
@@ -76,7 +80,7 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
     }
 
     @Override
-    public String getAttackAnimation() {
-        return attackAnimation;
+    public String getAttackAnimation(boolean mainHand) {
+        return (mainHand) ? mainHandAttackAnimation : offHandAttackAnimation;
     }
 }

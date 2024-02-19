@@ -12,5 +12,5 @@ public interface WeaponDefinition extends ItemDefinition {
     int getPrimaryAttributeBonus();
     List<Pair<DamageType, Integer>> getBonuses();
     DamageType getDamageType();
-    String getAttackAnimation();
+    String getAttackAnimation(boolean mainHand);
 }

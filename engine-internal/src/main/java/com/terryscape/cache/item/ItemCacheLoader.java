@@ -53,7 +53,8 @@ public class ItemCacheLoader {
 
     private ItemDefinitionImpl createWeaponDefinitionFromJson(JsonObject jsonObject) {
         return new WeaponDefinitionImpl()
-                .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationName").getAsString())
+                .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationMainHandAttack").getAsString(), true)
+                .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationOffHandAttack").getAsString(), false)
                 .setAttackDelay(jsonObject.getAsJsonPrimitive("attackDelay").getAsInt())
                 .setAttributeBonus(jsonObject.getAsJsonPrimitive("attributeBonus").getAsInt())
                 .setDamageType(DamageType.values()[jsonObject.getAsJsonPrimitive("damageType").getAsInt()])
