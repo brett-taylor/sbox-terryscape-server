@@ -2,6 +2,7 @@ package com.terryscape.cache.item;
 
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
+import com.terryscape.maths.RandomUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
     private int primaryAttributeBonus;
     private List<Pair<DamageType, Integer>> bonuses;
     private DamageType damageType;
-    private String mainHandAttackAnimation, offHandAttackAnimation;
+    private List<String> mainHandAttackAnimations, offHandAttackAnimations;
 
     public WeaponDefinitionImpl setPrimaryAttribute(AttackType attackType){
         primaryAttribute = attackType;
@@ -36,11 +37,16 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
         return this;
     }
 
-    public WeaponDefinitionImpl setAttackAnimation(String attackAnimation, boolean mainHand){
+    public WeaponDefinitionImpl setAttackAnimations(List<String> attackAnimations) {
+        mainHandAttackAnimations = offHandAttackAnimations = attackAnimations;
+        return this;
+    }
+
+    public WeaponDefinitionImpl setAttackAnimations(List<String> attackAnimations, boolean mainHand){
         if(mainHand) {
-            mainHandAttackAnimation = attackAnimation;
+            mainHandAttackAnimations = attackAnimations;
         } else {
-            offHandAttackAnimation = attackAnimation;
+            offHandAttackAnimations = attackAnimations;
         }
         return this;
     }
@@ -79,8 +85,12 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
         return damageType;
     }
 
+    private String getRandomAnimation(List<String> animationList) {
+        return RandomUtil.randomCollection(animationList);
+    }
+
     @Override
     public String getAttackAnimation(boolean mainHand) {
-        return (mainHand) ? mainHandAttackAnimation : offHandAttackAnimation;
+        return getRandomAnimation((mainHand) ? mainHandAttackAnimations : offHandAttackAnimations);
     }
 }

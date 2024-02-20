@@ -1,5 +1,7 @@
 package com.terryscape.game.combat.script;
 
+import com.terryscape.cache.item.WeaponDefinition;
+import com.terryscape.cache.item.WeaponDefinitionImpl;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
@@ -11,10 +13,10 @@ import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.world.WorldClock;
 
+import java.util.List;
 import java.util.Random;
 
 public class SimpleNpcCombatScript implements CombatScript {
-    private final DamageType damageType;
     private final WorldClock worldClock;
 
     private final NpcComponent npcComponent;
@@ -25,12 +27,23 @@ public class SimpleNpcCombatScript implements CombatScript {
 
     private long lastAttackTime;
 
+    private int attackDelay;
+
+    private final WeaponDefinition weapon;
+
     public SimpleNpcCombatScript(WorldClock worldClock, NpcComponent npcComponent, DamageType damageType) {
         this.worldClock = worldClock;
         this.npcComponent = npcComponent;
-        this.damageType = damageType;
         this.movementComponent = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = npcComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
+
+        attackDelay = 4;
+
+        var attacks = List.of("attack");
+        this.weapon = new WeaponDefinitionImpl()
+                .setAttackAnimations(attacks)
+                .setAttackDelay(attackDelay)
+                .setDamageType(damageType);
     }
 
     @Override
@@ -41,42 +54,19 @@ public class SimpleNpcCombatScript implements CombatScript {
 
     @Override
     public boolean attack(CombatComponent victim) {
-        if (lastAttackTime + 4 > worldClock.getNowTick()) {
+        var currentTick = worldClock.getNowTick();
+        //You don't actually need to track this due to the delay built into the weapon
+        if (lastAttackTime + attackDelay > worldClock.getNowTick()) {
             return false;
         }
 
-        lastAttackTime = worldClock.getNowTick();
+        var didAttack = Combat.slap(currentTick, victim, npcComponent.getEntity(), weapon, true);
 
-        animationComponent.playAnimation("attack");
-        var victimStats = victim.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
-        var attackerStats = npcComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class);
-
-        var weaponDamageType = damageType;
-        double victimEvasion = victimStats.GetEvasion(weaponDamageType);
-        double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
-
-        var rand = new Random();
-        double hitChance = 1;
-        if (victimEvasion > 0) {
-            hitChance = attackerAccuracy / victimEvasion;
+        if(didAttack) {
+            lastAttackTime = currentTick;
+            animationComponent.playAnimation(weapon.getAttackAnimation(true));
         }
-        var hitAttempt = rand.nextDouble();
-        var hit = hitChance > hitAttempt;
 
-        var damageAmount = attackerStats.GetProficiency(weaponDamageType);
-        var randomDouble = rand.nextDouble();
-        var positiveBias = Math.pow(randomDouble, 0.4);
-
-        damageAmount = (int) (Math.ceil(damageAmount * positiveBias) + 0.05f);
-
-        var damage = new DamageInformation()
-                .setHit(hit)
-                .setIsUsingMainHand(true)
-                .setType(weaponDamageType)
-                .setAmount(damageAmount);
-
-        victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
-
-        return true;
+        return didAttack;
     }
 }

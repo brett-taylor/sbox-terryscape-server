@@ -74,10 +74,22 @@ public class ItemCacheLoader {
                 .setBonuses(defenseBonuses);
     }
 
+    private List<String> deseralisePotentialStringArray(JsonObject jsonObject, String entry){
+        JsonElement element = jsonObject.get(entry);
+        if(element.isJsonArray()){
+            return element.getAsJsonArray().asList().stream().map(JsonElement::getAsString).toList();
+        } else {
+            return List.of(jsonObject.getAsJsonPrimitive(entry).getAsString());
+        }
+    }
+
     private ItemDefinitionImpl createWeaponDefinitionFromJson(JsonObject jsonObject) {
+        var mainAttackAnimations = deseralisePotentialStringArray(jsonObject, "animationMainHandAttack");
+        var offAttackAnimations = deseralisePotentialStringArray(jsonObject, "animationOffHandAttack");
+
         return new WeaponDefinitionImpl()
-                .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationMainHandAttack").getAsString(), true)
-                .setAttackAnimation(jsonObject.getAsJsonPrimitive("animationOffHandAttack").getAsString(), false)
+                .setAttackAnimations(mainAttackAnimations, true)
+                .setAttackAnimations(offAttackAnimations, false)
                 .setAttackDelay(jsonObject.getAsJsonPrimitive("attackDelay").getAsInt())
                 .setAttributeBonus(jsonObject.getAsJsonPrimitive("attributeBonus").getAsInt())
                 .setDamageType(DamageType.valueOf(jsonObject.getAsJsonPrimitive("damageType").getAsString()))
