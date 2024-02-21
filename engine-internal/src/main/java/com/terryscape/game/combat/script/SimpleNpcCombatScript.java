@@ -60,7 +60,7 @@ public class SimpleNpcCombatScript implements CombatScript {
             return false;
         }
 
-        var didAttack = Combat.slap(currentTick, victim, npcComponent.getEntity(), weapon, true);
+        var didAttack = Combat.slap(currentTick, victim.getEntity(), npcComponent.getEntity(), weapon, true);
 
         if(didAttack) {
             lastAttackTime = currentTick;

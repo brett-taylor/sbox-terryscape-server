@@ -22,6 +22,7 @@ public class PlayerCombatScript implements CombatScript {
     private final WeaponDefinitionImpl unarmed;
     private long nextAttackOpportunity;
     private final int attackDelay;
+    private SpecialAttackTrigger specialAttack;
 
     public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent) {
         this.worldClock = worldClock;
@@ -94,7 +95,7 @@ public class PlayerCombatScript implements CombatScript {
 
     private boolean attack(CombatComponent victim, WeaponDefinition weapon, boolean mainHand) {
         var currentTick = worldClock.getNowTick();
-        var didAttack = Combat.slap(currentTick, victim, playerComponent.getEntity(), weapon, mainHand);
+        var didAttack = Combat.slap(currentTick, victim.getEntity(), playerComponent.getEntity(), weapon, mainHand);
 
         if(didAttack) {
             nextAttackOpportunity = currentTick + attackDelay;
