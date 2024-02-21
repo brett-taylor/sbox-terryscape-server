@@ -1,6 +1,6 @@
 package content.startingzone.npchandlers;
 
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
@@ -21,15 +21,19 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
     public void invoke(Client client, NpcComponent npcComponent) {
         var player = client.getPlayer().orElseThrow();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
-        var playerChat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
+        var playerDialogue = player.getEntity().getComponentOrThrow(PlayerDialogueComponent.class);
 
         var npcWorldCoordinate = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
         var destinationTile = npcWorldCoordinate.getClosestCardinalNeighbourFrom(playerMovement.getWorldCoordinate());
 
+        var dialogue = playerDialogue.builder()
+            .player("Hi, I would like to see your stock please.")
+            .npc(npcComponent.getNpcDefinition().getName(), "Certainly.");
+
         playerTask.setCancellablePrimaryTask(
             WalkToStep.worldCoordinate(playerMovement, destinationTile),
-            ImmediateStep.run(() -> playerChat.sendGameMessage("The Shop Keeper seems to ignore you..."))
+            ImmediateStep.run(() -> playerDialogue.start(dialogue))
         );
     }
 }

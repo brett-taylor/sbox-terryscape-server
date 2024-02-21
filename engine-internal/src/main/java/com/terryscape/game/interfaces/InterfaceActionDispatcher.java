@@ -37,10 +37,12 @@ public class InterfaceActionDispatcher {
     }
 
     private void registerInterfaceActionHandler(InterfaceActionHandler handler) {
-        if (interfaceActionHandlers.containsKey(handler.getInterfaceId())) {
-            throw new RuntimeException("A InterfaceActionHandler can't be registered to interface %s as it already has one".formatted(handler.getInterfaceId()));
-        }
+        for (var interfaceId : handler.getInterfaceId()) {
+            if (interfaceActionHandlers.containsKey(interfaceId)) {
+                throw new RuntimeException("A InterfaceActionHandler can't be registered to interface %s as it already has one".formatted(interfaceId));
+            }
 
-        interfaceActionHandlers.put(handler.getInterfaceId(), handler);
+            interfaceActionHandlers.put(interfaceId, handler);
+        }
     }
 }

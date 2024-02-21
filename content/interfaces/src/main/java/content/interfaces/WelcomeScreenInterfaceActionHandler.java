@@ -9,20 +9,21 @@ import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.net.Client;
 
 import java.nio.ByteBuffer;
+import java.util.Set;
 
 @Singleton
-public class WelcomeScreenInterfaceHandler implements InterfaceActionHandler {
+public class WelcomeScreenInterfaceActionHandler implements InterfaceActionHandler {
 
     private final InterfaceManager interfaceManager;
 
     @Inject
-    public WelcomeScreenInterfaceHandler(InterfaceManager interfaceManager) {
+    public WelcomeScreenInterfaceActionHandler(InterfaceManager interfaceManager) {
         this.interfaceManager = interfaceManager;
     }
 
     @Override
-    public String getInterfaceId() {
-        return "welcome_screen";
+    public Set<String> getInterfaceId() {
+        return Set.of("welcome_screen");
     }
 
     @Override
@@ -34,7 +35,7 @@ public class WelcomeScreenInterfaceHandler implements InterfaceActionHandler {
             return;
         }
 
-        interfaceManager.closeInterface(client, "welcome_screen");
+        interfaceManager.closeInterface(client, interfaceId);
         playerChat.sendGameMessage("Welcome to %s, %s.".formatted(Config.NAME, player.getUsername()));
         playerChat.sendGameMessage("Say ::help to see commands.");
     }

@@ -9,12 +9,13 @@ import com.terryscape.entity.EntityPrefabFactoryImpl;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
-import com.terryscape.game.equipment.PlayerEquipmentInterfaceHandler;
+import com.terryscape.game.chat.dialogue.DialogueInterfaceActionHandler;
+import com.terryscape.game.equipment.PlayerEquipmentInterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.packet.InterfaceActionIncomingPacket;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.interfaces.InterfaceManagerImpl;
-import com.terryscape.game.item.PlayerInventoryInterfaceHandler;
+import com.terryscape.game.item.PlayerInventoryInterfaceActionHandler;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
@@ -52,8 +53,9 @@ public class EngineInternalGuiceModule extends AbstractModule {
         incomingPacketMultibinder.addBinding().to(WorldObjectActionIncomingPacket.class);
 
         var interfaceActionHandlerMultibinder = Multibinder.newSetBinder(binder(), InterfaceActionHandler.class);
-        interfaceActionHandlerMultibinder.addBinding().to(PlayerEquipmentInterfaceHandler.class);
-        interfaceActionHandlerMultibinder.addBinding().to(PlayerInventoryInterfaceHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(PlayerEquipmentInterfaceActionHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(PlayerInventoryInterfaceActionHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(DialogueInterfaceActionHandler.class);
     }
 
 }

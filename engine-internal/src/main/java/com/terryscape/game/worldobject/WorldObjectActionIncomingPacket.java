@@ -40,6 +40,8 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
 
         var player = client.getPlayer().orElseThrow();
 
+        // TODO: Refactor this examine into their own handlers
+        
         if (action.equals("examine")) {
             var description = "%s (id=%s)".formatted(objectDefinition.getDescription(), objectDefinition.getId());
             player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(description);

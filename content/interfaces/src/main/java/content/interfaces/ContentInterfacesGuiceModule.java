@@ -9,7 +9,7 @@ public class ContentInterfacesGuiceModule extends AbstractModule {
     @Override
     protected void configure() {
         var interfaceActionHandlerMultibinder = Multibinder.newSetBinder(binder(), InterfaceActionHandler.class);
-        interfaceActionHandlerMultibinder.addBinding().to(WelcomeScreenInterfaceHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(WelcomeScreenInterfaceActionHandler.class);
     }
 
 }

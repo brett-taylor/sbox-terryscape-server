@@ -38,6 +38,8 @@ public class NpcActionIncomingPacket implements IncomingPacket {
         var npc = worldManager.getEntity(npcIdentifier).getComponentOrThrow(NpcComponentImpl.class);
         var player = client.getPlayer().orElseThrow();
 
+        // TODO: Refactor this examine and attack into their own handlers
+
         if (action.equals("examine")) {
             var npcDefinition = npc.getNpcDefinition();
 
