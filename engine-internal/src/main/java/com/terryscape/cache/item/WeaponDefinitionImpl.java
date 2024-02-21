@@ -5,6 +5,7 @@ import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.maths.RandomUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDefinition {
@@ -13,7 +14,7 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
 
     private AttackType primaryAttribute;
     private int primaryAttributeBonus;
-    private List<Pair<DamageType, Integer>> bonuses;
+    private List<Pair<DamageType, Integer>> bonuses = new ArrayList<>();
     private DamageType damageType;
     private List<String> mainHandAttackAnimations, offHandAttackAnimations;
 
