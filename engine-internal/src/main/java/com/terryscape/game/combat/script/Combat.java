@@ -22,11 +22,12 @@ public class Combat {
         var attackerStats = attacker.getComponentOrThrow(CharacterStatsImpl.class);
 
         var weaponDamageType = weapon.getDamageType();
-        var hitChance = HitChance(victimStats, attackerStats, weaponDamageType);
+        var hitChance = HitChance(attackerStats, victimStats, weaponDamageType);
         var hit = AttemptHit(hitChance);
 
-        var damageAmount = DamageAmount(attackerStats.GetProficiency(weaponDamageType));
-
+        var maximumDamage = weapon.getPrimaryAttributeBonus() + attackerStats.GetProficiency(weaponDamageType);
+        var damageAmount = DamageAmount(maximumDamage);
+        
         var damage = new DamageInformation()
                 .setHit(hit)
                 .setIsUsingMainHand(mainHand)
