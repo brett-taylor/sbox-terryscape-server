@@ -36,14 +36,18 @@
   },
   {
     "itemType": "CLOTHING",
-    "id": "cloth_tunic",
-    "name": "Cloth Tunic",
-    "description": "Old rags haphazardly stitched together.",
+    "id": "wizard_tunic",
+    "name": "Wizard Tunic",
+    "description": "Arcane fabrics woven masterfully by experienced artisans.",
     "equipmentSlot": "TORSO",
+    "bodyGroupContainer": {
+      "bodyGroups": 10,
+      "bodyGroupValue": 2
+    },
     "bonuses": {
       "TYPELESS": 1000,
       "SMASH": 1000,
-      "WATER": 1000
+      "SLASH": 1000
     }
   }
 ]
