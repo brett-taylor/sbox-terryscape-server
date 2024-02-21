@@ -90,7 +90,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
                 assert weapon != null;
                 weapon.getBonuses().forEach(x -> playerStats.AddAttackBonus(x.getLeft(), x.getRight()));
             }
-            case TORSO -> clothing.getBonuses().forEach(x -> playerStats.AddDefenseBonus(x.getLeft(), x.getRight()));
+            case TORSO, GLOVES, PANTS, SHOES -> clothing.getBonuses().forEach(x -> playerStats.AddDefenseBonus(x.getLeft(), x.getRight()));
         }
     }
 }
