@@ -7,6 +7,9 @@ import com.terryscape.game.interfaces.packet.ShowInterfaceOutgoingPacket;
 import com.terryscape.net.Client;
 import com.terryscape.net.PacketManager;
 
+import java.io.OutputStream;
+import java.util.function.Consumer;
+
 @Singleton
 public class InterfaceManagerImpl implements InterfaceManager {
 
@@ -20,6 +23,15 @@ public class InterfaceManagerImpl implements InterfaceManager {
     @Override
     public void showInterface(Client client, String interfaceId) {
         var packet = new ShowInterfaceOutgoingPacket().setInterfaceId(interfaceId);
+        packetManager.send(client, packet);
+    }
+
+    @Override
+    public void showInterface(Client client, String interfaceId, Consumer<OutputStream> extraInformation) {
+        var packet = new ShowInterfaceOutgoingPacket()
+            .setInterfaceId(interfaceId)
+            .setExtraPacketInformation(extraInformation);
+
         packetManager.send(client, packet);
     }
 

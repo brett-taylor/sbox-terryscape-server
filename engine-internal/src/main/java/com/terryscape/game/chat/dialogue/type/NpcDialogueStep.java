@@ -2,6 +2,7 @@ package com.terryscape.game.chat.dialogue.type;
 
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.net.Client;
+import com.terryscape.net.OutgoingPacket;
 
 public final class NpcDialogueStep implements DialogueStep{
 
@@ -16,7 +17,10 @@ public final class NpcDialogueStep implements DialogueStep{
 
     @Override
     public void show(Client client, InterfaceManager interfaceManager) {
-        interfaceManager.showInterface(client, "npc_chat");
+        interfaceManager.showInterface(client, "npc_chat", stream -> {
+            OutgoingPacket.writeString(stream, name);
+            OutgoingPacket.writeString(stream, message);
+        });
     }
 
     @Override
