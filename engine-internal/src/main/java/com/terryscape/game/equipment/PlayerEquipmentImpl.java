@@ -8,7 +8,7 @@ import java.util.Optional;
 public class PlayerEquipmentImpl extends FixedSizeItemContainer implements PlayerEquipment {
     @Override
     public int getSize() {
-        return 5;
+        return EquipmentSlot.values().length;
     }
 
     @Override
