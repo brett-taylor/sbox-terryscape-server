@@ -10,6 +10,7 @@ import java.util.Hashtable;
 
 public class CharacterStatsImpl extends BaseEntityComponent {
     private int Attack, Defense, Mage, Range, Melee;
+    private CombatStats itemBonuses;
     private Hashtable<DamageType, Integer> AttackBonuses, DefenseBonuses;
 
     public CharacterStatsImpl(Entity entity) {
@@ -44,9 +45,9 @@ public class CharacterStatsImpl extends BaseEntityComponent {
     public int GetProficiency(DamageType type) {
         AttackType attackType = DamageType.GetAttackType(type);
         return switch (attackType){
-            case MELEE -> Melee;
-            case BOW -> Range;
-            case MAGIC -> Mage;
+            case MELEE -> Melee + itemBonuses.Melee;
+            case BOW -> Range + itemBonuses.Range;
+            case MAGIC -> Mage + itemBonuses.Mage;
             //TODO: Change the default back to 0
             default -> Melee;
         };
@@ -57,6 +58,13 @@ public class CharacterStatsImpl extends BaseEntityComponent {
             case MELEE -> Melee = amount;
             case BOW -> Range = amount;
             case MAGIC -> Mage = amount;
+        }
+    }
+    public void AdjustWeaponProficiency(AttackType attackType, int amount){
+        switch (attackType){
+            case MELEE -> itemBonuses.Melee += amount;
+            case BOW -> itemBonuses.Range = amount;
+            case MAGIC -> itemBonuses.Mage = amount;
         }
     }
 

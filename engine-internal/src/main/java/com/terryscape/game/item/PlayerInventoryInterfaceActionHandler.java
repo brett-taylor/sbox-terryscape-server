@@ -79,6 +79,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
                 clothing.getBonuses().forEach(x -> playerStats.RemoveDefenseBonus(x.getLeft(), x.getRight()));
             } else {
                 weapon.getBonuses().forEach(x -> playerStats.RemoveAttackBonus(x.getLeft(), x.getRight()));
+                playerStats.AdjustWeaponProficiency(weapon.getPrimaryAttribute(), -weapon.getPrimaryAttributeBonus());
             }
             playerInventory.addItem(removedEquipment);
             playerEquipment.removeSlot(equipmentSlot);
@@ -89,6 +90,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             case MAIN_HAND, OFF_HAND -> {
                 assert weapon != null;
                 weapon.getBonuses().forEach(x -> playerStats.AddAttackBonus(x.getLeft(), x.getRight()));
+                playerStats.AdjustWeaponProficiency(weapon.getPrimaryAttribute(), weapon.getPrimaryAttributeBonus());
             }
             case TORSO, GLOVES, PANTS, SHOES -> clothing.getBonuses().forEach(x -> playerStats.AddDefenseBonus(x.getLeft(), x.getRight()));
         }

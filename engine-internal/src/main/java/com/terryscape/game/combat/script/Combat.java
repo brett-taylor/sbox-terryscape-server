@@ -25,7 +25,7 @@ public class Combat {
         var hitChance = HitChance(attackerStats, victimStats, weaponDamageType);
         var hit = AttemptHit(hitChance);
 
-        var maximumDamage = weapon.getPrimaryAttributeBonus() + attackerStats.GetProficiency(weaponDamageType);
+        var maximumDamage = attackerStats.GetProficiency(weaponDamageType);
         var damageAmount = DamageAmount(maximumDamage);
         
         var damage = new DamageInformation()
