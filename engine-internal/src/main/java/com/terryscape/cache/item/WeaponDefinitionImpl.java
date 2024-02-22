@@ -2,6 +2,7 @@ package com.terryscape.cache.item;
 
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
+import com.terryscape.game.combat.SpecialAttackTrigger;
 import com.terryscape.maths.RandomUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -17,6 +18,7 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
     private List<Pair<DamageType, Integer>> bonuses = new ArrayList<>();
     private DamageType damageType;
     private List<String> mainHandAttackAnimations, offHandAttackAnimations;
+    private SpecialAttackTrigger specialAttack;
 
     public WeaponDefinitionImpl setPrimaryAttribute(AttackType attackType){
         primaryAttribute = attackType;
@@ -50,6 +52,18 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
             offHandAttackAnimations = attackAnimations;
         }
         return this;
+    }
+
+    public WeaponDefinitionImpl setSpecialAttack(SpecialAttackTrigger attack){
+        specialAttack = attack;
+        return this;
+    }
+
+    public SpecialAttackTrigger executeSpecialAttack(long currentTick) {
+        if(specialAttack != null) {
+            nextAttackOpportunity = currentTick + attackDelay;
+        }
+        return specialAttack;
     }
 
     public WeaponDefinitionImpl setAttackDelay(int delay){

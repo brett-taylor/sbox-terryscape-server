@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.game.combat.SpecialAttackCache;
+import com.terryscape.game.combat.SpecialAttackTrigger;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.equipment.EquipmentSlot;
@@ -87,13 +89,36 @@ public class ItemCacheLoader {
         var mainAttackAnimations = deseralisePotentialStringArray(jsonObject, "animationMainHandAttack");
         var offAttackAnimations = deseralisePotentialStringArray(jsonObject, "animationOffHandAttack");
 
+        SpecialAttackTrigger specialAttack = null;;
+        if(jsonObject.has("specialAttack")) {
+            var specialAttackObject = jsonObject.getAsJsonObject("specialAttack");
+
+            var specialAttackName = specialAttackObject.getAsJsonPrimitive("attackName").getAsString();
+            var specialAttackEnum = SpecialAttackCache.valueOf(specialAttackName);
+            var animationName = specialAttackObject.getAsJsonPrimitive("animationName").getAsString();
+            var energyCost = specialAttackObject.getAsJsonPrimitive("energyCost").getAsInt();
+            var accuracyBonus = specialAttackObject.getAsJsonPrimitive("accuracyBonus").getAsInt();
+            var damageBonus = specialAttackObject.getAsJsonPrimitive("damageBonus").getAsInt();
+            var damageType = specialAttackObject.getAsJsonPrimitive("damageType").getAsString();
+            var damageTypeEnum = DamageType.valueOf(damageType);
+
+            specialAttack = new SpecialAttackTrigger()
+                    .setAttack(specialAttackEnum)
+                    .setAnimationName(animationName)
+                    .setEnergyCost(energyCost)
+                    .setAccuracyBonus(accuracyBonus)
+                    .setDamageBonus(damageBonus)
+                    .setDamageType(damageTypeEnum);
+        }
+
         return new WeaponDefinitionImpl()
                 .setAttackAnimations(mainAttackAnimations, true)
                 .setAttackAnimations(offAttackAnimations, false)
                 .setAttackDelay(jsonObject.getAsJsonPrimitive("attackDelay").getAsInt())
                 .setAttributeBonus(jsonObject.getAsJsonPrimitive("attributeBonus").getAsInt())
                 .setDamageType(DamageType.valueOf(jsonObject.getAsJsonPrimitive("damageType").getAsString()))
-                .setPrimaryAttribute(AttackType.valueOf(jsonObject.getAsJsonPrimitive("primaryAttribute").getAsString()));
+                .setPrimaryAttribute(AttackType.valueOf(jsonObject.getAsJsonPrimitive("primaryAttribute").getAsString()))
+                .setSpecialAttack(specialAttack);
     }
 
 }

@@ -22,7 +22,7 @@ public class PlayerCombatScript implements CombatScript {
     private final WeaponDefinitionImpl unarmed;
     private long nextAttackOpportunity;
     private final int attackDelay;
-    private SpecialAttackTrigger specialAttack;
+    private EquipmentSlot specialAttack = null;
 
     public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent) {
         this.worldClock = worldClock;
@@ -63,6 +63,24 @@ public class PlayerCombatScript implements CombatScript {
     public boolean attack(CombatComponent victim) {
         if (nextAttackOpportunity >= worldClock.getNowTick()) {
             return false;
+        }
+        if(specialAttack != null) {
+            var attackSlot = specialAttack;
+            specialAttack = null;
+
+            var weaponOption = playerComponent.getEquipment().getSlot(attackSlot);
+            if (weaponOption.isPresent()) {
+                var weapon = (WeaponDefinitionImpl) weaponOption.get();
+                var specialAttack = weapon.executeSpecialAttack(worldClock.getNowTick());
+                if (specialAttack != null) {
+                    specialAttack.execute(playerComponent.getEntity(), victim.getEntity());
+                    nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
+                } else {
+                    System.err.println("No special attack assigned to weapon: " + weapon.getName());
+                }
+            } else {
+                System.err.println("No weapon assigned to special attack slot: " + attackSlot);
+            }
         }
 
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);

@@ -32,7 +32,15 @@
     "damageType": "SLASH",
     "primaryAttribute": "MELEE",
     "attackDelay": 6,
-    "attributeBonus": 10
+    "attributeBonus": 10,
+    "specialAttack" : {
+      "attackName": "BASIC_SWORD",
+      "animationName": "Unarmed_Attack_Kick_R1",
+      "energyCost": 50,
+      "accuracyBonus": 100,
+      "damageBonus": 20,
+      "damageType": "PIERCE"
+    }
   },
   {
     "itemType": "CLOTHING",
