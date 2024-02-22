@@ -17,6 +17,8 @@ public class DialogueTaskStep extends TaskStep {
 
     private DialogueStep currentStep;
 
+    private boolean shouldProceedOnNextTick;
+
     public DialogueTaskStep(InterfaceManager interfaceManager, Client client, DialogueBuilder dialogueBuilder) {
         this.interfaceManager = interfaceManager;
         this.client = client;
@@ -36,6 +38,24 @@ public class DialogueTaskStep extends TaskStep {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+
+        if (shouldProceedOnNextTick) {
+            closeInterface();
+
+            if (steps.isEmpty()) {
+                return;
+            }
+
+            currentStep = steps.poll();
+            currentStep.show(client, interfaceManager);
+
+            shouldProceedOnNextTick = false;
+        }
+    }
+
+    @Override
     public void cancel() {
         super.cancel();
 
@@ -44,14 +64,7 @@ public class DialogueTaskStep extends TaskStep {
     }
 
     public void proceed() {
-        closeInterface();
-
-        if (steps.isEmpty()) {
-            return;
-        }
-
-        currentStep = steps.poll();
-        currentStep.show(client, interfaceManager);
+        shouldProceedOnNextTick = true;
     }
 
     private void closeInterface() {
