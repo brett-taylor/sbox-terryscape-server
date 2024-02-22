@@ -8,9 +8,9 @@ import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WaitStep;
-import com.terryscape.game.task.step.impl.WalkToStep;
+import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.WaitTaskStep;
+import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
 import com.terryscape.net.Client;
 import com.terryscape.world.Direction;
@@ -50,22 +50,22 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
 
         playerTask.setCancellablePrimaryTask(
-            WalkToStep.worldCoordinate(playerMovement, new WorldCoordinate(15, 15)),
+            WalkToTaskStep.worldCoordinate(playerMovement, new WorldCoordinate(15, 15)),
 
-            ImmediateStep.run(() -> {
+            ImmediateTaskStep.run(() -> {
                 playerMovement.look(Direction.SOUTH);
                 playerAnimation.playAnimation("Sword_Attack_L3");
                 playerChat.sendGameMessage("You begin to loot the table...");
             }),
 
             // Wait
-            WaitStep.ticks(1),
-            ImmediateStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
-            WaitStep.ticks(1),
-            ImmediateStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
-            WaitStep.ticks(1),
+            WaitTaskStep.ticks(1),
+            ImmediateTaskStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+            WaitTaskStep.ticks(1),
+            ImmediateTaskStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+            WaitTaskStep.ticks(1),
 
-            ImmediateStep.run(() -> {
+            ImmediateTaskStep.run(() -> {
                 playerChat.sendGameMessage("You receive a %s and a %s.".formatted(basicScimitar.getName(), basicSword.getName()));
                 player.getInventory().addItem(basicScimitar, 1);
                 player.getInventory().addItem(basicSword, 1);

@@ -6,8 +6,8 @@ import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.WaitStep;
-import com.terryscape.game.task.step.impl.WalkToStep;
+import com.terryscape.game.task.step.impl.WaitTaskStep;
+import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.Direction;
 import com.terryscape.world.coordinate.WorldCoordinate;
@@ -79,8 +79,8 @@ public class WanderMovementComponent extends BaseEntityComponent {
         }
 
         var wanderTaskOptional = taskComponent.setCancellablePrimaryTask(
-            WaitStep.ticks(randomWaitInterval()),
-            WalkToStep.worldCoordinate(movementComponent, randomCoordinateInWanderZone())
+            WaitTaskStep.ticks(randomWaitInterval()),
+            WalkToTaskStep.worldCoordinate(movementComponent, randomCoordinateInWanderZone())
         );
 
         if (wanderTaskOptional.isPresent()) {

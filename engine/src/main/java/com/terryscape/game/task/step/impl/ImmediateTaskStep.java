@@ -1,16 +1,16 @@
 package com.terryscape.game.task.step.impl;
 
-import com.terryscape.game.task.step.Step;
+import com.terryscape.game.task.step.TaskStep;
 
-public class ImmediateStep extends Step {
+public class ImmediateTaskStep extends TaskStep {
 
-    public static ImmediateStep run(Runnable runnable) {
-        return new ImmediateStep(runnable);
+    public static ImmediateTaskStep run(Runnable runnable) {
+        return new ImmediateTaskStep(runnable);
     }
 
     private final Runnable runnable;
 
-    private ImmediateStep(Runnable runnable) {
+    private ImmediateTaskStep(Runnable runnable) {
         this.runnable = runnable;
     }
 

@@ -7,8 +7,7 @@ import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WalkToStep;
+import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
 
 import java.util.Set;
@@ -56,8 +55,8 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
             );
 
         playerTask.setCancellablePrimaryTask(
-            WalkToStep.worldCoordinate(playerMovement, destinationTile),
-            ImmediateStep.run(() -> playerDialogue.start(dialogue))
+            WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
+            playerDialogue.createDialogueTaskStep(dialogue)
         );
     }
 }

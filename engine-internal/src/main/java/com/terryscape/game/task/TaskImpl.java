@@ -1,15 +1,15 @@
 package com.terryscape.game.task;
 
-import com.terryscape.game.task.step.Step;
+import com.terryscape.game.task.step.TaskStep;
 
 import java.util.Queue;
 import java.util.function.Consumer;
 
 public class TaskImpl implements Task {
 
-    private final Queue<Step> steps;
+    private final Queue<TaskStep> taskSteps;
 
-    private Step currentStep;
+    private TaskStep currentTaskStep;
 
     private boolean isCancelled;
 
@@ -21,8 +21,8 @@ public class TaskImpl implements Task {
 
     private Consumer<TaskFinishedReason> onFinishedConsumer;
 
-    public TaskImpl(Queue<Step> steps) {
-        this.steps = steps;
+    public TaskImpl(Queue<TaskStep> taskSteps) {
+        this.taskSteps = taskSteps;
 
         getNextStep();
     }
@@ -33,27 +33,27 @@ public class TaskImpl implements Task {
         }
 
         if (isFirstTickForStep) {
-            currentStep.firstTick();
+            currentTaskStep.firstTick();
             isFirstTickForStep = false;
         }
 
-        currentStep.tick();
+        currentTaskStep.tick();
 
-        if (currentStep.hasFailed()) {
+        if (currentTaskStep.hasFailed()) {
             hasFailed = true;
-            currentStep.cancel();
+            currentTaskStep.cancel();
             return;
         }
 
-        if (currentStep.isFinished()) {
+        if (currentTaskStep.isFinished()) {
             getNextStep();
         }
     }
 
     @Override
     public void cancel() {
-        if (currentStep != null) {
-            currentStep.cancel();
+        if (currentTaskStep != null) {
+            currentTaskStep.cancel();
         }
 
         isCancelled = true;
@@ -61,12 +61,17 @@ public class TaskImpl implements Task {
 
     @Override
     public boolean isFinished() {
-        return hasFailed || isCancelled || (currentStep == null && steps.isEmpty());
+        return hasFailed || isCancelled || (currentTaskStep == null && taskSteps.isEmpty());
     }
 
     @Override
     public void onFinished(Consumer<TaskFinishedReason> consumer) {
         this.onFinishedConsumer = consumer;
+    }
+
+    @Override
+    public TaskStep getCurrentTaskStep() {
+        return currentTaskStep;
     }
 
     public void onFinished() {
@@ -101,6 +106,6 @@ public class TaskImpl implements Task {
 
     private void getNextStep() {
         this.isFirstTickForStep = true;
-        this.currentStep = steps.poll();
+        this.currentTaskStep = taskSteps.poll();
     }
 }

@@ -1,16 +1,16 @@
 package com.terryscape.game.task.step.impl;
 
-import com.terryscape.game.task.step.Step;
+import com.terryscape.game.task.step.TaskStep;
 
-public class WaitStep extends Step {
+public class WaitTaskStep extends TaskStep {
 
-    public static WaitStep ticks(int ticks) {
-        return new WaitStep(ticks);
+    public static WaitTaskStep ticks(int ticks) {
+        return new WaitTaskStep(ticks);
     }
 
     private int ticksToWait;
 
-    private WaitStep(int ticks) {
+    private WaitTaskStep(int ticks) {
         this.ticksToWait = ticks;
     }
 

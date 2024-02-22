@@ -1,17 +1,29 @@
 package content.startingzone.npchandlers;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
+import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WalkToStep;
+import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
 
 import java.util.Set;
 
+@Singleton
 public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
+
+    private final InterfaceManager interfaceManager;
+
+    @Inject
+    public ShopKeeperNpcInteractionHandler(InterfaceManager interfaceManager) {
+        this.interfaceManager = interfaceManager;
+    }
+
     @Override
     public Set<String> getNpcIds() {
         return Set.of("shop_keeper");
@@ -32,8 +44,9 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
             .npc(npcComponent.getNpcDefinition(), "Certainly.");
 
         playerTask.setCancellablePrimaryTask(
-            WalkToStep.worldCoordinate(playerMovement, destinationTile),
-            ImmediateStep.run(() -> playerDialogue.start(dialogue))
+            WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
+            playerDialogue.createDialogueTaskStep(dialogue),
+            ImmediateTaskStep.run(() -> interfaceManager.showInterface(client, "welcome_screen"))
         );
     }
 }

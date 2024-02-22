@@ -2,7 +2,7 @@ package com.terryscape.game.task;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.game.task.step.Step;
+import com.terryscape.game.task.step.TaskStep;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,8 +18,8 @@ public class TaskComponentImpl extends BaseEntityComponent implements TaskCompon
     }
 
     @Override
-    public Optional<Task> setCancellablePrimaryTask(Step... steps) {
-        var task = setPrimaryTaskInternal(steps);
+    public Optional<Task> setCancellablePrimaryTask(TaskStep... taskSteps) {
+        var task = setPrimaryTaskInternal(taskSteps);
         if (task == null) {
             return Optional.empty();
         }
@@ -29,8 +29,8 @@ public class TaskComponentImpl extends BaseEntityComponent implements TaskCompon
     }
 
     @Override
-    public Optional<Task> setPrimaryTask(Step... steps) {
-        var task = setPrimaryTaskInternal(steps);
+    public Optional<Task> setPrimaryTask(TaskStep... taskSteps) {
+        var task = setPrimaryTaskInternal(taskSteps);
         if (task == null) {
             return Optional.empty();
         }
@@ -61,6 +61,11 @@ public class TaskComponentImpl extends BaseEntityComponent implements TaskCompon
     }
 
     @Override
+    public Optional<Task> getPrimaryTask() {
+        return Optional.ofNullable(runningPrimaryTask);
+    }
+
+    @Override
     public void tick() {
         if (!hasPrimaryTask()) {
             return;
@@ -74,13 +79,13 @@ public class TaskComponentImpl extends BaseEntityComponent implements TaskCompon
         }
     }
 
-    private TaskImpl setPrimaryTaskInternal(Step... steps) {
+    private TaskImpl setPrimaryTaskInternal(TaskStep... taskSteps) {
         var cancelledPrimaryTask = cancelPrimaryTask();
         if (!cancelledPrimaryTask) {
             return null;
         }
 
-        Queue<Step> queue = new LinkedList<>(List.of(steps));
+        Queue<TaskStep> queue = new LinkedList<>(List.of(taskSteps));
         runningPrimaryTask = new TaskImpl(queue);
 
         runningPrimaryTask.tick();

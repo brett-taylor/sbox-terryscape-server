@@ -2,19 +2,16 @@ package com.terryscape.game.chat.dialogue;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.game.chat.dialogue.type.DialogueStep;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.player.PlayerComponent;
-
-import java.util.Queue;
+import com.terryscape.game.task.step.TaskStep;
+import com.terryscape.net.Client;
 
 public class PlayerDialogueComponentImpl extends BaseEntityComponent implements PlayerDialogueComponent {
 
     private final InterfaceManager interfaceManager;
 
-    private Queue<DialogueStep> steps;
-
-    private DialogueStep currentStep;
+    private Client client;
 
     public PlayerDialogueComponentImpl(Entity entity, InterfaceManager interfaceManager) {
         super(entity);
@@ -23,34 +20,19 @@ public class PlayerDialogueComponentImpl extends BaseEntityComponent implements 
     }
 
     @Override
+    public void onRegistered() {
+        super.onRegistered();
+
+        client = getEntity().getComponentOrThrow(PlayerComponent.class).getClient();
+    }
+
+    @Override
     public DialogueBuilder builder() {
         return new DialogueBuilderImpl();
     }
 
     @Override
-    public void start(DialogueBuilder dialogue) {
-        steps = ((DialogueBuilderImpl) dialogue).buildSteps();
-        showNextStep();
-    }
-
-    public void proceed() {
-        showNextStep();
-    }
-
-    private void showNextStep() {
-        var client = getEntity().getComponentOrThrow(PlayerComponent.class).getClient();
-
-        if (currentStep != null) {
-            currentStep.close(client, interfaceManager);
-            currentStep = null;
-        }
-
-        if (steps == null || steps.isEmpty()) {
-            steps = null;
-            return;
-        }
-
-        currentStep = steps.poll();
-        currentStep.show(client, interfaceManager);
+    public TaskStep createDialogueTaskStep(DialogueBuilder dialogue) {
+        return new DialogueTaskStep(interfaceManager, client, dialogue);
     }
 }

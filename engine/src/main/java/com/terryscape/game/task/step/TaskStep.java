@@ -1,6 +1,6 @@
 package com.terryscape.game.task.step;
 
-public abstract class Step {
+public abstract class TaskStep {
 
     private boolean failed;
 

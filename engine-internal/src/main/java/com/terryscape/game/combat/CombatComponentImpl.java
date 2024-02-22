@@ -46,7 +46,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         var selfMovement = getEntity().getComponentOrThrow(MovementComponent.class);
         var victimMovement = victim.getEntity().getComponentOrThrow(MovementComponent.class);
 
-        var task = taskComponent.setCancellablePrimaryTask(new CombatFollowStep(pathfindingManager, cacheLoader, selfMovement, victimMovement));
+        var task = taskComponent.setCancellablePrimaryTask(new CombatFollowTaskStep(pathfindingManager, cacheLoader, selfMovement, victimMovement));
         if (task.isPresent()) {
             this.victim = victim;
 

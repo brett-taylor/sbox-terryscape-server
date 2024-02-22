@@ -6,9 +6,9 @@ import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.Step;
-import com.terryscape.game.task.step.impl.ImmediateStep;
-import com.terryscape.game.task.step.impl.WalkToStep;
+import com.terryscape.game.task.step.TaskStep;
+import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
 import com.terryscape.net.Client;
 
@@ -33,22 +33,22 @@ public class TreeWorldObjectInteractionHandler implements WorldObjectInteraction
         var destination = worldObjectDefinition.getWorldCoordinate().getClosestCardinalNeighbourFrom(playerMovement.getWorldCoordinate());
 
         playerTask.setCancellablePrimaryTask(
-            WalkToStep.worldCoordinate(playerMovement, destination),
+            WalkToTaskStep.worldCoordinate(playerMovement, destination),
 
-            ImmediateStep.run(() -> {
+            ImmediateTaskStep.run(() -> {
                 playerChat.sendGameMessage("You begin to chop the %s...".formatted(worldObjectDefinition.getObjectDefinition().getName()));
                 playerMovement.look(playerMovement.getWorldCoordinate().directionTo(worldObjectDefinition.getWorldCoordinate()));
             }),
 
-            new FakeChopTreeStep(playerAnimation)
+            new FakeChopTreeTaskStep(playerAnimation)
         );
     }
 
-    private static class FakeChopTreeStep extends Step {
+    private static class FakeChopTreeTaskStep extends TaskStep {
 
         private final AnimationComponent animationComponent;
 
-        private FakeChopTreeStep(AnimationComponent animationComponent) {
+        private FakeChopTreeTaskStep(AnimationComponent animationComponent) {
             this.animationComponent = animationComponent;
         }
 

@@ -2,13 +2,13 @@ package com.terryscape.game.combat;
 
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.game.task.step.Step;
+import com.terryscape.game.task.step.TaskStep;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 import java.util.Arrays;
 
-public class CombatFollowStep extends Step {
+public class CombatFollowTaskStep extends TaskStep {
 
     private final PathfindingManager pathfindingManager;
 
@@ -21,10 +21,10 @@ public class CombatFollowStep extends Step {
     private WorldCoordinate lastTickVictimWorldCoordinate;
     private WorldCoordinate destinationTile;
 
-    public CombatFollowStep(PathfindingManager pathfindingManager,
-                            CacheLoader cacheLoader,
-                            MovementComponent attacker,
-                            MovementComponent victim) {
+    public CombatFollowTaskStep(PathfindingManager pathfindingManager,
+                                CacheLoader cacheLoader,
+                                MovementComponent attacker,
+                                MovementComponent victim) {
 
         this.pathfindingManager = pathfindingManager;
         this.cacheLoader = cacheLoader;

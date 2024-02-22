@@ -1,20 +1,20 @@
 package com.terryscape.game.task.step.impl;
 
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.game.task.step.Step;
+import com.terryscape.game.task.step.TaskStep;
 import com.terryscape.world.coordinate.WorldCoordinate;
 
-public class WalkToStep extends Step {
+public class WalkToTaskStep extends TaskStep {
 
-    public static WalkToStep worldCoordinate(MovementComponent movementComponent, WorldCoordinate destination) {
-        return new WalkToStep(movementComponent, destination);
+    public static WalkToTaskStep worldCoordinate(MovementComponent movementComponent, WorldCoordinate destination) {
+        return new WalkToTaskStep(movementComponent, destination);
     }
 
     private final MovementComponent movementComponent;
 
     private final WorldCoordinate destination;
 
-    private WalkToStep(MovementComponent movementComponent, WorldCoordinate destination) {
+    private WalkToTaskStep(MovementComponent movementComponent, WorldCoordinate destination) {
         this.movementComponent = movementComponent;
         this.destination = destination;
     }

@@ -2,6 +2,7 @@ package com.terryscape.game.chat.dialogue;
 
 import com.google.inject.Singleton;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
+import com.terryscape.game.task.TaskComponent;
 import com.terryscape.net.Client;
 
 import java.nio.ByteBuffer;
@@ -17,7 +18,14 @@ public class DialogueInterfaceActionHandler implements InterfaceActionHandler {
 
     @Override
     public void handleAction(Client client, String interfaceId, String interfaceAction, ByteBuffer packet) {
-        var playerDialogue = client.getPlayer().orElseThrow().getEntity().getComponentOrThrow(PlayerDialogueComponentImpl.class);
-        playerDialogue.proceed();
+        var taskComponent = client.getPlayer().orElseThrow().getEntity().getComponentOrThrow(TaskComponent.class);
+
+        if (taskComponent.hasPrimaryTask()) {
+            var currentTaskStep = taskComponent.getPrimaryTask().orElseThrow().getCurrentTaskStep();
+
+            if (currentTaskStep instanceof DialogueTaskStep dialogueTaskStep) {
+                dialogueTaskStep.proceed();
+            }
+        }
     }
 }
