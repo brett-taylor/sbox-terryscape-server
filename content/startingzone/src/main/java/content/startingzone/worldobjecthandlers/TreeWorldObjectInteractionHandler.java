@@ -7,7 +7,7 @@ import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.TaskStep;
-import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
 import com.terryscape.net.Client;
@@ -35,7 +35,7 @@ public class TreeWorldObjectInteractionHandler implements WorldObjectInteraction
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destination),
 
-            ImmediateTaskStep.run(() -> {
+            NextTickTaskStep.doThis(() -> {
                 playerChat.sendGameMessage("You begin to chop the %s...".formatted(worldObjectDefinition.getObjectDefinition().getName()));
                 playerMovement.look(playerMovement.getWorldCoordinate().directionTo(worldObjectDefinition.getWorldCoordinate()));
             }),

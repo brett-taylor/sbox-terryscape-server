@@ -4,6 +4,9 @@ public abstract class TaskStep {
 
     private boolean failed;
 
+    public void onBecameCurrentTaskStep() {
+    }
+
     public void firstTick() {
     }
 

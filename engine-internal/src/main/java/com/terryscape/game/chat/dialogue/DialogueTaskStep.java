@@ -31,10 +31,10 @@ public class DialogueTaskStep extends TaskStep {
     }
 
     @Override
-    public void firstTick() {
-        super.firstTick();
+    public void onBecameCurrentTaskStep() {
+        super.onBecameCurrentTaskStep();
 
-        proceed();
+        closeCurrentStepAndShowNextStep();
     }
 
     @Override
@@ -42,15 +42,7 @@ public class DialogueTaskStep extends TaskStep {
         super.tick();
 
         if (shouldProceedOnNextTick) {
-            closeInterface();
-
-            if (steps.isEmpty()) {
-                return;
-            }
-
-            currentStep = steps.poll();
-            currentStep.show(client, interfaceManager);
-
+            closeCurrentStepAndShowNextStep();
             shouldProceedOnNextTick = false;
         }
     }
@@ -65,6 +57,17 @@ public class DialogueTaskStep extends TaskStep {
 
     public void proceed() {
         shouldProceedOnNextTick = true;
+    }
+
+    private void closeCurrentStepAndShowNextStep() {
+        closeInterface();
+
+        if (steps.isEmpty()) {
+            return;
+        }
+
+        currentStep = steps.poll();
+        currentStep.show(client, interfaceManager);
     }
 
     private void closeInterface() {

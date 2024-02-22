@@ -16,7 +16,7 @@ import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
@@ -133,7 +133,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitTaskStep.ticks(8),
-            ImmediateTaskStep.run(this::respawn)
+            NextTickTaskStep.doThis(this::respawn)
         );
     }
 

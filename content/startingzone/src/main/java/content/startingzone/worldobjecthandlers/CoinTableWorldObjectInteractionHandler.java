@@ -8,7 +8,7 @@ import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
@@ -52,7 +52,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, new WorldCoordinate(15, 15)),
 
-            ImmediateTaskStep.run(() -> {
+            NextTickTaskStep.doThis(() -> {
                 playerMovement.look(Direction.SOUTH);
                 playerAnimation.playAnimation("Sword_Attack_L3");
                 playerChat.sendGameMessage("You begin to loot the table...");
@@ -60,12 +60,12 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
             // Wait
             WaitTaskStep.ticks(1),
-            ImmediateTaskStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+            NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
             WaitTaskStep.ticks(1),
-            ImmediateTaskStep.run(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+            NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
             WaitTaskStep.ticks(1),
 
-            ImmediateTaskStep.run(() -> {
+            NextTickTaskStep.doThis(() -> {
                 playerChat.sendGameMessage("You receive a %s and a %s.".formatted(basicScimitar.getName(), basicSword.getName()));
                 player.getInventory().addItem(basicScimitar, 1);
                 player.getInventory().addItem(basicSword, 1);

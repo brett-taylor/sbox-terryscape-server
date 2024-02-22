@@ -2,22 +2,20 @@ package com.terryscape.game.task.step.impl;
 
 import com.terryscape.game.task.step.TaskStep;
 
-public class ImmediateTaskStep extends TaskStep {
+public class NextTickTaskStep extends TaskStep {
 
-    public static ImmediateTaskStep doThis(Runnable runnable) {
-        return new ImmediateTaskStep(runnable);
+    public static NextTickTaskStep doThis(Runnable runnable) {
+        return new NextTickTaskStep(runnable);
     }
 
     private final Runnable runnable;
 
-    private ImmediateTaskStep(Runnable runnable) {
+    private NextTickTaskStep(Runnable runnable) {
         this.runnable = runnable;
     }
 
     @Override
-    public void onBecameCurrentTaskStep() {
-        super.onBecameCurrentTaskStep();
-
+    public void firstTick() {
         runnable.run();
     }
 

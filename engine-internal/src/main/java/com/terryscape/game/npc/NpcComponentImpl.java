@@ -6,7 +6,7 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateTaskStep;
+import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.world.WorldManager;
@@ -55,7 +55,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitTaskStep.ticks(8),
-            ImmediateTaskStep.run(() -> worldManager.deleteEntity(getEntity().getIdentifier()))
+            NextTickTaskStep.doThis(() -> worldManager.deleteEntity(getEntity().getIdentifier()))
         );
     }
 }

@@ -45,8 +45,10 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
+
             playerDialogue.createDialogueTaskStep(dialogue),
-            ImmediateTaskStep.run(() -> interfaceManager.showInterface(client, "welcome_screen"))
+
+            ImmediateTaskStep.doThis(() -> interfaceManager.showInterface(client, "welcome_screen"))
         );
     }
 }

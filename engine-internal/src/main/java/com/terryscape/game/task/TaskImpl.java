@@ -107,5 +107,9 @@ public class TaskImpl implements Task {
     private void getNextStep() {
         this.isFirstTickForStep = true;
         this.currentTaskStep = taskSteps.poll();
+
+        if (this.currentTaskStep != null) {
+            this.currentTaskStep.onBecameCurrentTaskStep();
+        }
     }
 }
