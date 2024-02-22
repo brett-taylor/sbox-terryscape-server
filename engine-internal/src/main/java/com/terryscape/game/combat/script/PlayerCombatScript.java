@@ -4,6 +4,7 @@ import com.terryscape.cache.item.WeaponDefinition;
 import com.terryscape.cache.item.WeaponDefinitionImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
+import com.terryscape.game.combat.SpecialBarImpl;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.equipment.EquipmentSlot;
@@ -22,13 +23,14 @@ public class PlayerCombatScript implements CombatScript {
     private final WeaponDefinitionImpl unarmed;
     private long nextAttackOpportunity;
     private final int attackDelay;
-    private EquipmentSlot specialAttack = null;
+    private SpecialBarImpl specialBar;
 
     public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent) {
         this.worldClock = worldClock;
         this.playerComponent = playerComponent;
         this.movementComponent = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = playerComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
+        this.specialBar = playerComponent.getEntity().getComponentOrThrow(SpecialBarImpl.class);
         this.attackDelay = 3;
 
         var unarmedAttackAnimations = List.of(
@@ -64,22 +66,22 @@ public class PlayerCombatScript implements CombatScript {
         if (nextAttackOpportunity >= worldClock.getNowTick()) {
             return false;
         }
+        var specialAttack = specialBar.getSlot();
         if(specialAttack != null) {
-            var attackSlot = specialAttack;
-            specialAttack = null;
-
-            var weaponOption = playerComponent.getEquipment().getSlot(attackSlot);
+            var weaponOption = playerComponent.getEquipment().getSlot(specialAttack);
             if (weaponOption.isPresent()) {
                 var weapon = (WeaponDefinitionImpl) weaponOption.get();
-                var specialAttack = weapon.executeSpecialAttack(worldClock.getNowTick());
-                if (specialAttack != null) {
-                    specialAttack.execute(playerComponent.getEntity(), victim.getEntity());
-                    nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
+                var specialAttackTrigger = weapon.executeSpecialAttack(worldClock.getNowTick());
+                if (specialAttackTrigger != null) {
+                    if(specialBar.canRun(specialAttackTrigger.getEnergyCost())) {
+                        specialAttackTrigger.execute(playerComponent.getEntity(), victim.getEntity());
+                        nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
+                    }
                 } else {
                     System.err.println("No special attack assigned to weapon: " + weapon.getName());
                 }
             } else {
-                System.err.println("No weapon assigned to special attack slot: " + attackSlot);
+                System.err.println("No weapon assigned to special attack slot: " + specialAttack);
             }
         }
 

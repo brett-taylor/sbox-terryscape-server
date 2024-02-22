@@ -11,6 +11,7 @@ import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponentImpl;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponentImpl;
+import com.terryscape.game.combat.SpecialBarImpl;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponentImpl;
@@ -138,6 +139,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
+
+        var specialComponent = new SpecialBarImpl(entity);
+        entity.addComponent(specialComponent);
 
         var combatScript = new PlayerCombatScript(worldClock, playerComponent);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);

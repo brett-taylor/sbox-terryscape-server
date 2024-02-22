@@ -20,6 +20,7 @@ public class CharacterStatsImpl extends BaseEntityComponent {
         Mage = Range = Melee = 2;
         AttackBonuses = new Hashtable<>();
         DefenseBonuses = new Hashtable<>();
+        itemBonuses = new CombatStats();
     }
 
     public void SetStats(CombatStats stats) {

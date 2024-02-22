@@ -36,7 +36,7 @@
     "specialAttack" : {
       "attackName": "BASIC_SWORD",
       "animationName": "Unarmed_Attack_Kick_R1",
-      "energyCost": 50,
+      "energyCost": 5,
       "accuracyBonus": 100,
       "damageBonus": 20,
       "damageType": "PIERCE"
