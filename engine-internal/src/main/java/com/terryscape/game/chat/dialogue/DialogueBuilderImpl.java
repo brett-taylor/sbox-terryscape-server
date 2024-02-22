@@ -1,5 +1,6 @@
 package com.terryscape.game.chat.dialogue;
 
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.type.DialogueStep;
 import com.terryscape.game.chat.dialogue.type.NpcDialogueStep;
 import com.terryscape.game.chat.dialogue.type.PlayerDialogueStep;
@@ -14,8 +15,8 @@ public class DialogueBuilderImpl implements DialogueBuilder {
     private final List<DialogueStep> steps = new ArrayList<>();
 
     @Override
-    public DialogueBuilder npc(String name, String message) {
-        steps.add(new NpcDialogueStep(name, message));
+    public DialogueBuilder npc(NpcDefinition npc, String message) {
+        steps.add(new NpcDialogueStep(npc, message));
         return this;
     }
 

@@ -32,26 +32,26 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
         var destinationTile = npcWorldCoordinate.getClosestCardinalNeighbourFrom(playerMovement.getWorldCoordinate());
 
         var dialogue = playerDialogue.builder()
-            .npc(npcComponent.getNpcDefinition().getName(), "Welcome to %s! A land of monsters and dangers. But a world where...".formatted(Config.NAME))
+            .npc(npcComponent.getNpcDefinition(), "Welcome to %s! A land of monsters and dangers. But a world where...".formatted(Config.NAME))
             .player("Uh, why are are not wearing any clothes?")
-            .npc(npcComponent.getNpcDefinition().getName(), "It doesn't matter!")
-            .npc(npcComponent.getNpcDefinition().getName(), "To get started in %s, firstly you need some equipment.".formatted(Config.NAME))
-            .npc(npcComponent.getNpcDefinition().getName(), "You see that shop over there?")
+            .npc(npcComponent.getNpcDefinition(), "It doesn't matter!")
+            .npc(npcComponent.getNpcDefinition(), "To get started in %s, firstly you need some equipment.".formatted(Config.NAME))
+            .npc(npcComponent.getNpcDefinition(), "You see that shop over there?")
             .player("Yeah?")
             .npc(npcComponent.
-                    getNpcDefinition().getName(),
+                    getNpcDefinition(),
                 " The couple that runs the place. They aren't really with it anymore. They leave all their gold on the table in the middle of the place."
             )
             .npc(
-                npcComponent.getNpcDefinition().getName(),
+                npcComponent.getNpcDefinition(),
                 "You're not really stealing the gold if you instantly give it back to them. You should take some and use it to buy equipment from them."
             )
             .npc(
-                npcComponent.getNpcDefinition().getName(),
+                npcComponent.getNpcDefinition(),
                 "To make it up to them. Maybe you could try clearing out the Goblin infestation near the shop for them."
             )
             .npc(
-                npcComponent.getNpcDefinition().getName(),
+                npcComponent.getNpcDefinition(),
                 "Oh and remember, Terry has recently made killing other people completely legal - so watch yourself out there."
             );
 

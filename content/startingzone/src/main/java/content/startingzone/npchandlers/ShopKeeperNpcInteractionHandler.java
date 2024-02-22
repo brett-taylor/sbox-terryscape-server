@@ -29,7 +29,7 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
         var dialogue = playerDialogue.builder()
             .player("Hi, I would like to see your stock please.")
-            .npc(npcComponent.getNpcDefinition().getName(), "Certainly.");
+            .npc(npcComponent.getNpcDefinition(), "Certainly.");
 
         playerTask.setCancellablePrimaryTask(
             WalkToStep.worldCoordinate(playerMovement, destinationTile),

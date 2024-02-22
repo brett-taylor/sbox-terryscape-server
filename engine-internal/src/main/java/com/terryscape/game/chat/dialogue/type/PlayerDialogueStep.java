@@ -14,9 +14,7 @@ public final class PlayerDialogueStep implements DialogueStep {
 
     @Override
     public void show(Client client, InterfaceManager interfaceManager) {
-        interfaceManager.showInterface(client, "player_chat", stream -> {
-            OutgoingPacket.writeString(stream, message);
-        });
+        interfaceManager.showInterface(client, "player_chat", stream -> OutgoingPacket.writeString(stream, message));
     }
 
     @Override

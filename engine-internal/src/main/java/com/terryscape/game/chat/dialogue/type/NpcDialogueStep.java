@@ -1,24 +1,25 @@
 package com.terryscape.game.chat.dialogue.type;
 
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
 
-public final class NpcDialogueStep implements DialogueStep{
+public final class NpcDialogueStep implements DialogueStep {
 
-    private final String name;
+    private final String npcId;
 
     private final String message;
 
-    public NpcDialogueStep(String name, String message) {
-        this.name = name;
+    public NpcDialogueStep(NpcDefinition npc, String message) {
+        this.npcId = npc.getId();
         this.message = message;
     }
 
     @Override
     public void show(Client client, InterfaceManager interfaceManager) {
         interfaceManager.showInterface(client, "npc_chat", stream -> {
-            OutgoingPacket.writeString(stream, name);
+            OutgoingPacket.writeString(stream, npcId);
             OutgoingPacket.writeString(stream, message);
         });
     }
