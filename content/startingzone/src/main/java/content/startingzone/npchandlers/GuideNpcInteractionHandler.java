@@ -2,6 +2,7 @@ package content.startingzone.npchandlers;
 
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;

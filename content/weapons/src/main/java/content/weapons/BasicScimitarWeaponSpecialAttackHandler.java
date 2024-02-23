@@ -1,0 +1,42 @@
+package content.weapons;
+
+import com.google.inject.Singleton;
+import com.terryscape.game.ParticlePacketComponent;
+import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.combat.CombatComponent;
+import com.terryscape.game.combat.health.DamageInformation;
+import com.terryscape.game.combat.health.DamageType;
+import com.terryscape.game.combat.health.HealthComponent;
+import com.terryscape.game.combat.special.WeaponSpecialAttackHandler;
+import com.terryscape.game.movement.AnimationComponent;
+
+@Singleton
+public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAttackHandler {
+
+    @Override
+    public String getItemId() {
+        return "basic_scimitar";
+    }
+
+    @Override
+    public void attack(CombatComponent attacker, CombatComponent victim) {
+        var chatOptional = attacker.getEntity().getComponent(PlayerChatComponent.class);
+        chatOptional.ifPresent(playerChatComponent -> playerChatComponent.sendGameMessage("YOO SCIMMY ATTACK"));
+
+        var damageInformation = new DamageInformation()
+            .setType(DamageType.WATER)
+            .setIsUsingMainHand(true)
+            .setAmount(50)
+            .setHit(true);
+
+        victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damageInformation);
+        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("Unarmed_Attack_Kick_R1");
+        var attackerParticle = attacker.getEntity().getComponentOrThrow(ParticlePacketComponent.class);
+        var imgUrl = "https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png";
+        attackerParticle.setTarget(victim.getEntity().getIdentifier());
+        attackerParticle.setImageUrl(imgUrl);
+        attackerParticle.setDuration(1);
+
+    }
+
+}

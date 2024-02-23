@@ -11,11 +11,12 @@ import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponentImpl;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponentImpl;
-import com.terryscape.game.combat.ParticlePacketComponent;
+import com.terryscape.game.ParticlePacketComponent;
 import com.terryscape.game.combat.SpecialBarImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
+import com.terryscape.game.combat.special.WeaponSpecialAttackDispatcher;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
@@ -47,6 +48,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final InterfaceManager interfaceManager;
 
+    private final WeaponSpecialAttackDispatcher weaponSpecialAttackDispatcher;
+
     @Inject
     public EntityPrefabFactoryImpl(WorldManager worldManager,
                                    PathfindingManager pathfindingManager,
@@ -54,7 +57,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    PacketManager packetManager,
                                    CommandManager commandManager,
                                    CacheLoader cacheLoader,
-                                   InterfaceManager interfaceManager) {
+                                   InterfaceManager interfaceManager,
+                                   WeaponSpecialAttackDispatcher weaponSpecialAttackDispatcher) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
@@ -63,6 +67,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.commandManager = commandManager;
         this.cacheLoader = cacheLoader;
         this.interfaceManager = interfaceManager;
+        this.weaponSpecialAttackDispatcher = weaponSpecialAttackDispatcher;
     }
 
     @Override
@@ -142,7 +147,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var specialComponent = new SpecialBarImpl(entity);
         entity.addComponent(specialComponent);
 
-        var combatScript = new PlayerCombatScript(worldClock, playerComponent);
+        var combatScript = new PlayerCombatScript(worldClock, playerComponent, weaponSpecialAttackDispatcher);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
 

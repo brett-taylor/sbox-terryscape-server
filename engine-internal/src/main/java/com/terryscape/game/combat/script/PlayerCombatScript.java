@@ -7,6 +7,7 @@ import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.SpecialBarImpl;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
+import com.terryscape.game.combat.special.WeaponSpecialAttackDispatcher;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
@@ -17,21 +18,30 @@ import java.util.List;
 
 public class PlayerCombatScript implements CombatScript {
     private final WorldClock worldClock;
+
     private final PlayerComponent playerComponent;
+
     private final MovementComponent movementComponent;
+
     private final AnimationComponent animationComponent;
+
     private final WeaponDefinitionImpl unarmed;
+
+    private final WeaponSpecialAttackDispatcher weaponSpecialAttackDispatcher;
+
     private long nextAttackOpportunity;
     private final int attackDelay;
     private SpecialBarImpl specialBar;
 
-    public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent) {
+    public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent, WeaponSpecialAttackDispatcher weaponSpecialAttackDispatcher) {
         this.worldClock = worldClock;
         this.playerComponent = playerComponent;
         this.movementComponent = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = playerComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
         this.specialBar = playerComponent.getEntity().getComponentOrThrow(SpecialBarImpl.class);
         this.attackDelay = 3;
+
+        this.weaponSpecialAttackDispatcher = weaponSpecialAttackDispatcher;
 
         var unarmedAttackAnimations = List.of(
                 "Unarmed_Attack_Kick_L1",
@@ -66,12 +76,24 @@ public class PlayerCombatScript implements CombatScript {
         if (nextAttackOpportunity >= worldClock.getNowTick()) {
             return false;
         }
-        if(attemptSpecialAttack(victim)) {
+
+        // Should do special attack, if so pass attack onto the special attack dispatcher.
+        /**if(attemptSpecialAttack(victim)) {
+            return true;
+        }*/
+        var specialAttack = specialBar.getSlot();
+        if (specialAttack != null) {
+            var weapon = (WeaponDefinitionImpl) playerComponent.getEquipment().getSlot(specialAttack).orElseThrow();
+            var self = playerComponent.getEntity().getComponent(CombatComponent.class).orElseThrow();
+            weaponSpecialAttackDispatcher.dispatchSpecialWeaponAttack(weapon, self, victim);
+
+            nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
             return true;
         }
 
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
         var offHand = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
+
 
         if (mainHand.isPresent() || offHand.isPresent()) {
             return handleAttackWithWeapon(victim);

@@ -1,6 +1,7 @@
 package com.terryscape.game.combat;
 
 import com.terryscape.entity.Entity;
+import com.terryscape.game.ParticlePacketComponent;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;

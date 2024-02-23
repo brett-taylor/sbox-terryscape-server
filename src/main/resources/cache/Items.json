@@ -34,6 +34,8 @@
     "attackDelay": 6,
     "attributeBonus": 10,
     "specialAttack" : {
+      "name": "",
+      "description":  "",
       "attackName": "BASIC_SWORD",
       "animationName": "Unarmed_Attack_Kick_R1",
       "energyCost": 5,

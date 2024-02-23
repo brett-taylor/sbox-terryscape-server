@@ -4,6 +4,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.item.ClothingDefinition;
 import com.terryscape.cache.item.ClothingDefinitionImpl;
 import com.terryscape.cache.item.WeaponDefinition;
+import com.terryscape.cache.item.WeaponDefinitionImpl;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.SpecialBarImpl;
@@ -48,7 +49,6 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         if (interfaceAction.equals("item_special")) {
             player.getEntity().getComponentOrThrow(SpecialBarImpl.class).setSlot(slot);
         }
-
 
         if (interfaceAction.equals("item_examine")) {
             player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getDescription());

@@ -1,4 +1,4 @@
-package com.terryscape.game.combat;
+package com.terryscape.game;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
