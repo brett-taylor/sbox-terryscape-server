@@ -1,7 +1,9 @@
 package com.terryscape.game.chat.dialogue;
 
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.type.DialogueStep;
+import com.terryscape.game.chat.dialogue.type.ItemDialogueStep;
 import com.terryscape.game.chat.dialogue.type.NpcDialogueStep;
 import com.terryscape.game.chat.dialogue.type.PlayerDialogueStep;
 
@@ -23,6 +25,12 @@ public class DialogueBuilderImpl implements DialogueBuilder {
     @Override
     public DialogueBuilder player(String message) {
         steps.add(new PlayerDialogueStep(message));
+        return this;
+    }
+
+    @Override
+    public DialogueBuilder item(ItemDefinition item, String message) {
+        steps.add(new ItemDialogueStep(item, message));
         return this;
     }
 

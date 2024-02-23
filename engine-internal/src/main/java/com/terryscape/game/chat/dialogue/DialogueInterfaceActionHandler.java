@@ -13,7 +13,7 @@ public class DialogueInterfaceActionHandler implements InterfaceActionHandler {
 
     @Override
     public Set<String> getInterfaceId() {
-        return Set.of("player_chat", "npc_chat");
+        return Set.of("player_chat", "npc_chat", "item_chat");
     }
 
     @Override

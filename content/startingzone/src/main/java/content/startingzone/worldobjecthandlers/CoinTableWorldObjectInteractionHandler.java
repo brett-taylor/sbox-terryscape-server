@@ -5,9 +5,11 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.world.WorldObjectDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
+import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
@@ -40,14 +42,17 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
     @Override
     public void invoke(Client client, WorldObjectDefinition worldObjectDefinition) {
-        var basicScimitar = cacheLoader.getItem("basic_scimitar");
-        var basicSword = cacheLoader.getItem("basic_sword");
+        var goldCoin = cacheLoader.getItem("gold_coin");
 
         var player = client.getPlayer().orElseThrow();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
         var playerChat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
+        var playerDialogue = player.getEntity().getComponentOrThrow(PlayerDialogueComponent.class);
+
+        var itemDialogue = playerDialogue.builder()
+            .item(goldCoin, "You managed to find a single %s.".formatted(goldCoin.getName()));
 
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, new WorldCoordinate(15, 15)),
@@ -65,11 +70,8 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
             NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
             WaitTaskStep.ticks(1),
 
-            NextTickTaskStep.doThis(() -> {
-                playerChat.sendGameMessage("You receive a %s and a %s.".formatted(basicScimitar.getName(), basicSword.getName()));
-                player.getInventory().addItem(basicScimitar, 1);
-                player.getInventory().addItem(basicSword, 1);
-            })
+            ImmediateTaskStep.doThis(() -> player.getInventory().addItem(goldCoin, 1)),
+            playerDialogue.createDialogueTaskStep(itemDialogue)
         );
     }
 }

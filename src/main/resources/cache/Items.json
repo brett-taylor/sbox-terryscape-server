@@ -4,7 +4,7 @@
     "name": "Basic Scimitar",
     "description": "A basic scimitar.",
     "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
-    "ignore_EquippedMainHandOffset": "-1.6,1.15,-0.81",
+    "iconModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
     "equippedMainHandOffset": "2.38,-1.54,-0.00",
     "equippedOffHandOffset": "1.90,1.85,0.00",
     "equippedMainHandRotation": "0,0,-6.40",
@@ -17,11 +17,25 @@
     "name": "Basic Sword",
     "description": "A basic sword.",
     "modelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
+    "iconModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
     "equippedMainHandOffset": "1.84,-1.01,2.38",
     "equippedOffHandOffset": "1.84,1.29,2.50",
     "equippedMainHandRotation": "0,0,9.14",
     "equippedOffHandRotation": "0,0,9.14",
     "animationMainHandAttack": "Sword_Attack_L4",
     "animationOffHandAttack": "Sword_Attack_R4"
+  },
+  {
+    "id": "gold_coin",
+    "name": "Gold Coin",
+    "description": "Makes the world turn.",
+    "modelPath": "",
+    "iconModelPath": "assets/items/general/gold_coins/sm_prop_gold_coins_06.vmdl",
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
   }
 ]
