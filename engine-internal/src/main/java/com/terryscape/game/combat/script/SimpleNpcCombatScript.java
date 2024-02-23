@@ -27,7 +27,7 @@ public class SimpleNpcCombatScript implements CombatScript {
 
     private long lastAttackTime;
 
-    private int attackDelay;
+    private final int attackDelay;
 
     private final WeaponDefinition weapon;
 

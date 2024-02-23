@@ -2,6 +2,7 @@ package com.terryscape.game.combat;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.game.combat.health.DamageInformation;
+import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.combat.script.Combat;
 import com.terryscape.game.movement.AnimationComponentImpl;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.function.TriConsumer;
 public enum SpecialAttackCache {
         BASIC_SWORD(SpecialAttackCache::executeBasicSword);
         public final TriConsumer<Entity, Entity, SpecialAttackTrigger> specialAttack;
+
         SpecialAttackCache(TriConsumer<Entity, Entity, SpecialAttackTrigger> execute) {
                 specialAttack = execute;
         }
@@ -29,12 +31,18 @@ public enum SpecialAttackCache {
                 var didHit = Combat.AttemptHit(hitChance);
 
                 var damageInformation = new DamageInformation()
-                        .setType(attackerDamageType)
+                        .setType(DamageType.WATER)
                         .setIsUsingMainHand(true)
-                        .setAmount(damage)
+                        .setAmount(50)
                         .setHit(didHit);
 
                 defenderHealth.takeDamage(damageInformation);
                 attackerAnimation.playAnimation(attackTrigger.getAnimationName());
+                var attackerParticle = attacker.getComponentOrThrow(ParticlePacketComponent.class);
+                var target = defender.getIdentifier();
+                var imgUrl = "https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png";
+                attackerParticle.setTarget(target);
+                attackerParticle.setImageUrl(imgUrl);
+                attackerParticle.setDuration(1);
         }
 }

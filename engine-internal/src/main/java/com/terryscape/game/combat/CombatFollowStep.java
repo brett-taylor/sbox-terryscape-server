@@ -9,15 +9,10 @@ import com.terryscape.world.pathfinding.PathfindingManager;
 import java.util.Arrays;
 
 public class CombatFollowStep extends Step {
-
     private final PathfindingManager pathfindingManager;
-
     private final CacheLoader cacheLoader;
-
     private final MovementComponent attacker;
-
     private final MovementComponent victim;
-
     private WorldCoordinate lastTickVictimWorldCoordinate;
     private WorldCoordinate destinationTile;
 
