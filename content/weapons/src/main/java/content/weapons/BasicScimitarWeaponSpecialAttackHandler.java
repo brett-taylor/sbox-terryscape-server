@@ -4,6 +4,7 @@ import com.google.inject.Singleton;
 import com.terryscape.game.ParticlePacketComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
+import com.terryscape.game.combat.SpecialBar;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
@@ -12,6 +13,9 @@ import com.terryscape.game.movement.AnimationComponent;
 
 @Singleton
 public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAttackHandler {
+    private String animationName = "Unarmed_Attack_Kick_R1";
+    private int energyCost = 5;
+    private DamageType damageType = DamageType.WATER;
 
     @Override
     public String getItemId() {
@@ -19,24 +23,34 @@ public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAtt
     }
 
     @Override
-    public void attack(CombatComponent attacker, CombatComponent victim) {
+    public boolean attack(CombatComponent attacker, CombatComponent victim) {
         var chatOptional = attacker.getEntity().getComponent(PlayerChatComponent.class);
         chatOptional.ifPresent(playerChatComponent -> playerChatComponent.sendGameMessage("YOO SCIMMY ATTACK"));
 
+        var special = attacker.getEntity().getComponentOrThrow(SpecialBar.class);
+
+        var hasSpecial = special.canUse(energyCost);
+        if(!hasSpecial)
+            return false;
+
+        special.use(energyCost);
+
         var damageInformation = new DamageInformation()
-            .setType(DamageType.WATER)
+            .setType(damageType)
             .setIsUsingMainHand(true)
             .setAmount(50)
             .setHit(true);
 
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damageInformation);
-        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("Unarmed_Attack_Kick_R1");
+        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(animationName);
+
         var attackerParticle = attacker.getEntity().getComponentOrThrow(ParticlePacketComponent.class);
         var imgUrl = "https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png";
         attackerParticle.setTarget(victim.getEntity().getIdentifier());
         attackerParticle.setImageUrl(imgUrl);
         attackerParticle.setDuration(1);
 
+        return true;
     }
 
 }

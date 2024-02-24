@@ -25,7 +25,7 @@ public class Combat {
         var hitChance = HitChance(attackerStats, victimStats, weaponDamageType);
         var hit = AttemptHit(hitChance);
 
-        var maximumDamage = attackerStats.GetProficiency(weaponDamageType);
+        var maximumDamage = attackerStats.getEvasion(weaponDamageType);
         var damageAmount = DamageAmount(maximumDamage);
         
         var damage = new DamageInformation()
@@ -55,8 +55,8 @@ public class Combat {
     }
     public static double HitChance(CharacterStatsImpl attackerStats, CharacterStatsImpl victimStats, DamageType weaponDamageType, double attackerModifier) {
         attackerModifier /= 100;
-        double victimEvasion = victimStats.GetEvasion(weaponDamageType);
-        double attackerAccuracy = attackerStats.GetAccuracy(weaponDamageType);
+        double victimEvasion = victimStats.getEvasion(weaponDamageType);
+        double attackerAccuracy = attackerStats.getAccuracy(weaponDamageType);
 
         attackerAccuracy *= attackerModifier;
 

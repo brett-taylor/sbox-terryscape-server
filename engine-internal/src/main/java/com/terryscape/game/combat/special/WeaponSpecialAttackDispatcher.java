@@ -27,14 +27,14 @@ public class WeaponSpecialAttackDispatcher {
         LOGGER.info("Registered special attack handlers for {} weapons.", weaponSpecialAttackHandlers.size());
     }
 
-    public void dispatchSpecialWeaponAttack(WeaponDefinition weaponDefinition, CombatComponent attacker, CombatComponent victim) {
+    public boolean dispatchSpecialWeaponAttack(WeaponDefinition weaponDefinition, CombatComponent attacker, CombatComponent victim) {
         var handler = weaponSpecialAttackHandlers.get(weaponDefinition.getId());
         if (handler == null) {
             LOGGER.error("No special attack handler found for weapon with id {}.", weaponDefinition.getId());
-            return;
+            return false;
         }
 
-        handler.attack(attacker, victim);
+        return handler.attack(attacker, victim);
     }
 
     private void registerSingleWeaponSpecialAttackInteractionHandler(WeaponSpecialAttackHandler handler) {

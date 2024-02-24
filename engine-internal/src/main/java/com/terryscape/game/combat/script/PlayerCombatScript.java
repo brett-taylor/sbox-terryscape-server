@@ -85,10 +85,12 @@ public class PlayerCombatScript implements CombatScript {
         if (specialAttack != null) {
             var weapon = (WeaponDefinitionImpl) playerComponent.getEquipment().getSlot(specialAttack).orElseThrow();
             var self = playerComponent.getEntity().getComponent(CombatComponent.class).orElseThrow();
-            weaponSpecialAttackDispatcher.dispatchSpecialWeaponAttack(weapon, self, victim);
-
-            nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
-            return true;
+            if(weapon.canAttack(worldClock.getNowTick())) {
+                if (weaponSpecialAttackDispatcher.dispatchSpecialWeaponAttack(weapon, self, victim)) {
+                    nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
+                    return true;
+                }
+            }
         }
 
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
@@ -100,29 +102,6 @@ public class PlayerCombatScript implements CombatScript {
         }
 
         return attack(victim, unarmed, true);
-    }
-
-    private boolean attemptSpecialAttack(CombatComponent victim) {
-        var specialAttack = specialBar.getSlot();
-        if(specialAttack != null) {
-            var weaponOption = playerComponent.getEquipment().getSlot(specialAttack);
-            if (weaponOption.isPresent()) {
-                var weapon = (WeaponDefinitionImpl) weaponOption.get();
-                var specialAttackTrigger = weapon.executeSpecialAttack(worldClock.getNowTick());
-                if (specialAttackTrigger != null) {
-                    if(specialBar.canRun(specialAttackTrigger.getEnergyCost())) {
-                        specialAttackTrigger.execute(playerComponent.getEntity(), victim.getEntity());
-                        nextAttackOpportunity = worldClock.getNowTick() + attackDelay;
-                        return true;
-                    }
-                } else {
-                    System.err.println("No special attack assigned to weapon: " + weapon.getName());
-                }
-            } else {
-                System.err.println("No weapon assigned to special attack slot: " + specialAttack);
-            }
-        }
-        return false;
     }
 
     private boolean handleAttackWithWeapon(CombatComponent victim) {

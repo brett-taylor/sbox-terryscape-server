@@ -4,7 +4,7 @@ import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
 
-public class SpecialBarImpl extends BaseEntityComponent {
+public class SpecialBarImpl extends BaseEntityComponent implements SpecialBar {
     private int specialBar;
     private int timeSinceLastUpdate;
     private final int delayTime = 3;
@@ -14,12 +14,11 @@ public class SpecialBarImpl extends BaseEntityComponent {
         super(entity);
     }
 
-    public boolean canRun(int specialRequired) {
-        if(specialBar > specialRequired) {
+    public boolean canUse(int specialRequired){
+        return specialBar >= specialRequired;
+    }
+    public void use(int specialRequired) {
             specialBar -= specialRequired;
-            return true;
-        }
-        return false;
     }
 
     public void setSlot(EquipmentSlot slot) {
@@ -34,7 +33,7 @@ public class SpecialBarImpl extends BaseEntityComponent {
 
     @Override
     public void tick() {
-        if(timeSinceLastUpdate <= 0 && specialBar != 100) {
+        if(timeSinceLastUpdate <= 0 && specialBar < 100) {
             timeSinceLastUpdate = delayTime;
             specialBar++;
         } else {

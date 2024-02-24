@@ -7,6 +7,6 @@ public interface WeaponSpecialAttackHandler {
 
     String getItemId();
 
-    void attack(CombatComponent attacker, CombatComponent victim);
+    boolean attack(CombatComponent attacker, CombatComponent victim);
 
 }

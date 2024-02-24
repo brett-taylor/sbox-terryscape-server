@@ -14,8 +14,9 @@ public class BasicSwordWeaponSpecialAttackHandler implements WeaponSpecialAttack
     }
 
     @Override
-    public void attack(CombatComponent attacker, CombatComponent victim) {
+    public boolean attack(CombatComponent attacker, CombatComponent victim) {
         var chatOptional = attacker.getEntity().getComponent(PlayerChatComponent.class);
         chatOptional.ifPresent(playerChatComponent -> playerChatComponent.sendGameMessage("YOO A LONGBOI ATTACK"));
+        return true;
     }
 }

@@ -8,10 +8,11 @@ import com.terryscape.game.combat.health.DamageType;
 
 import java.util.Hashtable;
 
-public class CharacterStatsImpl extends BaseEntityComponent {
+public class CharacterStatsImpl extends BaseEntityComponent implements CharacterStats {
     private int Attack, Defense, Mage, Range, Melee;
-    private CombatStats itemBonuses;
-    private Hashtable<DamageType, Integer> AttackBonuses, DefenseBonuses;
+    private final CombatStats itemBonuses;
+    private final Hashtable<DamageType, Integer> AttackBonuses;
+    private final Hashtable<DamageType, Integer> DefenseBonuses;
 
     public CharacterStatsImpl(Entity entity) {
         super(entity);
@@ -31,19 +32,19 @@ public class CharacterStatsImpl extends BaseEntityComponent {
         Melee = stats.Melee;
     }
 
-    public int GetEvasion(DamageType type) {
+    public int getEvasion(DamageType type) {
         int baseEvasion = Defense;
         baseEvasion += DefenseBonuses.getOrDefault(type, 0);
         return baseEvasion;
     }
 
-    public int GetAccuracy(DamageType type) {
+    public int getAccuracy(DamageType type) {
         int baseAccuracy = Attack;
         baseAccuracy += AttackBonuses.getOrDefault(type, 0);
         return baseAccuracy;
     }
 
-    public int GetProficiency(DamageType type) {
+    public int getProficiency(DamageType type) {
         AttackType attackType = DamageType.GetAttackType(type);
         return switch (attackType){
             case MELEE -> Melee + itemBonuses.Melee;
