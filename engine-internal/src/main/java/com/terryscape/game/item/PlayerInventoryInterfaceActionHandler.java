@@ -5,12 +5,15 @@ import com.terryscape.cache.item.ClothingDefinition;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.item.WeaponDefinition;
 import com.terryscape.cache.item.WeaponDefinitionImpl;
+import com.terryscape.entity.EntityImpl;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.ByteBuffer;
 import java.util.Set;
@@ -18,6 +21,7 @@ import java.util.Optional;
 
 @Singleton
 public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHandler {
+    private static final Logger LOGGER = LogManager.getLogger(PlayerInventoryInterfaceActionHandler.class);
 
     @Override
     public Set<String> getInterfaceId() {
@@ -48,7 +52,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
                 case "item_main_hand" -> equipmentSlot = EquipmentSlot.MAIN_HAND;
                 case "item_off_hand" -> equipmentSlot = EquipmentSlot.OFF_HAND;
                 default -> {
-                    System.err.println("This is an invalid option for weapons: " + interfaceAction);
+                    LOGGER.info("This is an invalid option for weapons: " + interfaceAction);
                     return;
                 }
             }
@@ -61,13 +65,13 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             if (interfaceAction.equals("item_equip")) {
                 equipmentSlot = clothing.getSlot();
             } else {
-                System.err.println("Cannot equip " + item.getName() + " it is not clothing.");
+                LOGGER.info("Cannot equip " + item.getName() + " it is not clothing.");
                 return;
             }
         }
 
         if(equipmentSlot == null){
-            System.err.println("equipmentSlot was never assigned.");
+            LOGGER.info("equipmentSlot was never assigned.");
             return;
         }
 
