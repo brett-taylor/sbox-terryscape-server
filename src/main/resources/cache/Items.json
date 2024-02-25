@@ -178,7 +178,7 @@
   },
   {
     "id": "wizard_boots",
-    "name": "Wizard Bottoms",
+    "name": "Wizard Boots",
     "description": "Maybe this has magical powers?",
     "stackable": false,
     "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
