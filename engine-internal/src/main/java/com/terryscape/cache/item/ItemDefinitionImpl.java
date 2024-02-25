@@ -8,6 +8,8 @@ public class ItemDefinitionImpl implements ItemDefinition {
 
     private String description;
 
+    private boolean stackable;
+
     private String animationMainHandAttack;
 
     private String animationOffHandAttack;
@@ -39,6 +41,16 @@ public class ItemDefinitionImpl implements ItemDefinition {
 
     public ItemDefinitionImpl setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    @Override
+    public boolean isStackable() {
+        return stackable;
+    }
+
+    public ItemDefinitionImpl setStackable(boolean stackable) {
+        this.stackable = stackable;
         return this;
     }
 

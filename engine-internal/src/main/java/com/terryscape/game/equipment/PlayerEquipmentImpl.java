@@ -2,6 +2,7 @@ package com.terryscape.game.equipment;
 
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.item.FixedSizeItemContainer;
+import com.terryscape.game.item.ItemContainerItem;
 
 import java.util.Optional;
 
@@ -12,13 +13,13 @@ public class PlayerEquipmentImpl extends FixedSizeItemContainer implements Playe
     }
 
     @Override
-    public Optional<ItemDefinition> getSlot(EquipmentSlot equipmentSlot) {
+    public Optional<ItemContainerItem> getSlot(EquipmentSlot equipmentSlot) {
         return getItemAt(equipmentSlot.getSlotId());
     }
 
     @Override
-    public void setSlot(EquipmentSlot equipmentSlot, ItemDefinition item) {
-        addItemAt(equipmentSlot.getSlotId(), item);
+    public void setSlot(EquipmentSlot equipmentSlot, ItemDefinition item, int quantity) {
+        addItemAt(equipmentSlot.getSlotId(), item, quantity);
     }
 
     @Override

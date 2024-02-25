@@ -25,20 +25,25 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var player = client.getPlayer().orElseThrow();
         var playerEquipment = player.getEquipment();
         var playerInventory = player.getInventory();
-        var item = playerInventory.getItemAt(slotNumber).orElseThrow();
 
+        var itemOptional = playerInventory.getItemAt(slotNumber);
+        if (itemOptional.isEmpty()) {
+            return;
+        }
+
+        var item = itemOptional.get();
         if (interfaceAction.equals("item_main_hand")) {
             playerInventory.removeItemAt(slotNumber);
-            playerEquipment.setSlot(EquipmentSlot.MAIN_HAND, item);
+            playerEquipment.setSlot(EquipmentSlot.MAIN_HAND, item.getItemDefinition(), item.getQuantity());
         }
 
         if (interfaceAction.equals("item_off_hand")) {
             playerInventory.removeItemAt(slotNumber);
-            playerEquipment.setSlot(EquipmentSlot.OFF_HAND, item);
+            playerEquipment.setSlot(EquipmentSlot.OFF_HAND, item.getItemDefinition(), item.getQuantity());
         }
 
         if (interfaceAction.equals("item_examine")) {
-            player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getDescription());
+            player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getItemDefinition().getDescription());
         }
     }
 }

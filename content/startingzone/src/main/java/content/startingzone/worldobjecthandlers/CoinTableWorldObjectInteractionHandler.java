@@ -14,6 +14,7 @@ import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
+import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.Client;
 import com.terryscape.world.Direction;
 import com.terryscape.world.coordinate.WorldCoordinate;
@@ -45,14 +46,22 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         var goldCoin = cacheLoader.getItem("gold_coin");
 
         var player = client.getPlayer().orElseThrow();
+        var playerInventory = player.getInventory();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
         var playerChat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
         var playerDialogue = player.getEntity().getComponentOrThrow(PlayerDialogueComponent.class);
 
-        var itemDialogue = playerDialogue.builder()
-            .item(goldCoin, "You managed to find a single %s.".formatted(goldCoin.getName()));
+        var randomAmountToGive = RandomUtil.randomNumber(100, 1000);
+        var itemDialogue = playerDialogue.builder().item(goldCoin, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
+
+        // Check if player has a free slot or has item coins already
+        var hasSpace = playerInventory.hasItem(goldCoin) || playerInventory.getFreeSlotCount() > 0;
+        if (!hasSpace) {
+            playerChat.sendGameMessage("You need at least one free inventory spot to loot the table.");
+            return;
+        }
 
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, new WorldCoordinate(15, 15)),
@@ -70,21 +79,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
             NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
             WaitTaskStep.ticks(1),
 
-            ImmediateTaskStep.doThis(() -> {
-                player.getInventory().addItem(goldCoin, 1);
-                player.getInventory().addItem(cacheLoader.getItem("basic_scimitar"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("basic_sword"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("steel_full_helm"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("steel_platebody"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("steel_platelegs"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("steel_boots"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("steel_gloves"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("wizard_hat"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("wizard_top"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("wizard_bottoms"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("wizard_boots"), 1);
-                player.getInventory().addItem(cacheLoader.getItem("wizard_gloves"), 1);
-            }),
+            ImmediateTaskStep.doThis(() -> playerInventory.addItem(goldCoin, randomAmountToGive)),
 
             playerDialogue.createDialogueTaskStep(itemDialogue)
         );

@@ -36,6 +36,7 @@ public class ItemCacheLoader {
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
             .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
+            .setStackable(jsonObject.getAsJsonPrimitive("stackable").getAsBoolean())
             .setAnimationMainHandAttack(jsonObject.getAsJsonPrimitive("animationMainHandAttack").getAsString())
             .setAnimationOffHandAttack(jsonObject.getAsJsonPrimitive("animationOffHandAttack").getAsString());
     }

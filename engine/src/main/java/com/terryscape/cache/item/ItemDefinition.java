@@ -8,6 +8,8 @@ public interface ItemDefinition {
 
     String getDescription();
 
+    boolean isStackable();
+
     String getAnimationMainHandAttack();
 
     String getAnimationOffHandAttack();

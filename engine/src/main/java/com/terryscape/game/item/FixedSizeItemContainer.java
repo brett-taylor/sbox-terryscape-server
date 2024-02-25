@@ -6,64 +6,83 @@ import com.terryscape.net.PacketSerializable;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public abstract class FixedSizeItemContainer implements PacketSerializable {
 
-    private final ItemDefinition[] items;
+    private final ItemContainerItem[] items;
 
     public FixedSizeItemContainer() {
-        this.items = new ItemDefinition[getSize()];
+        this.items = new ItemContainerItem[getSize()];
     }
 
     public abstract int getSize();
 
-    public void addItem(ItemDefinition item) {
-        var freeSpot = getNextFreeSpot();
-        if (freeSpot == null) {
-            return;
-        }
-
-        this.items[freeSpot] = item;
+    public int getFreeSlotCount() {
+        return (int) Arrays.stream(items)
+            .filter(Objects::isNull)
+            .count();
     }
 
-    public void addItem(ItemDefinition item, int amount) {
-        for (int i = 0; i < amount; i++) {
-            addItem(item);
-        }
+    public boolean hasItem(ItemDefinition itemDefinition) {
+        return getFirstSlotContainingItem(itemDefinition) != null;
     }
 
-    public Optional<ItemDefinition> getItemAt(int slotNumber) {
-        return Optional.ofNullable(ArrayUtils.get(items, slotNumber, null));
+    public Optional<ItemContainerItem> getItemAt(int slotNumber) {
+        return Optional.ofNullable(items[slotNumber]);
     }
 
-    public void addItemAt(int slotNumber, ItemDefinition item) {
-        if (ArrayUtils.isArrayIndexValid(items, slotNumber)) {
-            items[slotNumber] = item;
-        }
+    public void addItemAt(int slotNumber, ItemDefinition item, int quantity) {
+        items[slotNumber] = new ItemContainerItem(item, quantity);
     }
 
     public void removeItemAt(int slotNumber) {
-        if (ArrayUtils.isArrayIndexValid(items, slotNumber)) {
-            items[slotNumber] = null;
+        items[slotNumber] = null;
+    }
+
+    public void addItem(ItemDefinition itemDefinition, int quantity) {
+        var slotContainingItem = getFirstSlotContainingItem(itemDefinition);
+        if (itemDefinition.isStackable() && slotContainingItem != null) {
+            var currentItem = getItemAt(slotContainingItem).orElseThrow();
+
+            addItemAt(slotContainingItem, itemDefinition, quantity + currentItem.getQuantity());
+            System.err.println(getItemAt(slotContainingItem).orElseThrow().getQuantity());
+            return;
         }
+
+        var freeSpot = getNextFreeSpot();
+        this.items[freeSpot] = new ItemContainerItem(itemDefinition, quantity);
+    }
+
+    private Integer getFirstSlotContainingItem(ItemDefinition itemDefinition) {
+        return IntStream.range(0, items.length)
+            .filter(i -> items[i] != null && items[i].getItemDefinition() == itemDefinition)
+            .boxed()
+            .findFirst()
+            .orElse(null);
+    }
+
+    private Integer getNextFreeSpot() {
+        return IntStream.range(0, items.length)
+            .filter(i -> items[i] == null)
+            .boxed()
+            .findFirst()
+            .orElse(null);
     }
 
     @Override
     public void writeToPacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, items.length);
         for (var item : items) {
-            OutgoingPacket.writeString(packet, item == null ? null : item.getId());
-        }
-    }
-
-    private Integer getNextFreeSpot() {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                return i;
+            if (item == null) {
+                OutgoingPacket.writeString(packet, null);
+            } else {
+                OutgoingPacket.writeString(packet, item.getItemDefinition().getId());
+                OutgoingPacket.writeInt32(packet, item.getQuantity());
             }
         }
-
-        return null;
     }
 }

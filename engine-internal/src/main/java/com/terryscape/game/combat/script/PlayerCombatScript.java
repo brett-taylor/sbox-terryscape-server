@@ -82,7 +82,7 @@ public class PlayerCombatScript implements CombatScript {
         var isMainHandOffCooldown = lastMainHandAttackTime + 6 < worldClock.getNowTick();
 
         if (mainHand.isPresent() && isMainHandOffCooldown) {
-            slap(victim, true, mainHand.get().getAnimationMainHandAttack());
+            slap(victim, true, mainHand.get().getItemDefinition().getAnimationMainHandAttack());
             return true;
         }
 
@@ -90,7 +90,7 @@ public class PlayerCombatScript implements CombatScript {
         var isOffHandOffCooldown = lastOffHandAttackTime + 6 < worldClock.getNowTick();
 
         if (offHand.isPresent() && isOffHandOffCooldown) {
-            slap(victim, false, offHand.get().getAnimationOffHandAttack());
+            slap(victim, false, offHand.get().getItemDefinition().getAnimationOffHandAttack());
             return true;
         }
 
