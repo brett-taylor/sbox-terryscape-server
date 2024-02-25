@@ -25,7 +25,7 @@ public class Combat {
         var hitChance = HitChance(attackerStats, victimStats, weaponDamageType);
         var hit = AttemptHit(hitChance);
 
-        var maximumDamage = attackerStats.getEvasion(weaponDamageType);
+        var maximumDamage = attackerStats.getProficiency(weaponDamageType);
         var damageAmount = DamageAmount(maximumDamage);
         
         var damage = new DamageInformation()
