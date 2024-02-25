@@ -70,7 +70,22 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
             NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
             WaitTaskStep.ticks(1),
 
-            ImmediateTaskStep.doThis(() -> player.getInventory().addItem(goldCoin, 1)),
+            ImmediateTaskStep.doThis(() -> {
+                player.getInventory().addItem(goldCoin, 1);
+                player.getInventory().addItem(cacheLoader.getItem("basic_scimitar"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("basic_sword"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("steel_full_helm"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("steel_platebody"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("steel_platelegs"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("steel_boots"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("steel_gloves"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("wizard_hat"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("wizard_top"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("wizard_bottoms"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("wizard_boots"), 1);
+                player.getInventory().addItem(cacheLoader.getItem("wizard_gloves"), 1);
+            }),
+
             playerDialogue.createDialogueTaskStep(itemDialogue)
         );
     }

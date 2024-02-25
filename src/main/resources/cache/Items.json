@@ -5,6 +5,8 @@
     "description": "A basic scimitar.",
     "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
     "iconModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+    "iconImagePath": "assets/items/weapons/basic_scimitar/basic_scimitar_icon.png",
+
     "equippedMainHandOffset": "2.38,-1.54,-0.00",
     "equippedOffHandOffset": "1.90,1.85,0.00",
     "equippedMainHandRotation": "0,0,-6.40",
@@ -17,7 +19,9 @@
     "name": "Basic Sword",
     "description": "A basic sword.",
     "modelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
-    "iconModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+    "iconModelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
+    "iconImagePath": "assets/items/weapons/basic_sword/basic_sword_icon.png",
+
     "equippedMainHandOffset": "1.84,-1.01,2.38",
     "equippedOffHandOffset": "1.84,1.29,2.50",
     "equippedMainHandRotation": "0,0,9.14",
@@ -31,6 +35,159 @@
     "description": "Makes the world turn.",
     "modelPath": "",
     "iconModelPath": "assets/items/general/gold_coins/sm_prop_gold_coins_06.vmdl",
+    "iconImagePath": "assets/items/general/gold_coins/sm_prop_gold_coins_06_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "steel_full_helm",
+    "name": "Steel Full Helm",
+    "description": "This will protect me.",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "steel_platebody",
+    "name": "Steel Platebody",
+    "description": "This will protect me.",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "steel_platelegs",
+    "name": "Steel Platelegs",
+    "description": "This will protect me.",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "steel_boots",
+    "name": "Steel Boots",
+    "description": "This will protect me.",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "steel_gloves",
+    "name": "Steel Gloves",
+    "description": "This will protect me.",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+
+  {
+    "id": "wizard_hat",
+    "name": "Wizard Hat",
+    "description": "Maybe this has magical powers?",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "wizard_top",
+    "name": "Wizard Top",
+    "description": "Maybe this has magical powers?",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "wizard_bottoms",
+    "name": "Wizard Bottoms",
+    "description": "Maybe this has magical powers?",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "wizard_boots",
+    "name": "Wizard Bottoms",
+    "description": "Maybe this has magical powers?",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male_icon.png",
+
+    "equippedMainHandOffset": "0,0,0",
+    "equippedOffHandOffset": "0,0,0",
+    "equippedMainHandRotation": "0,0,0",
+    "equippedOffHandRotation": "0,0,0",
+    "animationMainHandAttack": "",
+    "animationOffHandAttack": ""
+  },
+  {
+    "id": "wizard_gloves",
+    "name": "Wizard Gloves",
+    "description": "Maybe this has magical powers?",
+    "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl",
+    "iconModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl",
+    "iconImagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male_icon.png",
+
     "equippedMainHandOffset": "0,0,0",
     "equippedOffHandOffset": "0,0,0",
     "equippedMainHandRotation": "0,0,0",
