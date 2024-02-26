@@ -49,15 +49,15 @@ public class ShopManagerImpl implements ShopManager {
 
         // Check player inventory has n slots
         if (!playerInventory.hasFreeSlots(quantity)){
-            playerChat.sendGameMessage("You do not have the space in your inventory to buy %d %s".formatted(quantity, itemDefinition.getName()));
+            playerChat.sendGameMessage("You do not have the space in your inventory to buy %d %s.".formatted(quantity, itemDefinition.getName()));
             return;
         }
 
         if (playerInventory.removeItemOfTypeAndQuantity(goldCoins, totalPrice)) {
             playerInventory.addItem(itemDefinition, quantity);
-            playerChat.sendGameMessage("You bought %d %s".formatted(quantity, itemDefinition.getName()));
+            playerChat.sendGameMessage("You bought %d %s.".formatted(quantity, itemDefinition.getName()));
         } else {
-            playerChat.sendGameMessage("You do not have the required %d %s".formatted(totalPrice, goldCoins.getName()));
+            playerChat.sendGameMessage("You do not have the required %d %s.".formatted(totalPrice, goldCoins.getName()));
         }
     }
 
