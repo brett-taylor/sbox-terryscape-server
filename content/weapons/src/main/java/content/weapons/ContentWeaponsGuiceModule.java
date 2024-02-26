@@ -9,6 +9,7 @@ public class ContentWeaponsGuiceModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        binder().bind(VisualEffectFactory.class).asEagerSingleton();
         var weaponSpecialAttackHandlerMultibinder = Multibinder.newSetBinder(binder(), WeaponSpecialAttackHandler.class);
         weaponSpecialAttackHandlerMultibinder.addBinding().to(BasicSwordWeaponSpecialAttackHandler.class);
         weaponSpecialAttackHandlerMultibinder.addBinding().to(BasicScimitarWeaponSpecialAttackHandler.class);

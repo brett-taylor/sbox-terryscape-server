@@ -4,4 +4,5 @@ package com.terryscape.entity;
 public enum EntityPrefabType {
     PLAYER,
     NPC,
+    VISUAL_EFFECT
 }

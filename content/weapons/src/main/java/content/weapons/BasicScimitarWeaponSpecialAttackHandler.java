@@ -1,15 +1,16 @@
 package content.weapons;
 
 import com.google.inject.Singleton;
-import com.terryscape.game.ParticlePacketComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
+import com.terryscape.game.combat.ParticleComponent;
 import com.terryscape.game.combat.SpecialBar;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.combat.special.WeaponSpecialAttackHandler;
 import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.movement.MovementComponent;
 
 @Singleton
 public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAttackHandler {
@@ -44,11 +45,11 @@ public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAtt
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damageInformation);
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(animationName);
 
-        var attackerParticle = attacker.getEntity().getComponentOrThrow(ParticlePacketComponent.class);
+        var attackerParticle = VisualEffectFactory.CreateParticle();
         var imgUrl = "https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png";
-        attackerParticle.setTarget(victim.getEntity().getIdentifier());
+        attackerParticle.setTarget(victim.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate());
         attackerParticle.setImageUrl(imgUrl);
-        attackerParticle.setDuration(1);
+        attackerParticle.setDuration(2);
 
         return true;
     }

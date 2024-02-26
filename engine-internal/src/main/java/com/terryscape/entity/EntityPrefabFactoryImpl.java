@@ -5,13 +5,15 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
+import com.terryscape.game.ParticleComponentImpl;
 import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponentImpl;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponentImpl;
-import com.terryscape.game.ParticlePacketComponent;
+import com.terryscape.game.ProjectileComponentImpl;
+import com.terryscape.game.combat.ParticleComponent;
 import com.terryscape.game.combat.SpecialBarImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
@@ -29,6 +31,7 @@ import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.WorldClock;
 import com.terryscape.world.WorldManager;
+import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 @Singleton
@@ -157,9 +160,36 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var statsComponent = new CharacterStatsImpl(entity);
         entity.addComponent(statsComponent);
 
-        var particleComponent = new ParticlePacketComponent(entity);
-        entity.addComponent(particleComponent);
+        return entity;
+    }
+
+    public Entity createProjectile(WorldCoordinate source, WorldCoordinate target) {
+        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.VISUAL_EFFECT, "Projectile");
+
+        var taskComponent = new TaskComponentImpl(entity);
+        entity.addComponent(taskComponent);
+
+        var projectileComponent = new ProjectileComponentImpl(entity, worldManager);
+        projectileComponent.setSource(source);
+        projectileComponent.setTarget(target);
+        projectileComponent.setDuration(6);
+        projectileComponent.setImageUrl("https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png");
+        entity.addComponent(projectileComponent);
 
         return entity;
+    }
+
+    public ParticleComponent createParticle() {
+        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.VISUAL_EFFECT, "Particle_Effect");
+
+        var taskComponent = new TaskComponentImpl(entity);
+        entity.addComponent(taskComponent);
+
+        var particleComponent = new ParticleComponentImpl(entity, worldManager);
+        particleComponent.setDuration(6);
+        particleComponent.setImageUrl("https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png");
+        entity.addComponent(particleComponent);
+
+        return particleComponent;
     }
 }
