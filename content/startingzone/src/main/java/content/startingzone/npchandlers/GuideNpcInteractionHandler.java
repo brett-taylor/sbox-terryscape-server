@@ -1,8 +1,9 @@
 package content.startingzone.npchandlers;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
-import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
+import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
@@ -15,6 +16,13 @@ import java.util.Set;
 @Singleton
 public class GuideNpcInteractionHandler implements NpcInteractionHandler {
 
+    private final DialogueManager dialogueManager;
+
+    @Inject
+    public GuideNpcInteractionHandler(DialogueManager dialogueManager) {
+        this.dialogueManager = dialogueManager;
+    }
+
     @Override
     public Set<String> getNpcIds() {
         return Set.of("guide");
@@ -25,12 +33,11 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
         var player = client.getPlayer().orElseThrow();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
-        var playerDialogue = player.getEntity().getComponentOrThrow(PlayerDialogueComponent.class);
 
         var npcWorldCoordinate = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
         var destinationTile = npcWorldCoordinate.getClosestCardinalNeighbourFrom(playerMovement.getWorldCoordinate());
 
-        var dialogue = playerDialogue.builder()
+        var dialogue = dialogueManager.builder()
             .npc(npcComponent.getNpcDefinition(), "Welcome to %s! A land of monsters and dangers. But a world where...".formatted(Config.NAME))
             .player("Uh, why are are not wearing any clothes?")
             .npc(npcComponent.getNpcDefinition(), "It doesn't matter!")
@@ -57,7 +64,7 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
 
-            playerDialogue.createViewDialogueTaskStep(dialogue)
+            dialogueManager.createViewDialogueTaskStep(client, dialogue)
         );
     }
 }

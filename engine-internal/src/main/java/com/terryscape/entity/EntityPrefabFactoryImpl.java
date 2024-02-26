@@ -8,7 +8,6 @@ import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
-import com.terryscape.game.chat.dialogue.PlayerDialogueComponentImpl;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
@@ -130,9 +129,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatScript = new PlayerCombatScript(worldClock, playerComponent);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
-
-        var dialogueComponent = new PlayerDialogueComponentImpl(entity, interfaceManager);
-        entity.addComponent(dialogueComponent);
 
         return entity;
     }

@@ -10,6 +10,8 @@ import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
 import com.terryscape.game.chat.dialogue.DialogueInterfaceActionHandler;
+import com.terryscape.game.chat.dialogue.DialogueManager;
+import com.terryscape.game.chat.dialogue.DialogueManagerImpl;
 import com.terryscape.game.equipment.PlayerEquipmentInterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.packet.InterfaceActionIncomingPacket;
@@ -47,6 +49,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(EntityPrefabFactory.class).to(EntityPrefabFactoryImpl.class);
         binder().bind(InterfaceManager.class).to(InterfaceManagerImpl.class);
         binder().bind(ShopManager.class).to(ShopManagerImpl.class);
+        binder().bind(DialogueManager.class).to(DialogueManagerImpl.class);
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);

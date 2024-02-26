@@ -2,7 +2,7 @@ package content.startingzone.npchandlers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
+import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
@@ -18,6 +18,8 @@ import java.util.Set;
 @Singleton
 public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
+    private final DialogueManager dialogueManager;
+
     private final ShopManager shopManager;
 
     private final EquipmentShop equipmentShop;
@@ -25,7 +27,8 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
     private final WeaponShop weaponShop;
 
     @Inject
-    public ShopKeeperNpcInteractionHandler(ShopManager shopManager, EquipmentShop equipmentShop, WeaponShop weaponShop) {
+    public ShopKeeperNpcInteractionHandler(DialogueManager dialogueManager, ShopManager shopManager, EquipmentShop equipmentShop, WeaponShop weaponShop) {
+        this.dialogueManager = dialogueManager;
         this.shopManager = shopManager;
         this.equipmentShop = equipmentShop;
         this.weaponShop = weaponShop;
@@ -41,12 +44,11 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
         var player = client.getPlayer().orElseThrow();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
-        var playerDialogue = player.getEntity().getComponentOrThrow(PlayerDialogueComponent.class);
 
         var npcWorldCoordinate = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
         var destinationTile = npcWorldCoordinate.getClosestCardinalNeighbourFrom(playerMovement.getWorldCoordinate());
 
-        var dialogue = playerDialogue.builder()
+        var dialogue = dialogueManager.builder()
             .player("Hi, I would like to see your stock please.")
             .npc(npcComponent.getNpcDefinition(), "Certainly.");
 
@@ -57,7 +59,7 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
 
-            playerDialogue.createViewDialogueTaskStep(dialogue),
+            dialogueManager.createViewDialogueTaskStep(client, dialogue),
 
             viewShopTaskStep
         );

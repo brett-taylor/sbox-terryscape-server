@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.world.WorldObjectDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
-import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
+import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.TaskComponent;
@@ -31,9 +31,12 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
     private final CacheLoader cacheLoader;
 
+    private final DialogueManager dialogueManager;
+
     @Inject
-    public CoinTableWorldObjectInteractionHandler(CacheLoader cacheLoader) {
+    public CoinTableWorldObjectInteractionHandler(CacheLoader cacheLoader, DialogueManager dialogueManager) {
         this.cacheLoader = cacheLoader;
+        this.dialogueManager = dialogueManager;
     }
 
     @Override
@@ -51,10 +54,9 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         var playerChat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
-        var playerDialogue = player.getEntity().getComponentOrThrow(PlayerDialogueComponent.class);
 
         var randomAmountToGive = RandomUtil.randomNumber(100, 1000);
-        var itemDialogue = playerDialogue.builder().item(goldCoin, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
+        var itemDialogue = dialogueManager.builder().item(goldCoin, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
 
         // Check if player has a free slot or has item coins already
         var hasSpace = playerInventory.hasItem(goldCoin) || playerInventory.getFreeSlotCount() > 0;
@@ -81,7 +83,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
             ImmediateTaskStep.doThis(() -> playerInventory.addItem(goldCoin, randomAmountToGive)),
 
-            playerDialogue.createViewDialogueTaskStep(itemDialogue)
+            dialogueManager.createViewDialogueTaskStep(client, itemDialogue)
         );
     }
 }
