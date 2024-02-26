@@ -8,7 +8,6 @@ import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.shop.ShopManager;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
 import content.startingzone.shops.EquipmentShop;
@@ -51,20 +50,16 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
             .player("Hi, I would like to see your stock please.")
             .npc(npcComponent.getNpcDefinition(), "Certainly.");
 
+        var viewShopTaskStep = npcComponent.getNpcDefinition().getId().equals("armour_shop_keeper")
+            ? shopManager.createViewShopTaskStep(equipmentShop, client)
+            : shopManager.createViewShopTaskStep(weaponShop, client);
+
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
 
-            playerDialogue.createDialogueTaskStep(dialogue),
+            playerDialogue.createViewDialogueTaskStep(dialogue),
 
-            ImmediateTaskStep.doThis(() -> {
-                if (npcComponent.getNpcDefinition().getId().equals("armour_shop_keeper")) {
-                    shopManager.showShop(client, equipmentShop);
-                }
-
-                if (npcComponent.getNpcDefinition().getId().equals("weapon_shop_keeper")) {
-                    shopManager.showShop(client, weaponShop);
-                }
-            })
+            viewShopTaskStep
         );
     }
 }

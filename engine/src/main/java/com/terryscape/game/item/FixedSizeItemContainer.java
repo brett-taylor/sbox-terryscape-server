@@ -3,7 +3,6 @@ package com.terryscape.game.item;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketSerializable;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.OutputStream;
 import java.util.Arrays;
@@ -27,8 +26,24 @@ public abstract class FixedSizeItemContainer implements PacketSerializable {
             .count();
     }
 
-    public boolean hasItem(ItemDefinition itemDefinition) {
-        return getFirstSlotContainingItem(itemDefinition) != null;
+    public boolean hasFreeSlots(int inclusiveQuantityOfFreeSlots) {
+        return inclusiveQuantityOfFreeSlots <= getFreeSlotCount();
+    }
+
+    public int getQuantityOfItem(ItemDefinition itemDefinition) {
+        if (itemDefinition.isStackable()) {
+            return Arrays.stream(items)
+                .filter(Objects::nonNull)
+                .filter(itemContainerItem -> itemContainerItem.getItemDefinition() == itemDefinition)
+                .map(ItemContainerItem::getQuantity)
+                .findFirst()
+                .orElse(0);
+        }
+
+        return (int) Arrays.stream(items)
+            .filter(Objects::nonNull)
+            .filter(itemContainerItem -> itemContainerItem.getItemDefinition() == itemDefinition)
+            .count();
     }
 
     public Optional<ItemContainerItem> getItemAt(int slotNumber) {
@@ -39,22 +54,66 @@ public abstract class FixedSizeItemContainer implements PacketSerializable {
         items[slotNumber] = new ItemContainerItem(item, quantity);
     }
 
-    public void removeItemAt(int slotNumber) {
-        items[slotNumber] = null;
-    }
-
     public void addItem(ItemDefinition itemDefinition, int quantity) {
         var slotContainingItem = getFirstSlotContainingItem(itemDefinition);
         if (itemDefinition.isStackable() && slotContainingItem != null) {
             var currentItem = getItemAt(slotContainingItem).orElseThrow();
 
             addItemAt(slotContainingItem, itemDefinition, quantity + currentItem.getQuantity());
-            System.err.println(getItemAt(slotContainingItem).orElseThrow().getQuantity());
             return;
         }
 
-        var freeSpot = getNextFreeSpot();
-        this.items[freeSpot] = new ItemContainerItem(itemDefinition, quantity);
+        if (itemDefinition.isStackable()) {
+            var freeSpot = getNextFreeSpot();
+            if (freeSpot == null) {
+                return;
+            }
+
+            this.items[freeSpot] = new ItemContainerItem(itemDefinition, quantity);
+            return;
+        }
+
+        for (int i = 0; i < quantity; i++) {
+            var freeSpot = getNextFreeSpot();
+            if (freeSpot == null) {
+                return;
+            }
+
+            this.items[freeSpot] = new ItemContainerItem(itemDefinition, 1);
+        }
+    }
+
+    public boolean hasItem(ItemDefinition itemDefinition) {
+        return getFirstSlotContainingItem(itemDefinition) != null;
+    }
+
+    public void removeItemAt(int slotNumber) {
+        items[slotNumber] = null;
+    }
+
+    public boolean removeItemOfTypeAndQuantity(ItemDefinition itemDefinition, int quantity) {
+        var quantityLeft = getQuantityOfItem(itemDefinition) - quantity;
+        if (quantityLeft < 0) {
+            return false;
+        }
+
+        if (itemDefinition.isStackable()) {
+            var slot = getFirstSlotContainingItem(itemDefinition);
+            removeItemAt(slot);
+
+            if (quantityLeft > 1) {
+                addItemAt(slot, itemDefinition, quantityLeft);
+            }
+        } else {
+            var slotsToRemove = IntStream.range(0, items.length)
+                .filter(i -> items[i] != null && items[i].getItemDefinition() == itemDefinition)
+                .boxed()
+                .limit(quantity);
+
+            slotsToRemove.forEach(this::removeItemAt);
+        }
+
+        return true;
     }
 
     private Integer getFirstSlotContainingItem(ItemDefinition itemDefinition) {

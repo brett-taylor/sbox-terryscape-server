@@ -81,7 +81,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
             ImmediateTaskStep.doThis(() -> playerInventory.addItem(goldCoin, randomAmountToGive)),
 
-            playerDialogue.createDialogueTaskStep(itemDialogue)
+            playerDialogue.createViewDialogueTaskStep(itemDialogue)
         );
     }
 }

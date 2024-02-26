@@ -34,7 +34,7 @@ public class PlayerDialogueComponentImpl extends BaseEntityComponent implements 
     }
 
     @Override
-    public TaskStep createDialogueTaskStep(DialogueBuilder dialogue) {
-        return new DialogueTaskStep(interfaceManager, client, dialogue);
+    public TaskStep createViewDialogueTaskStep(DialogueBuilder dialogue) {
+        return new ViewDialogueTaskStep(interfaceManager, client, dialogue);
     }
 }

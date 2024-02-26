@@ -7,5 +7,5 @@ public interface PlayerDialogueComponent extends EntityComponent {
 
     DialogueBuilder builder();
 
-    TaskStep createDialogueTaskStep(DialogueBuilder dialogue);
+    TaskStep createViewDialogueTaskStep(DialogueBuilder dialogue);
 }

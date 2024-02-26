@@ -57,7 +57,7 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
 
-            playerDialogue.createDialogueTaskStep(dialogue)
+            playerDialogue.createViewDialogueTaskStep(dialogue)
         );
     }
 }

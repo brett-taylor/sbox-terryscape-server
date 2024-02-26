@@ -40,7 +40,9 @@ public class SpawnItemCommand implements Command {
         var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var itemId = arguments.get(0);
         var itemOptional = cacheLoader.getItemSafe(itemId);
+
         var amount = arguments.size() >= 2 ? Integer.parseInt(arguments.get(1)) : 1;
+        assert amount > 1 && amount < Integer.MAX_VALUE;
 
         if (itemOptional.isPresent()) {
             playerComponent.getInventory().addItem(itemOptional.get(), amount);

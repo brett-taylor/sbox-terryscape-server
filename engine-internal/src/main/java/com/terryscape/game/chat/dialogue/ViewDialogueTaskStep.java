@@ -7,7 +7,7 @@ import com.terryscape.net.Client;
 
 import java.util.Queue;
 
-public class DialogueTaskStep extends TaskStep {
+public class ViewDialogueTaskStep extends TaskStep {
 
     private final InterfaceManager interfaceManager;
 
@@ -19,7 +19,7 @@ public class DialogueTaskStep extends TaskStep {
 
     private boolean shouldProceedOnNextTick;
 
-    public DialogueTaskStep(InterfaceManager interfaceManager, Client client, DialogueBuilder dialogueBuilder) {
+    public ViewDialogueTaskStep(InterfaceManager interfaceManager, Client client, DialogueBuilder dialogueBuilder) {
         this.interfaceManager = interfaceManager;
         this.client = client;
         steps = ((DialogueBuilderImpl) dialogueBuilder).buildSteps();
