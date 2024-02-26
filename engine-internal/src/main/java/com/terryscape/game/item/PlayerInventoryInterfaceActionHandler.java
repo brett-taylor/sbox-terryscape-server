@@ -21,7 +21,6 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
     @Override
     public void handleAction(Client client, String interfaceId, String interfaceAction, ByteBuffer packet) {
         var slotNumber = IncomingPacket.readInt32(packet);
-
         var player = client.getPlayer().orElseThrow();
         var playerEquipment = player.getEquipment();
         var playerInventory = player.getInventory();
@@ -37,9 +36,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             playerInventory.removeItemAt(slotNumber);
             playerEquipment.setSlot(EquipmentSlot.MAIN_HAND, item.getItemDefinition(), item.getQuantity());
 
-            previouslyEquippedItem.ifPresent(itemContainerItem ->  {
-                playerInventory.addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1);
-            });
+            previouslyEquippedItem.ifPresent(itemContainerItem -> playerInventory.addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
         }
 
         if (interfaceAction.equals("item_off_hand")) {
@@ -47,13 +44,17 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             playerInventory.removeItemAt(slotNumber);
             playerEquipment.setSlot(EquipmentSlot.OFF_HAND, item.getItemDefinition(), item.getQuantity());
 
-            previouslyEquippedItem.ifPresent(itemContainerItem ->  {
-                playerInventory.addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1);
-            });
+            previouslyEquippedItem.ifPresent(itemContainerItem -> playerInventory.addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
         }
 
         if (interfaceAction.equals("item_examine")) {
             player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getItemDefinition().getDescription());
+        }
+
+        if (interfaceAction.equals("item_drop")) {
+            playerInventory.removeItemAt(slotNumber);
+            var playerChat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
+            playerChat.sendGameMessage("The %s disintegrates into dust...".formatted(item.getItemDefinition().getName()));
         }
     }
 }
