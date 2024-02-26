@@ -13,6 +13,8 @@ public class PlayerDialogueComponentImpl extends BaseEntityComponent implements 
 
     private Client client;
 
+    // TODO: This should just be a DialogueManager? I don't see why it has to be connected to the player
+
     public PlayerDialogueComponentImpl(Entity entity, InterfaceManager interfaceManager) {
         super(entity);
 

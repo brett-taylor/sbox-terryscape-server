@@ -116,14 +116,25 @@
     }
   },
   {
-    "id": "shop_keeper",
-    "name": "Shop Keeper",
+    "id": "armour_shop_keeper",
+    "name": "Armour Shop Keeper",
     "description": "I wonder what she sells?",
     "attackable": false,
     "interactable": true,
     "humanoidNpc":
     {
       "gender": "FEMALE"
+    }
+  },
+  {
+    "id": "weapon_shop_keeper",
+    "name": "Weapon Shop Keeper",
+    "description": "I wonder what he sells?",
+    "attackable": false,
+    "interactable": true,
+    "humanoidNpc":
+    {
+      "gender": "MALE"
     }
   },
   {

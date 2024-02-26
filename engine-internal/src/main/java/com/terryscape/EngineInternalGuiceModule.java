@@ -19,6 +19,9 @@ import com.terryscape.game.item.PlayerInventoryInterfaceActionHandler;
 import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
+import com.terryscape.game.shop.ShopInterfaceActionHandler;
+import com.terryscape.game.shop.ShopManager;
+import com.terryscape.game.shop.ShopManagerImpl;
 import com.terryscape.game.worldobject.WorldObjectActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
@@ -43,6 +46,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(WorldManager.class).to(WorldManagerImpl.class);
         binder().bind(EntityPrefabFactory.class).to(EntityPrefabFactoryImpl.class);
         binder().bind(InterfaceManager.class).to(InterfaceManagerImpl.class);
+        binder().bind(ShopManager.class).to(ShopManagerImpl.class);
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);
@@ -56,6 +60,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         interfaceActionHandlerMultibinder.addBinding().to(PlayerEquipmentInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(PlayerInventoryInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(DialogueInterfaceActionHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(ShopInterfaceActionHandler.class);
     }
 
 }

@@ -3,30 +3,38 @@ package content.startingzone.npchandlers;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponent;
-import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcInteractionHandler;
+import com.terryscape.game.shop.ShopManager;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
+import content.startingzone.shops.EquipmentShop;
+import content.startingzone.shops.WeaponShop;
 
 import java.util.Set;
 
 @Singleton
 public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
-    private final InterfaceManager interfaceManager;
+    private final ShopManager shopManager;
+
+    private final EquipmentShop equipmentShop;
+
+    private final WeaponShop weaponShop;
 
     @Inject
-    public ShopKeeperNpcInteractionHandler(InterfaceManager interfaceManager) {
-        this.interfaceManager = interfaceManager;
+    public ShopKeeperNpcInteractionHandler(ShopManager shopManager, EquipmentShop equipmentShop, WeaponShop weaponShop) {
+        this.shopManager = shopManager;
+        this.equipmentShop = equipmentShop;
+        this.weaponShop = weaponShop;
     }
 
     @Override
     public Set<String> getNpcIds() {
-        return Set.of("shop_keeper");
+        return Set.of("armour_shop_keeper", "weapon_shop_keeper");
     }
 
     @Override
@@ -48,7 +56,15 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
             playerDialogue.createDialogueTaskStep(dialogue),
 
-            ImmediateTaskStep.doThis(() -> interfaceManager.showInterface(client, "welcome_screen"))
+            ImmediateTaskStep.doThis(() -> {
+                if (npcComponent.getNpcDefinition().getId().equals("armour_shop_keeper")) {
+                    shopManager.showShop(client, equipmentShop);
+                }
+
+                if (npcComponent.getNpcDefinition().getId().equals("weapon_shop_keeper")) {
+                    shopManager.showShop(client, weaponShop);
+                }
+            })
         );
     }
 }
