@@ -33,13 +33,23 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
         var item = itemOptional.get();
         if (interfaceAction.equals("item_main_hand")) {
+            var previouslyEquippedItem = playerEquipment.getSlot(EquipmentSlot.MAIN_HAND);
             playerInventory.removeItemAt(slotNumber);
             playerEquipment.setSlot(EquipmentSlot.MAIN_HAND, item.getItemDefinition(), item.getQuantity());
+
+            previouslyEquippedItem.ifPresent(itemContainerItem ->  {
+                playerInventory.addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1);
+            });
         }
 
         if (interfaceAction.equals("item_off_hand")) {
+            var previouslyEquippedItem = playerEquipment.getSlot(EquipmentSlot.OFF_HAND);
             playerInventory.removeItemAt(slotNumber);
             playerEquipment.setSlot(EquipmentSlot.OFF_HAND, item.getItemDefinition(), item.getQuantity());
+
+            previouslyEquippedItem.ifPresent(itemContainerItem ->  {
+                playerInventory.addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1);
+            });
         }
 
         if (interfaceAction.equals("item_examine")) {
