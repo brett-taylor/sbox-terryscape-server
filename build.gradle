@@ -29,9 +29,21 @@ allprojects {
 }
 
 dependencies {
-    implementation project(":engine")
-    implementation project(":engine-internal")
-    implementation project(":content")
+    implementation project(':engine')
+    implementation project(':engine-internal')
+    implementation project(':content')
 
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.terryscape.ServerLauncher'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
