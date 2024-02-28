@@ -2,6 +2,7 @@ package com.terryscape.game.combat;
 
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
+import com.terryscape.entity.EntityPrefabType;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
@@ -60,6 +61,12 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     @Override
     public void attackedBy(CombatComponent attacker) {
+        // For the time being lets not make players auto attack back but just NPCs as it is slightly awkward.
+        var isPlayer = getEntity().getPrefabType() == EntityPrefabType.PLAYER;
+        if (isPlayer) {
+            return;
+        }
+
         attack(attacker);
     }
 
