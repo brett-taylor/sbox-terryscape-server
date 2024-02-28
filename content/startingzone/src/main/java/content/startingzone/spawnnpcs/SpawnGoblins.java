@@ -44,25 +44,25 @@ public class SpawnGoblins {
 
         for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin"));
-            npc.addComponent(new WanderMovementComponent(npc, minWanderZone, maxWanderZone, true));
+            npc.addComponent(new WanderMovementComponent(npc, minWanderZone, maxWanderZone, true, cacheLoader));
             npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh, human"));
             worldManager.registerEntity(npc);
         }
 
         for (int i = 0; i < 4; i++) {
             var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
-            npc.addComponent(new WanderMovementComponent(npc, minWanderZone, maxWanderZone, true));
+            npc.addComponent(new WanderMovementComponent(npc, minWanderZone, maxWanderZone, true, cacheLoader));
             npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh, human"));
             worldManager.registerEntity(npc);
         }
 
         var npc1 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_shaman"));
-        npc1.addComponent(new WanderMovementComponent(npc1, minWanderZone, maxWanderZone, true));
+        npc1.addComponent(new WanderMovementComponent(npc1, minWanderZone, maxWanderZone, true, cacheLoader));
         npc1.addComponent(new RecurringNpcOverheadTextComponent(npc1, worldClock, 180, 360, "shaman no like human"));
         worldManager.registerEntity(npc1);
 
         var npc2 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_chief"));
-        npc2.addComponent(new WanderMovementComponent(npc2, minWanderZone, maxWanderZone, true));
+        npc2.addComponent(new WanderMovementComponent(npc2, minWanderZone, maxWanderZone, true, cacheLoader));
         npc2.addComponent(new RecurringNpcOverheadTextComponent(npc2, worldClock, 180, 360, "human not scary"));
         worldManager.registerEntity(npc2);
 

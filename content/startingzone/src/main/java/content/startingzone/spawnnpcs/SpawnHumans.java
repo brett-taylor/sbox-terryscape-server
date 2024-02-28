@@ -41,17 +41,17 @@ public class SpawnHumans {
 
     public void onGameStartedEvent(OnGameStartedSystemEvent event) {
         var armourShopKeeper = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("armour_shop_keeper"));
-        armourShopKeeper.addComponent(new WanderMovementComponent(armourShopKeeper, new WorldCoordinate(11, 12), new WorldCoordinate(18, 17), false));
+        armourShopKeeper.addComponent(new WanderMovementComponent(armourShopKeeper, new WorldCoordinate(11, 12), new WorldCoordinate(18, 17), false, cacheLoader));
         armourShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(12, 15));
         worldManager.registerEntity(armourShopKeeper);
 
         var weaponShopKeeper = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("weapon_shop_keeper"));
-        weaponShopKeeper.addComponent(new WanderMovementComponent(weaponShopKeeper, new WorldCoordinate(11, 12), new WorldCoordinate(18, 17), false));
+        weaponShopKeeper.addComponent(new WanderMovementComponent(weaponShopKeeper, new WorldCoordinate(11, 12), new WorldCoordinate(18, 17), false, cacheLoader));
         weaponShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(18, 14));
         worldManager.registerEntity(weaponShopKeeper);
 
         var guide = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("guide"));
-        guide.addComponent(new WanderMovementComponent(guide, new WorldCoordinate(9, 19), new WorldCoordinate(19, 24), false));
+        guide.addComponent(new WanderMovementComponent(guide, new WorldCoordinate(9, 19), new WorldCoordinate(19, 24), false, cacheLoader));
         guide.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(17, 20));
         guide.addComponent(new RecurringNpcOverheadTextComponent(guide, worldClock, 60, 80, "Welcome to %s! Speak to me if you need help.".formatted(Config.NAME)));
         worldManager.registerEntity(guide);

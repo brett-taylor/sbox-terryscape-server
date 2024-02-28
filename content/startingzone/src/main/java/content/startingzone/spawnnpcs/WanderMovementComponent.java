@@ -1,5 +1,6 @@
 package content.startingzone.spawnnpcs;
 
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
@@ -21,6 +22,8 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
     private final boolean teleportToSpot;
 
+    private final CacheLoader cacheLoader;
+
     private boolean isWandering;
 
     private MovementComponent movementComponent;
@@ -29,12 +32,13 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
     private Task wanderTask;
 
-    public WanderMovementComponent(Entity entity, WorldCoordinate minWanderZone, WorldCoordinate maxWanderZone, boolean teleportToSpot) {
+    public WanderMovementComponent(Entity entity, WorldCoordinate minWanderZone, WorldCoordinate maxWanderZone, boolean teleportToSpot, CacheLoader cacheLoader) {
         super(entity);
 
         this.minWanderZone = minWanderZone;
         this.maxWanderZone = maxWanderZone;
         this.teleportToSpot = teleportToSpot;
+        this.cacheLoader = cacheLoader;
 
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
@@ -90,9 +94,24 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     private WorldCoordinate randomCoordinateInWanderZone() {
-        var randomX = RandomUtil.randomNumber(minWanderZone.getX(), maxWanderZone.getX());
-        var randomY = RandomUtil.randomNumber(minWanderZone.getY(), maxWanderZone.getY());
-        return new WorldCoordinate(randomX, randomY);
+        WorldCoordinate worldCoordinate = null;
+
+        while ( worldCoordinate == null) {
+            var randomX = RandomUtil.randomNumber(minWanderZone.getX(), maxWanderZone.getX());
+            var randomY = RandomUtil.randomNumber(minWanderZone.getY(), maxWanderZone.getY());
+            var possibleWorldCoordinate = new WorldCoordinate(randomX, randomY);
+
+            var isWalkable = cacheLoader
+                .getWorldRegion(possibleWorldCoordinate.toWorldRegionCoordinate())
+                .getWorldTileDefinition(possibleWorldCoordinate.toWorldRegionLocalCoordinate())
+                .isWalkable();
+
+            if (isWalkable) {
+                worldCoordinate = possibleWorldCoordinate;
+            }
+        }
+
+        return worldCoordinate;
     }
 
     private int randomWaitInterval() {
