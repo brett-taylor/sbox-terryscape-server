@@ -38,6 +38,11 @@ public class CombatFollowTaskStep extends TaskStep {
 
         if (destinationTile == null || !lastTickVictimWorldCoordinate.equals(victim.getWorldCoordinate())) {
             destinationTile = calculateNewDestinationTile();
+            if (destinationTile == null) {
+                cancel();
+                return;
+            }
+
             attacker.move(destinationTile);
         }
 
