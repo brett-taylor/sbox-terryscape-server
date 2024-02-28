@@ -17,6 +17,7 @@ import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.NpcComponentImpl;
+import com.terryscape.game.npc.NpcOverheadTextComponentImpl;
 import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.task.TaskComponentImpl;
@@ -96,6 +97,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatScript = new SimpleNpcCombatScript(worldClock, npcComponent);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
+
+        var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
+        entity.addComponent(overheadText);
 
         return entity;
     }

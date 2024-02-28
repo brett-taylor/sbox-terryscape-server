@@ -2,13 +2,16 @@ package content.startingzone.spawnnpcs;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.Config;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.world.WorldClock;
 import com.terryscape.world.WorldManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
+import content.startingzone.RecurringNpcOverheadTextComponent;
 
 @Singleton
 public class SpawnHumans {
@@ -19,11 +22,19 @@ public class SpawnHumans {
 
     private final CacheLoader cacheLoader;
 
+    private final WorldClock worldClock;
+
     @Inject
-    public SpawnHumans(WorldManager worldManager, EntityPrefabFactory entityPrefabFactory, CacheLoader cacheLoader, EventSystem eventSystem) {
+    public SpawnHumans(WorldManager worldManager,
+                       EntityPrefabFactory entityPrefabFactory,
+                       CacheLoader cacheLoader,
+                       EventSystem eventSystem,
+                       WorldClock worldClock) {
+
         this.worldManager = worldManager;
         this.entityPrefabFactory = entityPrefabFactory;
         this.cacheLoader = cacheLoader;
+        this.worldClock = worldClock;
 
         eventSystem.subscribe(OnGameStartedSystemEvent.class, this::onGameStartedEvent);
     }
@@ -42,7 +53,9 @@ public class SpawnHumans {
         var guide = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("guide"));
         guide.addComponent(new WanderMovementComponent(guide, new WorldCoordinate(9, 19), new WorldCoordinate(19, 24), false));
         guide.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(17, 20));
+        guide.addComponent(new RecurringNpcOverheadTextComponent(guide, worldClock, 60, 80, "Welcome to %s! Speak to me if you need help.".formatted(Config.NAME)));
         worldManager.registerEntity(guide);
+
     }
 
 }

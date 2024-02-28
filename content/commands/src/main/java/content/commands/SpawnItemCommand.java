@@ -42,11 +42,11 @@ public class SpawnItemCommand implements Command {
         var itemOptional = cacheLoader.getItemSafe(itemId);
 
         var amount = arguments.size() >= 2 ? Integer.parseInt(arguments.get(1)) : 1;
-        assert amount > 1 && amount < Integer.MAX_VALUE;
+        amount = Integer.max(amount, 1);
 
         if (itemOptional.isPresent()) {
             playerComponent.getInventory().addItem(itemOptional.get(), amount);
-            chat.sendGameMessage("You spawned a %s.".formatted(itemOptional.get().getName()));
+            chat.sendGameMessage("You spawned %s x%s.".formatted(itemOptional.get().getName(), amount));
         } else {
             chat.sendGameMessage("No item found with id %s.".formatted(itemId));
         }

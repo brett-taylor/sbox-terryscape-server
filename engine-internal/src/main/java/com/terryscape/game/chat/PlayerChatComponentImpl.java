@@ -5,8 +5,17 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.PacketManager;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import static com.terryscape.game.chat.GameMessageOutgoingPacket.*;
 
 public class PlayerChatComponentImpl extends BaseEntityComponent implements PlayerChatComponent {
+
+    private static final Logger LOGGER = LogManager.getLogger(PlayerChatComponent.class);
+
+    private final static int PLAYER_MESSAGE_LENGTH_LIMIT = 50;
 
     private final PacketManager packetManager;
 
@@ -22,10 +31,7 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
     public void sendGameMessage(String message) {
         var client = getEntity().getComponentOrThrow(PlayerComponent.class).getClient();
 
-        var playerMessage = new GameMessageOutgoingPacket()
-            .setMessage(message);
-
-        packetManager.send(client, playerMessage);
+        packetManager.send(client, gameMessage(message));
     }
 
     @Override
@@ -36,10 +42,14 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
             return;
         }
 
-        var gameMessage = new GameMessageOutgoingPacket()
-            .setMessage(message)
-            .setFromUsername(playerComponent.getUsername());
+        message = message.trim();
+        message = StringUtils.truncate(message, PLAYER_MESSAGE_LENGTH_LIMIT);
 
-        packetManager.broadcast(gameMessage);
+        if (StringUtils.isBlank(message)) {
+            return;
+        }
+
+        LOGGER.info("Player {} said {}", playerComponent.getUsername(), message);
+        packetManager.broadcast(playerPublicChatMessage(playerComponent, message));
     }
 }

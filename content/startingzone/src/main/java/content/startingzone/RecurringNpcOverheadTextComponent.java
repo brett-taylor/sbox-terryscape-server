@@ -1,0 +1,52 @@
+package content.startingzone;
+
+import com.terryscape.entity.Entity;
+import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.entity.component.EntityComponent;
+import com.terryscape.game.npc.NpcOverheadTextComponent;
+import com.terryscape.maths.RandomUtil;
+import com.terryscape.world.WorldClock;
+
+// TODO: This probably could be swapped over to a task when we can have non-primary cancellable tasks.
+public class RecurringNpcOverheadTextComponent extends BaseEntityComponent implements EntityComponent {
+
+    private final WorldClock worldClock;
+
+    private final int minWaitTicks;
+
+    private final int maxWaitTicks;
+
+    private final String message;
+
+    private float nextSayTick;
+
+    public RecurringNpcOverheadTextComponent(Entity entity, WorldClock worldClock, int minWaitTicks, int maxWaitTicks, String message) {
+        super(entity);
+
+        this.worldClock = worldClock;
+        this.minWaitTicks = minWaitTicks;
+        this.maxWaitTicks = maxWaitTicks;
+        this.message = message;
+    }
+
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+
+        resetTimer();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (nextSayTick <= worldClock.getNowTick()) {
+            resetTimer();
+            getEntity().getComponentOrThrow(NpcOverheadTextComponent.class).say(message);
+        }
+    }
+
+    private void resetTimer() {
+        nextSayTick = worldClock.getNowTick() + RandomUtil.randomNumber(minWaitTicks, maxWaitTicks);
+    }
+}

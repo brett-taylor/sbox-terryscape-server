@@ -3,6 +3,8 @@ package com.terryscape.game.chat.command;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.game.player.PlayerComponent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class CommandManager {
+
+    private static final Logger LOGGER = LogManager.getLogger(CommandManager.class);
 
     public static final String COMMAND_PREFIX = "::";
 
@@ -40,9 +44,12 @@ public class CommandManager {
         if (!commands.containsKey(commandPhrase)) {
             return false;
         }
+
         var command = commands.get(commandPhrase);
         var arguments = new ArrayList<>(phraseParts);
         arguments.remove(0);
+
+        LOGGER.info("Player {} executed command {} ({})", player.getUsername(), command.getPhrase(), phase);
 
         command.execute(player, arguments);
         return true;
