@@ -68,6 +68,8 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         }
 
         attack(attacker);
+
+        getEntity().invoke(OnAttackedEntityEvent.class, new OnAttackedEntityEvent(attacker));
     }
 
     @Override

@@ -21,4 +21,8 @@ public class RandomUtil {
         var random = RandomUtil.randomNumber(0, collection.size() - 1);
         return collection.get(random);
     }
+
+    public static boolean randomBool() {
+        return ThreadLocalRandom.current().nextInt(0, 1) == 0;
+    }
 }
