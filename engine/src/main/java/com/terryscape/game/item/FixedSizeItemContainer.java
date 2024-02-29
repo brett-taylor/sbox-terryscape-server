@@ -12,6 +12,8 @@ import java.util.stream.IntStream;
 
 public abstract class FixedSizeItemContainer implements PacketSerializable {
 
+    // TODO: This needs to be swapped to Longs
+
     private final ItemContainerItem[] items;
 
     public FixedSizeItemContainer() {

@@ -6,8 +6,8 @@ import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
 import content.startingzone.npchandlers.GuideNpcInteractionHandler;
 import content.startingzone.npchandlers.ShopKeeperNpcInteractionHandler;
-import content.startingzone.spawnnpcs.SpawnGoblins;
-import content.startingzone.spawnnpcs.SpawnHumans;
+import content.startingzone.npcs.SpawnGoblins;
+import content.startingzone.npcs.SpawnHumans;
 import content.startingzone.worldobjecthandlers.CoinTableWorldObjectInteractionHandler;
 import content.startingzone.worldobjecthandlers.TreeWorldObjectInteractionHandler;
 

@@ -6,9 +6,11 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoaderImpl;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
+import com.terryscape.event.type.OnTickSystemEvent;
 import com.terryscape.net.PacketManagerImpl;
 import com.terryscape.world.WorldClockImpl;
 import com.terryscape.world.WorldManagerImpl;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -68,8 +70,11 @@ public class ServerImpl implements Server {
 
             worldManager.tick();
 
-            // TODO: Log slow tick updates
-            LOGGER.debug("Game tick executed in {} milliseconds.", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+            eventSystem.invoke(OnTickSystemEvent.class, new OnTickSystemEvent());
+
+            var tickTimeMs = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+            var level = tickTimeMs > Config.SLOW_TICK_THRESHOLD_MS ? Level.WARN : Level.DEBUG;
+            LOGGER.log(level, "Game tick executed in {} milliseconds.", tickTimeMs);
         } catch (Exception e) {
             LOGGER.error("Main game thread exception.", e);
         }

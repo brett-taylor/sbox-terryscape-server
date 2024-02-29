@@ -1,4 +1,4 @@
-package content.startingzone.spawnnpcs;
+package content.startingzone.npcs;
 
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;

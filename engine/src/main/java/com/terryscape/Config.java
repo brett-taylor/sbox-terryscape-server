@@ -28,4 +28,6 @@ public class Config {
     public static final int WORLD_REGION_SIZE = 30;
 
     public static final int WORLD_TILE_SIZE = 50;
+
+    public static final int SLOW_TICK_THRESHOLD_MS = 15;
 }

@@ -15,7 +15,7 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
 
     private static final Logger LOGGER = LogManager.getLogger(PlayerChatComponent.class);
 
-    private final static int PLAYER_MESSAGE_LENGTH_LIMIT = 50;
+    private static final int PLAYER_MESSAGE_LENGTH_LIMIT = 50;
 
     private final PacketManager packetManager;
 

@@ -1,4 +1,4 @@
-package content.startingzone.spawnnpcs;
+package content.startingzone.npcs;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -11,7 +11,6 @@ import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.world.WorldClock;
 import com.terryscape.world.WorldManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
-import content.startingzone.RecurringNpcOverheadTextComponent;
 
 @Singleton
 public class SpawnHumans {
@@ -39,7 +38,7 @@ public class SpawnHumans {
         eventSystem.subscribe(OnGameStartedSystemEvent.class, this::onGameStartedEvent);
     }
 
-    public void onGameStartedEvent(OnGameStartedSystemEvent event) {
+    private void onGameStartedEvent(OnGameStartedSystemEvent event) {
         var armourShopKeeper = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("armour_shop_keeper"));
         armourShopKeeper.addComponent(new WanderMovementComponent(armourShopKeeper, new WorldCoordinate(11, 12), new WorldCoordinate(18, 17), false, cacheLoader));
         armourShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(12, 15));
