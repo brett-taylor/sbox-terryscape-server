@@ -10,11 +10,8 @@ import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.chat.dialogue.PlayerDialogueComponentImpl;
-import com.terryscape.game.combat.CharacterStatsImpl;
-import com.terryscape.game.combat.CombatComponentImpl;
+import com.terryscape.game.combat.*;
 import com.terryscape.game.ProjectileComponentImpl;
-import com.terryscape.game.combat.ParticleComponent;
-import com.terryscape.game.combat.SpecialBarImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
@@ -163,20 +160,18 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         return entity;
     }
 
-    public Entity createProjectile(WorldCoordinate source, WorldCoordinate target) {
+    public ProjectileComponent createProjectile() {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.VISUAL_EFFECT, "Projectile");
 
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
 
         var projectileComponent = new ProjectileComponentImpl(entity, worldManager);
-        projectileComponent.setSource(source);
-        projectileComponent.setTarget(target);
         projectileComponent.setDuration(6);
         projectileComponent.setImageUrl("https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png");
         entity.addComponent(projectileComponent);
 
-        return entity;
+        return projectileComponent;
     }
 
     public ParticleComponent createParticle() {

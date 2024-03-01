@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.game.combat.ParticleComponent;
 import com.google.inject.Singleton;
+import com.terryscape.game.combat.ProjectileComponent;
 import com.terryscape.world.WorldManager;
 
 @Singleton
@@ -21,5 +22,11 @@ public class VisualEffectFactory {
         var particle = factory.createParticle();
         manager.registerEntity(particle.getEntity());
         return particle;
+    }
+
+    public static ProjectileComponent CreateProjectile() {
+        var projectile = factory.createProjectile();
+        manager.registerEntity(projectile.getEntity());
+        return projectile;
     }
 }

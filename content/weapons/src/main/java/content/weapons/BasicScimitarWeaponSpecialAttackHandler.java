@@ -12,6 +12,8 @@ import com.terryscape.game.combat.special.WeaponSpecialAttackHandler;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 
+import java.util.ArrayList;
+
 @Singleton
 public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAttackHandler {
     private String animationName = "Unarmed_Attack_Kick_R1";
@@ -45,11 +47,24 @@ public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAtt
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damageInformation);
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(animationName);
 
+        var imgUrl = "box.vmdl";
+
+        /*
         var attackerParticle = VisualEffectFactory.CreateParticle();
         var imgUrl = "https://www.pngall.com/wp-content/uploads/14/Blue-Circle-Transparent.png";
         attackerParticle.setTarget(victim.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate());
         attackerParticle.setImageUrl(imgUrl);
         attackerParticle.setDuration(2);
+*/
+        var attackerProjectile = VisualEffectFactory.CreateProjectile();
+        var attackerPosition = attacker.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
+        var victimPosition = victim.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
+        var distanceBetweenThem = attackerPosition.distance(victimPosition);
+
+        attackerProjectile.setSource(attackerPosition);
+        attackerProjectile.setTarget(victimPosition);
+        attackerProjectile.setImageUrl(imgUrl);
+        attackerProjectile.setDuration((int)distanceBetweenThem); //Assuming a projectile moves 2 tiles a second.
 
         return true;
     }
