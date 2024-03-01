@@ -55,7 +55,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
 
-        var randomAmountToGive = RandomUtil.randomNumber(100, 1000);
+        var randomAmountToGive = RandomUtil.randomNumber(5, 50);
         var itemDialogue = dialogueManager.builder().item(goldCoin, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
 
         // Check if player has a free slot or has item coins already
@@ -68,7 +68,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, new WorldCoordinate(15, 15)),
 
-            NextTickTaskStep.doThis(() -> {
+            ImmediateTaskStep.doThis(() -> {
                 playerMovement.look(Direction.SOUTH);
                 playerAnimation.playAnimation("Sword_Attack_L3");
                 playerChat.sendGameMessage("You begin to loot the table...");
