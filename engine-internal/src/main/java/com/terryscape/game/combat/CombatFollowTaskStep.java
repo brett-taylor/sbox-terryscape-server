@@ -1,6 +1,7 @@
 package com.terryscape.game.combat;
 
 import com.terryscape.cache.CacheLoader;
+import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.TaskStep;
 import com.terryscape.world.coordinate.WorldCoordinate;
@@ -19,7 +20,10 @@ public class CombatFollowTaskStep extends TaskStep {
     private final MovementComponent victim;
 
     private WorldCoordinate lastTickVictimWorldCoordinate;
+
     private WorldCoordinate destinationTile;
+
+    private boolean isCancelled;
 
     public CombatFollowTaskStep(PathfindingManager pathfindingManager,
                                 CacheLoader cacheLoader,
@@ -46,7 +50,13 @@ public class CombatFollowTaskStep extends TaskStep {
             attacker.move(destinationTile);
         }
 
-        if (attacker.getWorldCoordinate().distance(victim.getWorldCoordinate()) < 3f) {
+        var victimHealth = victim.getEntity().getComponentOrThrow(HealthComponent.class);
+        if (victimHealth.isDying()) {
+            cancel();
+            return;
+        }
+
+        if (attacker.getWorldCoordinate().distance(victim.getWorldCoordinate()) < 2f) {
             attacker.face(victim);
         } else {
             attacker.stopFacing();
@@ -57,11 +67,12 @@ public class CombatFollowTaskStep extends TaskStep {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return isCancelled;
     }
 
     @Override
     public void cancel() {
+        isCancelled = true;
         attacker.stopFacing();
     }
 

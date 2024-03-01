@@ -43,6 +43,11 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     }
 
     @Override
+    public boolean isInCombat() {
+        return combatTask != null;
+    }
+
+    @Override
     public void attack(CombatComponent victim) {
         var selfMovement = getEntity().getComponentOrThrow(MovementComponent.class);
         var victimMovement = victim.getEntity().getComponentOrThrow(MovementComponent.class);

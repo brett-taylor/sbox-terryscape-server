@@ -47,6 +47,8 @@ public class SpawnGoblins {
 
     private List<Pair<NpcDefinition, Long>> upcomingRespawns = new ArrayList<>();
 
+    private NpcComponent goblinShaman;
+
     @Inject
     public SpawnGoblins(WorldManager worldManager,
                         EntityPrefabFactory entityPrefabFactory,
@@ -74,19 +76,8 @@ public class SpawnGoblins {
         spawnGoblinWarrior();
 
         spawnGoblinShaman();
+
         spawnGoblinChief();
-
-        var staticNpc1 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
-        var staticNpc1Movement = staticNpc1.getComponentOrThrow(MovementComponent.class);
-        staticNpc1Movement.teleport(new WorldCoordinate(14, 5));
-        staticNpc1Movement.look(Direction.EAST);
-        worldManager.registerEntity(staticNpc1);
-
-        var staticNpc2 = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpc("goblin_warrior"));
-        var staticNpc2Movement = staticNpc2.getComponentOrThrow(MovementComponent.class);
-        staticNpc2Movement.teleport(new WorldCoordinate(15, 5));
-        staticNpc2Movement.look(Direction.WEST);
-        worldManager.registerEntity(staticNpc2);
     }
 
     private void onTick(OnTickSystemEvent event) {
@@ -119,16 +110,33 @@ public class SpawnGoblins {
     private void handleChiefAttacked(OnAttackedEntityEvent event) {
         nonChiefAliveGoblins.stream()
             .filter(ignored -> RandomUtil.randomNumber(0, 10) == 0)
+            .filter(npc -> npc != goblinShaman)
+            .filter(npc -> !goblinShaman.getEntity().getComponentOrThrow(CombatComponent.class).isInCombat())
             .forEach(npcComponent -> {
-                npcComponent.getEntity().getComponentOrThrow(NpcOverheadTextComponent.class).say("you dare touch the chief human!");
+                npcComponent.getEntity().getComponentOrThrow(NpcOverheadTextComponent.class).say("you dare touch the chief human");
                 npcComponent.getEntity().getComponentOrThrow(CombatComponent.class).attack(event.getAttacker().getEntity().getComponentOrThrow(CombatComponent.class));
             });
+
+        if (goblinShaman == null) {
+            return;
+        }
+
+        var isGoblinShamanAttacking = goblinShaman.getEntity().getComponentOrThrow(CombatComponent.class).isInCombat();
+        if (isGoblinShamanAttacking) {
+            return;
+        }
+
+        goblinShaman.getEntity().getComponentOrThrow(NpcOverheadTextComponent.class).say("protect the chief");
+        goblinShaman.getEntity().getComponentOrThrow(CombatComponent.class).attack(event.getAttacker().getEntity().getComponentOrThrow(CombatComponent.class));
     }
 
     private void handleChiefDeath() {
-        nonChiefAliveGoblins.stream()
-            .filter(ignored -> RandomUtil.randomNumber(0, 3) == 0)
-            .forEach(npcComponent -> npcComponent.getEntity().getComponentOrThrow(NpcOverheadTextComponent.class).say("the chief is dead!"));
+        if (nonChiefAliveGoblins.isEmpty()) {
+            return;
+        }
+
+        var randomGoblin = RandomUtil.randomCollection(nonChiefAliveGoblins);
+        randomGoblin.getEntity().getComponentOrThrow(NpcOverheadTextComponent.class).say("the chief is dead");
     }
 
     private void spawnRegularGoblin() {
@@ -136,7 +144,7 @@ public class SpawnGoblins {
         var npc = entityPrefabFactory.createNpcPrefab(goblin);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
-        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh, human"));
+        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh humans"));
 
         npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
@@ -150,7 +158,7 @@ public class SpawnGoblins {
         var npc = entityPrefabFactory.createNpcPrefab(goblinWarrior);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
-        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh, human"));
+        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh humans"));
 
         npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
@@ -169,8 +177,8 @@ public class SpawnGoblins {
         npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
         worldManager.registerEntity(npc);
-
         nonChiefAliveGoblins.add(npc.getComponentOrThrow(NpcComponent.class));
+        this.goblinShaman = npc.getComponentOrThrow(NpcComponent.class);
     }
 
     private void spawnGoblinChief() {
