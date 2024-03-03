@@ -123,7 +123,14 @@
     "interactable": true,
     "humanoidNpc":
     {
-      "gender": "FEMALE"
+      "gender": "FEMALE",
+      "equippedItems": {
+        "HEAD": "steel_full_helm",
+        "TORSO": "steel_platebody",
+        "LEGS": "steel_platelegs",
+        "HANDS": "steel_gloves",
+        "FEET": "steel_boots"
+      }
     }
   },
   {
@@ -134,7 +141,14 @@
     "interactable": true,
     "humanoidNpc":
     {
-      "gender": "MALE"
+      "gender": "MALE",
+      "equippedItems": {
+        "MAIN_HAND": "basic_scimitar",
+        "OFF_HAND": "basic_scimitar",
+        "LEGS": "steel_platelegs",
+        "HANDS": "steel_gloves",
+        "FEET": "steel_boots"
+      }
     }
   },
   {
@@ -145,7 +159,10 @@
     "interactable": true,
     "humanoidNpc":
     {
-      "gender": "MALE"
+      "gender": "MALE",
+      "equippedItems": {
+        "HEAD": "wizard_hat"
+      }
     }
   }
 ]

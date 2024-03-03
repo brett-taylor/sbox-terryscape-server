@@ -10,13 +10,14 @@
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "allModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "hideBodyParts": [],
       "weapon": {
         "mainHandOffset": "2.38,-1.54,-0.00",
         "mainHandRotation": "0,0,-6.40",
         "mainHandAttackAnimation": "Sword_Attack_L3",
-        "offHandOffset": "1.90,1.85,0.00",
-        "offHandRotation": "0,0,6.40",
+        "offHandOffset": "-2.38,1.54,0.00",
+        "offHandRotation": "180,0,6.40",
         "offHandAttackAnimation": "Sword_Attack_R3"
       }
     }
@@ -32,13 +33,14 @@
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "modelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
+      "allModelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
+      "hideBodyParts": [],
       "weapon": {
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "Sword_Attack_L4",
-        "offHandOffset": "1.84,1.29,2.50",
-        "offHandRotation": "0,0,9.14",
+        "offHandOffset": "-1.84,1.29,2.50",
+        "offHandRotation": "180,0,9.14",
         "offHandAttackAnimation": "Sword_Attack_R4"
       }
     }
@@ -64,7 +66,9 @@
     },
     "equip": {
       "slot": "HEAD",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_female.vmdl",
+      "hideBodyParts": ["head"]
     }
   },
   {
@@ -78,7 +82,9 @@
     },
     "equip": {
       "slot": "TORSO",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_female.vmdl",
+      "hideBodyParts": ["torso", "arms"]
     }
   },
   {
@@ -92,7 +98,9 @@
     },
     "equip": {
       "slot": "LEGS",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_female.vmdl",
+      "hideBodyParts": ["hips"]
     }
   },
   {
@@ -106,7 +114,9 @@
     },
     "equip": {
       "slot": "FEET",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_female.vmdl",
+      "hideBodyParts": ["legs"]
     }
   },
   {
@@ -120,7 +130,9 @@
     },
     "equip": {
       "slot": "HANDS",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_female.vmdl",
+      "hideBodyParts": ["hands"]
     }
   },
   {
@@ -134,7 +146,8 @@
     },
     "equip": {
       "slot": "HEAD",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl"
+      "allModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
+      "hideBodyParts": []
     }
   },
   {
@@ -148,7 +161,9 @@
     },
     "equip": {
       "slot": "TORSO",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_female.vmdl",
+      "hideBodyParts": ["torso", "arms"]
     }
   },
   {
@@ -162,7 +177,9 @@
     },
     "equip": {
       "slot": "LEGS",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_female.vmdl",
+      "hideBodyParts": ["hips"]
     }
   },
   {
@@ -176,7 +193,9 @@
     },
     "equip": {
       "slot": "FEET",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_female.vmdl",
+      "hideBodyParts": ["legs"]
     }
   },
   {
@@ -190,7 +209,9 @@
     },
     "equip": {
       "slot": "HANDS",
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl"
+      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl",
+      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_female.vmdl",
+      "hideBodyParts": ["hands"]
     }
   }
 ]
