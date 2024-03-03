@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.game.equipment.EquipmentSlot;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
@@ -37,8 +38,29 @@ public class ItemCacheLoader {
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
             .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
             .setStackable(jsonObject.getAsJsonPrimitive("stackable").getAsBoolean())
-            .setAnimationMainHandAttack(jsonObject.getAsJsonPrimitive("animationMainHandAttack").getAsString())
-            .setAnimationOffHandAttack(jsonObject.getAsJsonPrimitive("animationOffHandAttack").getAsString());
+            .setEquipItemDefinition(createEquipItemDefinitionFromJson(jsonObject));
+    }
+
+    private EquipItemDefinition createEquipItemDefinitionFromJson(JsonObject jsonObject) {
+        if (!jsonObject.has("equip")) {
+            return null;
+        }
+
+        var equipItemJsonObject = jsonObject.getAsJsonObject("equip");
+        return new EquipItemDefinitionImpl()
+            .setEquipmentSlot(Enum.valueOf(EquipmentSlot.class, equipItemJsonObject.getAsJsonPrimitive("slot").getAsString()))
+            .setWeaponItemDefinition(createWeaponItemDefinitionFromJson(equipItemJsonObject));
+    }
+
+    private WeaponItemDefinition createWeaponItemDefinitionFromJson(JsonObject jsonObject) {
+        if (!jsonObject.has("weapon")) {
+            return null;
+        }
+
+        var weaponItemJsonObject = jsonObject.getAsJsonObject("weapon");
+        return new WeaponItemDefinitionImpl()
+            .setMainHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("mainHandAttackAnimation").getAsString())
+            .setOffHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("offHandAttackAnimation").getAsString());
     }
 
 }

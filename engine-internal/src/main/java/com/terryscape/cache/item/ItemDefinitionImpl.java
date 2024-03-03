@@ -1,5 +1,7 @@
 package com.terryscape.cache.item;
 
+import java.util.Optional;
+
 public class ItemDefinitionImpl implements ItemDefinition {
 
     private String id;
@@ -10,9 +12,7 @@ public class ItemDefinitionImpl implements ItemDefinition {
 
     private boolean stackable;
 
-    private String animationMainHandAttack;
-
-    private String animationOffHandAttack;
+    private EquipItemDefinition equipItemDefinition;
 
     @Override
     public String getId() {
@@ -55,22 +55,21 @@ public class ItemDefinitionImpl implements ItemDefinition {
     }
 
     @Override
-    public String getAnimationMainHandAttack() {
-        return animationMainHandAttack;
-    }
-
-    public ItemDefinitionImpl setAnimationMainHandAttack(String animationMainHandAttack) {
-        this.animationMainHandAttack = animationMainHandAttack;
-        return this;
+    public Optional<EquipItemDefinition> getEquipDefinition() {
+        return Optional.ofNullable(equipItemDefinition);
     }
 
     @Override
-    public String getAnimationOffHandAttack() {
-        return animationOffHandAttack;
+    public EquipItemDefinition getEquipDefinitionOrThrow() {
+        if (equipItemDefinition == null) {
+            throw new RuntimeException("No equip information for item %s".formatted(getId()));
+        }
+
+        return equipItemDefinition;
     }
 
-    public ItemDefinitionImpl setAnimationOffHandAttack(String animationOffHandAttack) {
-        this.animationOffHandAttack = animationOffHandAttack;
+    public ItemDefinitionImpl setEquipItemDefinition(EquipItemDefinition equipItemDefinition) {
+        this.equipItemDefinition = equipItemDefinition;
         return this;
     }
 

@@ -134,6 +134,14 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
 
+        playerComponent.getInventory().addItem(cacheLoader.getItem("basic_scimitar"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("basic_sword"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("wizard_hat"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("wizard_top"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("wizard_bottoms"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("wizard_boots"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("wizard_gloves"), 1);
+
         return entity;
     }
 }

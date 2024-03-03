@@ -9,7 +9,7 @@ import java.util.Optional;
 public class PlayerEquipmentImpl extends FixedSizeItemContainer implements PlayerEquipment {
     @Override
     public int getSize() {
-        return 2;
+        return 7;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.terryscape.cache.item;
 
+import java.util.Optional;
+
 public interface ItemDefinition {
 
     String getId();
@@ -10,8 +12,7 @@ public interface ItemDefinition {
 
     boolean isStackable();
 
-    String getAnimationMainHandAttack();
+    Optional<EquipItemDefinition> getEquipDefinition();
 
-    String getAnimationOffHandAttack();
-
+    EquipItemDefinition getEquipDefinitionOrThrow();
 }

@@ -20,7 +20,7 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
     @Override
     public void handleAction(Client client, String interfaceId, String interfaceAction, ByteBuffer packet) {
         var slotNumber = IncomingPacket.readInt32(packet);
-        var slot = EquipmentSlot.tryParseFromSlotId(slotNumber).orElseThrow();
+        var slot = EquipmentSlot.parseFromSlotId(slotNumber);
 
         var player = client.getPlayer().orElseThrow();
         var playerEquipment = player.getEquipment();

@@ -1,10 +1,14 @@
 package com.terryscape.game.equipment;
 
-import java.util.Optional;
-
 public enum EquipmentSlot {
     MAIN_HAND(0),
-    OFF_HAND(1);
+    OFF_HAND(1),
+
+    HEAD(2),
+    TORSO(3),
+    LEGS(4),
+    HANDS(5),
+    FEET(6);
 
     private final int slotId;
 
@@ -16,13 +20,17 @@ public enum EquipmentSlot {
         return slotId;
     }
 
-    public static Optional<EquipmentSlot> tryParseFromSlotId(int slotId) {
-        if (slotId == 0) {
-            return Optional.of(MAIN_HAND);
-        } else if (slotId == 1) {
-            return Optional.of(OFF_HAND);
-        }
+    public static EquipmentSlot parseFromSlotId(int slotId) {
+        return switch (slotId) {
+            case 0 -> MAIN_HAND;
+            case 1 -> OFF_HAND;
+            case 2 -> HEAD;
+            case 3 -> TORSO;
+            case 4 -> LEGS;
+            case 5 -> HANDS;
+            case 6 -> FEET;
+            default -> throw new IndexOutOfBoundsException(slotId);
+        };
 
-        return Optional.empty();
     }
 }
