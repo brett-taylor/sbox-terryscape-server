@@ -40,7 +40,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     @Override
     public String getComponentIdentifier() {
-        return "component_movement_component";
+        return "component_movement";
     }
 
     @Override

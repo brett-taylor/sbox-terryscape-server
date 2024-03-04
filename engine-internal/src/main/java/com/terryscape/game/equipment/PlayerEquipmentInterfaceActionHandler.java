@@ -1,8 +1,13 @@
 package com.terryscape.game.equipment;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
+import com.terryscape.game.interfaces.InterfaceManager;
+import com.terryscape.game.item.FixedSizeItemContainer;
+import com.terryscape.game.item.ItemContainerItem;
+import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 
@@ -12,19 +17,39 @@ import java.util.Set;
 @Singleton
 public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHandler {
 
+    private final InterfaceManager interfaceManager;
+
+    @Inject
+    public PlayerEquipmentInterfaceActionHandler(InterfaceManager interfaceManager) {
+        this.interfaceManager = interfaceManager;
+    }
+
     @Override
     public Set<String> getInterfaceId() {
-        return Set.of("equipment");
+        return Set.of("equipment", "character_equipment");
     }
 
     @Override
     public void handleAction(Client client, String interfaceId, String interfaceAction, ByteBuffer packet) {
-        var slotNumber = IncomingPacket.readInt32(packet);
-        var slot = EquipmentSlot.parseFromSlotId(slotNumber);
+        if (interfaceId.equals("equipment")) {
+            handleEquipmentInterfaceAction(client, interfaceAction, packet);
+        } else if (interfaceId.equals("character_equipment")) {
+            handleCharacterEquipmentInterfaceAction(client, interfaceAction, packet);
+        }
+    }
 
+    private void handleEquipmentInterfaceAction(Client client, String interfaceAction, ByteBuffer packet) {
         var player = client.getPlayer().orElseThrow();
         var playerEquipment = player.getEquipment();
         var playerInventory = player.getInventory();
+
+        if (interfaceAction.equals("show_character_equipment")) {
+            interfaceManager.showInterface(client, "character_equipment");
+            return;
+        }
+
+        var slotNumber = IncomingPacket.readInt32(packet);
+        var slot = EquipmentSlot.parseFromSlotId(slotNumber);
 
         var itemOptional = playerEquipment.getSlot(slot);
         if (itemOptional.isEmpty()) {
@@ -33,13 +58,24 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
 
         var item = itemOptional.get();
         if (interfaceAction.equals("item_remove")) {
-            playerEquipment.removeSlot(slot);
-            playerInventory.addItem(item.getItemDefinition(), item.getQuantity());
-        }
-
-        if (interfaceAction.equals("item_examine")) {
-            player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getItemDefinition().getDescription());
+            removeItem(playerEquipment, playerInventory, item, slot);
+        } else if (interfaceAction.equals("item_examine")) {
+            examineItem(player, item);
         }
     }
 
+    private void handleCharacterEquipmentInterfaceAction(Client client, String interfaceAction, ByteBuffer packet) {
+        if (interfaceAction.equals("close")) {
+            interfaceManager.closeInterface(client, "character_equipment");
+        }
+    }
+
+    private void removeItem(PlayerEquipment playerEquipment, FixedSizeItemContainer playerInventory, ItemContainerItem item, EquipmentSlot slot) {
+        playerEquipment.removeSlot(slot);
+        playerInventory.addItem(item.getItemDefinition(), item.getQuantity());
+    }
+
+    private void examineItem(PlayerComponent player, ItemContainerItem item) {
+        player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getItemDefinition().getDescription());
+    }
 }

@@ -14,6 +14,8 @@ public class ItemDefinitionImpl implements ItemDefinition {
 
     private EquipItemDefinition equipItemDefinition;
 
+    private ItemStatsDefinition itemStatsDefinition;
+
     @Override
     public String getId() {
         return id;
@@ -70,6 +72,16 @@ public class ItemDefinitionImpl implements ItemDefinition {
 
     public ItemDefinitionImpl setEquipItemDefinition(EquipItemDefinition equipItemDefinition) {
         this.equipItemDefinition = equipItemDefinition;
+        return this;
+    }
+
+    @Override
+    public ItemStatsDefinition getItemStatsDefinition() {
+        return itemStatsDefinition;
+    }
+
+    public ItemDefinitionImpl setItemStatsDefinition(ItemStatsDefinition itemStatsDefinition) {
+        this.itemStatsDefinition = itemStatsDefinition;
         return this;
     }
 

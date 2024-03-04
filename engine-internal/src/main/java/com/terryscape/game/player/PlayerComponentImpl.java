@@ -1,6 +1,5 @@
 package com.terryscape.game.player;
 
-import com.google.inject.Inject;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
@@ -42,7 +41,6 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private HumanoidGender gender;
 
-    @Inject
     public PlayerComponentImpl(Entity entity, PacketManager packetManager, InterfaceManager interfaceManager) {
         super(entity);
 
@@ -57,7 +55,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     @Override
     public String getComponentIdentifier() {
-        return "component_player_component";
+        return "component_player";
     }
 
     @Override

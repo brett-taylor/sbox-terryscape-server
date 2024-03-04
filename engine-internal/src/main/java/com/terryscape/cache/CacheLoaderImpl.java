@@ -2,9 +2,7 @@ package com.terryscape.cache;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.item.ItemCacheLoader;
-import com.terryscape.cache.item.ItemDefinition;
-import com.terryscape.cache.item.ItemDefinitionImpl;
+import com.terryscape.cache.item.*;
 import com.terryscape.cache.npc.NpcCacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionImpl;
@@ -31,6 +29,8 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final ItemCacheLoader itemCacheLoader;
 
+    private final ItemStatsCacheLoader itemStatsCacheLoader;
+
     private final NpcCacheLoader npcCacheLoader;
 
     private final ObjectCacheLoader objectCacheLoader;
@@ -45,13 +45,17 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final Map<WorldRegionCoordinate, WorldRegionDefinitionImpl> worldRegions = new HashMap<>();
 
+    private final Map<String, ItemStatsDefinition> itemStats = new HashMap<>();
+
     @Inject
     public CacheLoaderImpl(ItemCacheLoader itemCacheLoader,
+                           ItemStatsCacheLoader itemStatsCacheLoader,
                            NpcCacheLoader npcCacheLoader,
                            ObjectCacheLoader objectCacheLoader,
                            WorldRegionCacheLoader worldRegionCacheLoader) {
 
         this.itemCacheLoader = itemCacheLoader;
+        this.itemStatsCacheLoader = itemStatsCacheLoader;
         this.npcCacheLoader = npcCacheLoader;
         this.objectCacheLoader = objectCacheLoader;
         this.worldRegionCacheLoader = worldRegionCacheLoader;
@@ -114,7 +118,10 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     private void loadItems() throws IOException {
-        items.putAll(itemCacheLoader.readItemsFromCache());
+        itemStats.putAll(itemStatsCacheLoader.readItemStatsFromCache());
+        LOGGER.info("Loaded {} Item Stats.", itemStats.size());
+
+        items.putAll(itemCacheLoader.readItemsFromCache(itemStats));
         LOGGER.info("Loaded {} Items.", items.size());
     }
 

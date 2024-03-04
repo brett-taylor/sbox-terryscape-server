@@ -23,7 +23,7 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
 
     @Override
     public String getComponentIdentifier() {
-        return "component_health_component";
+        return "component_health";
     }
 
     @Override

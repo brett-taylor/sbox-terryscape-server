@@ -36,6 +36,14 @@ public interface OutgoingPacket {
         }
     }
 
+    static void writeFloat(OutputStream packet, float f) {
+        try {
+            packet.write(ByteBuffer.allocate(4).putFloat(f).array());
+        } catch (IOException e) {
+            LogManager.getLogger(OutgoingPacket.class).error("Failed writing float", e);
+        }
+    }
+
     static void writeBoolean(OutputStream packet, boolean bool) {
         writeInt32(packet, bool ? 1 : 0);
     }

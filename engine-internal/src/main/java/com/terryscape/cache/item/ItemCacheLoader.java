@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class ItemCacheLoader {
 
-    public Map<String, ItemDefinitionImpl> readItemsFromCache() throws IOException {
+    public Map<String, ItemDefinitionImpl> readItemsFromCache(Map<String, ItemStatsDefinition> itemStats) throws IOException {
         var jsonInput = new PathMatchingResourcePatternResolver()
             .getResource(Config.ITEM_CACHE_LOCATION)
             .getContentAsString(StandardCharsets.UTF_8);
@@ -28,17 +28,18 @@ public class ItemCacheLoader {
 
         return array.asList().stream()
             .map(JsonElement::getAsJsonObject)
-            .map(this::createItemDefinitionFromJson)
+            .map(jsonObject -> createItemDefinitionFromJson(itemStats, jsonObject))
             .collect(Collectors.toMap(ItemDefinitionImpl::getId, Function.identity()));
     }
 
-    private ItemDefinitionImpl createItemDefinitionFromJson(JsonObject jsonObject) {
+    private ItemDefinitionImpl createItemDefinitionFromJson(Map<String, ItemStatsDefinition> itemStats, JsonObject jsonObject) {
         return new ItemDefinitionImpl()
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
             .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
             .setStackable(jsonObject.getAsJsonPrimitive("stackable").getAsBoolean())
-            .setEquipItemDefinition(createEquipItemDefinitionFromJson(jsonObject));
+            .setEquipItemDefinition(createEquipItemDefinitionFromJson(jsonObject))
+            .setItemStatsDefinition(getItemStatsDefinition(itemStats, jsonObject));
     }
 
     private EquipItemDefinition createEquipItemDefinitionFromJson(JsonObject jsonObject) {
@@ -61,6 +62,19 @@ public class ItemCacheLoader {
         return new WeaponItemDefinitionImpl()
             .setMainHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("mainHandAttackAnimation").getAsString())
             .setOffHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("offHandAttackAnimation").getAsString());
+    }
+
+    private ItemStatsDefinition getItemStatsDefinition(Map<String, ItemStatsDefinition> itemStats, JsonObject jsonObject) {
+        if (!jsonObject.has("stats")) {
+            return new DefaultItemStatsDefinition();
+        }
+
+        var itemStatsId = jsonObject.getAsJsonPrimitive("stats").getAsString();
+        if (!itemStats.containsKey(itemStatsId)) {
+            throw new RuntimeException("Item wanted item stats with id %s which didn't exist".formatted(itemStatsId));
+        }
+
+        return itemStats.get(itemStatsId);
     }
 
 }

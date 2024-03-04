@@ -15,4 +15,6 @@ public interface ItemDefinition {
     Optional<EquipItemDefinition> getEquipDefinition();
 
     EquipItemDefinition getEquipDefinitionOrThrow();
+
+    ItemStatsDefinition getItemStatsDefinition();
 }

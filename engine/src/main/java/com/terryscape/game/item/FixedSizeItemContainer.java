@@ -6,6 +6,7 @@ import com.terryscape.net.PacketSerializable;
 
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -116,6 +117,12 @@ public abstract class FixedSizeItemContainer implements PacketSerializable {
         }
 
         return true;
+    }
+
+    public List<ItemContainerItem> getAllItems() {
+        return Arrays.stream(items)
+            .filter(Objects::nonNull)
+            .toList();
     }
 
     private Integer getFirstSlotContainingItem(ItemDefinition itemDefinition) {

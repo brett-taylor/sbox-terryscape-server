@@ -18,7 +18,7 @@ public class AnimationComponentImpl extends BaseEntityComponent implements Anima
 
     @Override
     public String getComponentIdentifier() {
-        return "component_animation_component";
+        return "component_animation";
     }
 
     @Override

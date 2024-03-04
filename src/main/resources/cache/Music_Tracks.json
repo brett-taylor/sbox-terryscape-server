@@ -1,0 +1,12 @@
+[
+  {
+    "id": "adventurous_journey",
+    "name": "Adventurous Journey",
+    "soundEventPath": "assets/music/adventurous_journey.sound"
+  },
+  {
+    "id": "pressing_matters",
+    "name": "Pressing Matters",
+    "soundEventPath": "assets/music/pressing_matters.sound"
+  }
+]

@@ -29,7 +29,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
     @Override
     public String getComponentIdentifier() {
-        return "component_npc_component";
+        return "component_npc";
     }
 
     @Override

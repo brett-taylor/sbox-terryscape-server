@@ -20,7 +20,8 @@
         "offHandRotation": "180,0,6.40",
         "offHandAttackAnimation": "Sword_Attack_R3"
       }
-    }
+    },
+    "stats": "basic_scimitar"
   },
   {
     "id": "basic_sword",
@@ -39,11 +40,12 @@
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "Sword_Attack_L4",
-        "offHandOffset": "-1.84,1.29,2.50",
+        "offHandOffset": "-1.84,1.01,-2.38",
         "offHandRotation": "180,0,9.14",
         "offHandAttackAnimation": "Sword_Attack_R4"
       }
-    }
+    },
+    "stats": "basic_sword"
   },
   {
     "id": "gold_coin",
@@ -69,7 +71,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_female.vmdl",
       "hideBodyParts": ["head"]
-    }
+    },
+    "stats": "steel_full_helm"
   },
   {
     "id": "steel_platebody",
@@ -85,7 +88,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_female.vmdl",
       "hideBodyParts": ["torso", "arms"]
-    }
+    },
+    "stats": "steel_platebody"
   },
   {
     "id": "steel_platelegs",
@@ -101,7 +105,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_female.vmdl",
       "hideBodyParts": ["hips"]
-    }
+    },
+    "stats": "steel_platelegs"
   },
   {
     "id": "steel_boots",
@@ -117,7 +122,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_female.vmdl",
       "hideBodyParts": ["legs"]
-    }
+    },
+    "stats": "steel_boots"
   },
   {
     "id": "steel_gloves",
@@ -133,7 +139,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_female.vmdl",
       "hideBodyParts": ["hands"]
-    }
+    },
+    "stats": "steel_gloves"
   },
   {
     "id": "wizard_hat",
@@ -148,7 +155,8 @@
       "slot": "HEAD",
       "allModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
       "hideBodyParts": []
-    }
+    },
+    "stats": "wizard_gear"
   },
   {
     "id": "wizard_top",
@@ -164,7 +172,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_female.vmdl",
       "hideBodyParts": ["torso", "arms"]
-    }
+    },
+    "stats": "wizard_gear"
   },
   {
     "id": "wizard_bottoms",
@@ -180,7 +189,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_female.vmdl",
       "hideBodyParts": ["hips"]
-    }
+    },
+    "stats": "wizard_gear"
   },
   {
     "id": "wizard_boots",
@@ -196,7 +206,8 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_female.vmdl",
       "hideBodyParts": ["legs"]
-    }
+    },
+    "stats": "wizard_gear"
   },
   {
     "id": "wizard_gloves",
@@ -212,6 +223,7 @@
       "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl",
       "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_female.vmdl",
       "hideBodyParts": ["hands"]
-    }
+    },
+    "stats": "wizard_gear"
   }
 ]

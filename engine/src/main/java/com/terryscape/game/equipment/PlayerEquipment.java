@@ -4,6 +4,7 @@ import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.item.ItemContainerItem;
 
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Optional;
 
 public interface PlayerEquipment {
@@ -15,4 +16,6 @@ public interface PlayerEquipment {
     void removeSlot(EquipmentSlot equipmentSlot);
 
     void writeToPacket(OutputStream packet);
+
+    List<ItemContainerItem> getAllItems();
 }

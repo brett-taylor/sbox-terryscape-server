@@ -19,6 +19,7 @@ import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.NpcComponentImpl;
 import com.terryscape.game.npc.NpcOverheadTextComponentImpl;
 import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
+import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
@@ -111,6 +112,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var playerComponent = new PlayerComponentImpl(entity, packetManager, interfaceManager);
         playerComponent.setGender(HumanoidGender.MALE);
         entity.addComponent(playerComponent);
+
+        var playerBonusesProviderComponent = new PlayerBonusesProviderComponentImpl(entity, playerComponent);
+        entity.addComponent(playerBonusesProviderComponent);
 
         var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager, commandManager);
         entity.addComponent(playerChatComponent);
