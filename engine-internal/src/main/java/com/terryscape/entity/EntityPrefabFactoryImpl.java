@@ -22,6 +22,7 @@ import com.terryscape.game.npc.NpcOverheadTextComponentImpl;
 import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
 import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
+import com.terryscape.game.player.PlayerSkillsComponentImpl;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
@@ -141,6 +142,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatScript = new PlayerCombatScript(worldClock, playerComponent);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
+
+        var playerSkills = new PlayerSkillsComponentImpl(entity);
+        entity.addComponent(playerSkills);
 
         playerComponent.getInventory().addItem(cacheLoader.getItem("basic_scimitar"), 1);
         playerComponent.getInventory().addItem(cacheLoader.getItem("basic_sword"), 1);

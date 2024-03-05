@@ -6,7 +6,17 @@ import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 
+// TODO: Consider whether this should be moved into a regular java object onto the player?
+// TODO: OR should the inventory and equipment be instead moved into their own components?
+// TODO: Theres a bit of a mismatch between these two concepts but they are both just part of the player. So pick one.
+
 public class PlayerSkillsComponentImpl extends BaseEntityComponent implements PlayerSkillsComponent {
+
+    private int attack = 30;
+
+    private int defence = 30;
+
+    private int strength = 30;
 
     public PlayerSkillsComponentImpl(Entity entity) {
         super(entity);
@@ -29,17 +39,32 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
 
     @Override
     public int getAttack() {
-        return 40;
+        return attack;
+    }
+
+    @Override
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     @Override
     public int getDefence() {
-        return 40;
+        return defence;
+    }
+
+    @Override
+    public void setDefence(int defence) {
+        this.defence = defence;
     }
 
     @Override
     public int getStrength() {
-        return 40;
+        return strength;
+    }
+
+    @Override
+    public void setStrength(int strength) {
+        this.strength = strength;
     }
 
     private void writePacket(OutputStream packet) {
