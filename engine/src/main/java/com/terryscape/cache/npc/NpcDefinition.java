@@ -18,4 +18,6 @@ public interface NpcDefinition {
 
     Optional<NpcDefinitionSimpleNpc> getSimpleNpc();
 
+    NpcStatsDefinition getStatsDefinition();
+
 }

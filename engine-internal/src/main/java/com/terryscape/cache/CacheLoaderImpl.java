@@ -3,9 +3,7 @@ package com.terryscape.cache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.item.*;
-import com.terryscape.cache.npc.NpcCacheLoader;
-import com.terryscape.cache.npc.NpcDefinition;
-import com.terryscape.cache.npc.NpcDefinitionImpl;
+import com.terryscape.cache.npc.*;
 import com.terryscape.cache.object.ObjectCacheLoader;
 import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.object.ObjectDefinitionImpl;
@@ -33,30 +31,36 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final NpcCacheLoader npcCacheLoader;
 
+    private final NpcStatsCacheLoader npcStatsCacheLoader;
+
     private final ObjectCacheLoader objectCacheLoader;
 
     private final WorldRegionCacheLoader worldRegionCacheLoader;
 
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
+    private final Map<String, ItemStatsDefinition> itemStats = new HashMap<>();
+
     private final Map<String, NpcDefinitionImpl> npcs = new HashMap<>();
+
+    private final Map<String, NpcStatsDefinition> npcStats = new HashMap<>();
 
     private final Map<String, ObjectDefinitionImpl> objects = new HashMap<>();
 
     private final Map<WorldRegionCoordinate, WorldRegionDefinitionImpl> worldRegions = new HashMap<>();
 
-    private final Map<String, ItemStatsDefinition> itemStats = new HashMap<>();
-
     @Inject
     public CacheLoaderImpl(ItemCacheLoader itemCacheLoader,
                            ItemStatsCacheLoader itemStatsCacheLoader,
                            NpcCacheLoader npcCacheLoader,
+                           NpcStatsCacheLoader npcStatsCacheLoader,
                            ObjectCacheLoader objectCacheLoader,
                            WorldRegionCacheLoader worldRegionCacheLoader) {
 
         this.itemCacheLoader = itemCacheLoader;
         this.itemStatsCacheLoader = itemStatsCacheLoader;
         this.npcCacheLoader = npcCacheLoader;
+        this.npcStatsCacheLoader = npcStatsCacheLoader;
         this.objectCacheLoader = objectCacheLoader;
         this.worldRegionCacheLoader = worldRegionCacheLoader;
     }
@@ -126,7 +130,10 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     private void loadNpcs() throws IOException {
-        npcs.putAll(npcCacheLoader.readNpcsFromCache());
+        npcStats.putAll(npcStatsCacheLoader.readNpcStatsFromCache());
+        LOGGER.info("Loaded {} Npc Stats.", npcStats.size());
+
+        npcs.putAll(npcCacheLoader.readNpcsFromCache(npcStats));
         LOGGER.info("Loaded {} Npcs.", npcs.size());
     }
 

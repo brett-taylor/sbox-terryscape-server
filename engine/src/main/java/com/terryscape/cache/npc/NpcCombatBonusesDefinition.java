@@ -1,8 +1,6 @@
-package com.terryscape.cache.item;
+package com.terryscape.cache.npc;
 
-public interface ItemStatsDefinition {
-
-    float getWeight();
+public interface NpcCombatBonusesDefinition {
 
     float getOffensiveStab();
 
@@ -11,4 +9,5 @@ public interface ItemStatsDefinition {
     float getDefensiveStab();
 
     float getDefensiveSlash();
+
 }

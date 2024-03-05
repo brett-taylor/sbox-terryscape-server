@@ -18,6 +18,8 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     private NpcDefinitionSimpleNpcImpl simpleNpc;
 
+    private NpcStatsDefinition statsDefinition;
+
     @Override
     public String getId() {
         return id;
@@ -85,6 +87,16 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     public NpcDefinitionImpl setSimpleNpc(NpcDefinitionSimpleNpcImpl simpleNpc) {
         this.simpleNpc = simpleNpc;
+        return this;
+    }
+
+    @Override
+    public NpcStatsDefinition getStatsDefinition() {
+        return statsDefinition;
+    }
+
+    public NpcDefinitionImpl setStatsDefinition(NpcStatsDefinition statsDefinition) {
+        this.statsDefinition = statsDefinition;
         return this;
     }
 

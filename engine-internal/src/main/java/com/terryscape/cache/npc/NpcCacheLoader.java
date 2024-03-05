@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class NpcCacheLoader {
 
-    public Map<String, NpcDefinitionImpl> readNpcsFromCache() throws IOException {
+    public Map<String, NpcDefinitionImpl> readNpcsFromCache(Map<String, NpcStatsDefinition> npcStats) throws IOException {
         var jsonInput = new PathMatchingResourcePatternResolver()
             .getResource(Config.NPC_CACHE_LOCATION)
             .getContentAsString(StandardCharsets.UTF_8);
@@ -27,17 +27,18 @@ public class NpcCacheLoader {
 
         return array.asList().stream()
             .map(JsonElement::getAsJsonObject)
-            .map(this::createNpcDefinitionFromJson)
+            .map(jsonObject -> createNpcDefinitionFromJson(npcStats, jsonObject))
             .collect(Collectors.toMap(NpcDefinitionImpl::getId, Function.identity()));
     }
 
-    private NpcDefinitionImpl createNpcDefinitionFromJson(JsonObject jsonObject) {
+    private NpcDefinitionImpl createNpcDefinitionFromJson(Map<String, NpcStatsDefinition> npcStats, JsonObject jsonObject) {
         var npcDefinition = new NpcDefinitionImpl()
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setName(jsonObject.getAsJsonPrimitive("name").getAsString())
             .setDescription(jsonObject.getAsJsonPrimitive("description").getAsString())
             .setInteractable(jsonObject.getAsJsonPrimitive("interactable").getAsBoolean())
-            .setAttackable(jsonObject.getAsJsonPrimitive("attackable").getAsBoolean());
+            .setAttackable(jsonObject.getAsJsonPrimitive("attackable").getAsBoolean())
+            .setStatsDefinition(getNpcStatsDefinition(npcStats, jsonObject));
 
         setAppearanceType(npcDefinition, jsonObject);
 
@@ -63,5 +64,18 @@ public class NpcCacheLoader {
         if (npcDefinition.getAppearanceType() == null) {
             throw new RuntimeException("Could not calculate appearance type for %s".formatted(npcDefinition.getId()));
         }
+    }
+
+    private NpcStatsDefinition getNpcStatsDefinition(Map<String, NpcStatsDefinition> npcStats, JsonObject jsonObject) {
+        if (!jsonObject.has("stats")) {
+            return new DefaultNpcStatsDefinitionImpl();
+        }
+
+        var npcStatsId = jsonObject.getAsJsonPrimitive("stats").getAsString();
+        if (!npcStats.containsKey(npcStatsId)) {
+            throw new RuntimeException("Npc wanted npc stats with id %s which didn't exist".formatted(npcStatsId));
+        }
+
+        return npcStats.get(npcStatsId);
     }
 }

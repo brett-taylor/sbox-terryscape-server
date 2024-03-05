@@ -1,10 +1,6 @@
 package com.terryscape.cache.item;
 
 public class DefaultItemStatsDefinition implements ItemStatsDefinition {
-    @Override
-    public String getId() {
-        return "";
-    }
 
     @Override
     public float getWeight() {
@@ -29,5 +25,10 @@ public class DefaultItemStatsDefinition implements ItemStatsDefinition {
     @Override
     public float getDefensiveSlash() {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultItemStats";
     }
 }

@@ -28,7 +28,7 @@ public class ItemStatsCacheLoader {
         return array.asList().stream()
             .map(JsonElement::getAsJsonObject)
             .map(this::createItemStatsDefinitionFromJson)
-            .collect(Collectors.toMap(ItemStatsDefinition::getId, Function.identity()));
+            .collect(Collectors.toMap(ItemStatsDefinitionImpl::getId, Function.identity()));
     }
 
     private ItemStatsDefinitionImpl createItemStatsDefinitionFromJson(JsonObject jsonObject) {

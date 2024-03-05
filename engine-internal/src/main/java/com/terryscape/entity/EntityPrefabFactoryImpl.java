@@ -16,6 +16,7 @@ import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
+import com.terryscape.game.npc.NpcCombatBonusesProviderComponent;
 import com.terryscape.game.npc.NpcComponentImpl;
 import com.terryscape.game.npc.NpcOverheadTextComponentImpl;
 import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
@@ -70,6 +71,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var npcComponent = new NpcComponentImpl(entity, worldManager);
         npcComponent.setNpcDefinition(npcDefinition);
         entity.addComponent(npcComponent);
+
+        var npcCombatBonusesProviderComponent = new NpcCombatBonusesProviderComponent(entity, npcComponent);
+        entity.addComponent(npcCombatBonusesProviderComponent);
 
         if (npcDefinition.getAppearanceType() == NpcDefinitionNpcAppearanceType.SIMPLE) {
             var variants = npcDefinition.getSimpleNpc().orElseThrow().getVariants();

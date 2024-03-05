@@ -40,7 +40,8 @@
           "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
         }
       }
-    }
+    },
+    "stats": "goblin"
   },
   {
     "id": "goblin_warrior",
@@ -83,7 +84,8 @@
           "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
         }
       }
-    }
+    },
+    "stats": "goblin"
   },
   {
     "id": "goblin_shaman",
@@ -98,7 +100,8 @@
           "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         }
       }
-    }
+    },
+    "stats": "goblin"
   },
   {
     "id": "goblin_chief",
@@ -113,7 +116,8 @@
           "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
         }
       }
-    }
+    },
+    "stats": "goblin"
   },
   {
     "id": "armour_shop_keeper",

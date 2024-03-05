@@ -1,0 +1,17 @@
+[
+  {
+    "id": "goblin",
+    "health": 13,
+    "skills": {
+      "accuracy": 68,
+      "defence": 68,
+      "strength": 68
+    },
+    "bonuses": {
+      "offensive_stab": 0,
+      "offensive_slash": 0,
+      "defensive_stab": 20,
+      "defensive_slash": 40
+    }
+  }
+]

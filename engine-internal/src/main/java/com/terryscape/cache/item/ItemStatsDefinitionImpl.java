@@ -14,7 +14,6 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     private float defensiveSlash;
 
-    @Override
     public String getId() {
         return id;
     }
@@ -72,5 +71,10 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
     public ItemStatsDefinitionImpl setDefensiveSlash(float defensiveSlash) {
         this.defensiveSlash = defensiveSlash;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemStatsDefinition(id=%s)".formatted(id);
     }
 }
