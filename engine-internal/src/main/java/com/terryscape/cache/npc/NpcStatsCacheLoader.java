@@ -43,7 +43,7 @@ public class NpcStatsCacheLoader {
         var skillsJsonObject = jsonObject.getAsJsonObject("skills");
 
         return new NpcCombatSkillsDefinitionImpl()
-            .setAccuracy(skillsJsonObject.getAsJsonPrimitive("accuracy").getAsInt())
+            .setAttack(skillsJsonObject.getAsJsonPrimitive("attack").getAsInt())
             .setDefence(skillsJsonObject.getAsJsonPrimitive("defence").getAsInt())
             .setStrength(skillsJsonObject.getAsJsonPrimitive("strength").getAsInt());
     }

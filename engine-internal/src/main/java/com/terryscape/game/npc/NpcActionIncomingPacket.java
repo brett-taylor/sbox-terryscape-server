@@ -51,8 +51,9 @@ public class NpcActionIncomingPacket implements IncomingPacket {
                 extraInformation = ", variant=%s".formatted(variant);
             }
 
+            var chatComponent = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
             var description = "%s (id=%s%s)".formatted(npcDefinition.getDescription(), npcDefinition.getId(), extraInformation);
-            player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(description);
+            chatComponent.sendGameMessage(description);
         }
 
         // TODO check the player can interact with npcs currently?

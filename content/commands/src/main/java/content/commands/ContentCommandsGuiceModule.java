@@ -15,6 +15,8 @@ public class ContentCommandsGuiceModule extends AbstractModule {
         commandMultibinder.addBinding().to(CoordinatesCommand.class);
         commandMultibinder.addBinding().to(AnimationCommand.class);
         commandMultibinder.addBinding().to(SetRunCommand.class);
+        commandMultibinder.addBinding().to(ItemStatsCommand.class);
+        commandMultibinder.addBinding().to(NpcStatsCommand.class);
     }
 
 }

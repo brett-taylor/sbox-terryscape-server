@@ -2,19 +2,19 @@ package com.terryscape.cache.npc;
 
 public class NpcCombatSkillsDefinitionImpl implements NpcCombatSkillsDefinition {
 
-    private int accuracy;
+    private int attack;
 
     private int defence;
 
     private int strength;
 
     @Override
-    public int getAccuracy() {
-        return accuracy;
+    public int getAttack() {
+        return attack;
     }
 
-    public NpcCombatSkillsDefinitionImpl setAccuracy(int accuracy) {
-        this.accuracy = accuracy;
+    public NpcCombatSkillsDefinitionImpl setAttack(int attack) {
+        this.attack = attack;
         return this;
     }
 

@@ -33,7 +33,7 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
 
     private static class DefaultCombatSkills implements NpcCombatSkillsDefinition {
         @Override
-        public int getAccuracy() {
+        public int getAttack() {
             return 1;
         }
 

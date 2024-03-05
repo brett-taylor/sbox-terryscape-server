@@ -16,6 +16,8 @@ public interface CacheLoader {
 
     NpcDefinition getNpc(String id);
 
+    Optional<NpcDefinition> getNpcSafe(String id);
+
     ObjectDefinition getObjectDefinition(String id);
 
     WorldRegionDefinition getWorldRegion(WorldRegionCoordinate worldRegionCoordinate);

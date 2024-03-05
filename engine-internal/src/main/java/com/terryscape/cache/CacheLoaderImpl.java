@@ -104,6 +104,11 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
+    public Optional<NpcDefinition> getNpcSafe(String id) {
+        return Optional.ofNullable(npcs.get(id));
+    }
+
+    @Override
     public ObjectDefinition getObjectDefinition(String id) {
         if (!objects.containsKey(id)) {
             throw new RuntimeException("No object found with id %s".formatted(id));
