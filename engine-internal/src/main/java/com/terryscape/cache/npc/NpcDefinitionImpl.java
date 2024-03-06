@@ -1,5 +1,7 @@
 package com.terryscape.cache.npc;
 
+import com.terryscape.game.combat.DamageType;
+
 import java.util.Optional;
 
 public class NpcDefinitionImpl implements NpcDefinition {
@@ -19,6 +21,10 @@ public class NpcDefinitionImpl implements NpcDefinition {
     private NpcDefinitionSimpleNpcImpl simpleNpc;
 
     private NpcStatsDefinition statsDefinition;
+
+    private int combatLevel;
+
+    private DamageType combatDamageType;
 
     @Override
     public String getId() {
@@ -97,6 +103,26 @@ public class NpcDefinitionImpl implements NpcDefinition {
 
     public NpcDefinitionImpl setStatsDefinition(NpcStatsDefinition statsDefinition) {
         this.statsDefinition = statsDefinition;
+        return this;
+    }
+
+    @Override
+    public int getCombatLevel() {
+        return combatLevel;
+    }
+
+    public NpcDefinitionImpl setCombatLevel(int combatLevel) {
+        this.combatLevel = combatLevel;
+        return this;
+    }
+
+    @Override
+    public DamageType getCombatDamageType() {
+        return combatDamageType;
+    }
+
+    public NpcDefinitionImpl setCombatDamageType(DamageType combatDamageType) {
+        this.combatDamageType = combatDamageType;
         return this;
     }
 

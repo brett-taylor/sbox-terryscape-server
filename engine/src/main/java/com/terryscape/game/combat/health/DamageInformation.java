@@ -1,5 +1,6 @@
 package com.terryscape.game.combat.health;
 
+import com.terryscape.game.combat.DamageType;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketSerializable;
 
@@ -29,7 +30,7 @@ public class DamageInformation implements PacketSerializable {
         return type;
     }
 
-    public DamageInformation setType(DamageType type) {
+    public DamageInformation setDamageType(DamageType type) {
         this.type = type;
         return this;
     }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.equipment.EquipmentSlot;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -59,7 +60,12 @@ public class ItemCacheLoader {
         }
 
         var weaponItemJsonObject = jsonObject.getAsJsonObject("weapon");
+
+        var damageTypeAsString = weaponItemJsonObject.getAsJsonPrimitive("damage_type").getAsString();
+        var damageType = Enum.valueOf(DamageType.class, damageTypeAsString);
+
         return new WeaponItemDefinitionImpl()
+            .setDamageType(damageType)
             .setMainHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("mainHandAttackAnimation").getAsString())
             .setOffHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("offHandAttackAnimation").getAsString());
     }

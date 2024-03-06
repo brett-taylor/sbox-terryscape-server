@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
+import com.terryscape.game.combat.DamageType;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
@@ -41,6 +42,16 @@ public class NpcCacheLoader {
             .setStatsDefinition(getNpcStatsDefinition(npcStats, jsonObject));
 
         setAppearanceType(npcDefinition, jsonObject);
+
+        var combatLevel = jsonObject.has("combatLevel") ? jsonObject.getAsJsonPrimitive("combatLevel").getAsInt() : 1;
+        npcDefinition.setCombatLevel(combatLevel);
+
+        var combatDamageType = DamageType.TYPELESS;
+        if (jsonObject.has("combatDamageType")) {
+            var combatDamageTypeAsString = jsonObject.getAsJsonPrimitive("combatDamageType").getAsString();
+            combatDamageType = Enum.valueOf(DamageType.class, combatDamageTypeAsString);
+        }
+        npcDefinition.setCombatDamageType(combatDamageType);
 
         return npcDefinition;
     }

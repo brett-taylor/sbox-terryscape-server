@@ -2,8 +2,8 @@ package com.terryscape.game.combat.script;
 
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
+import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.combat.health.DamageInformation;
-import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.movement.AnimationComponent;
@@ -56,7 +56,7 @@ public class PlayerCombatScript implements CombatScript {
             return handleAttackWithWeapon(victim);
         }
 
-        slap(victim, true, pickUnarmedAttackAnimationId());
+        doHit(victim, DamageType.STAB, pickUnarmedAttackAnimationId(), true);
         return true;
     }
 
@@ -82,8 +82,8 @@ public class PlayerCombatScript implements CombatScript {
         var isMainHandOffCooldown = lastMainHandAttackTime + 6 < worldClock.getNowTick();
 
         if (mainHand.isPresent() && isMainHandOffCooldown) {
-            var animation = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getMainHandAttackAnimation();
-            slap(victim, true, animation);
+            var weaponDefinition = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow();
+            doHit(victim, weaponDefinition.getDamageType(), weaponDefinition.getMainHandAttackAnimation(), true);
             return true;
         }
 
@@ -91,28 +91,28 @@ public class PlayerCombatScript implements CombatScript {
         var isOffHandOffCooldown = lastOffHandAttackTime + 6 < worldClock.getNowTick();
 
         if (offHand.isPresent() && isOffHandOffCooldown) {
-            var animation = offHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getOffHandAttackAnimation();
-            slap(victim, false, animation);
+            var weaponDefinition = offHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow();
+            doHit(victim, weaponDefinition.getDamageType(), weaponDefinition.getOffHandAttackAnimation(), false);
             return true;
         }
 
         return false;
     }
 
-    private void slap(CombatComponent victim, boolean mainHand, String animationIdToPlay) {
+    private void doHit(CombatComponent victim, DamageType damageType, String animationIdToPlay, boolean isMainHand) {
         lastAttackTime = worldClock.getNowTick();
 
-        var damage = new DamageInformation().setAmount(1);
-        animationComponent.playAnimation(animationIdToPlay);
+        var damage = new DamageInformation()
+            .setAmount(1)
+            .setDamageType(damageType);
 
-        if (mainHand) {
+        if (isMainHand) {
             lastMainHandAttackTime = worldClock.getNowTick();
-            damage.setType(DamageType.MELEE_MAIN_HAND);
         } else {
             lastOffHandAttackTime = worldClock.getNowTick();
-            damage.setType(DamageType.MELEE_OFF_HAND);
         }
 
+        animationComponent.playAnimation(animationIdToPlay);
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
     }
 }

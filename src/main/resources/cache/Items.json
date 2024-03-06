@@ -13,6 +13,7 @@
       "allModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
       "hideBodyParts": [],
       "weapon": {
+        "damage_type": "SLASH",
         "mainHandOffset": "2.38,-1.54,-0.00",
         "mainHandRotation": "0,0,-6.40",
         "mainHandAttackAnimation": "Sword_Attack_L3",
@@ -37,6 +38,7 @@
       "allModelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
       "hideBodyParts": [],
       "weapon": {
+        "damage_type": "STAB",
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "Sword_Attack_L4",

@@ -1,5 +1,7 @@
 package com.terryscape.cache.npc;
 
+import com.terryscape.game.combat.DamageType;
+
 import java.util.Optional;
 
 public interface NpcDefinition {
@@ -20,4 +22,7 @@ public interface NpcDefinition {
 
     NpcStatsDefinition getStatsDefinition();
 
+    int getCombatLevel();
+
+    DamageType getCombatDamageType();
 }

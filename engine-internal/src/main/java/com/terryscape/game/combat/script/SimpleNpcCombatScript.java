@@ -3,7 +3,6 @@ package com.terryscape.game.combat.script;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.health.DamageInformation;
-import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
@@ -43,7 +42,7 @@ public class SimpleNpcCombatScript implements CombatScript {
 
         lastAttackTime = worldClock.getNowTick();
 
-        var damage = new DamageInformation().setAmount(1).setType(DamageType.MELEE_MAIN_HAND);
+        var damage = new DamageInformation().setAmount(1).setDamageType(npcComponent.getNpcDefinition().getCombatDamageType());
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damage);
 
         animationComponent.playAnimation("attack");
