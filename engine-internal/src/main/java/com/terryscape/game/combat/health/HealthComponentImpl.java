@@ -57,12 +57,10 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
             return;
         }
 
-        health = health - damageInformation.getAmount();
-        health = Math.max(0, health);
+        var cappedDamage = Math.min(damageInformation.getAmount(), health);
+        damageInformation.setAmount(cappedDamage);
 
-        // TODO: Limit the damage here as well to 0 hitpoints.
-        // Right now if you get hit for 100 and you have 10hp
-        // your health will go to 0 - so 10 damage - but the damage information still says 100
+        health -= cappedDamage;
         recentDamage.add(damageInformation);
 
         if (health <= 0) {

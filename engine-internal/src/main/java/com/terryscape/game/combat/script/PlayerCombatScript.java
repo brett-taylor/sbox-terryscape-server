@@ -103,7 +103,7 @@ public class PlayerCombatScript implements CombatScript {
         lastAttackTime = worldClock.getNowTick();
 
         var damage = new DamageInformation()
-            .setAmount(1)
+            .setAmount(25)
             .setDamageType(damageType);
 
         if (isMainHand) {
