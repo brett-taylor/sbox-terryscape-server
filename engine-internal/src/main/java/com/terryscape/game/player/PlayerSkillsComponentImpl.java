@@ -18,6 +18,8 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
 
     private int strength = 30;
 
+    private int constitution = 10;
+
     public PlayerSkillsComponentImpl(Entity entity) {
         super(entity);
     }
@@ -39,9 +41,9 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
 
     @Override
     public int getCombat() {
-        float defenceLevel = defence * 0.5f;
-        float offensiveMeleeLevel = (attack + strength) * 0.325f;
-        return (int) Math.floor(defenceLevel + offensiveMeleeLevel);
+        float defensiveLevel = (getDefence() + getConstitution()) / 4f;
+        float offensiveMeleeLevel = (getAttack() + getStrength()) * 0.325f;
+        return (int) Math.floor(defensiveLevel + offensiveMeleeLevel);
     }
 
     @Override
@@ -74,10 +76,21 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
         this.strength = strength;
     }
 
+    @Override
+    public int getConstitution() {
+        return constitution;
+    }
+
+    @Override
+    public void setConstitution(int constitution) {
+        this.constitution = constitution;
+    }
+
     private void writePacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, getCombat());
         OutgoingPacket.writeInt32(packet, getAttack());
         OutgoingPacket.writeInt32(packet, getDefence());
         OutgoingPacket.writeInt32(packet, getStrength());
+        OutgoingPacket.writeInt32(packet, getConstitution());
     }
 }

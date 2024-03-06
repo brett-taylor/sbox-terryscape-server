@@ -1,7 +1,7 @@
 [
   {
     "id": "goblin",
-    "health": 13,
+    "health": 130,
     "skills": {
       "attack": 68,
       "defence": 68,

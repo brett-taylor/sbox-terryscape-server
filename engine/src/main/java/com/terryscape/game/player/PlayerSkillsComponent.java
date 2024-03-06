@@ -13,4 +13,8 @@ public interface PlayerSkillsComponent extends CombatSkillsProviderComponent, Ne
 
     void setStrength(int strength);
 
+    int getConstitution();
+
+    void setConstitution(int constitution);
+
 }

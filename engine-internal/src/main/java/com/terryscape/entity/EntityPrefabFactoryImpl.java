@@ -92,9 +92,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
+        var health = npcDefinition.getStatsDefinition().getHealth();
         var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(5);
-        healthComponent.setHealth(5);
+        healthComponent.setMaxHealth(health);
+        healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
@@ -121,6 +122,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var playerBonusesProviderComponent = new PlayerBonusesProviderComponentImpl(entity, playerComponent);
         entity.addComponent(playerBonusesProviderComponent);
 
+        var playerSkills = new PlayerSkillsComponentImpl(entity);
+        entity.addComponent(playerSkills);
+
         var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager, commandManager);
         entity.addComponent(playerChatComponent);
 
@@ -131,9 +135,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
+        var health = playerSkills.getConstitution() * 10;
         var healthComponent = new HealthComponentImpl(entity);
-        healthComponent.setMaxHealth(10);
-        healthComponent.setHealth(10);
+        healthComponent.setMaxHealth(health);
+        healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
 
         var animationComponent = new AnimationComponentImpl(entity);
@@ -142,9 +147,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatScript = new PlayerCombatScript(worldClock, playerComponent);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
         entity.addComponent(combatComponent);
-
-        var playerSkills = new PlayerSkillsComponentImpl(entity);
-        entity.addComponent(playerSkills);
 
         playerComponent.getInventory().addItem(cacheLoader.getItem("basic_scimitar"), 1);
         playerComponent.getInventory().addItem(cacheLoader.getItem("basic_sword"), 1);
