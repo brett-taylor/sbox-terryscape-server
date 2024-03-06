@@ -5,6 +5,8 @@ import com.terryscape.game.combat.CombatSkillsProviderComponent;
 
 public interface PlayerSkillsComponent extends CombatSkillsProviderComponent, NetworkedEntityComponent {
 
+    int getCombat();
+
     void setAttack(int attack);
 
     void setDefence(int defence);

@@ -38,6 +38,13 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     }
 
     @Override
+    public int getCombat() {
+        float defenceLevel = defence * 0.5f;
+        float offensiveMeleeLevel = (attack + strength) * 0.325f;
+        return (int) Math.floor(defenceLevel + offensiveMeleeLevel);
+    }
+
+    @Override
     public int getAttack() {
         return attack;
     }
@@ -68,6 +75,7 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     }
 
     private void writePacket(OutputStream packet) {
+        OutgoingPacket.writeInt32(packet, getCombat());
         OutgoingPacket.writeInt32(packet, getAttack());
         OutgoingPacket.writeInt32(packet, getDefence());
         OutgoingPacket.writeInt32(packet, getStrength());

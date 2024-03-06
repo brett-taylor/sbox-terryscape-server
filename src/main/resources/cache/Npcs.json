@@ -41,7 +41,8 @@
         }
       }
     },
-    "stats": "goblin"
+    "stats": "goblin",
+    "combatLevel": 22
   },
   {
     "id": "goblin_warrior",
@@ -85,7 +86,8 @@
         }
       }
     },
-    "stats": "goblin"
+    "stats": "goblin",
+    "combatLevel": 50
   },
   {
     "id": "goblin_shaman",
@@ -101,7 +103,8 @@
         }
       }
     },
-    "stats": "goblin"
+    "stats": "goblin",
+    "combatLevel": 74
   },
   {
     "id": "goblin_chief",
@@ -117,7 +120,8 @@
         }
       }
     },
-    "stats": "goblin"
+    "stats": "goblin",
+    "combatLevel": 80
   },
   {
     "id": "armour_shop_keeper",
@@ -135,7 +139,8 @@
         "HANDS": "steel_gloves",
         "FEET": "steel_boots"
       }
-    }
+    },
+    "combatLevel": 1
   },
   {
     "id": "weapon_shop_keeper",
@@ -153,7 +158,8 @@
         "HANDS": "steel_gloves",
         "FEET": "steel_boots"
       }
-    }
+    },
+    "combatLevel": 1
   },
   {
     "id": "guide",
@@ -167,6 +173,7 @@
       "equippedItems": {
         "HEAD": "wizard_hat"
       }
-    }
+    },
+    "combatLevel": 1
   }
 ]
