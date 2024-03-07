@@ -52,7 +52,7 @@ public class PlayerCombatScript implements CombatScript {
 
     @Override
     public boolean attack(CombatComponent victim, CombatDiceRoll combatDiceRoll) {
-        if (lastAttackTime + 3 > worldClock.getNowTick()) {
+        if (lastAttackTime + 5 > worldClock.getNowTick()) {
             return false;
         }
 
