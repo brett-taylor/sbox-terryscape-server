@@ -50,5 +50,6 @@ public class DamageInformation implements PacketSerializable {
     public void writeToPacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, getAmount());
         OutgoingPacket.writeEnum(packet, getType());
+        OutgoingPacket.writeBoolean(packet, isBlocked());
     }
 }
