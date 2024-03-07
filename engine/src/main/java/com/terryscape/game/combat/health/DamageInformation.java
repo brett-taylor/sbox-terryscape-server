@@ -12,6 +12,8 @@ public class DamageInformation implements PacketSerializable {
 
     private DamageType type;
 
+    private boolean blocked;
+
     public DamageInformation() {
         amount = 0;
         type = DamageType.TYPELESS;
@@ -30,8 +32,17 @@ public class DamageInformation implements PacketSerializable {
         return type;
     }
 
-    public DamageInformation setDamageType(DamageType type) {
+    public DamageInformation setType(DamageType type) {
         this.type = type;
+        return this;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public DamageInformation setBlocked(boolean blocked) {
+        this.blocked = blocked;
         return this;
     }
 

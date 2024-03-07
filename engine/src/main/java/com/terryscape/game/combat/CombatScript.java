@@ -1,5 +1,7 @@
 package com.terryscape.game.combat;
 
+import com.terryscape.game.diceroll.CombatDiceRoll;
+
 public interface CombatScript {
 
     boolean isInRange(CombatComponent victim);
@@ -7,6 +9,6 @@ public interface CombatScript {
     /**
      * @return true if an attack was performed
      */
-    boolean attack(CombatComponent victim);
+    boolean attack(CombatComponent victim, CombatDiceRoll combatDiceRoll);
 
 }

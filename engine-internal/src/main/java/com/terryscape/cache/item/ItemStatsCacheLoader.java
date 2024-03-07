@@ -38,7 +38,8 @@ public class ItemStatsCacheLoader {
             .setOffensiveStab(jsonObject.getAsJsonPrimitive("offensive_stab").getAsFloat())
             .setOffensiveSlash(jsonObject.getAsJsonPrimitive("offensive_slash").getAsFloat())
             .setDefensiveStab(jsonObject.getAsJsonPrimitive("defensive_stab").getAsFloat())
-            .setDefensiveSlash(jsonObject.getAsJsonPrimitive("defensive_slash").getAsFloat());
+            .setDefensiveSlash(jsonObject.getAsJsonPrimitive("defensive_slash").getAsFloat())
+            .setStrengthMelee(jsonObject.getAsJsonPrimitive("strength_melee").getAsFloat());
     }
 
 }

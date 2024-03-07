@@ -16,13 +16,11 @@ import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
-import com.terryscape.game.npc.NpcCombatBonusesProviderComponent;
-import com.terryscape.game.npc.NpcComponentImpl;
-import com.terryscape.game.npc.NpcOverheadTextComponentImpl;
-import com.terryscape.game.npc.SimpleNpcAppearanceComponent;
+import com.terryscape.game.npc.*;
 import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.player.PlayerSkillsComponentImpl;
+import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
@@ -47,6 +45,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final InterfaceManager interfaceManager;
 
+    private final CombatDiceRoll combatDiceRoll;
+
     @Inject
     public EntityPrefabFactoryImpl(WorldManager worldManager,
                                    PathfindingManager pathfindingManager,
@@ -54,7 +54,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    PacketManager packetManager,
                                    CommandManager commandManager,
                                    CacheLoader cacheLoader,
-                                   InterfaceManager interfaceManager) {
+                                   InterfaceManager interfaceManager,
+                                   CombatDiceRoll combatDiceRoll) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
@@ -63,6 +64,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.commandManager = commandManager;
         this.cacheLoader = cacheLoader;
         this.interfaceManager = interfaceManager;
+        this.combatDiceRoll = combatDiceRoll;
     }
 
     @Override
@@ -75,6 +77,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         var npcCombatBonusesProviderComponent = new NpcCombatBonusesProviderComponent(entity, npcComponent);
         entity.addComponent(npcCombatBonusesProviderComponent);
+
+        var npcCombatSkillsProviderComponent = new NpcCombatSkillsProviderComponent(entity, npcComponent);
+        entity.addComponent(npcCombatSkillsProviderComponent);
 
         if (npcDefinition.getAppearanceType() == NpcDefinitionNpcAppearanceType.SIMPLE) {
             var variants = npcDefinition.getSimpleNpc().orElseThrow().getVariants();
@@ -102,7 +107,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         entity.addComponent(animationComponent);
 
         var combatScript = new SimpleNpcCombatScript(worldClock, npcComponent);
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
         entity.addComponent(combatComponent);
 
         var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
@@ -145,7 +150,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         entity.addComponent(animationComponent);
 
         var combatScript = new PlayerCombatScript(worldClock, playerComponent);
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
         entity.addComponent(combatComponent);
 
         playerComponent.getInventory().addItem(cacheLoader.getItem("basic_scimitar"), 1);

@@ -9,6 +9,7 @@ import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.player.PlayerComponent;
+import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.world.pathfinding.PathfindingManager;
@@ -17,9 +18,12 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private final PathfindingManager pathfindingManager;
 
+    private final CacheLoader cacheLoader;
+
     private final CombatScript combatScript;
 
-    private final CacheLoader cacheLoader;
+    private final CombatDiceRoll combatDiceRoll;
+
 
     private TaskComponent taskComponent;
 
@@ -27,12 +31,17 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private Task combatTask;
 
-    public CombatComponentImpl(Entity entity, PathfindingManager pathfindingManager, CacheLoader cacheLoader, CombatScript combatScript) {
+    public CombatComponentImpl(Entity entity,
+                               PathfindingManager pathfindingManager,
+                               CacheLoader cacheLoader,
+                               CombatScript combatScript,
+                               CombatDiceRoll combatDiceRoll) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
         this.cacheLoader = cacheLoader;
         this.combatScript = combatScript;
+        this.combatDiceRoll = combatDiceRoll;
     }
 
     @Override
@@ -89,7 +98,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             return;
         }
 
-        var didAttack = combatScript.attack(victim);
+        var didAttack = combatScript.attack(victim, combatDiceRoll);
         if (!didAttack) {
             return;
         }

@@ -33,4 +33,9 @@ public class NpcCombatBonusesProviderComponent extends BaseEntityComponent imple
     public float getDefensiveSlash() {
         return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getDefensiveSlash();
     }
+
+    @Override
+    public float getStrengthMelee() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getStrengthMelee();
+    }
 }

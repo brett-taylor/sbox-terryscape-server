@@ -11,4 +11,6 @@ public interface ItemStatsDefinition {
     float getDefensiveStab();
 
     float getDefensiveSlash();
+
+    float getStrengthMelee();
 }

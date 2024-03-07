@@ -10,6 +10,8 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
 
     private float defensiveSlash;
 
+    private float strengthMelee;
+
     @Override
     public float getOffensiveStab() {
         return offensiveStab;
@@ -47,6 +49,16 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
 
     public NpcCombatBonusesDefinitionImpl setDefensiveSlash(float defensiveSlash) {
         this.defensiveSlash = defensiveSlash;
+        return this;
+    }
+
+    @Override
+    public float getStrengthMelee() {
+        return strengthMelee;
+    }
+
+    public NpcCombatBonusesDefinitionImpl setStrengthMelee(float strengthMelee) {
+        this.strengthMelee = strengthMelee;
         return this;
     }
 }

@@ -28,6 +28,11 @@ public class DefaultItemStatsDefinition implements ItemStatsDefinition {
     }
 
     @Override
+    public float getStrengthMelee() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return "DefaultItemStats";
     }

@@ -68,5 +68,10 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         public float getDefensiveSlash() {
             return 1;
         }
+
+        @Override
+        public float getStrengthMelee() {
+            return 1;
+        }
     }
 }

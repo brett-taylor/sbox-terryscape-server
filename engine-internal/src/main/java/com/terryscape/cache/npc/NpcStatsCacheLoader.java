@@ -55,6 +55,7 @@ public class NpcStatsCacheLoader {
             .setOffensiveStab(bonusesJsonObject.getAsJsonPrimitive("offensive_stab").getAsFloat())
             .setOffensiveSlash(bonusesJsonObject.getAsJsonPrimitive("offensive_slash").getAsFloat())
             .setDefensiveStab(bonusesJsonObject.getAsJsonPrimitive("defensive_stab").getAsFloat())
-            .setDefensiveSlash(bonusesJsonObject.getAsJsonPrimitive("defensive_slash").getAsFloat());
+            .setDefensiveSlash(bonusesJsonObject.getAsJsonPrimitive("defensive_slash").getAsFloat())
+            .setStrengthMelee(bonusesJsonObject.getAsJsonPrimitive("strength_melee").getAsFloat());
     }
 }

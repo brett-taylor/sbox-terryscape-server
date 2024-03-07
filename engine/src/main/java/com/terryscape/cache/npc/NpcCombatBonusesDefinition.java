@@ -10,4 +10,6 @@ public interface NpcCombatBonusesDefinition {
 
     float getDefensiveSlash();
 
+    float getStrengthMelee();
+
 }

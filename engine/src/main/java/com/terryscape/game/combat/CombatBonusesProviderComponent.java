@@ -12,4 +12,5 @@ public interface CombatBonusesProviderComponent extends EntityComponent {
 
     float getDefensiveSlash();
 
+    float getStrengthMelee();
 }

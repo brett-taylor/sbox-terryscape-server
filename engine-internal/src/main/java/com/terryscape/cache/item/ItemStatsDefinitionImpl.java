@@ -14,6 +14,8 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     private float defensiveSlash;
 
+    private float strengthMelee;
+
     public String getId() {
         return id;
     }
@@ -70,6 +72,16 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     public ItemStatsDefinitionImpl setDefensiveSlash(float defensiveSlash) {
         this.defensiveSlash = defensiveSlash;
+        return this;
+    }
+
+    @Override
+    public float getStrengthMelee() {
+        return strengthMelee;
+    }
+
+    public ItemStatsDefinitionImpl setStrengthMelee(float strengthMelee) {
+        this.strengthMelee = strengthMelee;
         return this;
     }
 

@@ -41,7 +41,7 @@
         }
       }
     },
-    "stats": "goblin",
+    "stats": "goblin_stats",
     "combatLevel": 22,
     "combatDamageType": "STAB"
   },
@@ -87,7 +87,7 @@
         }
       }
     },
-    "stats": "goblin",
+    "stats": "goblin_warrior_stats",
     "combatLevel": 50,
     "combatDamageType": "STAB"
   },
@@ -105,7 +105,7 @@
         }
       }
     },
-    "stats": "goblin",
+    "stats": "goblin_shaman_stats",
     "combatLevel": 74,
     "combatDamageType": "SLASH"
   },
@@ -123,7 +123,7 @@
         }
       }
     },
-    "stats": "goblin",
+    "stats": "goblin_chief_stats",
     "combatLevel": 80,
     "combatDamageType": "SLASH"
   },

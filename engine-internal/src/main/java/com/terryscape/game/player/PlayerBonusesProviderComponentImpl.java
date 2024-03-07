@@ -61,6 +61,13 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     }
 
     @Override
+    public float getStrengthMelee() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getStrengthMelee())
+            .sum();
+    }
+
+    @Override
     public float getWeight() {
         return (float) Streams.concat(playerComponent.getInventory().getAllItems().stream(), playerComponent.getEquipment().getAllItems().stream())
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getWeight())
@@ -75,5 +82,7 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
 
         OutgoingPacket.writeFloat(packet, getDefensiveStab());
         OutgoingPacket.writeFloat(packet, getDefensiveSlash());
+
+        OutgoingPacket.writeFloat(packet, getStrengthMelee());
     }
 }
