@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HealthComponentImpl extends BaseEntityComponent implements HealthComponent {
 
-    private final List<DamageInformation> recentDamage = new ArrayList<>();
+    private final List<HealthChangeInformation> recentHealthChangeInformation = new ArrayList<>();
 
     private int maxHealth;
 
@@ -61,12 +61,29 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
         damageInformation.setAmount(cappedDamage);
 
         health -= cappedDamage;
-        recentDamage.add(damageInformation);
+
+        recentHealthChangeInformation.add(createHealthChangeInformationFromDamageInformation(damageInformation));
 
         if (health <= 0) {
             health = 0;
             handleDeath();
         }
+    }
+
+    @Override
+    public void heal(int amount) {
+        if (isDying()) {
+            return;
+        }
+
+        var cappedHealAmount = Math.min(amount, maxHealth - health);
+        health += cappedHealAmount;
+
+        var healthChangeInformation = new HealthChangeInformation()
+            .setHealthChangeType(HealthChangeInformationType.HEAL_FOOD)
+            .setAmount(cappedHealAmount);
+
+        recentHealthChangeInformation.add(healthChangeInformation);
     }
 
     @Override
@@ -85,13 +102,24 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
         OutgoingPacket.writeInt32(packet, maxHealth);
         OutgoingPacket.writeInt32(packet, health);
 
-        OutgoingPacket.writeInt32(packet, recentDamage.size());
-        recentDamage.forEach(damageInformation -> damageInformation.writeToPacket(packet));
-
-        recentDamage.clear();
+        OutgoingPacket.writeCollection(packet, recentHealthChangeInformation);
+        recentHealthChangeInformation.clear();
     }
 
     private void handleDeath() {
         getEntity().invoke(OnEntityDeathEntityEvent.class, new OnEntityDeathEntityEvent());
+    }
+
+    private HealthChangeInformation createHealthChangeInformationFromDamageInformation(DamageInformation damageInformation) {
+        HealthChangeInformationType healthChangeInformationType;
+        if (damageInformation.isBlocked()) {
+            healthChangeInformationType = HealthChangeInformationType.BLOCKED;
+        } else {
+            healthChangeInformationType = HealthChangeInformationType.toHealthChangeReason(damageInformation.getType());
+        }
+
+        return new HealthChangeInformation()
+            .setHealthChangeType(healthChangeInformationType)
+            .setAmount(damageInformation.getAmount());
     }
 }

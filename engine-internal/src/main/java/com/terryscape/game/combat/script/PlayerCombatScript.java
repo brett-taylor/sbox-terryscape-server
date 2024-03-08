@@ -17,6 +17,8 @@ import java.util.List;
 
 public class PlayerCombatScript implements CombatScript {
 
+    private final int STANDARD_ATTACK_GLOBAL_COOLDOWN = 4;
+
     private final WorldClock worldClock;
 
     private final PlayerComponent playerComponent;
@@ -28,8 +30,6 @@ public class PlayerCombatScript implements CombatScript {
     private final PlayerSkillsComponent playerSkillsComponent;
 
     private final PlayerBonusesProviderComponent playerBonusesProviderComponent;
-
-    private long lastAttackTime;
 
     private long lastMainHandAttackTime;
 
@@ -51,18 +51,15 @@ public class PlayerCombatScript implements CombatScript {
     }
 
     @Override
-    public boolean attack(CombatComponent victim, CombatDiceRoll combatDiceRoll) {
-        if (lastAttackTime + 5 > worldClock.getNowTick()) {
-            return false;
-        }
-
+    public boolean attack(CombatComponent attacker, CombatComponent victim, CombatDiceRoll combatDiceRoll) {
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
         var offHand = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
 
         if (mainHand.isPresent() || offHand.isPresent()) {
-            return handleAttackWithWeapon(victim, combatDiceRoll);
+            return handleAttackWithWeapon(attacker, victim, combatDiceRoll);
         } else {
             doHit(victim, combatDiceRoll, DamageType.STAB, pickUnarmedAttackAnimationId(), true);
+            attacker.ensureCooldownOfAtLeast(STANDARD_ATTACK_GLOBAL_COOLDOWN);
             return true;
         }
     }
@@ -84,7 +81,7 @@ public class PlayerCombatScript implements CombatScript {
         return RandomUtil.randomCollection(animations);
     }
 
-    private boolean handleAttackWithWeapon(CombatComponent victim, CombatDiceRoll combatDiceRoll) {
+    private boolean handleAttackWithWeapon(CombatComponent attacker, CombatComponent victim, CombatDiceRoll combatDiceRoll) {
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
         var isMainHandOffCooldown = lastMainHandAttackTime + 6 < worldClock.getNowTick();
 
@@ -94,12 +91,14 @@ public class PlayerCombatScript implements CombatScript {
         if (mainHand.isPresent() && isMainHandOffCooldown) {
             var weaponDefinition = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow();
             doHit(victim, combatDiceRoll, weaponDefinition.getDamageType(), weaponDefinition.getMainHandAttackAnimation(), true);
+            attacker.ensureCooldownOfAtLeast(STANDARD_ATTACK_GLOBAL_COOLDOWN);
             return true;
         }
 
         if (offHand.isPresent() && isOffHandOffCooldown) {
             var weaponDefinition = offHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow();
             doHit(victim, combatDiceRoll, weaponDefinition.getDamageType(), weaponDefinition.getOffHandAttackAnimation(), false);
+            attacker.ensureCooldownOfAtLeast(STANDARD_ATTACK_GLOBAL_COOLDOWN);
             return true;
         }
 
@@ -119,8 +118,6 @@ public class PlayerCombatScript implements CombatScript {
         } else {
             damageInformation.setAmount(0).setBlocked(true);
         }
-
-        lastAttackTime = worldClock.getNowTick();
 
         if (isMainHand) {
             lastMainHandAttackTime = worldClock.getNowTick();

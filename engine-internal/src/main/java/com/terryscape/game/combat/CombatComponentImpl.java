@@ -24,12 +24,13 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private final CombatDiceRoll combatDiceRoll;
 
-
     private TaskComponent taskComponent;
 
     private CombatComponent victim;
 
     private Task combatTask;
+
+    private int cooldown;
 
     public CombatComponentImpl(Entity entity,
                                PathfindingManager pathfindingManager,
@@ -54,6 +55,15 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     @Override
     public boolean isInCombat() {
         return combatTask != null;
+    }
+
+    @Override
+    public void ensureCooldownOfAtLeast(int ticks) {
+        if (cooldown > ticks) {
+            return;
+        }
+
+        cooldown = ticks;
     }
 
     @Override
@@ -90,6 +100,14 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     public void tick() {
         super.tick();
 
+        if (cooldown > 0) {
+            cooldown -= 1;
+        }
+
+        if (cooldown > 0) {
+            return;
+        }
+
         if (victim == null || combatTask == null) {
             return;
         }
@@ -98,7 +116,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             return;
         }
 
-        var didAttack = combatScript.attack(victim, combatDiceRoll);
+        var didAttack = combatScript.attack(this, victim, combatDiceRoll);
         if (!didAttack) {
             return;
         }

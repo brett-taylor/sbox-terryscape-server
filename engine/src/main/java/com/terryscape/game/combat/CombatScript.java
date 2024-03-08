@@ -9,6 +9,6 @@ public interface CombatScript {
     /**
      * @return true if an attack was performed
      */
-    boolean attack(CombatComponent victim, CombatDiceRoll combatDiceRoll);
+    boolean attack(CombatComponent attacker, CombatComponent victim, CombatDiceRoll combatDiceRoll);
 
 }

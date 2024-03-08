@@ -143,7 +143,9 @@
         "HANDS": "steel_gloves",
         "FEET": "steel_boots"
       }
-    }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
   },
   {
     "id": "weapon_shop_keeper",
@@ -161,7 +163,9 @@
         "HANDS": "steel_gloves",
         "FEET": "steel_boots"
       }
-    }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
   },
   {
     "id": "guide",
@@ -176,7 +180,8 @@
         "HEAD": "wizard_hat"
       }
     },
-    "combatLevel": 1
+    "combatLevel": 1,
+    "combatDamageType": null
   },
   {
     "id": "food_shop_keeper",
@@ -188,6 +193,8 @@
     {
       "gender": "MALE",
       "equippedItems": {}
-    }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
   }
 ]

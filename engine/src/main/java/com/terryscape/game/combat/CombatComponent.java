@@ -10,4 +10,6 @@ public interface CombatComponent extends EntityComponent {
 
     void attackedBy(CombatComponent attacker);
 
+    void ensureCooldownOfAtLeast(int ticks);
+
 }

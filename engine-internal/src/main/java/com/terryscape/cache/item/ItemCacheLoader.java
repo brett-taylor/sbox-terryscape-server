@@ -71,7 +71,7 @@ public class ItemCacheLoader {
     }
 
     private ItemStatsDefinition getItemStatsDefinition(Map<String, ItemStatsDefinition> itemStats, JsonObject jsonObject) {
-        if (!jsonObject.has("stats")) {
+        if (!jsonObject.has("stats") || jsonObject.get("stats").isJsonNull()) {
             return new DefaultItemStatsDefinition();
         }
 

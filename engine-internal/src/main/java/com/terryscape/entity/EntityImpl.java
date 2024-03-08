@@ -65,6 +65,11 @@ public class EntityImpl implements Entity {
     }
 
     @Override
+    public <T extends EntityComponent> boolean hasComponent(Class<T> componentType) {
+        return components.stream().anyMatch(component -> componentType.isAssignableFrom(component.getClass()));
+    }
+
+    @Override
     public <T extends EntityComponent> Optional<T> getComponent(Class<T> componentType) {
         for (var component : components) {
             if (componentType.isAssignableFrom(component.getClass())) {
@@ -135,6 +140,9 @@ public class EntityImpl implements Entity {
 
     public void tick() {
         components.forEach(BaseEntityComponent::tick);
+
+        var componentsToRemove = components.stream().filter(BaseEntityComponent::shouldDelete).toList();
+        componentsToRemove.forEach(this::removeComponentImmediate);
     }
 
     private List<NetworkedEntityComponent> getNetworkedComponents() {
@@ -142,5 +150,9 @@ public class EntityImpl implements Entity {
             .filter(component -> NetworkedEntityComponent.class.isAssignableFrom(component.getClass()))
             .map(NetworkedEntityComponent.class::cast)
             .toList();
+    }
+
+    private void removeComponentImmediate(BaseEntityComponent component) {
+        components.remove(component);
     }
 }

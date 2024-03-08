@@ -1,9 +1,9 @@
 package com.terryscape.game.item;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
-import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.Client;
@@ -19,6 +19,13 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
     private static final Logger LOGGER = LogManager.getLogger(PlayerInventoryInterfaceActionHandler.class);
 
+    private final ItemInteractionDispatcher itemInteractionDispatcher;
+
+    @Inject
+    public PlayerInventoryInterfaceActionHandler(ItemInteractionDispatcher itemInteractionDispatcher) {
+        this.itemInteractionDispatcher = itemInteractionDispatcher;
+    }
+
     @Override
     public Set<String> getInterfaceId() {
         return Set.of("inventory");
@@ -32,6 +39,8 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var player = client.getPlayer().orElseThrow();
         var playerInventory = player.getInventory();
 
+        // TODO: Can the player interact with items?
+
         var itemOptional = playerInventory.getItemAt(slotNumber);
         if (itemOptional.isEmpty()) {
             return;
@@ -40,6 +49,10 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var item = itemOptional.get();
         if (interfaceAction.equals("equip")) {
             equipItem(modifyAction, player, slotNumber, item);
+        }
+
+        if (interfaceAction.equals("interact")) {
+            itemInteractionDispatcher.dispatchItemInteraction(client, slotNumber);
         }
 
         if (interfaceAction.equals("examine")) {

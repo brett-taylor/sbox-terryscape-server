@@ -2,6 +2,7 @@ package content;
 
 import com.google.inject.AbstractModule;
 import content.commands.ContentCommandsGuiceModule;
+import content.food.ContentFoodGuiceModule;
 import content.interfaces.ContentInterfacesGuiceModule;
 import content.startingzone.ContentStartingZoneGuiceModule;
 
@@ -13,7 +14,8 @@ public class ContentModules {
         return Set.of(
             new ContentCommandsGuiceModule(),
             new ContentStartingZoneGuiceModule(),
-            new ContentInterfacesGuiceModule()
+            new ContentInterfacesGuiceModule(),
+            new ContentFoodGuiceModule()
         );
     }
 }

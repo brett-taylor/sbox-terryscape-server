@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Collection;
 
 public interface OutgoingPacket {
 
@@ -50,5 +51,10 @@ public interface OutgoingPacket {
 
     static void writeEnum(OutputStream packet, Enum<?> enumValue) {
         writeString(packet, enumValue.name());
+    }
+
+    static void writeCollection(OutputStream packet, Collection<? extends PacketSerializable> collection) {
+        OutgoingPacket.writeInt32(packet, collection.size());
+        collection.forEach(damageInformation -> damageInformation.writeToPacket(packet));
     }
 }

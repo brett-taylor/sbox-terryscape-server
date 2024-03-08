@@ -47,7 +47,7 @@ public class NpcCacheLoader {
         npcDefinition.setCombatLevel(combatLevel);
 
         var combatDamageType = DamageType.TYPELESS;
-        if (jsonObject.has("combatDamageType")) {
+        if (jsonObject.has("combatDamageType") && !jsonObject.get("combatDamageType").isJsonNull()) {
             var combatDamageTypeAsString = jsonObject.getAsJsonPrimitive("combatDamageType").getAsString();
             combatDamageType = Enum.valueOf(DamageType.class, combatDamageTypeAsString);
         }

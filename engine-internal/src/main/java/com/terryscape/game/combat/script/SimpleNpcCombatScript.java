@@ -18,8 +18,6 @@ import com.terryscape.world.WorldClock;
 
 public class SimpleNpcCombatScript implements CombatScript {
 
-    private final WorldClock worldClock;
-
     private final NpcComponent npcComponent;
 
     private final MovementComponent movementComponent;
@@ -30,10 +28,7 @@ public class SimpleNpcCombatScript implements CombatScript {
 
     private final NpcCombatBonusesProviderComponent npcCombatBonusesProviderComponent;
 
-    private long lastAttackTime;
-
-    public SimpleNpcCombatScript(WorldClock worldClock, NpcComponent npcComponent) {
-        this.worldClock = worldClock;
+    public SimpleNpcCombatScript(NpcComponent npcComponent) {
         this.npcComponent = npcComponent;
         this.movementComponent = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = npcComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
@@ -48,13 +43,7 @@ public class SimpleNpcCombatScript implements CombatScript {
     }
 
     @Override
-    public boolean attack(CombatComponent victim, CombatDiceRoll combatDiceRoll) {
-        if (lastAttackTime + 4 > worldClock.getNowTick()) {
-            return false;
-        }
-
-        lastAttackTime = worldClock.getNowTick();
-
+    public boolean attack(CombatComponent attacker, CombatComponent victim, CombatDiceRoll combatDiceRoll) {
         var damageType = npcComponent.getNpcDefinition().getCombatDamageType();
         var damageInformation = new DamageInformation().setType(damageType);
         var victimSkills = victim.getEntity().getComponentOrThrow(CombatSkillsProviderComponent.class);
@@ -67,6 +56,7 @@ public class SimpleNpcCombatScript implements CombatScript {
             damageInformation.setAmount(0).setBlocked(true);
         }
 
+        attacker.ensureCooldownOfAtLeast(4);
         victim.getEntity().getComponentOrThrow(HealthComponent.class).takeDamage(damageInformation);
         animationComponent.playAnimation("attack");
         return true;
