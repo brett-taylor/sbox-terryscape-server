@@ -153,10 +153,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
         entity.addComponent(combatComponent);
 
-        playerComponent.getInventory().addItem(cacheLoader.getItem("gold_coin"), 45329);
-        playerComponent.getInventory().addItem(cacheLoader.getItem("food_fish"), 7);
-        playerComponent.getInventory().addItem(cacheLoader.getItem("food_cheese"), 4);
-        playerComponent.getInventory().addItem(cacheLoader.getItem("food_chicken"), 4);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("gold_coin"), 2000);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("food_fish"), 1);
 
         return entity;
     }

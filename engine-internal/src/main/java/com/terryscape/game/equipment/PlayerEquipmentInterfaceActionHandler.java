@@ -56,6 +56,12 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
             return;
         }
 
+        if (!playerInventory.hasFreeSlots(1)) {
+            var chat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
+            chat.sendGameMessage("You do not have the space to remove your %s.".formatted(itemOptional.get().getItemDefinition().getName()));
+            return;
+        }
+
         var item = itemOptional.get();
         if (interfaceAction.equals("item_remove")) {
             removeItem(playerEquipment, playerInventory, item, slot);
