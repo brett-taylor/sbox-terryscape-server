@@ -2,6 +2,7 @@ package com.terryscape.game.combat.script;
 
 import com.terryscape.cache.item.WeaponDefinition;
 import com.terryscape.cache.item.WeaponDefinitionImpl;
+import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.SpecialBarImpl;
@@ -124,6 +125,7 @@ public class PlayerCombatScript implements CombatScript {
 
     private boolean attack(CombatComponent victim, WeaponDefinition weapon, boolean mainHand) {
         var currentTick = worldClock.getNowTick();
+        playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class).SetRange(weapon.getRange());
         var didAttack = Combat.slap(currentTick, victim.getEntity(), playerComponent.getEntity(), weapon, mainHand);
 
         if(didAttack) {

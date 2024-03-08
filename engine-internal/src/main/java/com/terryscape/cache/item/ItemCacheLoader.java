@@ -90,6 +90,7 @@ public class ItemCacheLoader {
         return new WeaponDefinitionImpl()
                 .setAttackAnimations(mainAttackAnimations, true)
                 .setAttackAnimations(offAttackAnimations, false)
+                .setRange(jsonObject.getAsJsonPrimitive("range").getAsInt())
                 .setAttackDelay(jsonObject.getAsJsonPrimitive("attackDelay").getAsInt())
                 .setAttributeBonus(jsonObject.getAsJsonPrimitive("attributeBonus").getAsInt())
                 .setDamageType(DamageType.valueOf(jsonObject.getAsJsonPrimitive("damageType").getAsString()))

@@ -9,7 +9,7 @@ import com.terryscape.game.combat.health.DamageType;
 import java.util.Hashtable;
 
 public class CharacterStatsImpl extends BaseEntityComponent implements CharacterStats {
-    private int Attack, Defense, Mage, Range, Melee;
+    private int Attack, Defense, Mage, Range, Melee, AttackRange;
     private final CombatStats itemBonuses;
     private final Hashtable<DamageType, Integer> AttackBonuses;
     private final Hashtable<DamageType, Integer> DefenseBonuses;
@@ -61,6 +61,12 @@ public class CharacterStatsImpl extends BaseEntityComponent implements Character
             case BOW -> Range = amount;
             case MAGIC -> Mage = amount;
         }
+    }
+    public void SetRange(int range){
+        AttackRange = range;
+    }
+    public int getRange() {
+        return AttackRange;
     }
     public void AdjustWeaponProficiency(AttackType attackType, int amount){
         switch (attackType){

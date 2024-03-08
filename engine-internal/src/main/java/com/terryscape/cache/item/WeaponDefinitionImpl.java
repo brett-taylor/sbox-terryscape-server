@@ -11,7 +11,7 @@ import java.util.List;
 public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDefinition {
     private long nextAttackOpportunity;
     private int attackDelay;
-
+    private int range;
     private AttackType primaryAttribute;
     private int primaryAttributeBonus;
     private List<Pair<DamageType, Integer>> bonuses = new ArrayList<>();
@@ -56,6 +56,10 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
         attackDelay = delay;
         return this;
     }
+    public WeaponDefinitionImpl setRange(int range){
+        this.range = range;
+        return this;
+    }
 
     public Boolean canAttack(long currentTick) {
         return nextAttackOpportunity <= currentTick;
@@ -97,5 +101,10 @@ public class WeaponDefinitionImpl extends ItemDefinitionImpl implements WeaponDe
     @Override
     public String getAttackAnimation(boolean mainHand) {
         return getRandomAnimation((mainHand) ? mainHandAttackAnimations : offHandAttackAnimations);
+    }
+
+    @Override
+    public int getRange() {
+        return range;
     }
 }

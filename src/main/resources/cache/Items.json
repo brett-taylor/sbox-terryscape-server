@@ -15,7 +15,8 @@
     "damageType": "PIERCE",
     "primaryAttribute": "MELEE",
     "attackDelay": 6,
-    "attributeBonus": 10
+    "attributeBonus": 10,
+    "range": 4
   },
   {
     "itemType": "WEAPON",
@@ -33,16 +34,7 @@
     "primaryAttribute": "MELEE",
     "attackDelay": 6,
     "attributeBonus": 10,
-    "specialAttack" : {
-      "name": "",
-      "description":  "",
-      "attackName": "BASIC_SWORD",
-      "animationName": "Unarmed_Attack_Kick_R1",
-      "energyCost": 5,
-      "accuracyBonus": 100,
-      "damageBonus": 20,
-      "damageType": "PIERCE"
-    }
+    "range": 0
   },
   {
     "itemType": "CLOTHING",
