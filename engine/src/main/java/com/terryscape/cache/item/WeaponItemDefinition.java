@@ -8,6 +8,8 @@ public interface WeaponItemDefinition {
 
     DamageType getDamageType();
 
+    int getAttackSpeed();
+
     String getMainHandAttackAnimation();
 
     String getOffHandAttackAnimation();

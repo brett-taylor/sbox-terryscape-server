@@ -8,6 +8,8 @@ public class WeaponItemDefinitionImpl implements WeaponItemDefinition {
 
     private DamageType damageType;
 
+    private int attackSpeed;
+
     private String mainHandAttackAnimation;
 
     private String offHandAttackAnimation;
@@ -29,6 +31,16 @@ public class WeaponItemDefinitionImpl implements WeaponItemDefinition {
 
     public WeaponItemDefinitionImpl setDamageType(DamageType damageType) {
         this.damageType = damageType;
+        return this;
+    }
+
+    @Override
+    public int getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public WeaponItemDefinitionImpl setAttackSpeed(int attackSpeed) {
+        this.attackSpeed = attackSpeed;
         return this;
     }
 

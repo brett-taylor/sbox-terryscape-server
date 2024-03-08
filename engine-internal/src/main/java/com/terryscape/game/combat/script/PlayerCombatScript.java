@@ -1,9 +1,12 @@
 package com.terryscape.game.combat.script;
 
+import com.terryscape.cache.item.EquipItemDefinition;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.combat.*;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
+import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.player.PlayerBonusesProviderComponent;
@@ -82,11 +85,23 @@ public class PlayerCombatScript implements CombatScript {
     }
 
     private boolean handleAttackWithWeapon(CombatComponent attacker, CombatComponent victim, CombatDiceRoll combatDiceRoll) {
+        var playerEquipment = playerComponent.getEquipment();
+
+        var mainHandAttackSpeed = 6;
+        if (playerEquipment.getSlot(EquipmentSlot.MAIN_HAND).isPresent()) {
+            mainHandAttackSpeed = playerEquipment.getSlotOrThrow(EquipmentSlot.MAIN_HAND).getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getAttackSpeed();
+        }
+
+        var offHandAttackSpeed = 6;
+        if (playerEquipment.getSlot(EquipmentSlot.OFF_HAND).isPresent()) {
+            offHandAttackSpeed = playerEquipment.getSlotOrThrow(EquipmentSlot.OFF_HAND).getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getAttackSpeed();
+        }
+
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
-        var isMainHandOffCooldown = lastMainHandAttackTime + 6 < worldClock.getNowTick();
+        var isMainHandOffCooldown = lastMainHandAttackTime + mainHandAttackSpeed < worldClock.getNowTick();
 
         var offHand = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
-        var isOffHandOffCooldown = lastOffHandAttackTime + 6 < worldClock.getNowTick();
+        var isOffHandOffCooldown = lastOffHandAttackTime + offHandAttackSpeed < worldClock.getNowTick();
 
         if (mainHand.isPresent() && isMainHandOffCooldown) {
             var weaponDefinition = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow();

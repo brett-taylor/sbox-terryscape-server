@@ -18,6 +18,16 @@ public class PlayerEquipmentImpl extends FixedSizeItemContainer implements Playe
     }
 
     @Override
+    public ItemContainerItem getSlotOrThrow(EquipmentSlot equipmentSlot) {
+        var slot = getSlot(equipmentSlot);
+        if (slot.isEmpty()) {
+            throw new RuntimeException("No equipped item for slot %s.".formatted(equipmentSlot));
+        }
+
+        return slot.orElseThrow();
+    }
+
+    @Override
     public void setSlot(EquipmentSlot equipmentSlot, ItemDefinition item, int quantity) {
         addItemAt(equipmentSlot.getSlotId(), item, quantity);
     }

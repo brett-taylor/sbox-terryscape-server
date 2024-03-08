@@ -15,6 +15,7 @@
       "weapon": {
         "twoHanded": false,
         "damageType": "SLASH",
+        "attackSpeed": 6,
         "mainHandOffset": "2.38,-1.54,-0.00",
         "mainHandRotation": "0,0,-6.40",
         "mainHandAttackAnimation": "Sword_Attack_L3",
@@ -43,6 +44,7 @@
       "weapon": {
         "twoHanded": false,
         "damageType": "STAB",
+        "attackSpeed": 6,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "Sword_Attack_L4",
@@ -72,6 +74,7 @@
       "weapon": {
         "twoHanded": true,
         "damageType": "SLASH",
+        "attackSpeed": 8,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "Sword_Attack_L4",

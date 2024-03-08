@@ -11,6 +11,8 @@ public interface PlayerEquipment {
 
     Optional<ItemContainerItem> getSlot(EquipmentSlot equipmentSlot);
 
+    ItemContainerItem getSlotOrThrow(EquipmentSlot equipmentSlot);
+
     void setSlot(EquipmentSlot equipmentSlot, ItemDefinition item, int quantity);
 
     void removeSlot(EquipmentSlot equipmentSlot);
