@@ -113,6 +113,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
         entity.addComponent(overheadText);
 
+         var npcCombatAggressionComponent = new NpcCombatAggressionComponent(entity, combatComponent, movementComponent);
+         entity.addComponent(npcCombatAggressionComponent);
+
         return entity;
     }
 

@@ -84,15 +84,16 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     }
 
     @Override
-    public void attackedBy(CombatComponent attacker) {
-        // For the time being lets not make players auto attack back but just NPCs as it is slightly awkward.
-        var isPlayer = getEntity().getPrefabType() == EntityPrefabType.PLAYER;
-        if (isPlayer) {
-            return;
+    public void stopAttacking() {
+        if (combatTask != null) {
+            combatTask.cancel();
+            victim = null;
+            combatTask = null;
         }
+    }
 
-        attack(attacker);
-
+    @Override
+    public void attackedBy(CombatComponent attacker) {
         getEntity().invoke(OnAttackedEntityEvent.class, new OnAttackedEntityEvent(attacker));
     }
 
@@ -123,6 +124,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
         victim.attackedBy(this);
 
+        // TODO: Swap this to like subscribing to the entity's death event or something
         if (victim.getEntity().getComponentOrThrow(HealthComponent.class).isDying()) {
             // TODO: Swap this to fire like a killed event or something that we can live to in the PlayerComponent
             var playerChat = getEntity().getComponent(PlayerChatComponent.class);
@@ -137,11 +139,9 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
                 playerChat.get().sendGameMessage("You killed player %s".formatted(victimPlayer.get().getUsername()));
             }
 
-            // TODO: Swap this to like subscribing to the entity's death event or something
-            combatTask.cancel();
-            victim = null;
-            combatTask = null;
+            stopAttacking();
         }
     }
+
 
 }
