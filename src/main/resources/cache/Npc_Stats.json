@@ -8,11 +8,11 @@
       "strength": 1
     },
     "bonuses": {
-      "offensive_stab": -21,
-      "offensive_slash": -21,
-      "defensive_stab": -15,
-      "defensive_slash": -15,
-      "strength_melee": -15
+      "offensiveStab": -21,
+      "offensiveSlash": -21,
+      "defensiveStab": -15,
+      "defensiveSlash": -15,
+      "strengthMelee": -15
     }
   },
   {
@@ -24,11 +24,11 @@
       "strength": 22
     },
     "bonuses": {
-      "offensive_stab": 18,
-      "offensive_slash": 18,
-      "defensive_stab": 0,
-      "defensive_slash": 0,
-      "strength_melee": 16
+      "offensiveStab": 18,
+      "offensiveSlash": 18,
+      "defensiveStab": 0,
+      "defensiveSlash": 0,
+      "strengthMelee": 16
     }
   },
   {
@@ -40,11 +40,11 @@
       "strength": 40
     },
     "bonuses": {
-      "offensive_stab": 20,
-      "offensive_slash": 20,
-      "defensive_stab": 0,
-      "defensive_slash": 0,
-      "strength_melee": 30
+      "offensiveStab": 20,
+      "offensiveSlash": 20,
+      "defensiveStab": 0,
+      "defensiveSlash": 0,
+      "strengthMelee": 30
     }
   },
   {
@@ -56,11 +56,11 @@
       "strength": 30
     },
     "bonuses": {
-      "offensive_stab": 0,
-      "offensive_slash": 0,
-      "defensive_stab": 20,
-      "defensive_slash": 40,
-      "strength_melee": 0
+      "offensiveStab": 0,
+      "offensiveSlash": 0,
+      "defensiveStab": 20,
+      "defensiveSlash": 40,
+      "strengthMelee": 0
     }
   }
 ]

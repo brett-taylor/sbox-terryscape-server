@@ -4,6 +4,8 @@ import com.terryscape.game.combat.DamageType;
 
 public interface WeaponItemDefinition {
 
+    boolean isTwoHanded();
+
     DamageType getDamageType();
 
     String getMainHandAttackAnimation();

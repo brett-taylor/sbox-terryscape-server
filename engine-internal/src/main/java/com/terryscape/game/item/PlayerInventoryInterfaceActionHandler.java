@@ -2,6 +2,7 @@ package com.terryscape.game.item;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.item.WeaponItemDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
@@ -74,8 +75,16 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         }
 
         var slot = equipOptional.get().getEquipmentSlot();
-        if (slot == EquipmentSlot.MAIN_HAND && modifyAction) {
+        var isTwoHanded = equipOptional.get().getWeaponDefinition().map(WeaponItemDefinition::isTwoHanded).orElse(false);
+        if (slot == EquipmentSlot.MAIN_HAND && modifyAction && !isTwoHanded) {
             slot = EquipmentSlot.OFF_HAND;
+        }
+
+        if (isTwoHanded && !player.getInventory().hasFreeSlots(1)) {
+            player.getEntity().getComponentOrThrow(PlayerChatComponent.class)
+                .sendGameMessage("You do not have the inventory space to equip your %s.".formatted(item.getItemDefinition().getName()));
+
+            return;
         }
 
         var previouslyEquippedItem = player.getEquipment().getSlot(slot);
@@ -84,5 +93,11 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         player.getEquipment().setSlot(slot, item.getItemDefinition(), item.getQuantity());
 
         previouslyEquippedItem.ifPresent(itemContainerItem -> player.getInventory().addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
+
+        if (isTwoHanded) {
+            var previousEquippedOffhandItem = player.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
+            player.getEquipment().removeSlot(EquipmentSlot.OFF_HAND);
+            previousEquippedOffhandItem.ifPresent(itemContainerItem -> player.getInventory().addItem(itemContainerItem.getItemDefinition(), 1));
+        }
     }
 }

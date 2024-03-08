@@ -52,10 +52,10 @@ public class NpcStatsCacheLoader {
         var bonusesJsonObject = jsonObject.getAsJsonObject("bonuses");
 
         return new NpcCombatBonusesDefinitionImpl()
-            .setOffensiveStab(bonusesJsonObject.getAsJsonPrimitive("offensive_stab").getAsFloat())
-            .setOffensiveSlash(bonusesJsonObject.getAsJsonPrimitive("offensive_slash").getAsFloat())
-            .setDefensiveStab(bonusesJsonObject.getAsJsonPrimitive("defensive_stab").getAsFloat())
-            .setDefensiveSlash(bonusesJsonObject.getAsJsonPrimitive("defensive_slash").getAsFloat())
-            .setStrengthMelee(bonusesJsonObject.getAsJsonPrimitive("strength_melee").getAsFloat());
+            .setOffensiveStab(bonusesJsonObject.getAsJsonPrimitive("offensiveStab").getAsFloat())
+            .setOffensiveSlash(bonusesJsonObject.getAsJsonPrimitive("offensiveSlash").getAsFloat())
+            .setDefensiveStab(bonusesJsonObject.getAsJsonPrimitive("defensiveStab").getAsFloat())
+            .setDefensiveSlash(bonusesJsonObject.getAsJsonPrimitive("defensiveSlash").getAsFloat())
+            .setStrengthMelee(bonusesJsonObject.getAsJsonPrimitive("strengthMelee").getAsFloat());
     }
 }

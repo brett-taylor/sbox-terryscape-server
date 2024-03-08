@@ -12,6 +12,7 @@ import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
+import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
@@ -158,6 +159,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         playerComponent.getInventory().addItem(cacheLoader.getItem("gold_coin"), 2000);
         playerComponent.getInventory().addItem(cacheLoader.getItem("food_fish"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItem("godsword_righteous"), 1);
+        playerComponent.getEquipment().setSlot(EquipmentSlot.MAIN_HAND, cacheLoader.getItem("basic_scimitar"), 1);
+        playerComponent.getEquipment().setSlot(EquipmentSlot.OFF_HAND, cacheLoader.getItem("basic_scimitar"), 1);
 
         return entity;
     }

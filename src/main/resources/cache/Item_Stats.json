@@ -2,73 +2,73 @@
   {
     "id": "basic_scimitar",
     "weight": 1.8,
-    "offensive_stab": 3,
-    "offensive_slash": 15,
-    "defensive_stab": 0,
-    "defensive_slash": 1,
-    "strength_melee": 14
+    "offensiveStab": 3,
+    "offensiveSlash": 15,
+    "defensiveStab": 0,
+    "defensiveSlash": 1,
+    "strengthMelee": 14
   },
   {
     "id": "basic_sword",
     "weight": 1.8,
-    "offensive_stab": 15,
-    "offensive_slash": 3,
-    "defensive_stab": 1,
-    "defensive_slash": 0,
-    "strength_melee": 14
+    "offensiveStab": 15,
+    "offensiveSlash": 3,
+    "defensiveStab": 1,
+    "defensiveSlash": 0,
+    "strengthMelee": 14
   },
   {
     "id": "steel_full_helm",
     "weight": 1.8,
-    "offensive_stab": 0,
-    "offensive_slash": 0,
-    "defensive_stab": 9,
-    "defensive_slash": 10,
-    "strength_melee": 0
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "defensiveStab": 9,
+    "defensiveSlash": 10,
+    "strengthMelee": 0
   },
   {
     "id": "steel_platebody",
     "weight": 1.8,
-    "offensive_stab": 0,
-    "offensive_slash": 0,
-    "defensive_stab": 32,
-    "defensive_slash": 31,
-    "strength_melee": 0
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "defensiveStab": 32,
+    "defensiveSlash": 31,
+    "strengthMelee": 0
   },
   {
     "id": "steel_platelegs",
     "weight": 1.8,
-    "offensive_stab": 0,
-    "offensive_slash": 0,
-    "defensive_stab": 17,
-    "defensive_slash": 16,
-    "strength_melee": 0
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "defensiveStab": 17,
+    "defensiveSlash": 16,
+    "strengthMelee": 0
   },
   {
     "id": "steel_boots",
     "weight": 1.8,
-    "offensive_stab": 0,
-    "offensive_slash": 0,
-    "defensive_stab": 5,
-    "defensive_slash": 6,
-    "strength_melee": 0
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "defensiveStab": 5,
+    "defensiveSlash": 6,
+    "strengthMelee": 0
   },
   {
     "id": "steel_gloves",
     "weight": 1.8,
-    "offensive_stab": 4,
-    "offensive_slash": 4,
-    "defensive_stab": 4,
-    "defensive_slash": 4,
-    "strength_melee": 0
+    "offensiveStab": 4,
+    "offensiveSlash": 4,
+    "defensiveStab": 4,
+    "defensiveSlash": 4,
+    "strengthMelee": 0
   },
   {
     "id": "wizard_gear",
     "weight": 5,
-    "offensive_stab": 2,
-    "offensive_slash": 2,
-    "defensive_stab": 2,
-    "defensive_slash": 2,
-    "strength_melee": 0
+    "offensiveStab": 2,
+    "offensiveSlash": 2,
+    "defensiveStab": 2,
+    "defensiveSlash": 2,
+    "strengthMelee": 0
   }
 ]

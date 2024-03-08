@@ -13,7 +13,8 @@
       "allModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
       "hideBodyParts": [],
       "weapon": {
-        "damage_type": "SLASH",
+        "twoHanded": false,
+        "damageType": "SLASH",
         "mainHandOffset": "2.38,-1.54,-0.00",
         "mainHandRotation": "0,0,-6.40",
         "mainHandAttackAnimation": "Sword_Attack_L3",
@@ -40,7 +41,8 @@
       "allModelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
       "hideBodyParts": [],
       "weapon": {
-        "damage_type": "STAB",
+        "twoHanded": false,
+        "damageType": "STAB",
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "Sword_Attack_L4",
@@ -53,6 +55,36 @@
     "interactable": false,
     "interactableText": null
   },
+
+  {
+    "id": "godsword_righteous",
+    "name": "Righteous Godsword",
+    "description": "Many people died for this sword.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/weapons/godsword/godsword_righteous.vmdl",
+      "imagePath": "assets/items/weapons/godsword/godsword_righteous.png"
+    },
+    "equip": {
+      "slot": "MAIN_HAND",
+      "allModelPath": "assets/items/weapons/godsword/godsword_righteous.vmdl",
+      "hideBodyParts": [],
+      "weapon": {
+        "twoHanded": true,
+        "damageType": "SLASH",
+        "mainHandOffset": "1.84,-1.01,2.38",
+        "mainHandRotation": "0,0,9.14",
+        "mainHandAttackAnimation": "Sword_Attack_L4",
+        "offHandOffset": "-1.84,1.01,-2.38",
+        "offHandRotation": "180,0,9.14",
+        "offHandAttackAnimation": "Sword_Attack_R4"
+      }
+    },
+    "stats": "basic_sword",
+    "interactable": false,
+    "interactableText": null
+  },
+
   {
     "id": "gold_coin",
     "name": "Gold Coin",
