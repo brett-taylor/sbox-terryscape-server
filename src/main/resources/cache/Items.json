@@ -227,5 +227,75 @@
       "hideBodyParts": ["hands"]
     },
     "stats": "wizard_gear"
+  },
+  {
+    "id": "food_cheese",
+    "name": "Cheese",
+    "description": "Yellow and stinky... lovely.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/cheese_slice_01/sm_item_cheese_slice_01.vmdl",
+      "imagePath": "assets/items/food/cheese_slice_01/sm_item_cheese_slice_01.png"
+    }
+  },
+  {
+    "id": "food_cheese_wheel",
+    "name": "Cheese Wheel",
+    "description": "Yellow and stinky and bigger.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/cheese_wheel_03/sm_item_cheese_wheel_03.vmdl",
+      "imagePath": "assets/items/food/cheese_wheel_03/sm_item_cheese_wheel_03.png"
+    }
+  },
+  {
+    "id": "food_fish",
+    "name": "Fish",
+    "description": "Hope it doesnt swim away.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/meat_fish_02/sm_item_meat_fish_02.vmdl",
+      "imagePath": "assets/items/food/meat_fish_02/sm_item_meat_fish_02.png"
+    }
+  },
+  {
+    "id": "food_chicken",
+    "name": "Chicken",
+    "description": "This used to be a Dinosaur?",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.vmdl",
+      "imagePath": "assets/items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.png"
+    }
+  },
+  {
+    "id": "food_raw_chicken",
+    "name": "Raw Chicken",
+    "description": "This used to be a Dinosaur?",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.vmdl",
+      "imagePath": "assets/items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.png"
+    }
+  },
+  {
+    "id": "food_pie",
+    "name": "Pie",
+    "description": "Smells nice.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/pie_03/sm_item_pie_03.vmdl",
+      "imagePath": "assets/items/food/pie_03/sm_item_pie_03.png"
+    }
+  },
+  {
+    "id": "food_potato",
+    "name": "Potato",
+    "description": "Gary likes these.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/food/potato_02/sm_item_potato_02.vmdl",
+      "imagePath": "assets/items/food/potato_02/sm_item_potato_02.png"
+    }
   }
 ]

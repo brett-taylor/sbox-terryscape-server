@@ -175,6 +175,19 @@
       "equippedItems": {
         "HEAD": "wizard_hat"
       }
+    },
+    "combatLevel": 1
+  },
+  {
+    "id": "food_shop_keeper",
+    "name": "Food Shop Keeper",
+    "description": "I guess I am hungry.",
+    "attackable": false,
+    "interactable": true,
+    "humanoidNpc":
+    {
+      "gender": "MALE",
+      "equippedItems": {}
     }
   }
 ]
