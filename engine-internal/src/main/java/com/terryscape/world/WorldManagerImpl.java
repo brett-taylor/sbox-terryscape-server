@@ -8,13 +8,16 @@ import com.terryscape.entity.EntityImpl;
 import com.terryscape.entity.packet.EntityAddedOutgoingPacket;
 import com.terryscape.entity.packet.EntityRemovedOutgoingPacket;
 import com.terryscape.entity.packet.EntityUpdatedOutgoingPacket;
+import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.PacketManager;
+import com.terryscape.world.coordinate.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
@@ -68,6 +71,14 @@ public class WorldManagerImpl implements WorldManager {
         }
 
         return entities.get(entityIdentifier);
+    }
+
+    public Optional<Entity> getEntity(WorldCoordinate coordinate) {
+        return entities.values()
+                .stream()
+                .filter(x -> x.getComponentOrThrow(MovementComponent.class).getWorldCoordinate() == coordinate)
+                .map(x -> (Entity)x)
+                .findAny();
     }
 
     public void tick() {
