@@ -1,9 +1,13 @@
 package com.terryscape.game;
 
+import com.terryscape.cache.item.WeaponDefinition;
+import com.terryscape.cache.item.WeaponDefinitionImpl;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.ProjectileComponent;
+import com.terryscape.game.combat.script.Combat;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateStep;
 import com.terryscape.net.OutgoingPacket;
@@ -14,6 +18,9 @@ import java.io.OutputStream;
 
 public class ProjectileComponentImpl extends BaseEntityComponent implements ProjectileComponent {
 
+    private WeaponDefinition weapon;
+    private Entity attacker;
+
     public String getComponentIdentifier() {
         return "projectile_added";
     }
@@ -22,7 +29,18 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
     private String imgUrl = "";
     private int duration = 0;
     private int currentTick = 0;
+    private final WorldManager worldManager;
+    public ProjectileComponentImpl(Entity entity, WorldManager worldManager) {
+        super(entity);
+        this.worldManager = worldManager;
+    }
 
+    public void setAttacker(Entity attacker) {
+        this.attacker = attacker;
+    }
+    public void setWeapon(WeaponDefinition weapon) {
+        this.weapon = weapon;
+    }
     public void setSource(WorldCoordinate source) {
         this.source = source;
     }
@@ -44,6 +62,9 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
         ++currentTick;
         if (currentTick > duration) {
             selfDestruct();
+        } else if (currentTick == duration) {
+            var targetEntity = worldManager.getEntity(target);
+            targetEntity.ifPresent(entity -> Combat.slap(0, attacker, entity, weapon, true));
         }
     }
 
@@ -60,12 +81,6 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
         OutgoingPacket.writeInt32(packet, currentTick);
     }
 
-    private final WorldManager worldManager;
-
-    public ProjectileComponentImpl(Entity entity, WorldManager worldManager) {
-        super(entity);
-        this.worldManager = worldManager;
-    }
 
     private void selfDestruct() {
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
