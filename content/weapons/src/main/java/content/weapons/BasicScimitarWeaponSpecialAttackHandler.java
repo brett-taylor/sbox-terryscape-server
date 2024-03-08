@@ -1,9 +1,9 @@
 package content.weapons;
 
 import com.google.inject.Singleton;
+import com.terryscape.entity.VisualEffectFactory;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
-import com.terryscape.game.combat.ParticleComponent;
 import com.terryscape.game.combat.SpecialBar;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.DamageType;
@@ -11,8 +11,6 @@ import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.combat.special.WeaponSpecialAttackHandler;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
-
-import java.util.ArrayList;
 
 @Singleton
 public class BasicScimitarWeaponSpecialAttackHandler implements WeaponSpecialAttackHandler {

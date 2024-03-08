@@ -2,8 +2,8 @@ package content.weapons;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
+import com.terryscape.entity.VisualEffectFactory;
 import com.terryscape.game.combat.special.WeaponSpecialAttackHandler;
-import com.terryscape.game.interfaces.InterfaceActionHandler;
 
 public class ContentWeaponsGuiceModule extends AbstractModule {
 

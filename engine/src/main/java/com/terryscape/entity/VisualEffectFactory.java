@@ -1,7 +1,6 @@
-package content.weapons;
+package com.terryscape.entity;
 
 import com.google.inject.Inject;
-import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.game.combat.ParticleComponent;
 import com.google.inject.Singleton;
 import com.terryscape.game.combat.ProjectileComponent;
