@@ -39,7 +39,7 @@ public class CombatFollowStep extends Step {
             attacker.move(destinationTile);
         }
 
-        if (attacker.getWorldCoordinate().distance(victim.getWorldCoordinate()) < 3f) {
+        if (attacker.getWorldCoordinate().distance(victim.getWorldCoordinate()) < ((float)stats.getRange() + 3f)) {
             attacker.face(victim);
         } else {
             attacker.stopFacing();

@@ -2,11 +2,13 @@ package com.terryscape.game.combat.script;
 
 import com.terryscape.cache.item.WeaponDefinition;
 import com.terryscape.entity.Entity;
+import com.terryscape.entity.VisualEffectFactory;
 import com.terryscape.game.combat.CharacterStatsImpl;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.health.HealthComponent;
+import com.terryscape.game.movement.MovementComponent;
 
 import java.util.Random;
 
@@ -18,24 +20,7 @@ public class Combat {
             return false;
         }
 
-        var victimStats = victim.getComponentOrThrow(CharacterStatsImpl.class);
-        var attackerStats = attacker.getComponentOrThrow(CharacterStatsImpl.class);
-
-        var weaponDamageType = weapon.getDamageType();
-        var hitChance = HitChance(attackerStats, victimStats, weaponDamageType);
-        var hit = AttemptHit(hitChance);
-
-        var maximumDamage = attackerStats.getProficiency(weaponDamageType);
-        var damageAmount = DamageAmount(maximumDamage);
-        
-        var damage = new DamageInformation()
-                .setHit(hit)
-                .setIsUsingMainHand(mainHand)
-                .setType(weaponDamageType)
-                .setAmount(damageAmount);
-
-        victim.getComponentOrThrow(HealthComponent.class).takeDamage(damage);
-
+        ticklessSlap(victim, attacker, weapon, mainHand);
         return true;
     }
 
@@ -66,5 +51,38 @@ public class Combat {
         }
 
         return hitChance;
+    }
+
+    public static boolean rangedSlap(long currentTick, Entity victim, Entity attacker, WeaponDefinition weapon, boolean mainHand) {
+        if(!weapon.attack(currentTick)) {
+            return false;
+        }
+        var proj = VisualEffectFactory.CreateProjectile();
+        proj.setSource(attacker.getComponentOrThrow(MovementComponent.class).getWorldCoordinate());
+        proj.setTarget(victim.getComponentOrThrow(MovementComponent.class).getWorldCoordinate());
+        proj.setWeapon(weapon);
+        proj.setAttacker(attacker);
+        proj.setSpeed(weapon.getRange());
+        return true;
+    }
+
+    public static void ticklessSlap(Entity victim, Entity attacker, WeaponDefinition weapon, boolean mainHand) {
+        var victimStats = victim.getComponentOrThrow(CharacterStatsImpl.class);
+        var attackerStats = attacker.getComponentOrThrow(CharacterStatsImpl.class);
+
+        var weaponDamageType = weapon.getDamageType();
+        var hitChance = HitChance(attackerStats, victimStats, weaponDamageType);
+        var hit = AttemptHit(hitChance);
+
+        var maximumDamage = attackerStats.getProficiency(weaponDamageType);
+        var damageAmount = DamageAmount(maximumDamage);
+
+        var damage = new DamageInformation()
+                .setHit(hit)
+                .setIsUsingMainHand(mainHand)
+                .setType(weaponDamageType)
+                .setAmount(damageAmount);
+
+        victim.getComponentOrThrow(HealthComponent.class).takeDamage(damage);
     }
 }

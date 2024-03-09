@@ -16,7 +16,7 @@
     "primaryAttribute": "MELEE",
     "attackDelay": 6,
     "attributeBonus": 10,
-    "range": 4
+    "range": 10
   },
   {
     "itemType": "WEAPON",

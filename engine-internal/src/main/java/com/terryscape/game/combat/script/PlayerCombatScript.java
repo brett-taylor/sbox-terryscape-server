@@ -2,10 +2,7 @@ package com.terryscape.game.combat.script;
 
 import com.terryscape.cache.item.WeaponDefinition;
 import com.terryscape.cache.item.WeaponDefinitionImpl;
-import com.terryscape.game.combat.CharacterStatsImpl;
-import com.terryscape.game.combat.CombatComponent;
-import com.terryscape.game.combat.CombatScript;
-import com.terryscape.game.combat.SpecialBarImpl;
+import com.terryscape.game.combat.*;
 import com.terryscape.game.combat.health.AttackType;
 import com.terryscape.game.combat.health.DamageType;
 import com.terryscape.game.combat.special.WeaponSpecialAttackDispatcher;
@@ -69,7 +66,8 @@ public class PlayerCombatScript implements CombatScript {
     @Override
     public boolean isInRange(CombatComponent victim) {
         var victimMovementComponent = victim.getEntity().getComponentOrThrow(MovementComponent.class);
-        return movementComponent.getWorldCoordinate().distance(victimMovementComponent.getWorldCoordinate()) <= 2f;
+        float attackRange = playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class).getRange();
+        return movementComponent.getWorldCoordinate().distance(victimMovementComponent.getWorldCoordinate()) <= attackRange + 2f;
     }
 
     @Override
@@ -125,8 +123,15 @@ public class PlayerCombatScript implements CombatScript {
 
     private boolean attack(CombatComponent victim, WeaponDefinition weapon, boolean mainHand) {
         var currentTick = worldClock.getNowTick();
-        playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class).SetRange(weapon.getRange());
-        var didAttack = Combat.slap(currentTick, victim.getEntity(), playerComponent.getEntity(), weapon, mainHand);
+        var range = weapon.getRange();
+        playerComponent.getEntity().getComponentOrThrow(CharacterStatsImpl.class).SetRange(range);
+
+        boolean didAttack;
+        if(range > 0) {
+            didAttack = Combat.rangedSlap(currentTick, victim.getEntity(), playerComponent.getEntity(), weapon, mainHand);
+        } else {
+            didAttack = Combat.slap(currentTick, victim.getEntity(), playerComponent.getEntity(), weapon, mainHand);
+        }
 
         if(didAttack) {
             nextAttackOpportunity = currentTick + attackDelay;

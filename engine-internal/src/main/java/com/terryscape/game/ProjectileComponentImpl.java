@@ -28,6 +28,7 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
     private WorldCoordinate source, target;
     private String imgUrl = "";
     private int duration = 0;
+    private int speed = 1;
     private int currentTick = 0;
     private final WorldManager worldManager;
     public ProjectileComponentImpl(Entity entity, WorldManager worldManager) {
@@ -52,20 +53,31 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
         imgUrl = img;
     }
 
+    @Override
+    public void setSpeed(int speed) {
+        this.speed = speed;
+        deriveDuration();
+    }
+
+    private void deriveDuration() {
+        setDuration((int)(source.distance(target) / (speed * 2)));
+    }
+
     public void setDuration(int duration) {
-        this.duration = duration;
+        if(duration < 2) duration = 2;
+        this.duration = currentTick + duration;
     }
 
     @Override
     public void tick() {
         super.tick();
-        ++currentTick;
         if (currentTick > duration) {
             selfDestruct();
         } else if (currentTick == duration) {
             var targetEntity = worldManager.getEntity(target);
-            targetEntity.ifPresent(entity -> Combat.slap(0, attacker, entity, weapon, true));
+            targetEntity.ifPresent(entity -> Combat.ticklessSlap(entity, attacker, weapon, true));
         }
+        ++currentTick;
     }
 
     @Override
