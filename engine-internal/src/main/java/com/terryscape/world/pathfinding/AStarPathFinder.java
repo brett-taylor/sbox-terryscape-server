@@ -72,8 +72,12 @@ class AStarPathFinder {
     }
 
     private List<PathfindingNode> getValidNeighbours() {
-        return Arrays.stream(current.getWorldCoordinate().getCardinalAndIntercardinalNeighbours())
+        var walkableNeighbours = Arrays.stream(current.getWorldCoordinate().getCardinalAndIntercardinalNeighbours())
             .filter(this::isValidWorldCoordinate)
+            .toList();
+
+        return walkableNeighbours.stream()
+            .filter(worldCoordinate -> isValidDiagonalTile(worldCoordinate, walkableNeighbours))
             .map(worldCoordinate -> new PathfindingNode(worldCoordinate).setParent(current))
             .toList();
     }
@@ -81,6 +85,19 @@ class AStarPathFinder {
     private boolean isValidWorldCoordinate(WorldCoordinate worldCoordinate) {
         var region = cacheLoader.getWorldRegion(worldCoordinate.toWorldRegionCoordinate());
         return region.getWorldTileDefinition(worldCoordinate.toWorldRegionLocalCoordinate()).isWalkable();
+    }
+
+    private boolean isValidDiagonalTile(WorldCoordinate worldCoordinate, List<WorldCoordinate> validNeighbours) {
+        var currentWc = current.getWorldCoordinate();
+        var direction = currentWc.directionTo(worldCoordinate);
+
+        return switch (direction) {
+            case NORTH, EAST, SOUTH, WEST -> true;
+            case NORTH_EAST -> validNeighbours.contains(currentWc.north()) && validNeighbours.contains(currentWc.east());
+            case SOUTH_EAST -> validNeighbours.contains(currentWc.south()) && validNeighbours.contains(currentWc.east());
+            case SOUTH_WEST -> validNeighbours.contains(currentWc.south()) && validNeighbours.contains(currentWc.west());
+            case NORTH_WEST -> validNeighbours.contains(currentWc.north()) && validNeighbours.contains(currentWc.west());
+        };
     }
 
     private boolean shouldAddNeighbourToOpenList(PathfindingNode neighbour) {
