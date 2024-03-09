@@ -19,6 +19,7 @@ import com.terryscape.net.Client;
 import com.terryscape.world.Direction;
 import com.terryscape.world.coordinate.WorldCoordinate;
 
+import java.awt.im.spi.InputMethodDescriptor;
 import java.util.Set;
 
 @Singleton
@@ -70,15 +71,15 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
             ImmediateTaskStep.doThis(() -> {
                 playerMovement.look(Direction.SOUTH);
-                playerAnimation.playAnimation("Sword_Attack_L3");
+                playerAnimation.playAnimation("pickup");
                 playerChat.sendGameMessage("You begin to loot the table...");
             }),
 
             // Wait
+            WaitTaskStep.ticks(2),
+            ImmediateTaskStep.doThis(() -> playerAnimation.playAnimation("pickup")),
             WaitTaskStep.ticks(1),
-            NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
-            WaitTaskStep.ticks(1),
-            NextTickTaskStep.doThis(() -> playerAnimation.playAnimation("Sword_Attack_L3")),
+            ImmediateTaskStep.doThis(() -> playerAnimation.playAnimation("pickup")),
             WaitTaskStep.ticks(1),
 
             ImmediateTaskStep.doThis(() -> playerInventory.addItem(goldCoin, randomAmountToGive)),
