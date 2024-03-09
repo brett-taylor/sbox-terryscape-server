@@ -21,6 +21,10 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     private Direction direction = Direction.NORTH;
 
+    private WorldCoordinate lerpWorldCoordinate;
+
+    private Direction lerpDirection;
+
     private MovementComponent facing;
 
     private PathfindingRoute pathfindingRoute;
@@ -113,15 +117,23 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
             return;
         }
 
-        WorldCoordinate newDestinationTile;
         if (movementSpeed == MovementSpeed.RUN && pathfindingRoute.remaining() >= 2) {
-            pathfindingRoute.getNextWorldCoordinate();
-            newDestinationTile = pathfindingRoute.getNextWorldCoordinate();
+            lerpWorldCoordinate = pathfindingRoute.getNextWorldCoordinate();
+            lerpDirection = getWorldCoordinate().directionTo(lerpWorldCoordinate);
         } else {
-            newDestinationTile = pathfindingRoute.getNextWorldCoordinate();
+            lerpWorldCoordinate = null;
+            lerpDirection = null;
         }
 
-        var newDirection = getWorldCoordinate().directionTo(newDestinationTile);
+        WorldCoordinate newDestinationTile = pathfindingRoute.getNextWorldCoordinate();
+
+        Direction newDirection;
+        if (lerpWorldCoordinate != null) {
+            newDirection = lerpWorldCoordinate.directionTo(newDestinationTile);
+        } else {
+            newDirection = getWorldCoordinate().directionTo(newDestinationTile);
+        }
+
         this.worldCoordinate = newDestinationTile;
         setDirectionIfNotFacing(newDirection);
     }
@@ -142,6 +154,12 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
             EntityIdentifier.writeToPacketNullIdentifier(packet);
         } else {
             facing.getEntity().getIdentifier().writeToPacket(packet);
+        }
+
+        OutgoingPacket.writeBoolean(packet, lerpWorldCoordinate != null);
+        if (lerpWorldCoordinate != null) {
+            lerpWorldCoordinate.writeToPacket(packet);
+            Direction.writeToPacket(packet, lerpDirection);
         }
 
         nextUpdateWasTeleport = false;
