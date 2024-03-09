@@ -13,8 +13,12 @@ import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.world.pathfinding.PathfindingManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CombatComponentImpl extends BaseEntityComponent implements CombatComponent {
+
+    private static final Logger LOGGER = LogManager.getLogger(CombatComponentImpl.class);
 
     private final PathfindingManager pathfindingManager;
 
@@ -110,6 +114,12 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         }
 
         if (victim == null || combatTask == null) {
+            return;
+        }
+
+        if (!victim.getEntity().isValid()) {
+            LOGGER.warn("Attacker {} stopped attacking because victim {} is no longer valid.", getEntity().getIdentifier(), victim.getEntity().getIdentifier());
+            stopAttacking();
             return;
         }
 

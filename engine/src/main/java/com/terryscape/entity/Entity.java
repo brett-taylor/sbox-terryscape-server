@@ -15,6 +15,8 @@ public interface Entity {
 
     String getPrefabIdentifier();
 
+    boolean isValid();
+
     void addComponent(BaseEntityComponent component);
 
     <T extends EntityComponent> boolean hasComponent(Class<T> componentType);

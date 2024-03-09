@@ -27,6 +27,8 @@ public class EntityImpl implements Entity {
 
     private final Map<Type, List<Consumer<? extends EntityEvent>>> entityEventConsumers = new HashMap<>();
 
+    private boolean isValid;
+
     private boolean hasBeenRegistered = false;
 
     // TODO: Change EntityPrefabType to EntityTags and network those instead.
@@ -49,6 +51,16 @@ public class EntityImpl implements Entity {
     @Override
     public String getPrefabIdentifier() {
         return entityPrefabIdentifier;
+    }
+
+    @Override
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public EntityImpl setValid(boolean valid) {
+        isValid = valid;
+        return this;
     }
 
     @Override

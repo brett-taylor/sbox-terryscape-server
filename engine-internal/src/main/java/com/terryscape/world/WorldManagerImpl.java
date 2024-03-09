@@ -39,7 +39,9 @@ public class WorldManagerImpl implements WorldManager {
 
     @Override
     public void registerEntity(Entity entity) {
-        entitiesToRegisterNextTick.put(entity.getIdentifier(), (EntityImpl) entity);
+        EntityImpl entityImp = (EntityImpl) entity;
+        entitiesToRegisterNextTick.put(entity.getIdentifier(), entityImp);
+        entityImp.setValid(true);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class WorldManagerImpl implements WorldManager {
         }
 
         entitiesToUnregisterNextTick.put(entityIdentifier, entity);
+        entity.setValid(false);
     }
 
     @Override
