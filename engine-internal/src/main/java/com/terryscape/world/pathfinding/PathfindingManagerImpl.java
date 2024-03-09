@@ -25,6 +25,11 @@ public class PathfindingManagerImpl implements PathfindingManager {
 
     @Override
     public Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
+        return findRoute(startingTile, destinationTile, 0);
+    }
+
+    @Override
+    public Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile, int distance) {
         var stopwatch = Stopwatch.createStarted();
 
         var isStartTileWalkable = cacheLoader
@@ -41,7 +46,7 @@ public class PathfindingManagerImpl implements PathfindingManager {
             return Optional.empty();
         }
 
-        var pathfinder = new AStarPathFinder(startingTile, destinationTile, cacheLoader);
+        var pathfinder = new AStarPathFinder(startingTile, destinationTile, cacheLoader, distance);
         var optionalPath = pathfinder.find();
 
         if (optionalPath.isPresent()) {

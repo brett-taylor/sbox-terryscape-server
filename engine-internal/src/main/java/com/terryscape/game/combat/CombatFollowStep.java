@@ -13,18 +13,21 @@ public class CombatFollowStep extends Step {
     private final CacheLoader cacheLoader;
     private final MovementComponent attacker;
     private final MovementComponent victim;
+    private final CharacterStats stats;
     private WorldCoordinate lastTickVictimWorldCoordinate;
     private WorldCoordinate destinationTile;
 
     public CombatFollowStep(PathfindingManager pathfindingManager,
                             CacheLoader cacheLoader,
                             MovementComponent attacker,
-                            MovementComponent victim) {
+                            MovementComponent victim,
+                            CharacterStats stats) {
 
         this.pathfindingManager = pathfindingManager;
         this.cacheLoader = cacheLoader;
         this.attacker = attacker;
         this.victim = victim;
+        this.stats = stats;
     }
 
     @Override
@@ -64,28 +67,34 @@ public class CombatFollowStep extends Step {
             return getWalkableNeighbourOnVictim();
         }
 
-        var route = pathfindingManager.findRoute(attacker.getWorldCoordinate(), victim.getWorldCoordinate());
+        var weaponRange = stats.getRange();
+        var route = pathfindingManager.findRoute(attacker.getWorldCoordinate(), victim.getWorldCoordinate(), weaponRange);
         if (route.isEmpty()) {
             failed();
             return null;
         }
 
-        WorldCoordinate victimNeighbourCoordinate;
-        if (route.get().size() <= 1) {
-            victimNeighbourCoordinate = attacker.getWorldCoordinate();
-        } else {
-            victimNeighbourCoordinate = route.get().getWorldCoordinateFromEnd(1);
+        if(weaponRange == 0) {
+            WorldCoordinate victimNeighbourCoordinate;
+            if (route.get().size() <= 1) {
+                victimNeighbourCoordinate = attacker.getWorldCoordinate();
+            } else {
+                victimNeighbourCoordinate = route.get().getWorldCoordinateFromEnd(1);
+            }
+
+            if (victim.getWorldCoordinate().isCardinal(victimNeighbourCoordinate)) {
+                return victimNeighbourCoordinate;
+            }
+
+            var cardinalToVictim = Arrays.stream(victimNeighbourCoordinate.getCardinalNeighbours())
+                    .filter(wc -> wc.isCardinal(victim.getWorldCoordinate()))
+                    .toList();
+
+            return WorldCoordinate.getClosestWorldCoordinate(attacker.getWorldCoordinate(), cardinalToVictim);
         }
-
-        if (victim.getWorldCoordinate().isCardinal(victimNeighbourCoordinate)) {
-            return victimNeighbourCoordinate;
+        else {
+            return route.get().getWorldCoordinateFromEnd(0);
         }
-
-        var cardinalToVictim = Arrays.stream(victimNeighbourCoordinate.getCardinalNeighbours())
-            .filter(wc -> wc.isCardinal(victim.getWorldCoordinate()))
-            .toList();
-
-        return WorldCoordinate.getClosestWorldCoordinate(attacker.getWorldCoordinate(), cardinalToVictim);
     }
 
     private WorldCoordinate getWalkableNeighbourOnVictim() {

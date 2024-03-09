@@ -7,5 +7,6 @@ import java.util.Optional;
 public interface PathfindingManager {
 
     Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile);
+    Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile, int distance);
 
 }

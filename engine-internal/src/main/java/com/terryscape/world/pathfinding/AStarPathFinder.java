@@ -18,6 +18,7 @@ class AStarPathFinder {
     private final PriorityQueue<PathfindingNode> closedSet;
 
     private final HashMap<PathfindingNode, Float> totalScores;
+    private final int distance;
 
     private PathfindingNode current;
 
@@ -25,6 +26,18 @@ class AStarPathFinder {
         this.startingTile = startingTile;
         this.destinationTile = destinationTile;
         this.cacheLoader = cacheLoader;
+        distance = 0;
+
+        openSet = new PriorityQueue<>();
+        closedSet = new PriorityQueue<>();
+        totalScores = new HashMap<>();
+    }
+
+    AStarPathFinder(WorldCoordinate startingTile, WorldCoordinate destinationTile, CacheLoader cacheLoader, int distance) {
+        this.startingTile = startingTile;
+        this.destinationTile = destinationTile;
+        this.cacheLoader = cacheLoader;
+        this.distance = distance;
 
         openSet = new PriorityQueue<>();
         closedSet = new PriorityQueue<>();
@@ -37,7 +50,7 @@ class AStarPathFinder {
 
         doAStar();
 
-        if (current.getWorldCoordinate().equals(destinationTile)) {
+        if (current.getWorldCoordinate().distance(destinationTile) <= distance) {
             return Optional.of(generatePath());
         } else {
             return Optional.empty();
@@ -50,7 +63,7 @@ class AStarPathFinder {
             addNodeToClosedSet(current);
 
             // If we found our destination lets stop
-            if (current.getWorldCoordinate().equals(destinationTile)) {
+            if (current.getWorldCoordinate().distance(destinationTile) <= distance) {
                 return;
             }
 
