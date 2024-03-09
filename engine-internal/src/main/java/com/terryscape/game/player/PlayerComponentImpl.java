@@ -125,6 +125,12 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
+    public boolean canDoActions() {
+        var isAlive = !getEntity().getComponentOrThrow(HealthComponent.class).isDying();
+        return isAlive;
+    }
+
+    @Override
     public void onRegistered() {
         super.onRegistered();
 

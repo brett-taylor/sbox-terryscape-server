@@ -27,4 +27,6 @@ public interface PlayerComponent extends NetworkedEntityComponent {
     boolean wantsToSpecialAttack();
 
     void setWantsToSpecialAttack(boolean wantsToSpecialAttack);
+
+    boolean canDoActions();
 }

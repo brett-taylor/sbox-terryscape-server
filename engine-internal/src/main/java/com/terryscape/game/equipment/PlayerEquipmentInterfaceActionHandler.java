@@ -31,20 +31,25 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
 
     @Override
     public void handleAction(Client client, String interfaceId, String interfaceAction, ByteBuffer packet) {
+        var player = client.getPlayer().orElseThrow();
+
+        if (!player.canDoActions()) {
+            return;
+        }
+
         if (interfaceId.equals("equipment")) {
-            handleEquipmentInterfaceAction(client, interfaceAction, packet);
+            handleEquipmentInterfaceAction(player, interfaceAction, packet);
         } else if (interfaceId.equals("character_equipment")) {
-            handleCharacterEquipmentInterfaceAction(client, interfaceAction, packet);
+            handleCharacterEquipmentInterfaceAction(player, interfaceAction, packet);
         }
     }
 
-    private void handleEquipmentInterfaceAction(Client client, String interfaceAction, ByteBuffer packet) {
-        var player = client.getPlayer().orElseThrow();
+    private void handleEquipmentInterfaceAction(PlayerComponent player, String interfaceAction, ByteBuffer packet) {
         var playerEquipment = player.getEquipment();
         var playerInventory = player.getInventory();
 
         if (interfaceAction.equals("show_character_equipment")) {
-            interfaceManager.showInterface(client, "character_equipment");
+            interfaceManager.showInterface(player.getClient(), "character_equipment");
             return;
         }
 
@@ -70,9 +75,9 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         }
     }
 
-    private void handleCharacterEquipmentInterfaceAction(Client client, String interfaceAction, ByteBuffer packet) {
+    private void handleCharacterEquipmentInterfaceAction(PlayerComponent playerComponent, String interfaceAction, ByteBuffer packet) {
         if (interfaceAction.equals("close")) {
-            interfaceManager.closeInterface(client, "character_equipment");
+            interfaceManager.closeInterface(playerComponent.getClient(), "character_equipment");
         }
     }
 

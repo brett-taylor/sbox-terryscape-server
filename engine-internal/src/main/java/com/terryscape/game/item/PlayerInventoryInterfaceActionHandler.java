@@ -40,7 +40,9 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var player = client.getPlayer().orElseThrow();
         var playerInventory = player.getInventory();
 
-        // TODO: Can the player interact with items?
+        if (!player.canDoActions()) {
+            return;
+        }
 
         var itemOptional = playerInventory.getItemAt(slotNumber);
         if (itemOptional.isEmpty()) {

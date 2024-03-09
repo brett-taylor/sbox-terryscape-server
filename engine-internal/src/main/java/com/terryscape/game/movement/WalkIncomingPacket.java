@@ -23,11 +23,14 @@ public class WalkIncomingPacket implements IncomingPacket {
         // TODO Check is valid tile?
 
         var player = client.getPlayer().orElseThrow();
-        var playerMovementComponent = player.getEntity().getComponentOrThrow(MovementComponent.class);
+        if (!player.canDoActions()) {
+            return;
+        }
 
         var taskComponent = player.getEntity().getComponentOrThrow(TaskComponent.class);
         taskComponent.cancelPrimaryTask();
 
+        var playerMovementComponent = player.getEntity().getComponentOrThrow(MovementComponent.class);
         if (teleport) {
             playerMovementComponent.teleport(destinationTile);
         } else {

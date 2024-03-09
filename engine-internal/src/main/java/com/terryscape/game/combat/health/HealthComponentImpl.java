@@ -44,6 +44,11 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     @Override
     public void setHealth(int newHealth) {
         health = newHealth;
+
+        if (health <= 0) {
+            health = 0;
+            handleDeath();
+        }
     }
 
     @Override
