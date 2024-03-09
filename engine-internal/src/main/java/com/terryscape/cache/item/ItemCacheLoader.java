@@ -64,12 +64,15 @@ public class ItemCacheLoader {
         var damageTypeAsString = weaponItemJsonObject.getAsJsonPrimitive("damageType").getAsString();
         var damageType = Enum.valueOf(DamageType.class, damageTypeAsString);
 
+        var twoHanded = weaponItemJsonObject.getAsJsonPrimitive("twoHanded").getAsBoolean();
+        var offHandAnimation = twoHanded ? "" : weaponItemJsonObject.getAsJsonPrimitive("offHandAttackAnimation").getAsString();
+
         return new WeaponItemDefinitionImpl()
-            .setTwoHanded(weaponItemJsonObject.getAsJsonPrimitive("twoHanded").getAsBoolean())
+            .setTwoHanded(twoHanded)
             .setDamageType(damageType)
             .setAttackSpeed(weaponItemJsonObject.getAsJsonPrimitive("attackSpeed").getAsInt())
             .setMainHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("mainHandAttackAnimation").getAsString())
-            .setOffHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("offHandAttackAnimation").getAsString());
+            .setOffHandAttackAnimation(offHandAnimation);
     }
 
     private ItemStatsDefinition getItemStatsDefinition(Map<String, ItemStatsDefinition> itemStats, JsonObject jsonObject) {

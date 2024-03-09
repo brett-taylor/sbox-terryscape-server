@@ -8,7 +8,7 @@ import com.terryscape.game.movement.MovementComponent;
 
 public class NpcCombatAggressionComponent extends BaseEntityComponent {
 
-    private static final int NO_LONGER_AGGRESSIVE_TIMER = 12;
+    private static final int NO_LONGER_AGGRESSIVE_TIMER = 20;
 
     private final CombatComponent combatComponent;
 

@@ -18,6 +18,15 @@
     "strengthMelee": 14
   },
   {
+    "id": "godsword",
+    "weight": 10,
+    "offensiveStab": -4,
+    "offensiveSlash": 45,
+    "defensiveStab": 0,
+    "defensiveSlash": 0,
+    "strengthMelee": 35
+  },
+  {
     "id": "steel_full_helm",
     "weight": 1.8,
     "offensiveStab": 0,
