@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.EntityImpl;
+import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.packet.EntityAddedOutgoingPacket;
 import com.terryscape.entity.packet.EntityRemovedOutgoingPacket;
 import com.terryscape.entity.packet.EntityUpdatedOutgoingPacket;
@@ -76,8 +77,11 @@ public class WorldManagerImpl implements WorldManager {
     public Optional<Entity> getEntity(WorldCoordinate coordinate) {
         return entities.values()
                 .stream()
-                .filter(x -> x.getComponentOrThrow(MovementComponent.class).getWorldCoordinate() == coordinate)
-                .map(x -> (Entity)x)
+                .map(x -> x.getComponent(MovementComponent.class))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(x -> x.getWorldCoordinate() == coordinate)
+                .map(EntityComponent::getEntity)
                 .findAny();
     }
 
