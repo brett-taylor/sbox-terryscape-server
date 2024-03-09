@@ -29,7 +29,7 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
     private String imgUrl = "";
     private int duration = 0;
     private int speed = 1;
-    private int currentTick = 0;
+    private int currentTick = -1;
     private final WorldManager worldManager;
     public ProjectileComponentImpl(Entity entity, WorldManager worldManager) {
         super(entity);
@@ -64,8 +64,8 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
     }
 
     public void setDuration(int duration) {
-        if(duration < 2) duration = 2;
-        this.duration = currentTick + duration;
+        if(duration < 1) duration = 1;
+        this.duration = duration;
     }
 
     @Override
