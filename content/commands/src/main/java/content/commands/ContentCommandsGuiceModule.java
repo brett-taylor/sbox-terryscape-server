@@ -21,6 +21,7 @@ public class ContentCommandsGuiceModule extends AbstractModule {
         commandMultibinder.addBinding().to(SkillsNoobCommand.class);
         commandMultibinder.addBinding().to(SkillsPureCommand.class);
         commandMultibinder.addBinding().to(MaxHitCommand.class);
+        commandMultibinder.addBinding().to(SetSpecialAttackPowerCommand.class);
     }
 
 }

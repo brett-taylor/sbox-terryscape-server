@@ -1,18 +1,16 @@
 package com.terryscape.game.combat.script;
 
-import com.terryscape.cache.item.EquipItemDefinition;
-import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.combat.*;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.HealthComponent;
+import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.equipment.EquipmentSlot;
-import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.player.PlayerBonusesProviderComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.player.PlayerSkillsComponent;
-import com.terryscape.game.diceroll.CombatDiceRoll;
+import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.WorldClock;
 
@@ -34,13 +32,17 @@ public class PlayerCombatScript implements CombatScript {
 
     private final PlayerBonusesProviderComponent playerBonusesProviderComponent;
 
+    private final SpecialAttackDispatcher specialAttackDispatcher;
+
     private long lastMainHandAttackTime;
 
     private long lastOffHandAttackTime;
 
-    public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent) {
+    public PlayerCombatScript(WorldClock worldClock, PlayerComponent playerComponent, SpecialAttackDispatcher specialAttackDispatcher) {
         this.worldClock = worldClock;
         this.playerComponent = playerComponent;
+        this.specialAttackDispatcher = specialAttackDispatcher;
+
         this.movementComponent = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = playerComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
         this.playerSkillsComponent = playerComponent.getEntity().getComponentOrThrow(PlayerSkillsComponent.class);
@@ -105,6 +107,14 @@ public class PlayerCombatScript implements CombatScript {
 
         if (mainHand.isPresent() && isMainHandOffCooldown) {
             var weaponDefinition = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow();
+
+            if (playerComponent.wantsToSpecialAttack() && specialAttackDispatcher.shouldSpecialAttack(attacker, mainHand.get().getItemDefinition())) {
+                specialAttackDispatcher.invoke(attacker, victim);
+                return true;
+            } else {
+                playerComponent.setWantsToSpecialAttack(false);
+            }
+
             doHit(victim, combatDiceRoll, weaponDefinition.getDamageType(), weaponDefinition.getMainHandAttackAnimation(), true);
             attacker.ensureCooldownOfAtLeast(STANDARD_ATTACK_GLOBAL_COOLDOWN);
             return true;

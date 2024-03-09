@@ -24,6 +24,7 @@ import com.terryscape.game.npc.NpcActionIncomingPacket;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.diceroll.CombatDiceRollImpl;
+import com.terryscape.game.specialattack.SpecialAttackOrbInterfaceActionHandler;
 import com.terryscape.game.shop.ShopInterfaceActionHandler;
 import com.terryscape.game.shop.ShopManager;
 import com.terryscape.game.shop.ShopManagerImpl;
@@ -69,6 +70,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         interfaceActionHandlerMultibinder.addBinding().to(PlayerInventoryInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(DialogueInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(ShopInterfaceActionHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(SpecialAttackOrbInterfaceActionHandler.class);
     }
 
 }

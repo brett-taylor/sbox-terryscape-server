@@ -98,7 +98,6 @@ public class EntityImpl implements Entity {
     @Override
     public <T extends EntityEvent> void invoke(Class<T> eventType, T entityEvent) {
         if (!entityEventConsumers.containsKey(eventType)) {
-            LOGGER.error("Attempted to invoke entity event %s that has no subscribed listeners".formatted(eventType.getName()));
             return;
         }
 

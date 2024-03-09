@@ -22,5 +22,9 @@ public interface PlayerComponent extends NetworkedEntityComponent {
 
     float getSpecialAttackPower();
 
-    void removeSpecialAttackPower(float specialAttack);
+    void setSpecialAttackPower(float specialAttackPower);
+
+    boolean wantsToSpecialAttack();
+
+    void setWantsToSpecialAttack(boolean wantsToSpecialAttack);
 }

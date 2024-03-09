@@ -22,6 +22,7 @@ import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.player.PlayerSkillsComponentImpl;
 import com.terryscape.game.diceroll.CombatDiceRoll;
+import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
@@ -48,6 +49,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final CombatDiceRoll combatDiceRoll;
 
+    private final SpecialAttackDispatcher specialAttackDispatcher;
+
     @Inject
     public EntityPrefabFactoryImpl(WorldManager worldManager,
                                    PathfindingManager pathfindingManager,
@@ -56,7 +59,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    CommandManager commandManager,
                                    CacheLoader cacheLoader,
                                    InterfaceManager interfaceManager,
-                                   CombatDiceRoll combatDiceRoll) {
+                                   CombatDiceRoll combatDiceRoll,
+                                   SpecialAttackDispatcher specialAttackDispatcher) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
@@ -66,6 +70,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.cacheLoader = cacheLoader;
         this.interfaceManager = interfaceManager;
         this.combatDiceRoll = combatDiceRoll;
+        this.specialAttackDispatcher = specialAttackDispatcher;
     }
 
     @Override
@@ -153,15 +158,12 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var combatScript = new PlayerCombatScript(worldClock, playerComponent);
+        var combatScript = new PlayerCombatScript(worldClock, playerComponent, specialAttackDispatcher);
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
         entity.addComponent(combatComponent);
 
         playerComponent.getInventory().addItem(cacheLoader.getItem("gold_coin"), 2000);
         playerComponent.getInventory().addItem(cacheLoader.getItem("food_fish"), 1);
-        playerComponent.getInventory().addItem(cacheLoader.getItem("godsword_righteous"), 1);
-        playerComponent.getEquipment().setSlot(EquipmentSlot.MAIN_HAND, cacheLoader.getItem("basic_scimitar"), 1);
-        playerComponent.getEquipment().setSlot(EquipmentSlot.OFF_HAND, cacheLoader.getItem("basic_scimitar"), 1);
 
         return entity;
     }

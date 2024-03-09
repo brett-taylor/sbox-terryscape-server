@@ -43,6 +43,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private float specialAttackPower;
 
+    private boolean wantsToSpecialAttack;
+
     public PlayerComponentImpl(Entity entity, PacketManager packetManager, InterfaceManager interfaceManager) {
         super(entity);
 
@@ -108,8 +110,18 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
-    public void removeSpecialAttackPower(float specialAttack) {
-        specialAttackPower -= specialAttack;
+    public void setSpecialAttackPower(float specialAttackPower) {
+        this.specialAttackPower = specialAttackPower;
+    }
+
+    @Override
+    public boolean wantsToSpecialAttack() {
+        return wantsToSpecialAttack;
+    }
+
+    @Override
+    public void setWantsToSpecialAttack(boolean wantsToSpecialAttack) {
+        this.wantsToSpecialAttack = wantsToSpecialAttack;
     }
 
     @Override
@@ -148,6 +160,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         getEquipment().writeToPacket(packet);
         OutgoingPacket.writeEnum(packet, getGender());
         OutgoingPacket.writeFloat(packet, getSpecialAttackPower());
+        OutgoingPacket.writeBoolean(packet, wantsToSpecialAttack());
     }
 
     private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {

@@ -5,6 +5,7 @@ import content.commands.ContentCommandsGuiceModule;
 import content.food.ContentFoodGuiceModule;
 import content.interfaces.ContentInterfacesGuiceModule;
 import content.startingzone.ContentStartingZoneGuiceModule;
+import content.weapons.ContentWeaponsGuiceModule;
 
 import java.util.Set;
 
@@ -15,7 +16,8 @@ public class ContentModules {
             new ContentCommandsGuiceModule(),
             new ContentStartingZoneGuiceModule(),
             new ContentInterfacesGuiceModule(),
-            new ContentFoodGuiceModule()
+            new ContentFoodGuiceModule(),
+            new ContentWeaponsGuiceModule()
         );
     }
 }

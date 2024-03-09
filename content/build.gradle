@@ -3,4 +3,5 @@ dependencies {
     implementation project(":content:startingzone")
     implementation project(":content:interfaces")
     implementation project(":content:food")
+    implementation project(":content:weapons")
 }

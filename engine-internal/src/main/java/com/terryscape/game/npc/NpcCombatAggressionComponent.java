@@ -41,6 +41,10 @@ public class NpcCombatAggressionComponent extends BaseEntityComponent {
     }
 
     private void onAttacked(OnAttackedEntityEvent onAttackedEntityEvent) {
+        if (combatComponent.isInCombat()) {
+            return;
+        }
+
         // We don't want npcs to attack back straight away so make them wait one tick
         combatComponent.ensureCooldownOfAtLeast(2);
         combatComponent.attack(onAttackedEntityEvent.getAttacker());

@@ -11,4 +11,6 @@ project(":content").projectDir.eachDir { dir ->
 }
 include 'content:food'
 findProject(':content:food')?.name = 'food'
+include 'content:weapons'
+findProject(':content:weapons')?.name = 'weapons'
 

@@ -12,7 +12,7 @@ public interface CombatDiceRoll {
                           CombatSkillsProviderComponent victimSkills,
                           CombatBonusesProviderComponent victimBonuses);
 
-    int rollDamage(CombatSkillsProviderComponent combatSkillsProviderComponent, CombatBonusesProviderComponent combatBonusesProviderComponent);
+    int rollDamage(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses);
 
-    int calculateMaxHit(CombatSkillsProviderComponent combatSkillsProviderComponent, CombatBonusesProviderComponent combatBonusesProviderComponent);
+    int calculateMaxHit(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses);
 }
