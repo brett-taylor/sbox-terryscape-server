@@ -41,6 +41,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private HumanoidGender gender;
 
+    private float specialAttackPower;
+
     public PlayerComponentImpl(Entity entity, PacketManager packetManager, InterfaceManager interfaceManager) {
         super(entity);
 
@@ -49,6 +51,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
+
+        specialAttackPower = 100f;
 
         getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
     }
@@ -99,6 +103,16 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
+    public float getSpecialAttackPower() {
+        return specialAttackPower;
+    }
+
+    @Override
+    public void removeSpecialAttackPower(float specialAttack) {
+        specialAttackPower -= specialAttack;
+    }
+
+    @Override
     public void onRegistered() {
         super.onRegistered();
 
@@ -111,11 +125,21 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     @Override
+    public void tick() {
+        super.tick();
+
+        if (specialAttackPower < 100) {
+            specialAttackPower += 0.5f;
+        }
+    }
+
+    @Override
     public void writeEntityAddedPacket(OutputStream packet) {
         OutgoingPacket.writeString(packet, getUsername());
         getInventory().writeToPacket(packet);
         getEquipment().writeToPacket(packet);
         OutgoingPacket.writeEnum(packet, getGender());
+        OutgoingPacket.writeFloat(packet, getSpecialAttackPower());
     }
 
     @Override
@@ -123,6 +147,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         getInventory().writeToPacket(packet);
         getEquipment().writeToPacket(packet);
         OutgoingPacket.writeEnum(packet, getGender());
+        OutgoingPacket.writeFloat(packet, getSpecialAttackPower());
     }
 
     private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {

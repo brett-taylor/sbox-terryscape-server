@@ -19,4 +19,8 @@ public interface PlayerComponent extends NetworkedEntityComponent {
     void setGender(HumanoidGender gender);
 
     HumanoidGender getGender();
+
+    float getSpecialAttackPower();
+
+    void removeSpecialAttackPower(float specialAttack);
 }
