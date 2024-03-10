@@ -97,11 +97,6 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     }
 
     @Override
-    public void attackedBy(CombatComponent attacker) {
-        getEntity().invoke(OnAttackedEntityEvent.class, new OnAttackedEntityEvent(attacker));
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -132,7 +127,8 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             return;
         }
 
-        victim.attackedBy(this);
+        getEntity().invoke(OnAttackEntityEvent.class, new OnAttackEntityEvent(victim));
+        victim.getEntity().invoke(OnAttackedEntityEvent.class, new OnAttackedEntityEvent(this));
 
         // TODO: Swap this to like subscribing to the entity's death event or something
         if (victim.getEntity().getComponentOrThrow(HealthComponent.class).isDying()) {
