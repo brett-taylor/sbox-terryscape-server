@@ -10,6 +10,8 @@ public class NextTickTaskStep extends TaskStep {
 
     private final Runnable runnable;
 
+    private boolean hasRan = false;
+
     private NextTickTaskStep(Runnable runnable) {
         this.runnable = runnable;
     }
@@ -17,10 +19,12 @@ public class NextTickTaskStep extends TaskStep {
     @Override
     public void firstTick() {
         runnable.run();
+
+        hasRan = true;
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return hasRan;
     }
 }

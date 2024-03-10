@@ -12,7 +12,6 @@ import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
-import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
@@ -22,6 +21,7 @@ import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.player.PlayerSkillsComponentImpl;
 import com.terryscape.game.diceroll.CombatDiceRoll;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
@@ -51,6 +51,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final SpecialAttackDispatcher specialAttackDispatcher;
 
+    private final SoundManager soundManager;
+
     @Inject
     public EntityPrefabFactoryImpl(WorldManager worldManager,
                                    PathfindingManager pathfindingManager,
@@ -60,7 +62,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    CacheLoader cacheLoader,
                                    InterfaceManager interfaceManager,
                                    CombatDiceRoll combatDiceRoll,
-                                   SpecialAttackDispatcher specialAttackDispatcher) {
+                                   SpecialAttackDispatcher specialAttackDispatcher,
+                                   SoundManager soundManager) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
@@ -71,6 +74,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.interfaceManager = interfaceManager;
         this.combatDiceRoll = combatDiceRoll;
         this.specialAttackDispatcher = specialAttackDispatcher;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -129,7 +133,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createPlayerPrefab() {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(entity, packetManager, interfaceManager);
+        var playerComponent = new PlayerComponentImpl(entity, packetManager, interfaceManager, soundManager, cacheLoader);
         playerComponent.setGender(HumanoidGender.MALE);
         entity.addComponent(playerComponent);
 
@@ -162,8 +166,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
         entity.addComponent(combatComponent);
 
-        playerComponent.getInventory().addItem(cacheLoader.getItem("gold_coin"), 2000);
-        playerComponent.getInventory().addItem(cacheLoader.getItem("food_fish"), 1);
+        playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 2000);
+        playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("food_fish"), 1);
 
         return entity;
     }

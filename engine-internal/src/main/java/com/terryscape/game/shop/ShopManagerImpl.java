@@ -7,6 +7,7 @@ import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.player.PlayerComponent;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.task.step.TaskStep;
 import com.terryscape.net.Client;
 import org.apache.logging.log4j.LogManager;
@@ -23,10 +24,13 @@ public class ShopManagerImpl implements ShopManager {
 
     private final CacheLoader cacheLoader;
 
+    private final SoundManager soundManager;
+
     @Inject
-    public ShopManagerImpl(InterfaceManager interfaceManager, CacheLoader cacheLoader) {
+    public ShopManagerImpl(InterfaceManager interfaceManager, CacheLoader cacheLoader, SoundManager soundManager) {
         this.interfaceManager = interfaceManager;
         this.cacheLoader = cacheLoader;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -42,13 +46,13 @@ public class ShopManagerImpl implements ShopManager {
 
         var playerInventory = playerComponent.getInventory();
         var playerChat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
-        var goldCoins = cacheLoader.getItem("gold_coin");
+        var goldCoins = cacheLoader.getItemDefinition("gold_coin");
 
         var price = getPriceForItemInShop(shop, itemDefinition);
         var totalPrice = price * quantity;
 
         // Check player inventory has n slots
-        if (!playerInventory.hasFreeSlots(quantity)){
+        if (!playerInventory.hasFreeSlots(quantity)) {
             playerChat.sendGameMessage("You do not have the space in your inventory to buy %d %s.".formatted(quantity, itemDefinition.getName()));
             return;
         }
@@ -56,7 +60,9 @@ public class ShopManagerImpl implements ShopManager {
         if (playerInventory.removeItemOfTypeAndQuantity(goldCoins, totalPrice)) {
             playerInventory.addItem(itemDefinition, quantity);
             playerChat.sendGameMessage("You bought %d %s.".formatted(quantity, itemDefinition.getName()));
+            soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("shop_purchased"));
         } else {
+            soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("shop_failed"));
             playerChat.sendGameMessage("You do not have the required %d %s.".formatted(totalPrice, goldCoins.getName()));
         }
     }

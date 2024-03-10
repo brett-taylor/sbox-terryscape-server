@@ -26,17 +26,17 @@ public class EquipmentShop implements Shop {
     @Override
     public List<ShopItem> getShopItems() {
         return List.of(
-            new ShopItem(cacheLoader.getItem("wizard_hat"), 200),
-            new ShopItem(cacheLoader.getItem("wizard_top"), 500),
-            new ShopItem(cacheLoader.getItem("wizard_bottoms"), 500),
-            new ShopItem(cacheLoader.getItem("wizard_gloves"), 100),
-            new ShopItem(cacheLoader.getItem("wizard_boots"), 100),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_hat"), 200),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_top"), 500),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_bottoms"), 500),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_gloves"), 100),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_boots"), 100),
 
-            new ShopItem(cacheLoader.getItem("steel_full_helm"), 200),
-            new ShopItem(cacheLoader.getItem("steel_platebody"), 500),
-            new ShopItem(cacheLoader.getItem("steel_platelegs"), 500),
-            new ShopItem(cacheLoader.getItem("steel_gloves"), 100),
-            new ShopItem(cacheLoader.getItem("steel_boots"), 100)
+            new ShopItem(cacheLoader.getItemDefinition("steel_full_helm"), 200),
+            new ShopItem(cacheLoader.getItemDefinition("steel_platebody"), 500),
+            new ShopItem(cacheLoader.getItemDefinition("steel_platelegs"), 500),
+            new ShopItem(cacheLoader.getItemDefinition("steel_gloves"), 100),
+            new ShopItem(cacheLoader.getItemDefinition("steel_boots"), 100)
         );
     }
 }

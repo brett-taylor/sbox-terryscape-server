@@ -24,6 +24,8 @@ import com.terryscape.game.npc.NpcActionIncomingPacket;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.diceroll.CombatDiceRollImpl;
+import com.terryscape.game.sound.SoundManager;
+import com.terryscape.game.sound.SoundManagerImpl;
 import com.terryscape.game.specialattack.SpecialAttackOrbInterfaceActionHandler;
 import com.terryscape.game.shop.ShopInterfaceActionHandler;
 import com.terryscape.game.shop.ShopManager;
@@ -55,6 +57,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(ShopManager.class).to(ShopManagerImpl.class);
         binder().bind(DialogueManager.class).to(DialogueManagerImpl.class);
         binder().bind(CombatDiceRoll.class).to(CombatDiceRollImpl.class);
+        binder().bind(SoundManager.class).to(SoundManagerImpl.class);
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);

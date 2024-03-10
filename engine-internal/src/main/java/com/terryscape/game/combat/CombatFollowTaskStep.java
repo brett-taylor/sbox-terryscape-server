@@ -9,7 +9,6 @@ import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class CombatFollowTaskStep extends TaskStep {
 
@@ -115,7 +114,7 @@ public class CombatFollowTaskStep extends TaskStep {
         var cardinalNeighbours = victim.getWorldCoordinate().getCardinalNeighbours();
 
         var validCardinalNeighbours = Arrays.stream(cardinalNeighbours).filter(cardinalNeighbour -> {
-            var region = cacheLoader.getWorldRegion(cardinalNeighbour.toWorldRegionCoordinate());
+            var region = cacheLoader.getWorldRegionDefinition(cardinalNeighbour.toWorldRegionCoordinate());
             return region.getWorldTileDefinition(cardinalNeighbour.toWorldRegionLocalCoordinate()).isWalkable();
         }).toList();
 

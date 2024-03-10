@@ -7,6 +7,9 @@ import com.terryscape.cache.npc.*;
 import com.terryscape.cache.object.ObjectCacheLoader;
 import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.object.ObjectDefinitionImpl;
+import com.terryscape.cache.sound.SoundCacheLoader;
+import com.terryscape.cache.sound.SoundDefinition;
+import com.terryscape.cache.sound.SoundDefinitionImpl;
 import com.terryscape.cache.world.WorldRegionCacheLoader;
 import com.terryscape.cache.world.WorldRegionDefinition;
 import com.terryscape.cache.world.WorldRegionDefinitionImpl;
@@ -37,6 +40,8 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final WorldRegionCacheLoader worldRegionCacheLoader;
 
+    private final SoundCacheLoader soundCacheLoader;
+
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
     private final Map<String, ItemStatsDefinition> itemStats = new HashMap<>();
@@ -49,13 +54,16 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final Map<WorldRegionCoordinate, WorldRegionDefinitionImpl> worldRegions = new HashMap<>();
 
+    private final Map<String, SoundDefinitionImpl> sounds = new HashMap<>();
+
     @Inject
     public CacheLoaderImpl(ItemCacheLoader itemCacheLoader,
                            ItemStatsCacheLoader itemStatsCacheLoader,
                            NpcCacheLoader npcCacheLoader,
                            NpcStatsCacheLoader npcStatsCacheLoader,
                            ObjectCacheLoader objectCacheLoader,
-                           WorldRegionCacheLoader worldRegionCacheLoader) {
+                           WorldRegionCacheLoader worldRegionCacheLoader,
+                           SoundCacheLoader soundCacheLoader) {
 
         this.itemCacheLoader = itemCacheLoader;
         this.itemStatsCacheLoader = itemStatsCacheLoader;
@@ -63,6 +71,7 @@ public class CacheLoaderImpl implements CacheLoader {
         this.npcStatsCacheLoader = npcStatsCacheLoader;
         this.objectCacheLoader = objectCacheLoader;
         this.worldRegionCacheLoader = worldRegionCacheLoader;
+        this.soundCacheLoader = soundCacheLoader;
     }
 
     public void loadCache() {
@@ -73,6 +82,7 @@ public class CacheLoaderImpl implements CacheLoader {
             loadNpcs();
             loadObjects();
             loadWorldRegions();
+            loadSounds();
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("Failed to load cache", e);
         }
@@ -81,7 +91,7 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
-    public ItemDefinition getItem(String id) {
+    public ItemDefinition getItemDefinition(String id) {
         if (!items.containsKey(id)) {
             throw new RuntimeException("No item found with id %s".formatted(id));
         }
@@ -90,12 +100,12 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
-    public Optional<ItemDefinition> getItemSafe(String id) {
+    public Optional<ItemDefinition> getItemDefinitionSafe(String id) {
         return Optional.ofNullable(items.get(id));
     }
 
     @Override
-    public NpcDefinition getNpc(String id) {
+    public NpcDefinition getNpcDefinition(String id) {
         if (!npcs.containsKey(id)) {
             throw new RuntimeException("No npc found with id %s".formatted(id));
         }
@@ -104,7 +114,7 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
-    public Optional<NpcDefinition> getNpcSafe(String id) {
+    public Optional<NpcDefinition> getNpcDefinitionSafe(String id) {
         return Optional.ofNullable(npcs.get(id));
     }
 
@@ -118,12 +128,26 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
-    public WorldRegionDefinition getWorldRegion(WorldRegionCoordinate worldRegionCoordinate) {
+    public WorldRegionDefinition getWorldRegionDefinition(WorldRegionCoordinate worldRegionCoordinate) {
         if (!worldRegions.containsKey(worldRegionCoordinate)) {
             throw new RuntimeException("No WorldRegion found with at %s".formatted(worldRegionCoordinate));
         }
 
         return worldRegions.get(worldRegionCoordinate);
+    }
+
+    @Override
+    public SoundDefinition getSoundDefinition(String id) {
+        if (!sounds.containsKey(id)) {
+            throw new RuntimeException("No sound found with at %s".formatted(id));
+        }
+
+        return sounds.get(id);
+    }
+
+    @Override
+    public Optional<SoundDefinition> getSoundDefinitionSafe(String id) {
+        return Optional.ofNullable(sounds.get(id));
     }
 
     private void loadItems() throws IOException {
@@ -150,6 +174,11 @@ public class CacheLoaderImpl implements CacheLoader {
     private void loadWorldRegions() throws IOException, URISyntaxException {
         worldRegions.putAll(worldRegionCacheLoader.readWorldRegionsFromCache());
         LOGGER.info("Loaded {} World Regions.", worldRegions.size());
+    }
+
+    private void loadSounds() throws IOException {
+        sounds.putAll(soundCacheLoader.readSoundsFromCache());
+        LOGGER.info("Loaded {} Sounds.",sounds.size());
     }
 
 }

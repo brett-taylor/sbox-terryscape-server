@@ -30,7 +30,6 @@ public class EventSystemImpl implements EventSystem {
     @Override
     public <T extends SystemEvent> void invoke(Class<T> eventType, T systemEvent) {
         if (!consumers.containsKey(eventType)) {
-            LOGGER.error("Attempted to invoke system event %s that has no subscribed listeners".formatted(eventType.getName()));
             return;
         }
 

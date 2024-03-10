@@ -110,6 +110,10 @@ public class TaskImpl implements Task {
 
         if (this.currentTaskStep != null) {
             this.currentTaskStep.onBecameCurrentTaskStep();
+
+            if (this.currentTaskStep.isFinished()) {
+                getNextStep();
+            }
         }
     }
 }

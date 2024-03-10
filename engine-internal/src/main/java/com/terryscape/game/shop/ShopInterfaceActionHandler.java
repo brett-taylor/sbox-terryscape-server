@@ -62,7 +62,7 @@ public class ShopInterfaceActionHandler implements InterfaceActionHandler {
         }
 
         if (interfaceAction.equals("buy")) {
-            var item = cacheLoader.getItem(IncomingPacket.readString(packet));
+            var item = cacheLoader.getItemDefinition(IncomingPacket.readString(packet));
             var quantity = IncomingPacket.readInt32(packet);
             assert quantity > 0 && quantity < 21;
 

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "eat_generic",
+    "soundEventPath": "assets/sounds/action/zapsplat_cartoon_bite_eat_crunch_single_001_58270.sound"
+  },
+  {
+    "id": "shop_purchased",
+    "soundEventPath": "assets/sounds/interface/1035_coin-02.sound"
+  },
+  {
+    "id": "shop_failed",
+    "soundEventPath": "assets/sounds/interface/error_008.sound"
+  },
+  {
+    "id": "steal_coins",
+    "soundEventPath": "assets/sounds/action/1914_coin-bag-pick-up-02.sound"
+  },
+  {
+    "id": "success_generic",
+    "soundEventPath": "assets/sounds/generic/zapsplat_multimedia_game_sound_big_confident_loud_success_84670.sound"
+  },
+  {
+    "id": "equip_generic",
+    "soundEventPath": "assets/sounds/action/switch_001.sound"
+  },
+  {
+    "id": "combat_death",
+    "soundEventPath": "assets/sounds/combat/cartoon_fail_strings_trumpet.sound"
+  },
+  {
+    "id": "combat_hit",
+    "soundEventPath": "assets/sounds/combat/zapsplat_cartoon_slime_gloop_drip_fall_hit_surface_14616.sound"
+  }
+]

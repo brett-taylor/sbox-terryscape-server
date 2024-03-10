@@ -38,7 +38,7 @@ public class ItemStatsCommand implements Command {
     public void execute(PlayerComponent playerComponent, List<String> arguments) {
         var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var itemId = arguments.get(0);
-        var itemOptional = cacheLoader.getItemSafe(itemId);
+        var itemOptional = cacheLoader.getItemDefinitionSafe(itemId);
 
         if (itemOptional.isEmpty()) {
             chat.sendGameMessage("No item found with id %s.".formatted(itemId));

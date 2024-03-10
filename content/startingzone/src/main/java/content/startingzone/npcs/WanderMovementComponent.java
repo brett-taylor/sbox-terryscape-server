@@ -3,7 +3,7 @@ package content.startingzone.npcs;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
@@ -40,7 +40,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
         this.teleportToSpot = teleportToSpot;
         this.cacheLoader = cacheLoader;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
             var possibleWorldCoordinate = new WorldCoordinate(randomX, randomY);
 
             var isWalkable = cacheLoader
-                .getWorldRegion(possibleWorldCoordinate.toWorldRegionCoordinate())
+                .getWorldRegionDefinition(possibleWorldCoordinate.toWorldRegionCoordinate())
                 .getWorldTileDefinition(possibleWorldCoordinate.toWorldRegionLocalCoordinate())
                 .isWalkable();
 
@@ -118,7 +118,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
         return RandomUtil.randomNumber(5, 80);
     }
 
-    private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
+    private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
         stopWander();
     }
 }

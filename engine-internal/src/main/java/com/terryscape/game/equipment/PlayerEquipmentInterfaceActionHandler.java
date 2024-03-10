@@ -2,12 +2,14 @@ package com.terryscape.game.equipment;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.player.PlayerComponent;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 
@@ -19,9 +21,15 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
 
     private final InterfaceManager interfaceManager;
 
+    private final CacheLoader cacheLoader;
+
+    private final SoundManager soundManager;
+
     @Inject
-    public PlayerEquipmentInterfaceActionHandler(InterfaceManager interfaceManager) {
+    public PlayerEquipmentInterfaceActionHandler(InterfaceManager interfaceManager, CacheLoader cacheLoader, SoundManager soundManager) {
         this.interfaceManager = interfaceManager;
+        this.cacheLoader = cacheLoader;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -69,7 +77,7 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
 
         var item = itemOptional.get();
         if (interfaceAction.equals("item_remove")) {
-            removeItem(playerEquipment, playerInventory, item, slot);
+            removeItem(player, item, slot);
         } else if (interfaceAction.equals("item_examine")) {
             examineItem(player, item);
         }
@@ -81,9 +89,10 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         }
     }
 
-    private void removeItem(PlayerEquipment playerEquipment, FixedSizeItemContainer playerInventory, ItemContainerItem item, EquipmentSlot slot) {
-        playerEquipment.removeSlot(slot);
-        playerInventory.addItem(item.getItemDefinition(), item.getQuantity());
+    private void removeItem(PlayerComponent player, ItemContainerItem item, EquipmentSlot slot) {
+        player.getEquipment().removeSlot(slot);
+        player.getInventory().addItem(item.getItemDefinition(), item.getQuantity());
+        soundManager.playSoundEffect(player.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
     }
 
     private void examineItem(PlayerComponent player, ItemContainerItem item) {

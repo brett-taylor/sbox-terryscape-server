@@ -83,7 +83,7 @@ class AStarPathFinder {
     }
 
     private boolean isValidWorldCoordinate(WorldCoordinate worldCoordinate) {
-        var region = cacheLoader.getWorldRegion(worldCoordinate.toWorldRegionCoordinate());
+        var region = cacheLoader.getWorldRegionDefinition(worldCoordinate.toWorldRegionCoordinate());
         return region.getWorldTileDefinition(worldCoordinate.toWorldRegionLocalCoordinate()).isWalkable();
     }
 

@@ -26,13 +26,13 @@ public class FoodShop implements Shop {
     @Override
     public List<ShopItem> getShopItems() {
         return List.of(
-            new ShopItem(cacheLoader.getItem("food_cheese"), 10),
-            new ShopItem(cacheLoader.getItem("food_cheese_wheel"), 1),
-            new ShopItem(cacheLoader.getItem("food_fish"), 50),
-            new ShopItem(cacheLoader.getItem("food_chicken"), 25),
-            new ShopItem(cacheLoader.getItem("food_raw_chicken"), 1),
-            new ShopItem(cacheLoader.getItem("food_pie"), 100),
-            new ShopItem(cacheLoader.getItem("food_potato"), 5)
+            new ShopItem(cacheLoader.getItemDefinition("food_cheese"), 10),
+            new ShopItem(cacheLoader.getItemDefinition("food_cheese_wheel"), 1),
+            new ShopItem(cacheLoader.getItemDefinition("food_fish"), 50),
+            new ShopItem(cacheLoader.getItemDefinition("food_chicken"), 25),
+            new ShopItem(cacheLoader.getItemDefinition("food_raw_chicken"), 1),
+            new ShopItem(cacheLoader.getItemDefinition("food_pie"), 100),
+            new ShopItem(cacheLoader.getItemDefinition("food_potato"), 5)
         );
     }
 }

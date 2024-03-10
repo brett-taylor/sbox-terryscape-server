@@ -3,7 +3,7 @@ package com.terryscape.game.npc;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
@@ -24,7 +24,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         this.worldManager = worldManager;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
     public void writeEntityUpdatedPacket(OutputStream packet) {
     }
 
-    private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
+    private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
         getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(

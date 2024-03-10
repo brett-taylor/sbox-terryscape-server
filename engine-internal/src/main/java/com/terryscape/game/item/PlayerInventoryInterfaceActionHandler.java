@@ -2,11 +2,13 @@ package com.terryscape.game.item;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.item.WeaponItemDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.player.PlayerComponent;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +24,15 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
     private final ItemInteractionDispatcher itemInteractionDispatcher;
 
+    private final CacheLoader cacheLoader;
+
+    private final SoundManager soundManager;
+
     @Inject
-    public PlayerInventoryInterfaceActionHandler(ItemInteractionDispatcher itemInteractionDispatcher) {
+    public PlayerInventoryInterfaceActionHandler(ItemInteractionDispatcher itemInteractionDispatcher, CacheLoader cacheLoader, SoundManager soundManager) {
         this.itemInteractionDispatcher = itemInteractionDispatcher;
+        this.cacheLoader = cacheLoader;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -95,6 +103,8 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         player.getEquipment().setSlot(slot, item.getItemDefinition(), item.getQuantity());
 
         previouslyEquippedItem.ifPresent(itemContainerItem -> player.getInventory().addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
+
+        soundManager.playSoundEffect(player.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
 
         if (isTwoHanded) {
             var previousEquippedOffhandItem = player.getEquipment().getSlot(EquipmentSlot.OFF_HAND);

@@ -5,17 +5,15 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
-import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.event.type.OnTickSystemEvent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.OnAttackedEntityEvent;
-import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcOverheadTextComponent;
 import com.terryscape.maths.RandomUtil;
-import com.terryscape.world.Direction;
 import com.terryscape.world.WorldClock;
 import com.terryscape.world.WorldManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
@@ -140,13 +138,13 @@ public class SpawnGoblins {
     }
 
     private void spawnRegularGoblin() {
-        var goblin = cacheLoader.getNpc("goblin");
+        var goblin = cacheLoader.getNpcDefinition("goblin");
         var npc = entityPrefabFactory.createNpcPrefab(goblin);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
         npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh humans"));
 
-        npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
+        npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
         worldManager.registerEntity(npc);
 
@@ -154,13 +152,13 @@ public class SpawnGoblins {
     }
 
     private void spawnGoblinWarrior() {
-        var goblinWarrior = cacheLoader.getNpc("goblin_warrior");
+        var goblinWarrior = cacheLoader.getNpcDefinition("goblin_warrior");
         var npc = entityPrefabFactory.createNpcPrefab(goblinWarrior);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
         npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh humans"));
 
-        npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
+        npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
         worldManager.registerEntity(npc);
 
@@ -168,13 +166,13 @@ public class SpawnGoblins {
     }
 
     private void spawnGoblinShaman() {
-        var goblinShaman = cacheLoader.getNpc("goblin_shaman");
+        var goblinShaman = cacheLoader.getNpcDefinition("goblin_shaman");
         var npc = entityPrefabFactory.createNpcPrefab(goblinShaman);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
         npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, "shaman no like human"));
 
-        npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
+        npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
         worldManager.registerEntity(npc);
         nonChiefAliveGoblins.add(npc.getComponentOrThrow(NpcComponent.class));
@@ -182,13 +180,13 @@ public class SpawnGoblins {
     }
 
     private void spawnGoblinChief() {
-        var goblinChief = cacheLoader.getNpc("goblin_chief");
+        var goblinChief = cacheLoader.getNpcDefinition("goblin_chief");
         var npc = entityPrefabFactory.createNpcPrefab(goblinChief);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
         npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, "human not scary"));
 
-        npc.subscribe(OnEntityDeathEntityEvent.class, ignored -> {
+        npc.subscribe(OnDeathEntityEvent.class, ignored -> {
             handleChiefDeath();
             registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class));
         });

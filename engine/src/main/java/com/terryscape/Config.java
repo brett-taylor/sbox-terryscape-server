@@ -29,6 +29,8 @@ public class Config {
 
     public static final String NPC_STATS_CACHE_LOCATION = "%s/Npc_Stats.json".formatted(CACHE_LOCATION);
 
+    public static final String SOUND_CACHE_LOCATION = "%s/Sounds.json".formatted(CACHE_LOCATION);
+
     public static final int WORLD_REGION_SIZE = 30;
 
     public static final int WORLD_TILE_SIZE = 50;

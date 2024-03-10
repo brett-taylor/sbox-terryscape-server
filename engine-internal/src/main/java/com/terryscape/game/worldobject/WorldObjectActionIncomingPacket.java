@@ -34,7 +34,7 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
         var worldRegionCoordinate = WorldRegionCoordinate.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
-        var worldRegion = cacheLoader.getWorldRegion(worldRegionCoordinate);
+        var worldRegion = cacheLoader.getWorldRegionDefinition(worldRegionCoordinate);
         var worldObject = worldRegion.getWorldObjectDefinition(worldObjectIdentifier);
         var objectDefinition = worldObject.getObjectDefinition();
 

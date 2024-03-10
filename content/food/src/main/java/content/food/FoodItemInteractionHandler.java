@@ -2,6 +2,7 @@ package content.food;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
@@ -9,6 +10,7 @@ import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.ItemInteractionHandler;
 import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.net.Client;
 import com.terryscape.util.EnumValueRetriever;
 
@@ -20,9 +22,15 @@ public class FoodItemInteractionHandler implements ItemInteractionHandler {
 
     private final EnumValueRetriever enumValueRetriever;
 
+    private final CacheLoader cacheLoader;
+
+    private final SoundManager soundManager;
+
     @Inject
-    public FoodItemInteractionHandler(EnumValueRetriever enumValueRetriever) {
+    public FoodItemInteractionHandler(EnumValueRetriever enumValueRetriever, CacheLoader cacheLoader, SoundManager soundManager) {
         this.enumValueRetriever = enumValueRetriever;
+        this.cacheLoader = cacheLoader;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -57,6 +65,8 @@ public class FoodItemInteractionHandler implements ItemInteractionHandler {
 
         playerEntity.getComponentOrThrow(AnimationComponent.class).playAnimation("drink1");
         playerEntity.getComponentOrThrow(HealthComponent.class).heal(foodType.getHealAmount());
+
+        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("eat_generic"));
     }
 
     private Food getFoodType(ItemDefinition itemDefinition) {

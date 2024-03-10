@@ -1,10 +1,13 @@
 package com.terryscape.game.player;
 
+import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.combat.OnAttackEntityEvent;
+import com.terryscape.game.combat.OnAttackedEntityEvent;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
@@ -14,7 +17,9 @@ import com.terryscape.game.item.PlayerInventory;
 import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.task.TaskComponent;
+import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.net.Client;
@@ -35,6 +40,10 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private final PlayerEquipment equipment;
 
+    private final SoundManager soundManager;
+
+    private final CacheLoader cacheLoader;
+
     private Client client;
 
     private String username;
@@ -45,18 +54,26 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private boolean wantsToSpecialAttack;
 
-    public PlayerComponentImpl(Entity entity, PacketManager packetManager, InterfaceManager interfaceManager) {
+    public PlayerComponentImpl(Entity entity,
+                               PacketManager packetManager,
+                               InterfaceManager interfaceManager,
+                               SoundManager soundManager,
+                               CacheLoader cacheLoader) {
         super(entity);
 
         this.packetManager = packetManager;
         this.interfaceManager = interfaceManager;
+        this.soundManager = soundManager;
+        this.cacheLoader = cacheLoader;
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
 
         specialAttackPower = 100f;
 
-        getEntity().subscribe(OnEntityDeathEntityEvent.class, this::onDeath);
+        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
+        getEntity().subscribe(OnAttackEntityEvent.class, this::onAttack);
+        getEntity().subscribe(OnAttackedEntityEvent.class, this::onAttacked);
     }
 
     @Override
@@ -169,12 +186,14 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         OutgoingPacket.writeBoolean(packet, wantsToSpecialAttack());
     }
 
-    private void onDeath(OnEntityDeathEntityEvent onEntityDeathEntityEvent) {
+    private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
         getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("You died!");
         getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
-            WaitTaskStep.ticks(8),
+            WaitTaskStep.ticks(3),
+            ImmediateTaskStep.doThis(() -> soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_death"))),
+            WaitTaskStep.ticks(5),
             NextTickTaskStep.doThis(this::respawn)
         );
     }
@@ -185,5 +204,13 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
 
         getEntity().getComponentOrThrow(HealthComponent.class).resetHealthToMax();
+    }
+
+    private void onAttack(OnAttackEntityEvent onAttackEntityEvent) {
+        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
+    }
+
+    private void onAttacked(OnAttackedEntityEvent onAttackedEntityEvent) {
+        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
     }
 }

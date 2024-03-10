@@ -28,12 +28,12 @@ public class PathfindingManagerImpl implements PathfindingManager {
         var stopwatch = Stopwatch.createStarted();
 
         var isStartTileWalkable = cacheLoader
-            .getWorldRegion(startingTile.toWorldRegionCoordinate())
+            .getWorldRegionDefinition(startingTile.toWorldRegionCoordinate())
             .getWorldTileDefinition(startingTile.toWorldRegionLocalCoordinate())
             .isWalkable();
 
         var isDestinationTileWalkable = cacheLoader
-            .getWorldRegion(destinationTile.toWorldRegionCoordinate())
+            .getWorldRegionDefinition(destinationTile.toWorldRegionCoordinate())
             .getWorldTileDefinition(destinationTile.toWorldRegionLocalCoordinate())
             .isWalkable();
 

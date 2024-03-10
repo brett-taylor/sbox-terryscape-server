@@ -26,10 +26,10 @@ public class WeaponShop implements Shop {
     @Override
     public List<ShopItem> getShopItems() {
         return List.of(
-            new ShopItem(cacheLoader.getItem("basic_scimitar"), 250),
-            new ShopItem(cacheLoader.getItem("basic_sword"), 150),
-            new ShopItem(cacheLoader.getItem("godsword_righteous"), 4000),
-            new ShopItem(cacheLoader.getItem("godsword_evil"), 4000)
+            new ShopItem(cacheLoader.getItemDefinition("basic_scimitar"), 250),
+            new ShopItem(cacheLoader.getItemDefinition("basic_sword"), 150),
+            new ShopItem(cacheLoader.getItemDefinition("godsword_righteous"), 4000),
+            new ShopItem(cacheLoader.getItemDefinition("godsword_evil"), 4000)
         );
     }
 

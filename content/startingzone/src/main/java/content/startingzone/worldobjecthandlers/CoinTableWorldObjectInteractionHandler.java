@@ -8,6 +8,7 @@ import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
@@ -17,9 +18,9 @@ import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.Client;
 import com.terryscape.world.Direction;
+import com.terryscape.world.WorldClock;
 import com.terryscape.world.coordinate.WorldCoordinate;
 
-import java.awt.im.spi.InputMethodDescriptor;
 import java.util.Set;
 
 @Singleton
@@ -34,10 +35,14 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
     private final DialogueManager dialogueManager;
 
+    private final SoundManager soundManager;
+
+
     @Inject
-    public CoinTableWorldObjectInteractionHandler(CacheLoader cacheLoader, DialogueManager dialogueManager) {
+    public CoinTableWorldObjectInteractionHandler(CacheLoader cacheLoader, DialogueManager dialogueManager, SoundManager soundManager) {
         this.cacheLoader = cacheLoader;
         this.dialogueManager = dialogueManager;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
 
     @Override
     public void invoke(Client client, WorldObjectDefinition worldObjectDefinition) {
-        var goldCoin = cacheLoader.getItem("gold_coin");
+        var goldCoin = cacheLoader.getItemDefinition("gold_coin");
 
         var player = client.getPlayer().orElseThrow();
         var playerInventory = player.getInventory();
@@ -73,16 +78,21 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
                 playerMovement.look(Direction.SOUTH);
                 playerAnimation.playAnimation("pickup");
                 playerChat.sendGameMessage("You begin to loot the table...");
+                soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("steal_coins"));
             }),
 
             // Wait
-            WaitTaskStep.ticks(2),
-            ImmediateTaskStep.doThis(() -> playerAnimation.playAnimation("pickup")),
-            WaitTaskStep.ticks(1),
-            ImmediateTaskStep.doThis(() -> playerAnimation.playAnimation("pickup")),
-            WaitTaskStep.ticks(1),
+            WaitTaskStep.ticks(3),
+            NextTickTaskStep.doThis(() -> {
+                playerAnimation.playAnimation("pickup");
+                soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("steal_coins"));
+            }),
 
-            ImmediateTaskStep.doThis(() -> playerInventory.addItem(goldCoin, randomAmountToGive)),
+            WaitTaskStep.ticks(2),
+            NextTickTaskStep.doThis(() -> {
+                playerInventory.addItem(goldCoin, randomAmountToGive);
+                soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("success_generic"));
+            }),
 
             dialogueManager.createViewDialogueTaskStep(client, itemDialogue)
         );

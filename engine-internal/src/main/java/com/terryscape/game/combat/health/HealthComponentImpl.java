@@ -2,7 +2,7 @@ package com.terryscape.game.combat.health;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.entity.event.type.OnEntityDeathEntityEvent;
+import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
@@ -112,7 +112,7 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     }
 
     private void handleDeath() {
-        getEntity().invoke(OnEntityDeathEntityEvent.class, new OnEntityDeathEntityEvent());
+        getEntity().invoke(OnDeathEntityEvent.class, new OnDeathEntityEvent());
     }
 
     private HealthChangeInformation createHealthChangeInformationFromDamageInformation(DamageInformation damageInformation) {

@@ -38,7 +38,7 @@ public class NpcStatsCommand implements Command {
     public void execute(PlayerComponent playerComponent, List<String> arguments) {
         var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
         var npcId = arguments.get(0);
-        var npcOptional = cacheLoader.getNpcSafe(npcId);
+        var npcOptional = cacheLoader.getNpcDefinitionSafe(npcId);
 
         if (npcOptional.isEmpty()) {
             chat.sendGameMessage("No npc found with id %s.".formatted(npcId));

@@ -3,6 +3,7 @@ package com.terryscape.cache;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.object.ObjectDefinition;
+import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.cache.world.WorldRegionDefinition;
 import com.terryscape.world.coordinate.WorldRegionCoordinate;
 
@@ -10,15 +11,19 @@ import java.util.Optional;
 
 public interface CacheLoader {
 
-    ItemDefinition getItem(String id);
+    ItemDefinition getItemDefinition(String id);
 
-    Optional<ItemDefinition> getItemSafe(String id);
+    Optional<ItemDefinition> getItemDefinitionSafe(String id);
 
-    NpcDefinition getNpc(String id);
+    NpcDefinition getNpcDefinition(String id);
 
-    Optional<NpcDefinition> getNpcSafe(String id);
+    Optional<NpcDefinition> getNpcDefinitionSafe(String id);
 
     ObjectDefinition getObjectDefinition(String id);
 
-    WorldRegionDefinition getWorldRegion(WorldRegionCoordinate worldRegionCoordinate);
+    WorldRegionDefinition getWorldRegionDefinition(WorldRegionCoordinate worldRegionCoordinate);
+
+    SoundDefinition getSoundDefinition(String id);
+
+    Optional<SoundDefinition> getSoundDefinitionSafe(String id);
 }
