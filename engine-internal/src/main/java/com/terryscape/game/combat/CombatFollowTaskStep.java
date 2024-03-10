@@ -4,10 +4,12 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.TaskStep;
+import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class CombatFollowTaskStep extends TaskStep {
 
@@ -112,15 +114,15 @@ public class CombatFollowTaskStep extends TaskStep {
     private WorldCoordinate getWalkableNeighbourOnVictim() {
         var cardinalNeighbours = victim.getWorldCoordinate().getCardinalNeighbours();
 
-        for (WorldCoordinate cardinalNeighbour : cardinalNeighbours) {
+        var validCardinalNeighbours = Arrays.stream(cardinalNeighbours).filter(cardinalNeighbour -> {
             var region = cacheLoader.getWorldRegion(cardinalNeighbour.toWorldRegionCoordinate());
-            var isWalkable = region.getWorldTileDefinition(cardinalNeighbour.toWorldRegionLocalCoordinate()).isWalkable();
+            return region.getWorldTileDefinition(cardinalNeighbour.toWorldRegionLocalCoordinate()).isWalkable();
+        }).toList();
 
-            if (isWalkable) {
-                return cardinalNeighbour;
-            }
+        if (validCardinalNeighbours.isEmpty()) {
+            return victim.getWorldCoordinate().north();
+        } else {
+            return RandomUtil.randomCollection(validCardinalNeighbours);
         }
-
-        return victim.getWorldCoordinate().north();
     }
 }
