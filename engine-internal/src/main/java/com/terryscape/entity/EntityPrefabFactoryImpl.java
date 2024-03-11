@@ -140,7 +140,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
         var playerComponent = new PlayerComponentImpl(entity, packetManager, interfaceManager, soundManager, cacheLoader);
-        playerComponent.setGender(HumanoidGender.MALE);
+        playerComponent.setGender(RandomUtil.randomBool() ? HumanoidGender.MALE : HumanoidGender.FEMALE);
         entity.addComponent(playerComponent);
 
         var playerBonusesProviderComponent = new PlayerBonusesProviderComponentImpl(entity, playerComponent);
@@ -182,7 +182,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createGroundItemPrefab(ItemContainerItem itemContainerItem, WorldCoordinate worldCoordinate) {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.GROUND_ITEM, null);
 
-        var groundItemComponent = new GroundItemComponentImpl(entity, itemContainerItem, worldCoordinate);
+        var groundItemComponent = new GroundItemComponentImpl(entity, itemContainerItem, worldCoordinate, cacheLoader, soundManager);
         entity.addComponent(groundItemComponent);
 
         var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent(entity);
