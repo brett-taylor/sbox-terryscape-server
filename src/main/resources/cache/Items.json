@@ -533,5 +533,40 @@
     "stats": null,
     "interactable": true,
     "interactableText": "Eat"
+  },
+  {
+    "id": "basic_air_wand",
+    "name": "Basic Air Wand",
+    "description": "A basic wand that fires air spells.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "imagePath": "assets/items/weapons/basic_scimitar/basic_scimitar_icon.png"
+    },
+    "groundItem": {
+      "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "position": "-10.9,5.3,0.0",
+      "rotation": "0.65,0.27,0.27,0.65",
+      "scale": "1,1,1"
+    },
+    "equip": {
+      "slot": "MAIN_HAND",
+      "allModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "hideBodyParts": [],
+      "weapon": {
+        "twoHanded": false,
+        "damageType": "AIR",
+        "attackSpeed": 6,
+        "mainHandOffset": "2.38,-1.54,-0.00",
+        "mainHandRotation": "0,0,-6.40",
+        "mainHandAttackAnimation": "Sword_Attack_L3",
+        "offHandOffset": "-2.38,1.54,0.00",
+        "offHandRotation": "180,0,6.40",
+        "offHandAttackAnimation": "Sword_Attack_R3"
+      }
+    },
+    "stats": "basic_air_wand",
+    "interactable": false,
+    "interactableText": null
   }
 ]

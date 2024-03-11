@@ -41,6 +41,12 @@ public class WorldCoordinate implements PacketSerializable {
         return vector2Int.distance(other.vector2Int);
     }
 
+    public int tileDistance(WorldCoordinate other) {
+        var absX = Math.abs(other.getX() - getX());
+        var absY = Math.abs(other.getY() - getY());
+        return Math.max(absX, absY);
+    }
+
     public boolean isCardinal(WorldCoordinate other) {
         var absX = Math.abs(getX() - other.getX());
         var absY = Math.abs(getY() - other.getY());

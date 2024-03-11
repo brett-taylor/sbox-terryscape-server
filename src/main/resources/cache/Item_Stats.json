@@ -124,5 +124,19 @@
     "defensiveFire": 5,
     "strengthMelee": 0,
     "strengthMagic": 5
+  },
+  {
+    "id": "basic_air_wand",
+    "weight": 1.8,
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "offensiveAir": 15,
+    "offensiveFire": 0,
+    "defensiveStab": 0,
+    "defensiveSlash": 0,
+    "defensiveAir": 1,
+    "defensiveFire": 0,
+    "strengthMelee": 0,
+    "strengthMagic": 14
   }
 ]
