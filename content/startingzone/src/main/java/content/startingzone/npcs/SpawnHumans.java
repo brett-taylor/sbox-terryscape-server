@@ -7,7 +7,6 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
-import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldClock;
@@ -61,10 +60,6 @@ public class SpawnHumans {
         foodShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(19, 14));
         foodShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.WEST);
         worldManager.registerEntity(foodShopKeeper);
-
-        var itemContainer = new ItemContainerItem(cacheLoader.getItemDefinition("gold_coin"), 500);
-        var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainer, new WorldCoordinate(12, 20));
-        worldManager.registerEntity(groundItem);
     }
 
 }

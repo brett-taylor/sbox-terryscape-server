@@ -8,6 +8,7 @@ import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.specialattack.SpecialAttackHandler;
 import com.terryscape.game.specialattack.SpecialAttackHandlerUtils;
+import com.terryscape.maths.MathsUtil;
 
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("2Hand_Sword_Attack3");
 
         attacker.getEntity().getComponent(PlayerChatComponent.class).ifPresent(playerChatComponent -> {
-            playerChatComponent.sendOverheadText("Raarrrrrgggggghhhhhhh!");
+            playerChatComponent.sendOverheadText("Glory to the Righteous!");
         });
 
         var accuracyRollOne = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
@@ -42,13 +43,13 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
             return;
         }
 
-        var damageAmountRoll = specialAttackHandlerUtils.rollStandardDamageHit(attacker);
+        var damageAmountRoll = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
         specialAttackHandlerUtils.showStandardHit(victim, damageAmountRoll, DamageType.SLASH);
 
     }
 
     @Override
     public float getSpecialAttackPowerNeeded() {
-        return 50f;
+        return 25f;
     }
 }

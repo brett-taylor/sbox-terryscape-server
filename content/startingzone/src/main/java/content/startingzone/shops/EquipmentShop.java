@@ -26,11 +26,11 @@ public class EquipmentShop implements Shop {
     @Override
     public List<ShopItem> getShopItems() {
         return List.of(
-            new ShopItem(cacheLoader.getItemDefinition("wizard_hat"), 200),
-            new ShopItem(cacheLoader.getItemDefinition("wizard_top"), 500),
-            new ShopItem(cacheLoader.getItemDefinition("wizard_bottoms"), 500),
-            new ShopItem(cacheLoader.getItemDefinition("wizard_gloves"), 100),
-            new ShopItem(cacheLoader.getItemDefinition("wizard_boots"), 100),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_hat"), 20),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_top"), 50),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_bottoms"), 50),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_gloves"), 10),
+            new ShopItem(cacheLoader.getItemDefinition("wizard_boots"), 10),
 
             new ShopItem(cacheLoader.getItemDefinition("steel_full_helm"), 200),
             new ShopItem(cacheLoader.getItemDefinition("steel_platebody"), 500),

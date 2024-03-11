@@ -12,6 +12,7 @@ import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
+import com.terryscape.game.loottable.LootTableManager;
 import com.terryscape.game.grounditem.GroundItemComponentImpl;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
 import com.terryscape.game.interfaces.InterfaceManager;
@@ -59,6 +60,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final SoundManager soundManager;
 
+    private final LootTableManager lootTableManager;
+
     @Inject
     public EntityPrefabFactoryImpl(WorldManager worldManager,
                                    PathfindingManager pathfindingManager,
@@ -69,7 +72,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    InterfaceManager interfaceManager,
                                    CombatDiceRoll combatDiceRoll,
                                    SpecialAttackDispatcher specialAttackDispatcher,
-                                   SoundManager soundManager) {
+                                   SoundManager soundManager,
+                                   LootTableManager lootTableManager) {
 
         this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
@@ -81,13 +85,14 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.combatDiceRoll = combatDiceRoll;
         this.specialAttackDispatcher = specialAttackDispatcher;
         this.soundManager = soundManager;
+        this.lootTableManager = lootTableManager;
     }
 
     @Override
     public Entity createNpcPrefab(NpcDefinition npcDefinition) {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
 
-        var npcComponent = new NpcComponentImpl(entity);
+        var npcComponent = new NpcComponentImpl(entity, lootTableManager);
         npcComponent.setNpcDefinition(npcDefinition);
         entity.addComponent(npcComponent);
 
@@ -172,7 +177,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
         entity.addComponent(combatComponent);
 
-        playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 2000);
+        playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 250);
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("food_fish"), 1);
 
         return entity;

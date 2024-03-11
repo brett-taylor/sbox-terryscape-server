@@ -61,7 +61,7 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
 
-        var randomAmountToGive = RandomUtil.randomNumber(5, 50);
+        var randomAmountToGive = RandomUtil.randomNumber(15, 70);
         var itemDialogue = dialogueManager.builder().item(goldCoin, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
 
         // Check if player has a free slot or has item coins already

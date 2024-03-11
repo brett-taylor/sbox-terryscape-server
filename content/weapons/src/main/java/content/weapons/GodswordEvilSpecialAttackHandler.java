@@ -8,6 +8,7 @@ import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.specialattack.SpecialAttackHandler;
 import com.terryscape.game.specialattack.SpecialAttackHandlerUtils;
+import com.terryscape.maths.MathsUtil;
 
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class GodswordEvilSpecialAttackHandler implements SpecialAttackHandler {
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("2Hand_Sword_Attack3");
 
         attacker.getEntity().getComponent(PlayerChatComponent.class).ifPresent(playerChatComponent -> {
-            playerChatComponent.sendOverheadText("Raarrrrrgggggghhhhhhh!");
+            playerChatComponent.sendOverheadText("Glory to the evil!");
         });
 
         var accuracyRoll = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
@@ -40,13 +41,13 @@ public class GodswordEvilSpecialAttackHandler implements SpecialAttackHandler {
             return;
         }
 
-        var damageAmountRollOne = specialAttackHandlerUtils.rollStandardDamageHit(attacker);
-        var damageAmountRollTwo = specialAttackHandlerUtils.rollStandardDamageHit(attacker);
+        var damageAmountRollOne = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
+        var damageAmountRollTwo = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
         specialAttackHandlerUtils.showStandardHit(victim, Math.max(damageAmountRollOne, damageAmountRollTwo), DamageType.SLASH);
     }
 
     @Override
     public float getSpecialAttackPowerNeeded() {
-        return 50f;
+        return 25f;
     }
 }

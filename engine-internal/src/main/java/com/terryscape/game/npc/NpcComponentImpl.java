@@ -4,21 +4,26 @@ import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
+import com.terryscape.game.loottable.LootTableManager;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.task.TaskComponent;
+import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.net.OutgoingPacket;
-import com.terryscape.world.WorldManager;
 
 import java.io.OutputStream;
 
 public class NpcComponentImpl extends BaseEntityComponent implements NpcComponent {
 
+    private final LootTableManager lootTableManager;
+
     private NpcDefinition npcDefinition;
 
-    public NpcComponentImpl(Entity entity) {
+    public NpcComponentImpl(Entity entity, LootTableManager lootTableManager) {
         super(entity);
+
+        this.lootTableManager = lootTableManager;
 
         getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
     }
@@ -51,6 +56,9 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitTaskStep.ticks(8),
+
+            ImmediateTaskStep.doThis(() -> lootTableManager.createDropForNpc(this)),
+
             NextTickTaskStep.doThis(getEntity()::delete)
         );
     }

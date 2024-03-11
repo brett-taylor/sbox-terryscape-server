@@ -8,8 +8,8 @@ public class RandomUtil {
     private RandomUtil() {
     }
 
-    public static int randomNumber(int lowerBound, int inclusiveUpperBound) {
-        return ThreadLocalRandom.current().nextInt(lowerBound, inclusiveUpperBound + 1);
+    public static int randomNumber(int lowerBoundInclusive, int inclusiveUpperBound) {
+        return ThreadLocalRandom.current().nextInt(lowerBoundInclusive, inclusiveUpperBound + 1);
     }
 
     public static <T> T randomCollection(T[] collection) {
