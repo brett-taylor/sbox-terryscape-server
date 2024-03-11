@@ -25,6 +25,16 @@ public class NpcCombatBonusesProviderComponent extends BaseEntityComponent imple
     }
 
     @Override
+    public float getOffensiveAir() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getOffensiveAir();
+    }
+
+    @Override
+    public float getOffensiveFire() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getOffensiveFire();
+    }
+
+    @Override
     public float getDefensiveStab() {
         return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getDefensiveStab();
     }
@@ -35,7 +45,22 @@ public class NpcCombatBonusesProviderComponent extends BaseEntityComponent imple
     }
 
     @Override
+    public float getDefensiveAir() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getDefensiveAir();
+    }
+
+    @Override
+    public float getDefensiveFire() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getDefensiveFire();
+    }
+
+    @Override
     public float getStrengthMelee() {
         return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getStrengthMelee();
+    }
+
+    @Override
+    public float getStrengthMagic() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getStrengthMagic();
     }
 }

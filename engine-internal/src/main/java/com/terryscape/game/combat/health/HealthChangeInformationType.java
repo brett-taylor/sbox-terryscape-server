@@ -6,13 +6,15 @@ public enum HealthChangeInformationType {
     BLOCKED,
     DAMAGE,
     DAMAGE_MELEE,
+    DAMAGE_MAGIC,
     HEAL_FOOD;
 
     public static HealthChangeInformationType toHealthChangeReason(DamageType damageType) {
         return switch (damageType) {
+            case STAB, SLASH -> DAMAGE_MELEE;
 
-            case STAB -> DAMAGE_MELEE;
-            case SLASH -> DAMAGE_MELEE;
+            case AIR, FIRE -> DAMAGE_MAGIC;
+
             case TYPELESS -> DAMAGE;
         };
     }

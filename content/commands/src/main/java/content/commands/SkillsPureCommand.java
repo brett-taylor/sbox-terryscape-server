@@ -18,7 +18,7 @@ public class SkillsPureCommand implements Command {
 
     @Override
     public CommandDescription getDescription() {
-        return CommandDescription.of("Set your attack & strength to 30, and your defence to 1");
+        return CommandDescription.of("Set all your levels to 30, and your defence to 1");
     }
 
     @Override
@@ -27,8 +27,9 @@ public class SkillsPureCommand implements Command {
         skills.setAttack(30);
         skills.setDefence(1);
         skills.setStrength(30);
+        skills.setMagic(30);
 
         playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class)
-            .sendGameMessage("You have set your attack & strength to 30, and your defence to 1.");
+            .sendGameMessage("You have set your skills to \"pure\".");
     }
 }

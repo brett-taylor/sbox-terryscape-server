@@ -8,4 +8,6 @@ public interface NpcCombatSkillsDefinition {
 
     int getStrength();
 
+    int getMagic();
+
 }

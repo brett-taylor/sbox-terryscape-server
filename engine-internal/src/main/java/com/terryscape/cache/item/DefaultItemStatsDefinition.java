@@ -18,6 +18,16 @@ public class DefaultItemStatsDefinition implements ItemStatsDefinition {
     }
 
     @Override
+    public float getOffensiveAir() {
+        return 0;
+    }
+
+    @Override
+    public float getOffensiveFire() {
+        return 0;
+    }
+
+    @Override
     public float getDefensiveStab() {
         return 0;
     }
@@ -28,7 +38,22 @@ public class DefaultItemStatsDefinition implements ItemStatsDefinition {
     }
 
     @Override
+    public float getDefensiveAir() {
+        return 0;
+    }
+
+    @Override
+    public float getDefensiveFire() {
+        return 0;
+    }
+
+    @Override
     public float getStrengthMelee() {
+        return 0;
+    }
+
+    @Override
+    public float getStrengthMagic() {
         return 0;
     }
 

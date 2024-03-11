@@ -1,7 +1,6 @@
 package com.terryscape.game.diceroll;
 
 import com.google.inject.Singleton;
-import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatBonusesProviderComponent;
 import com.terryscape.game.combat.CombatSkillsProviderComponent;
 import com.terryscape.game.combat.DamageType;
@@ -62,6 +61,8 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
         return switch (damageType) {
             case STAB -> combatBonuses.getOffensiveStab();
             case SLASH -> combatBonuses.getOffensiveSlash();
+            case AIR -> combatBonuses.getOffensiveAir();
+            case FIRE -> combatBonuses.getOffensiveFire();
             case TYPELESS -> 0f;
         };
     }
@@ -76,6 +77,8 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
         return switch (damageType) {
             case STAB -> combatBonuses.getDefensiveStab();
             case SLASH -> combatBonuses.getDefensiveSlash();
+            case AIR -> combatBonuses.getDefensiveAir();
+            case FIRE -> combatBonuses.getDefensiveFire();
             case TYPELESS -> 0f;
         };
     }

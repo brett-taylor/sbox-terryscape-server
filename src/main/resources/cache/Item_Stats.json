@@ -4,80 +4,125 @@
     "weight": 1.8,
     "offensiveStab": 3,
     "offensiveSlash": 15,
+    "offensiveAir": 0,
+    "offensiveFire": 0,
     "defensiveStab": 0,
     "defensiveSlash": 1,
-    "strengthMelee": 14
+    "defensiveAir": 0,
+    "defensiveFire": 0,
+    "strengthMelee": 14,
+    "strengthMagic": 0
   },
   {
     "id": "basic_sword",
     "weight": 1.8,
     "offensiveStab": 15,
     "offensiveSlash": 3,
+    "offensiveAir": 0,
+    "offensiveFire": 0,
     "defensiveStab": 1,
     "defensiveSlash": 0,
-    "strengthMelee": 14
+    "defensiveAir": 0,
+    "defensiveFire": 0,
+    "strengthMelee": 14,
+    "strengthMagic": 0
   },
   {
     "id": "godsword",
     "weight": 10,
     "offensiveStab": -4,
     "offensiveSlash": 45,
+    "offensiveAir": 0,
+    "offensiveFire": 0,
     "defensiveStab": 0,
     "defensiveSlash": 0,
-    "strengthMelee": 45
+    "defensiveAir": 0,
+    "defensiveFire": 0,
+    "strengthMelee": 45,
+    "strengthMagic": 0
   },
   {
     "id": "steel_full_helm",
     "weight": 1.8,
     "offensiveStab": 0,
     "offensiveSlash": 0,
+    "offensiveAir": -2,
+    "offensiveFire": -2,
     "defensiveStab": 9,
     "defensiveSlash": 10,
-    "strengthMelee": 0
+    "defensiveAir": -2,
+    "defensiveFire": -2,
+    "strengthMelee": 0,
+    "strengthMagic": -2
   },
   {
     "id": "steel_platebody",
     "weight": 1.8,
     "offensiveStab": 0,
     "offensiveSlash": 0,
+    "offensiveAir": -4,
+    "offensiveFire": -4,
     "defensiveStab": 32,
     "defensiveSlash": 31,
-    "strengthMelee": 0
+    "defensiveAir": -4,
+    "defensiveFire": -4,
+    "strengthMelee": 0,
+    "strengthMagic": -4
   },
   {
     "id": "steel_platelegs",
     "weight": 1.8,
     "offensiveStab": 0,
     "offensiveSlash": 0,
+    "offensiveAir": -4,
+    "offensiveFire": -4,
     "defensiveStab": 17,
     "defensiveSlash": 16,
-    "strengthMelee": 0
+    "defensiveAir": -4,
+    "defensiveFire": -4,
+    "strengthMelee": 0,
+    "strengthMagic": -4
   },
   {
     "id": "steel_boots",
     "weight": 1.8,
     "offensiveStab": 0,
     "offensiveSlash": 0,
+    "offensiveAir": -2,
+    "offensiveFire": -2,
     "defensiveStab": 5,
     "defensiveSlash": 6,
-    "strengthMelee": 0
+    "defensiveAir": -2,
+    "defensiveFire": -2,
+    "strengthMelee": 0,
+    "strengthMagic": -2
   },
   {
     "id": "steel_gloves",
     "weight": 1.8,
     "offensiveStab": 4,
     "offensiveSlash": 4,
+    "offensiveAir": -2,
+    "offensiveFire": -2,
     "defensiveStab": 4,
     "defensiveSlash": 4,
-    "strengthMelee": 0
+    "defensiveAir": -2,
+    "defensiveFire": -2,
+    "strengthMelee": 0,
+    "strengthMagic": -2
   },
   {
     "id": "wizard_gear",
     "weight": 5,
-    "offensiveStab": 2,
-    "offensiveSlash": 2,
-    "defensiveStab": 2,
-    "defensiveSlash": 2,
-    "strengthMelee": 0
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "offensiveAir": 5,
+    "offensiveFire": 5,
+    "defensiveStab": 0,
+    "defensiveSlash": 0,
+    "defensiveAir": 5,
+    "defensiveFire": 5,
+    "strengthMelee": 0,
+    "strengthMagic": 5
   }
 ]

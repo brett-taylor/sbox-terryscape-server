@@ -2,6 +2,7 @@ package com.terryscape.game.player;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.maths.MathsUtil;
 import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
@@ -17,6 +18,8 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     private int defence = 30;
 
     private int strength = 30;
+
+    private int magic = 30;
 
     private int constitution = 10;
 
@@ -42,8 +45,13 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     @Override
     public int getCombat() {
         float defensiveLevel = (getDefence() + getConstitution()) / 4f;
+
         float offensiveMeleeLevel = (getAttack() + getStrength()) * 0.325f;
-        return (int) Math.floor(defensiveLevel + offensiveMeleeLevel);
+        float offensiveMagicLevel = (getAttack() + getMagic()) * 0.325f;
+
+        float offensiveLevel = Math.max(offensiveMeleeLevel, offensiveMagicLevel);
+
+        return MathsUtil.floorToInt(defensiveLevel + offensiveLevel);
     }
 
     @Override
@@ -77,6 +85,16 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     }
 
     @Override
+    public int getMagic() {
+        return magic;
+    }
+
+    @Override
+    public void setMagic(int magic) {
+        this.magic = magic;
+    }
+
+    @Override
     public int getConstitution() {
         return constitution;
     }
@@ -91,6 +109,7 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
         OutgoingPacket.writeInt32(packet, getAttack());
         OutgoingPacket.writeInt32(packet, getDefence());
         OutgoingPacket.writeInt32(packet, getStrength());
+        OutgoingPacket.writeInt32(packet, getMagic());
         OutgoingPacket.writeInt32(packet, getConstitution());
     }
 }

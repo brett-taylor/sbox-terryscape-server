@@ -27,8 +27,9 @@ public class SkillsMaxCommand implements Command {
         skills.setAttack(30);
         skills.setDefence(30);
         skills.setStrength(30);
+        skills.setMagic(30);
 
         playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class)
-            .sendGameMessage("You have set your attack & strength & defence to 30.");
+            .sendGameMessage("You have set your skills to \"max\".");
     }
 }

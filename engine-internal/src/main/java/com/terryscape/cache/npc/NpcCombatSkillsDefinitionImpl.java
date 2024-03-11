@@ -8,6 +8,8 @@ public class NpcCombatSkillsDefinitionImpl implements NpcCombatSkillsDefinition 
 
     private int strength;
 
+    private int magic;
+
     @Override
     public int getAttack() {
         return attack;
@@ -35,6 +37,16 @@ public class NpcCombatSkillsDefinitionImpl implements NpcCombatSkillsDefinition 
 
     public NpcCombatSkillsDefinitionImpl setStrength(int strength) {
         this.strength = strength;
+        return this;
+    }
+
+    @Override
+    public int getMagic() {
+        return magic;
+    }
+
+    public NpcCombatSkillsDefinitionImpl setMagic(int magic) {
+        this.magic = magic;
         return this;
     }
 }

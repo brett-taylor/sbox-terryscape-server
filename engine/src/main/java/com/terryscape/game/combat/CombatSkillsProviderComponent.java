@@ -10,4 +10,6 @@ public interface CombatSkillsProviderComponent extends EntityComponent {
 
     int getStrength();
 
+    int getMagic();
+
 }

@@ -47,6 +47,20 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     }
 
     @Override
+    public float getOffensiveAir() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getOffensiveAir())
+            .sum();
+    }
+
+    @Override
+    public float getOffensiveFire() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getOffensiveFire())
+            .sum();
+    }
+
+    @Override
     public float getDefensiveStab() {
         return (float) playerComponent.getEquipment().getAllItems().stream()
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getDefensiveStab())
@@ -61,9 +75,30 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     }
 
     @Override
+    public float getDefensiveAir() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getDefensiveAir())
+            .sum();
+    }
+
+    @Override
+    public float getDefensiveFire() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getDefensiveFire())
+            .sum();
+    }
+
+    @Override
     public float getStrengthMelee() {
         return (float) playerComponent.getEquipment().getAllItems().stream()
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getStrengthMelee())
+            .sum();
+    }
+
+    @Override
+    public float getStrengthMagic() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getStrengthMagic())
             .sum();
     }
 
@@ -79,10 +114,15 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
 
         OutgoingPacket.writeFloat(packet, getOffensiveStab());
         OutgoingPacket.writeFloat(packet, getOffensiveSlash());
+        OutgoingPacket.writeFloat(packet, getOffensiveAir());
+        OutgoingPacket.writeFloat(packet, getOffensiveFire());
 
         OutgoingPacket.writeFloat(packet, getDefensiveStab());
         OutgoingPacket.writeFloat(packet, getDefensiveSlash());
+        OutgoingPacket.writeFloat(packet, getDefensiveAir());
+        OutgoingPacket.writeFloat(packet, getDefensiveFire());
 
         OutgoingPacket.writeFloat(packet, getStrengthMelee());
+        OutgoingPacket.writeFloat(packet, getStrengthMagic());
     }
 }

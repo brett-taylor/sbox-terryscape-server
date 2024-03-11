@@ -35,11 +35,19 @@ public class ItemStatsCacheLoader {
         return new ItemStatsDefinitionImpl()
             .setId(jsonObject.getAsJsonPrimitive("id").getAsString())
             .setWeight(jsonObject.getAsJsonPrimitive("weight").getAsFloat())
+
             .setOffensiveStab(jsonObject.getAsJsonPrimitive("offensiveStab").getAsFloat())
             .setOffensiveSlash(jsonObject.getAsJsonPrimitive("offensiveSlash").getAsFloat())
+            .setOffensiveAir(jsonObject.getAsJsonPrimitive("offensiveAir").getAsFloat())
+            .setOffensiveFire(jsonObject.getAsJsonPrimitive("offensiveFire").getAsFloat())
+
             .setDefensiveStab(jsonObject.getAsJsonPrimitive("defensiveStab").getAsFloat())
             .setDefensiveSlash(jsonObject.getAsJsonPrimitive("defensiveSlash").getAsFloat())
-            .setStrengthMelee(jsonObject.getAsJsonPrimitive("strengthMelee").getAsFloat());
+            .setDefensiveAir(jsonObject.getAsJsonPrimitive("defensiveAir").getAsFloat())
+            .setDefensiveFire(jsonObject.getAsJsonPrimitive("defensiveFire").getAsFloat())
+
+            .setStrengthMelee(jsonObject.getAsJsonPrimitive("strengthMelee").getAsFloat())
+            .setStrengthMagic(jsonObject.getAsJsonPrimitive("strengthMagic").getAsFloat());
     }
 
 }

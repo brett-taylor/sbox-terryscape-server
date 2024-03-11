@@ -46,6 +46,11 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         public int getStrength() {
             return 1;
         }
+
+        @Override
+        public int getMagic() {
+            return 1;
+        }
     }
 
     private static class DefaultCombatBonuses implements NpcCombatBonusesDefinition {
@@ -60,6 +65,16 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         }
 
         @Override
+        public float getOffensiveAir() {
+            return 1;
+        }
+
+        @Override
+        public float getOffensiveFire() {
+            return 1;
+        }
+
+        @Override
         public float getDefensiveStab() {
             return 1;
         }
@@ -70,7 +85,22 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         }
 
         @Override
+        public float getDefensiveFire() {
+            return 1;
+        }
+
+        @Override
+        public float getDefensiveAir() {
+            return 1;
+        }
+
+        @Override
         public float getStrengthMelee() {
+            return 1;
+        }
+
+        @Override
+        public float getStrengthMagic() {
             return 1;
         }
     }

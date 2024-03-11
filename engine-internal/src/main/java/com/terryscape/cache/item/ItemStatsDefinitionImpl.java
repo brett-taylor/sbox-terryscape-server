@@ -10,11 +10,21 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     private float offensiveSlash;
 
+    private float offensiveAir;
+
+    private float offensiveFire;
+
     private float defensiveStab;
 
     private float defensiveSlash;
 
+    private float defensiveAir;
+
+    private float defensiveFire;
+
     private float strengthMelee;
+
+    private float strengthMagic;
 
     public String getId() {
         return id;
@@ -56,6 +66,26 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
     }
 
     @Override
+    public float getOffensiveAir() {
+        return offensiveAir;
+    }
+
+    public ItemStatsDefinitionImpl setOffensiveAir(float offensiveAir) {
+        this.offensiveAir = offensiveAir;
+        return this;
+    }
+
+    @Override
+    public float getOffensiveFire() {
+        return offensiveFire;
+    }
+
+    public ItemStatsDefinitionImpl setOffensiveFire(float offensiveFire) {
+        this.offensiveFire = offensiveFire;
+        return this;
+    }
+
+    @Override
     public float getDefensiveStab() {
         return defensiveStab;
     }
@@ -76,12 +106,42 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
     }
 
     @Override
+    public float getDefensiveAir() {
+        return defensiveAir;
+    }
+
+    public ItemStatsDefinitionImpl setDefensiveAir(float defensiveAir) {
+        this.defensiveAir = defensiveAir;
+        return this;
+    }
+
+    @Override
+    public float getDefensiveFire() {
+        return defensiveFire;
+    }
+
+    public ItemStatsDefinitionImpl setDefensiveFire(float defensiveFire) {
+        this.defensiveFire = defensiveFire;
+        return this;
+    }
+
+    @Override
     public float getStrengthMelee() {
         return strengthMelee;
     }
 
     public ItemStatsDefinitionImpl setStrengthMelee(float strengthMelee) {
         this.strengthMelee = strengthMelee;
+        return this;
+    }
+
+    @Override
+    public float getStrengthMagic() {
+        return strengthMagic;
+    }
+
+    public ItemStatsDefinitionImpl setStrengthMagic(float strengthMagic) {
+        this.strengthMagic = strengthMagic;
         return this;
     }
 

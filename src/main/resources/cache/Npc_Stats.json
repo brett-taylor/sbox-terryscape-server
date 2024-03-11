@@ -5,14 +5,20 @@
     "skills": {
       "attack": 1,
       "defence": 1,
-      "strength": 1
+      "strength": 1,
+      "magic": 1
     },
     "bonuses": {
       "offensiveStab": -21,
       "offensiveSlash": -21,
+      "offensiveAir": 0,
+      "offensiveFire": 0,
       "defensiveStab": -15,
       "defensiveSlash": -15,
-      "strengthMelee": -15
+      "defensiveAir": 0,
+      "defensiveFire": 0,
+      "strengthMelee": -15,
+      "strengthMagic": 0
     }
   },
   {
@@ -21,14 +27,20 @@
     "skills": {
       "attack": 18,
       "defence": 26,
-      "strength": 22
+      "strength": 22,
+      "magic": 1
     },
     "bonuses": {
       "offensiveStab": 18,
       "offensiveSlash": 18,
+      "offensiveAir": 0,
+      "offensiveFire": 0,
       "defensiveStab": 0,
       "defensiveSlash": 0,
-      "strengthMelee": 16
+      "defensiveAir": 0,
+      "defensiveFire": 0,
+      "strengthMelee": 16,
+      "strengthMagic": 0
     }
   },
   {
@@ -37,14 +49,20 @@
     "skills": {
       "attack": 50,
       "defence": 0,
-      "strength": 40
+      "strength": 40,
+      "magic": 1
     },
     "bonuses": {
       "offensiveStab": 20,
       "offensiveSlash": 20,
+      "offensiveAir": 0,
+      "offensiveFire": 0,
       "defensiveStab": 0,
       "defensiveSlash": 0,
-      "strengthMelee": 30
+      "defensiveAir": 0,
+      "defensiveFire": 0,
+      "strengthMelee": 30,
+      "strengthMagic": 0
     }
   },
   {
@@ -53,14 +71,20 @@
     "skills": {
       "attack": 60,
       "defence": 40,
-      "strength": 30
+      "strength": 30,
+      "magic": 1
     },
     "bonuses": {
       "offensiveStab": 0,
       "offensiveSlash": 0,
+      "offensiveAir": 0,
+      "offensiveFire": 0,
       "defensiveStab": 20,
       "defensiveSlash": 40,
-      "strengthMelee": 0
+      "defensiveAir": 0,
+      "defensiveFire": 0,
+      "strengthMelee": 0,
+      "strengthMagic": 0
     }
   }
 ]

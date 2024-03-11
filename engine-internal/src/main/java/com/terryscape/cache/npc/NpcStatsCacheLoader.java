@@ -45,7 +45,8 @@ public class NpcStatsCacheLoader {
         return new NpcCombatSkillsDefinitionImpl()
             .setAttack(skillsJsonObject.getAsJsonPrimitive("attack").getAsInt())
             .setDefence(skillsJsonObject.getAsJsonPrimitive("defence").getAsInt())
-            .setStrength(skillsJsonObject.getAsJsonPrimitive("strength").getAsInt());
+            .setStrength(skillsJsonObject.getAsJsonPrimitive("strength").getAsInt())
+            .setMagic(skillsJsonObject.getAsJsonPrimitive("magic").getAsInt());
     }
 
     private NpcCombatBonusesDefinitionImpl createNpcCombatBonusesDefinitionFromJson(JsonObject jsonObject) {
@@ -54,8 +55,15 @@ public class NpcStatsCacheLoader {
         return new NpcCombatBonusesDefinitionImpl()
             .setOffensiveStab(bonusesJsonObject.getAsJsonPrimitive("offensiveStab").getAsFloat())
             .setOffensiveSlash(bonusesJsonObject.getAsJsonPrimitive("offensiveSlash").getAsFloat())
+            .setOffensiveAir(bonusesJsonObject.getAsJsonPrimitive("offensiveAir").getAsFloat())
+            .setOffensiveFire(bonusesJsonObject.getAsJsonPrimitive("offensiveFire").getAsFloat())
+
             .setDefensiveStab(bonusesJsonObject.getAsJsonPrimitive("defensiveStab").getAsFloat())
             .setDefensiveSlash(bonusesJsonObject.getAsJsonPrimitive("defensiveSlash").getAsFloat())
-            .setStrengthMelee(bonusesJsonObject.getAsJsonPrimitive("strengthMelee").getAsFloat());
+            .setDefensiveAir(bonusesJsonObject.getAsJsonPrimitive("defensiveAir").getAsFloat())
+            .setDefensiveFire(bonusesJsonObject.getAsJsonPrimitive("defensiveFire").getAsFloat())
+
+            .setStrengthMelee(bonusesJsonObject.getAsJsonPrimitive("strengthMelee").getAsFloat())
+            .setStrengthMagic(bonusesJsonObject.getAsJsonPrimitive("strengthMagic").getAsFloat());
     }
 }
