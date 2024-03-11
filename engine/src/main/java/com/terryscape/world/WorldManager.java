@@ -11,8 +11,6 @@ public interface WorldManager {
 
     void registerEntity(Entity entity);
 
-    void deleteEntity(EntityIdentifier entityIdentifier);
-
     Entity getEntity(EntityIdentifier entityIdentifier);
 
 }

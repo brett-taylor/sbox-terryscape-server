@@ -13,6 +13,7 @@ import com.terryscape.game.chat.dialogue.DialogueInterfaceActionHandler;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.chat.dialogue.DialogueManagerImpl;
 import com.terryscape.game.equipment.PlayerEquipmentInterfaceActionHandler;
+import com.terryscape.game.grounditem.GroundItemActionIncomingPacket;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.packet.InterfaceActionIncomingPacket;
 import com.terryscape.game.interfaces.InterfaceManager;
@@ -67,6 +68,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         incomingPacketMultibinder.addBinding().to(NpcActionIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(WorldObjectActionIncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(PlayerActionIncomingPacket.class);
+        incomingPacketMultibinder.addBinding().to(GroundItemActionIncomingPacket.class);
 
         var interfaceActionHandlerMultibinder = Multibinder.newSetBinder(binder(), InterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(PlayerEquipmentInterfaceActionHandler.class);

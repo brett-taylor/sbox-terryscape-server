@@ -22,7 +22,7 @@ public abstract class BaseEntityComponent implements EntityComponent {
     public void onRegistered() {
     }
 
-    public void delete() {
+    public void removeFromEntity() {
         isRemoved = true;
     }
 

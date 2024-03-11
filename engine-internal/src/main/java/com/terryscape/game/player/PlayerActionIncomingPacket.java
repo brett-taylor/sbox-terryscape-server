@@ -42,7 +42,9 @@ public class PlayerActionIncomingPacket implements IncomingPacket {
             return;
         }
 
-        // TODO check the player can interact with players currently?
+        if (!selfPlayer.canDoActions()) {
+            return;
+        }
 
         if (action.equals("attack")) {
             var otherPlayerCombat = otherPlayer.getEntity().getComponentOrThrow(CombatComponent.class);

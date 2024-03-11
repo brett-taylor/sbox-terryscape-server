@@ -28,7 +28,7 @@ public class EatDelayComponent extends BaseEntityComponent {
         startingDelay -= 1;
 
         if (startingDelay <= 0) {
-            delete();
+            removeFromEntity();
         }
     }
 

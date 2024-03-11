@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 @Singleton
 public class WorldManagerImpl implements WorldManager {
@@ -25,7 +26,6 @@ public class WorldManagerImpl implements WorldManager {
     private final PacketManager packetManager;
 
     private final Map<EntityIdentifier, EntityImpl> entitiesToRegisterNextTick;
-    private final Map<EntityIdentifier, EntityImpl> entitiesToUnregisterNextTick;
     private final Map<EntityIdentifier, EntityImpl> entities;
 
     @Inject
@@ -34,27 +34,13 @@ public class WorldManagerImpl implements WorldManager {
 
         entities = new HashMap<>();
         entitiesToRegisterNextTick = new ConcurrentHashMap<>();
-        entitiesToUnregisterNextTick = new ConcurrentHashMap<>();
     }
 
     @Override
     public void registerEntity(Entity entity) {
         EntityImpl entityImp = (EntityImpl) entity;
         entitiesToRegisterNextTick.put(entity.getIdentifier(), entityImp);
-        entityImp.setValid(true);
-    }
-
-    @Override
-    public void deleteEntity(EntityIdentifier entityIdentifier) {
-        var entity = entities.get(entityIdentifier);
-
-        if (entity == null) {
-            LOGGER.error("Attempted to delete an entity that no longer exists.");
-            return;
-        }
-
-        entitiesToUnregisterNextTick.put(entityIdentifier, entity);
-        entity.setValid(false);
+        entityImp.markAsValid();
     }
 
     @Override
@@ -74,13 +60,13 @@ public class WorldManagerImpl implements WorldManager {
     }
 
     public void tick() {
-        entitiesToUnregisterNextTick.values().forEach(this::unregisterSingleEntity);
-        entitiesToUnregisterNextTick.clear();
-
         entitiesToRegisterNextTick.values().forEach(this::registerSingleEntity);
         entitiesToRegisterNextTick.clear();
 
         entities.values().forEach(this::tickSingleEntity);
+
+        var entitiesToRemove = entities.values().stream().filter(Predicate.not(EntityImpl::isValid)).toList();
+        entitiesToRemove.forEach(this::unregisterSingleEntity);
     }
 
     private void registerSingleEntity(EntityImpl entity) {
@@ -91,7 +77,7 @@ public class WorldManagerImpl implements WorldManager {
         var packet = new EntityAddedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(packet);
 
-        LOGGER.info("Registered Entity {}", entity.getIdentifier());
+        LOGGER.info("Registered {} {}", entity.getPrefabType(), entity.getIdentifier());
     }
 
     private void unregisterSingleEntity(EntityImpl entity) {
@@ -100,7 +86,7 @@ public class WorldManagerImpl implements WorldManager {
         var packet = new EntityRemovedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(packet);
 
-        LOGGER.info("Unregistered Entity {}", entity.getIdentifier());
+        LOGGER.info("Unregistered {} {}", entity.getPrefabType(), entity.getIdentifier());
     }
 
     private void tickSingleEntity(EntityImpl entity) {

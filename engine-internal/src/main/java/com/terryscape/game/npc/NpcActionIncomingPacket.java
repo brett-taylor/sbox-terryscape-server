@@ -56,7 +56,9 @@ public class NpcActionIncomingPacket implements IncomingPacket {
             chatComponent.sendGameMessage(description);
         }
 
-        // TODO check the player can interact with npcs currently?
+        if (!player.canDoActions()) {
+            return;
+        }
 
         if (npc.getNpcDefinition().isAttackable() && action.equals("attack")) {
             var npcCombat = npc.getEntity().getComponentOrThrow(CombatComponent.class);

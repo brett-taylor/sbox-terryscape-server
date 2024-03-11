@@ -12,7 +12,10 @@ import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
+import com.terryscape.game.grounditem.GroundItemComponentImpl;
+import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
 import com.terryscape.game.interfaces.InterfaceManager;
+import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
@@ -28,7 +31,10 @@ import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.WorldClock;
 import com.terryscape.world.WorldManager;
+import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
+
+// TODO: Work out a plan on how to get rid of this.
 
 @Singleton
 public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
@@ -81,7 +87,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createNpcPrefab(NpcDefinition npcDefinition) {
         var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
 
-        var npcComponent = new NpcComponentImpl(entity, worldManager);
+        var npcComponent = new NpcComponentImpl(entity);
         npcComponent.setNpcDefinition(npcDefinition);
         entity.addComponent(npcComponent);
 
@@ -168,6 +174,19 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 2000);
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("food_fish"), 1);
+
+        return entity;
+    }
+
+    @Override
+    public Entity createGroundItemPrefab(ItemContainerItem itemContainerItem, WorldCoordinate worldCoordinate) {
+        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.GROUND_ITEM, null);
+
+        var groundItemComponent = new GroundItemComponentImpl(entity, itemContainerItem, worldCoordinate);
+        entity.addComponent(groundItemComponent);
+
+         var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent(entity);
+         entity.addComponent(groundItemTimeAliveComponent);
 
         return entity;
     }

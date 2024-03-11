@@ -15,8 +15,6 @@ import java.util.function.Consumer;
 
 public class EntityImpl implements Entity {
 
-    private static final Logger LOGGER = LogManager.getLogger(EntityImpl.class);
-
     private final EntityIdentifier entityIdentifier;
 
     private final EntityPrefabType entityPrefabType;
@@ -29,7 +27,9 @@ public class EntityImpl implements Entity {
 
     private boolean isValid;
 
-    private boolean hasBeenRegistered = false;
+    private boolean shouldDelete;
+
+    private boolean hasBeenRegistered;
 
     // TODO: Change EntityPrefabType to EntityTags and network those instead.
     public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType, String entityPrefabIdentifier) {
@@ -58,9 +58,13 @@ public class EntityImpl implements Entity {
         return isValid;
     }
 
-    public EntityImpl setValid(boolean valid) {
-        isValid = valid;
-        return this;
+    @Override
+    public void delete() {
+        isValid = false;
+    }
+
+    public void markAsValid() {
+        isValid = true;
     }
 
     @Override

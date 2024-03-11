@@ -1,8 +1,12 @@
 package com.terryscape.game.item;
 
 import com.terryscape.cache.item.ItemDefinition;
+import com.terryscape.net.OutgoingPacket;
+import com.terryscape.net.PacketSerializable;
 
-public class ItemContainerItem {
+import java.io.OutputStream;
+
+public class ItemContainerItem implements PacketSerializable {
 
     private final ItemDefinition itemDefinition;
 
@@ -19,5 +23,11 @@ public class ItemContainerItem {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    @Override
+    public void writeToPacket(OutputStream packet) {
+        OutgoingPacket.writeString(packet, getItemDefinition().getId());
+        OutgoingPacket.writeInt32(packet, getQuantity());
     }
 }

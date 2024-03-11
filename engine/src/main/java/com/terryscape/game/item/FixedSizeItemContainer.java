@@ -144,13 +144,6 @@ public abstract class FixedSizeItemContainer implements PacketSerializable {
     @Override
     public void writeToPacket(OutputStream packet) {
         OutgoingPacket.writeInt32(packet, items.length);
-        for (var item : items) {
-            if (item == null) {
-                OutgoingPacket.writeString(packet, null);
-            } else {
-                OutgoingPacket.writeString(packet, item.getItemDefinition().getId());
-                OutgoingPacket.writeInt32(packet, item.getQuantity());
-            }
-        }
+        OutgoingPacket.writeArray(packet, items);
     }
 }

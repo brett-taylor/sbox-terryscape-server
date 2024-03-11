@@ -53,11 +53,7 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         LOGGER.info("Closed websocket code={}, reason={}, remote={}.", code, reason, remote);
 
-        clients.get(conn)
-            .getPlayer()
-            .map(PlayerComponent::getEntity)
-            .map(Entity::getIdentifier)
-            .ifPresent(worldManager::deleteEntity);
+        clients.get(conn).getPlayer().ifPresent(playerComponent -> playerComponent.getEntity().delete());
 
         clients.remove(conn);
     }

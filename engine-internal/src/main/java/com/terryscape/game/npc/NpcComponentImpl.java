@@ -15,14 +15,10 @@ import java.io.OutputStream;
 
 public class NpcComponentImpl extends BaseEntityComponent implements NpcComponent {
 
-    private final WorldManager worldManager;
-
     private NpcDefinition npcDefinition;
 
-    public NpcComponentImpl(Entity entity, WorldManager worldManager) {
+    public NpcComponentImpl(Entity entity) {
         super(entity);
-
-        this.worldManager = worldManager;
 
         getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
     }
@@ -55,7 +51,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitTaskStep.ticks(8),
-            NextTickTaskStep.doThis(() -> worldManager.deleteEntity(getEntity().getIdentifier()))
+            NextTickTaskStep.doThis(getEntity()::delete)
         );
     }
 }

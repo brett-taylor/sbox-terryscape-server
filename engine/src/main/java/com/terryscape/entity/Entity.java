@@ -17,6 +17,8 @@ public interface Entity {
 
     boolean isValid();
 
+    void delete();
+
     void addComponent(BaseEntityComponent component);
 
     <T extends EntityComponent> boolean hasComponent(Class<T> componentType);
