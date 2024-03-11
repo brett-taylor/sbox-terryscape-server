@@ -52,4 +52,11 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
         LOGGER.info("Player {} said {}", playerComponent.getUsername(), message);
         packetManager.broadcast(playerPublicChatMessage(playerComponent, message));
     }
+
+    @Override
+    public void sendOverheadText(String message) {
+        var playerComponent = getEntity().getComponentOrThrow(PlayerComponent.class);
+
+        packetManager.send(playerComponent.getClient(), playerOverheadChat(playerComponent, message));
+    }
 }

@@ -7,4 +7,6 @@ public interface PlayerChatComponent extends EntityComponent {
     void sendGameMessage(String message);
 
     void handleChat(String message);
+
+    void sendOverheadText(String message);
 }

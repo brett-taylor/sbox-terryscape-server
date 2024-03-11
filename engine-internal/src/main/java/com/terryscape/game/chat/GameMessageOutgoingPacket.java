@@ -17,8 +17,12 @@ public class GameMessageOutgoingPacket implements OutgoingPacket {
         return new GameMessageOutgoingPacket(GameMessageType.PLAYER_PUBLIC_CHAT_MESSAGE, message, from.getEntity().getIdentifier());
     }
 
+    public static GameMessageOutgoingPacket playerOverheadChat(PlayerComponent from, String message) {
+        return new GameMessageOutgoingPacket(GameMessageType.OVERHEAD_CHAT, message, from.getEntity().getIdentifier());
+    }
+
     public static GameMessageOutgoingPacket npcOverheadChat(NpcComponent from, String message) {
-        return new GameMessageOutgoingPacket(GameMessageType.NPC_OVERHEAD_CHAT, message, from.getEntity().getIdentifier());
+        return new GameMessageOutgoingPacket(GameMessageType.OVERHEAD_CHAT, message, from.getEntity().getIdentifier());
     }
 
     private final GameMessageType gameMessageType;
@@ -51,6 +55,6 @@ public class GameMessageOutgoingPacket implements OutgoingPacket {
     private enum GameMessageType {
         GAME_MESSAGE,
         PLAYER_PUBLIC_CHAT_MESSAGE,
-        NPC_OVERHEAD_CHAT,
+        OVERHEAD_CHAT,
     }
 }

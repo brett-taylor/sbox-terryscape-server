@@ -2,6 +2,7 @@ package content.weapons;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.movement.AnimationComponent;
@@ -28,6 +29,10 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
     @Override
     public void attack(CombatComponent attacker, CombatComponent victim) {
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("2Hand_Sword_Attack3");
+
+        attacker.getEntity().getComponent(PlayerChatComponent.class).ifPresent(playerChatComponent -> {
+            playerChatComponent.sendOverheadText("Raarrrrrgggggghhhhhhh!");
+        });
 
         var accuracyRollOne = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
         var accuracyRollTwo = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
