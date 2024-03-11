@@ -39,7 +39,6 @@ public class GroundItemComponentImpl extends BaseEntityComponent implements Grou
 
     public void take(PlayerComponent playerComponent) {
         if (hasBeenTaken) {
-            playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("Its already gone...");
             return;
         }
 
