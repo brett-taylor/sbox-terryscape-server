@@ -64,9 +64,18 @@ public class LootTableManager {
 
     private void createGroundItemForLootItem(WorldCoordinate worldCoordinate, LootTableItem lootTableItem) {
         var amount = RandomUtil.randomNumber(lootTableItem.getMin(), lootTableItem.getMax());
-        var itemContainer = new ItemContainerItem(lootTableItem.getItemDefinition(), amount);
 
-        var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainer, worldCoordinate);
-        worldManager.registerEntity(groundItem);
+        if (lootTableItem.getItemDefinition().isStackable()) {
+            var itemContainer = new ItemContainerItem(lootTableItem.getItemDefinition(), amount);
+            var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainer, worldCoordinate);
+            worldManager.registerEntity(groundItem);
+            return;
+        }
+
+        for (var i = 0; i < amount; i++) {
+            var itemContainer = new ItemContainerItem(lootTableItem.getItemDefinition(), 1);
+            var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainer, worldCoordinate);
+            worldManager.registerEntity(groundItem);
+        }
     }
 }
