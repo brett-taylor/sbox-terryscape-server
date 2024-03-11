@@ -12,13 +12,10 @@ import com.terryscape.game.loottable.LootTableItem;
 import com.terryscape.game.loottable.LootTableProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Singleton
 public class GoblinLootTableProvider implements LootTableProvider {
-
-    private final CacheLoader cacheLoader;
 
     private NpcDefinition goblin;
     private NpcDefinition goblinWarrior;
@@ -44,8 +41,6 @@ public class GoblinLootTableProvider implements LootTableProvider {
 
     @Inject
     public GoblinLootTableProvider(CacheLoader cacheLoader, EventSystem eventSystem) {
-        this.cacheLoader = cacheLoader;
-
         eventSystem.subscribe(OnGameStartedSystemEvent.class, ignored -> {
             goblin = cacheLoader.getNpcDefinition("goblin");
             goblinWarrior = cacheLoader.getNpcDefinition("goblin_warrior");
@@ -100,10 +95,10 @@ public class GoblinLootTableProvider implements LootTableProvider {
             optionalDrops.add(LootTableItem.one(basicScimitar));
             optionalDrops.add(LootTableItem.one(basicSword));
 
-            optionalDrops.add(LootTableItem.randomAmount(cacheLoader.getItemDefinition("food_fish"), 1, 3));
-            optionalDrops.add(LootTableItem.randomAmount(cacheLoader.getItemDefinition("food_pie"), 1, 3));
-            optionalDrops.add(LootTableItem.randomAmount(cacheLoader.getItemDefinition("food_chicken"), 1, 3));
-            optionalDrops.add(LootTableItem.randomAmount(cacheLoader.getItemDefinition("food_potato"), 1, 3));
+            optionalDrops.add(LootTableItem.randomAmount(foodFish, 1, 3));
+            optionalDrops.add(LootTableItem.randomAmount(foodPie, 1, 3));
+            optionalDrops.add(LootTableItem.randomAmount(foodChicken, 1, 3));
+            optionalDrops.add(LootTableItem.randomAmount(foodPotato, 1, 3));
         }
 
         if (npcDefinition == goblinWarrior || npcDefinition == goblinShaman) {

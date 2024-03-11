@@ -2,7 +2,6 @@ package com.terryscape.game.loottable;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.MovementComponent;
@@ -21,8 +20,6 @@ public class LootTableManager {
 
     private static final Logger LOGGER = LogManager.getLogger(LootTableManager.class);
 
-    private final CacheLoader cacheLoader;
-
     private final EntityPrefabFactory entityPrefabFactory;
 
     private final WorldManager worldManager;
@@ -30,8 +27,7 @@ public class LootTableManager {
     private final HashMap<String, LootTableProvider> lootTableProviders;
 
     @Inject
-    public LootTableManager(Set<LootTableProvider> lootTables, CacheLoader cacheLoader, EntityPrefabFactory entityPrefabFactory, WorldManager worldManager) {
-        this.cacheLoader = cacheLoader;
+    public LootTableManager(Set<LootTableProvider> lootTables, EntityPrefabFactory entityPrefabFactory, WorldManager worldManager) {
         this.entityPrefabFactory = entityPrefabFactory;
         this.worldManager = worldManager;
 

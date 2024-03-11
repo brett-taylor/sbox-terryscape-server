@@ -31,9 +31,8 @@ public class GodswordEvilSpecialAttackHandler implements SpecialAttackHandler {
     public void attack(CombatComponent attacker, CombatComponent victim) {
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("2Hand_Sword_Attack3");
 
-        attacker.getEntity().getComponent(PlayerChatComponent.class).ifPresent(playerChatComponent -> {
-            playerChatComponent.sendOverheadText("Glory to the evil!");
-        });
+        attacker.getEntity().getComponent(PlayerChatComponent.class)
+            .ifPresent(playerChatComponent -> playerChatComponent.sendOverheadText("Glory to the Evil!"));
 
         var accuracyRoll = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
         if (!accuracyRoll) {

@@ -12,11 +12,12 @@ import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.script.PlayerCombatScript;
 import com.terryscape.game.combat.script.SimpleNpcCombatScript;
-import com.terryscape.game.loottable.LootTableManager;
+import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.grounditem.GroundItemComponentImpl;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.ItemContainerItem;
+import com.terryscape.game.loottable.LootTableManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
@@ -24,14 +25,12 @@ import com.terryscape.game.npc.*;
 import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.player.PlayerSkillsComponentImpl;
-import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
 import com.terryscape.world.WorldClock;
-import com.terryscape.world.WorldManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import com.terryscape.world.pathfinding.PathfindingManager;
 
@@ -39,8 +38,6 @@ import com.terryscape.world.pathfinding.PathfindingManager;
 
 @Singleton
 public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
-
-    private final WorldManager worldManager;
 
     private final PathfindingManager pathfindingManager;
 
@@ -63,8 +60,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     private final LootTableManager lootTableManager;
 
     @Inject
-    public EntityPrefabFactoryImpl(WorldManager worldManager,
-                                   PathfindingManager pathfindingManager,
+    public EntityPrefabFactoryImpl(PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
                                    PacketManager packetManager,
                                    CommandManager commandManager,
@@ -75,7 +71,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    SoundManager soundManager,
                                    LootTableManager lootTableManager) {
 
-        this.worldManager = worldManager;
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
         this.packetManager = packetManager;
@@ -134,8 +129,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
         entity.addComponent(overheadText);
 
-         var npcCombatAggressionComponent = new NpcCombatAggressionComponent(entity, combatComponent, movementComponent);
-         entity.addComponent(npcCombatAggressionComponent);
+        var npcCombatAggressionComponent = new NpcCombatAggressionComponent(entity, combatComponent, movementComponent);
+        entity.addComponent(npcCombatAggressionComponent);
 
         return entity;
     }
@@ -190,8 +185,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var groundItemComponent = new GroundItemComponentImpl(entity, itemContainerItem, worldCoordinate);
         entity.addComponent(groundItemComponent);
 
-         var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent(entity);
-         entity.addComponent(groundItemTimeAliveComponent);
+        var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent(entity);
+        entity.addComponent(groundItemTimeAliveComponent);
 
         return entity;
     }

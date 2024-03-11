@@ -31,9 +31,8 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
     public void attack(CombatComponent attacker, CombatComponent victim) {
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("2Hand_Sword_Attack3");
 
-        attacker.getEntity().getComponent(PlayerChatComponent.class).ifPresent(playerChatComponent -> {
-            playerChatComponent.sendOverheadText("Glory to the Righteous!");
-        });
+        attacker.getEntity().getComponent(PlayerChatComponent.class)
+            .ifPresent(playerChatComponent -> playerChatComponent.sendOverheadText("Glory to the Righteous!"));
 
         var accuracyRollOne = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
         var accuracyRollTwo = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
