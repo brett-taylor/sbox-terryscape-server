@@ -23,7 +23,7 @@ public class RandomUtil {
     }
 
     public static boolean randomBool() {
-        return ThreadLocalRandom.current().nextInt(0, 1) == 0;
+        return randomNumber(0, 1) == 0;
     }
 
     public static float random01() {
