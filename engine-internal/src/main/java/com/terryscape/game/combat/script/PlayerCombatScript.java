@@ -1,14 +1,18 @@
 package com.terryscape.game.combat.script;
 
+import com.terryscape.cache.item.WeaponItemDefinition;
 import com.terryscape.game.combat.CombatComponent;
+import com.terryscape.game.combat.CombatHit;
 import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.DamageType;
+import com.terryscape.game.combat.hit.StandardMagicCombatHit;
 import com.terryscape.game.combat.hit.StandardMeleeCombatHit;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.WorldClock;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.List;
 
@@ -88,12 +92,11 @@ public class PlayerCombatScript implements CombatScript {
             var isOffCooldown = lastMainHandAttackTime + weapon.getAttackSpeed() < worldClock.getNowTick();
             if (isOffCooldown) {
 
-                 if (attackerPlayer.wantsToSpecialAttack() && specialAttackDispatcher.shouldSpecialAttack(attacker, mainHand.get().getItemDefinition())) {
-                     specialAttackDispatcher.invoke(attacker, victim);
-                 } else {
-                     var meleeHit = new StandardMeleeCombatHit(weapon.getDamageType(), weapon.getMainHandAttackAnimation());
-                     attacker.registerAttack(victim, meleeHit);
-                 }
+                if (attackerPlayer.wantsToSpecialAttack() && specialAttackDispatcher.shouldSpecialAttack(attacker, mainHand.get().getItemDefinition())) {
+                    specialAttackDispatcher.invoke(attacker, victim);
+                } else {
+                    attacker.registerAttack(victim, createCombatHit(weapon, true));
+                }
 
                 attackerPlayer.setWantsToSpecialAttack(false);
                 attacker.ensureCooldownOfAtLeast(STANDARD_ATTACK_GLOBAL_COOLDOWN);
@@ -112,9 +115,7 @@ public class PlayerCombatScript implements CombatScript {
 
             var isOffCooldown = lastOffHandAttackTime + weapon.getAttackSpeed() < worldClock.getNowTick();
             if (isOffCooldown) {
-                var meleeHit = new StandardMeleeCombatHit(weapon.getDamageType(), weapon.getOffHandAttackAnimation());
-                attacker.registerAttack(victim, meleeHit);
-
+                attacker.registerAttack(victim, createCombatHit(weapon, false));
                 attacker.ensureCooldownOfAtLeast(STANDARD_ATTACK_GLOBAL_COOLDOWN);
                 lastOffHandAttackTime = worldClock.getNowTick();
             }
@@ -136,5 +137,19 @@ public class PlayerCombatScript implements CombatScript {
         );
 
         return RandomUtil.randomCollection(animations);
+    }
+
+    private CombatHit createCombatHit(WeaponItemDefinition weapon, boolean mainHand) {
+        // TODO: Work out a better way of doing this? Maybe its moving weapons into java code and having them just define it? Not sure I love the json
+
+        var attackAnimation = mainHand ? weapon.getMainHandAttackAnimation() : weapon.getOffHandAttackAnimation();
+
+        return switch (weapon.getDamageType()) {
+            case STAB, SLASH -> new StandardMeleeCombatHit(weapon.getDamageType(), attackAnimation);
+
+            case AIR, FIRE -> new StandardMagicCombatHit(weapon.getDamageType(), attackAnimation);
+
+            case TYPELESS -> throw new NotImplementedException();
+        };
     }
 }

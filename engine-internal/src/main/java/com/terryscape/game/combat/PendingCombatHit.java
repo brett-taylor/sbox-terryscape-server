@@ -2,17 +2,20 @@ package com.terryscape.game.combat;
 
 public class PendingCombatHit {
 
+    private final CombatComponent attacker;
+
     private final CombatComponent victim;
 
     private final CombatHit combatHit;
 
     private int ticksLeft;
 
-    public PendingCombatHit(CombatComponent victim, CombatHit combatHit) {
+    public PendingCombatHit(CombatComponent attacker, CombatComponent victim, CombatHit combatHit) {
+        this.attacker = attacker;
         this.victim = victim;
         this.combatHit = combatHit;
 
-        ticksLeft = combatHit.getHitDelayTicks();
+        ticksLeft = combatHit.calculateHitDelayTicks(attacker, victim);
     }
 
     public void tick() {

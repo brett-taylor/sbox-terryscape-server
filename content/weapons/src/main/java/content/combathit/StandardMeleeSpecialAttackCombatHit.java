@@ -34,14 +34,17 @@ public class StandardMeleeSpecialAttackCombatHit implements CombatHit {
     }
 
     @Override
-    public int getHitDelayTicks() {
+    public void onRegistered(CombatComponent attacker, CombatComponent victim) {
+        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(attackAnimationId);
+    }
+
+    @Override
+    public int calculateHitDelayTicks(CombatComponent attacker, CombatComponent victim) {
         return 0;
     }
 
     @Override
     public void executeHit(CombatComponent attacker, CombatComponent victim, CombatDiceRoll combatDiceRoll) {
-        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(attackAnimationId);
-
         var accuracyRoll = onAccuracyRoll.get();
 
         if (!accuracyRoll) {

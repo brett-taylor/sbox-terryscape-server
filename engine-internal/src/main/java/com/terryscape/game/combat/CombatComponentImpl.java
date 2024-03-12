@@ -117,7 +117,10 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     @Override
     public void registerAttack(CombatComponent victim, CombatHit combatHit) {
-        var pendingHit = new PendingCombatHit(victim, combatHit);
+        var pendingHit = new PendingCombatHit(this, victim, combatHit);
+
+        pendingHit.getCombatHit().onRegistered(this, victim);
+
         if (pendingHit.shouldExecute()) {
             executePendingCombatHit(pendingHit);
             return;
