@@ -170,7 +170,10 @@ public class SpawnGoblins {
         var npc = entityPrefabFactory.createNpcPrefab(goblinShaman);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
+
         npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, "shaman no like human"));
+
+        npc.getComponentOrThrow(CombatComponent.class).setCombatScript(new GoblinShamanCombatScript());
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 

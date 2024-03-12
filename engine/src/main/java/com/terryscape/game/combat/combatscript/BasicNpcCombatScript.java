@@ -1,9 +1,11 @@
-package com.terryscape.game.combat.script;
+package com.terryscape.game.combat.combatscript;
 
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatScript;
-import com.terryscape.game.combat.hit.StandardMeleeCombatHit;
+import com.terryscape.game.combat.combathit.StandardMeleeCombatHit;
 import com.terryscape.game.npc.NpcComponent;
+
+// TODO Is this the appropriate place?
 
 public class BasicNpcCombatScript implements CombatScript {
 

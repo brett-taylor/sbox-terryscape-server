@@ -4,6 +4,8 @@ import com.terryscape.entity.component.EntityComponent;
 
 public interface CombatComponent extends EntityComponent {
 
+    void setCombatScript(CombatScript combatScript);
+
     boolean isInCombat();
 
     void ensureCooldownOfAtLeast(int ticks);

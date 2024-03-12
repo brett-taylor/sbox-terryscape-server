@@ -55,6 +55,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         taskComponent = getEntity().getComponentOrThrow(TaskComponent.class);
     }
 
+    @Override
     public void setCombatScript(CombatScript combatScript) {
         this.combatScript = combatScript;
         this.combatScript.setOwner(this);

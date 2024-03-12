@@ -1,9 +1,11 @@
-package com.terryscape.game.combat.hit;
+package com.terryscape.game.combat.combathit;
 
 import com.terryscape.game.combat.*;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.diceroll.CombatDiceRoll;
+
+// TODO Probably should move into a content module?
 
 public abstract class StandardCombatFormulaHit implements CombatHit {
 

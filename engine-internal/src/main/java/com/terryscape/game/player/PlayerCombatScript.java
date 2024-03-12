@@ -1,14 +1,13 @@
-package com.terryscape.game.combat.script;
+package com.terryscape.game.player;
 
 import com.terryscape.cache.item.WeaponItemDefinition;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatHit;
 import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.DamageType;
-import com.terryscape.game.combat.hit.StandardMagicCombatHit;
-import com.terryscape.game.combat.hit.StandardMeleeCombatHit;
+import com.terryscape.game.combat.combathit.StandardMagicCombatHit;
+import com.terryscape.game.combat.combathit.StandardMeleeCombatHit;
 import com.terryscape.game.equipment.EquipmentSlot;
-import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.WorldClock;
@@ -46,20 +45,19 @@ public class PlayerCombatScript implements CombatScript {
     @Override
     public int range() {
         var playerComponent = attacker.getEntity().getComponentOrThrow(PlayerComponent.class);
-        var mainHandRange = 1;
-        var offHandRange = 1;
 
         var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
-        if (mainHand.isPresent()) {
-            mainHandRange = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getRange();
-        }
-
         var offHand = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
-        if (offHand.isPresent()) {
-            offHandRange = offHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getRange();
+
+        if (mainHand.isEmpty() && offHand.isEmpty()) {
+            return 1;
         }
 
-        return Math.min(mainHandRange, offHandRange);
+        if (mainHand.isPresent()) {
+            return mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getRange();
+        }
+
+        return offHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getRange();
     }
 
     @Override

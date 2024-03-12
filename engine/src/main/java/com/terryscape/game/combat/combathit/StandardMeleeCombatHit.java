@@ -1,8 +1,10 @@
-package com.terryscape.game.combat.hit;
+package com.terryscape.game.combat.combathit;
 
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.movement.AnimationComponent;
+
+// TODO Probably should move into a content module?
 
 public class StandardMeleeCombatHit extends StandardCombatFormulaHit {
 

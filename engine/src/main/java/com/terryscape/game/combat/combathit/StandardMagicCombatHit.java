@@ -1,10 +1,12 @@
-package com.terryscape.game.combat.hit;
+package com.terryscape.game.combat.combathit;
 
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
+
+// TODO Probably should move into a content module?
 
 public class StandardMagicCombatHit extends StandardCombatFormulaHit {
 
