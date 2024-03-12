@@ -70,6 +70,7 @@ public class ItemCacheLoader {
         return new WeaponItemDefinitionImpl()
             .setTwoHanded(twoHanded)
             .setDamageType(damageType)
+            .setRange(weaponItemJsonObject.getAsJsonPrimitive("range").getAsInt())
             .setAttackSpeed(weaponItemJsonObject.getAsJsonPrimitive("attackSpeed").getAsInt())
             .setMainHandAttackAnimation(weaponItemJsonObject.getAsJsonPrimitive("mainHandAttackAnimation").getAsString())
             .setOffHandAttackAnimation(offHandAnimation);

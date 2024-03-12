@@ -47,7 +47,20 @@ public class PlayerCombatScript implements CombatScript {
 
     @Override
     public int range() {
-        return 1;
+        var mainHandRange = 1;
+        var offHandRange = 1;
+
+        var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
+        if (mainHand.isPresent()) {
+            mainHandRange = mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getRange();
+        }
+
+        var offHand = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
+        if (offHand.isPresent()) {
+            offHandRange = offHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getRange();
+        }
+
+        return Math.min(mainHandRange, offHandRange);
     }
 
     @Override

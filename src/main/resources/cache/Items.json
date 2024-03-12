@@ -21,6 +21,7 @@
       "weapon": {
         "twoHanded": false,
         "damageType": "SLASH",
+        "range": 1,
         "attackSpeed": 6,
         "mainHandOffset": "2.38,-1.54,-0.00",
         "mainHandRotation": "0,0,-6.40",
@@ -56,6 +57,7 @@
       "weapon": {
         "twoHanded": false,
         "damageType": "STAB",
+        "range": 1,
         "attackSpeed": 6,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
@@ -91,6 +93,7 @@
       "weapon": {
         "twoHanded": true,
         "damageType": "SLASH",
+        "range": 1,
         "attackSpeed": 8,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
@@ -123,6 +126,7 @@
       "weapon": {
         "twoHanded": true,
         "damageType": "SLASH",
+        "range": 1,
         "attackSpeed": 8,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
@@ -556,6 +560,7 @@
       "weapon": {
         "twoHanded": false,
         "damageType": "AIR",
+        "range": 7,
         "attackSpeed": 6,
         "mainHandOffset": "2.38,-1.54,-0.00",
         "mainHandRotation": "0,0,-6.40",

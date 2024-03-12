@@ -8,6 +8,8 @@ public class WeaponItemDefinitionImpl implements WeaponItemDefinition {
 
     private DamageType damageType;
 
+    private int range;
+
     private int attackSpeed;
 
     private String mainHandAttackAnimation;
@@ -31,6 +33,16 @@ public class WeaponItemDefinitionImpl implements WeaponItemDefinition {
 
     public WeaponItemDefinitionImpl setDamageType(DamageType damageType) {
         this.damageType = damageType;
+        return this;
+    }
+
+    @Override
+    public int getRange() {
+        return range;
+    }
+
+    public WeaponItemDefinitionImpl setRange(int range) {
+        this.range = range;
         return this;
     }
 
