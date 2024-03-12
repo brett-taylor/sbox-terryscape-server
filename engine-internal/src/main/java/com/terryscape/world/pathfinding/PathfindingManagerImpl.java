@@ -48,13 +48,30 @@ public class PathfindingManagerImpl implements PathfindingManager {
 
     @Override
     public boolean hasLineOfSight(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
-        var projectilePathfind = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE);
-        var mobPathfind = pathfind(startingTile, destinationTile, PathfindType.MOB);
-        if (projectilePathfind.isEmpty() || mobPathfind.isEmpty()) {
+        //  var projectilePathfind = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE);
+        //  var mobPathfind = pathfind(startingTile, destinationTile, PathfindType.MOB);
+        //  if (projectilePathfind.isEmpty() || mobPathfind.isEmpty()) {
+        //    return false;
+        //  }
+        //  return Objects.equals(projectilePathfind.get(), mobPathfind.get());
+
+        var optionalPath = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE);
+        if (optionalPath.isEmpty()) {
             return false;
         }
 
-        return Objects.equals(projectilePathfind.get(), mobPathfind.get());
+        for (WorldCoordinate worldCoordinate : optionalPath.get()) {
+            var isWalkable = cacheLoader
+                .getWorldRegionDefinition(worldCoordinate.toWorldRegionCoordinate())
+                .getWorldTileDefinition(worldCoordinate.toWorldRegionLocalCoordinate())
+                .isWalkable();
+
+            if (!isWalkable) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
