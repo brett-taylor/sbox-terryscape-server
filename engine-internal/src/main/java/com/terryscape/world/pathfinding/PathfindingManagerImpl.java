@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -48,13 +47,6 @@ public class PathfindingManagerImpl implements PathfindingManager {
 
     @Override
     public boolean hasLineOfSight(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
-        //  var projectilePathfind = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE);
-        //  var mobPathfind = pathfind(startingTile, destinationTile, PathfindType.MOB);
-        //  if (projectilePathfind.isEmpty() || mobPathfind.isEmpty()) {
-        //    return false;
-        //  }
-        //  return Objects.equals(projectilePathfind.get(), mobPathfind.get());
-
         var optionalPath = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE);
         if (optionalPath.isEmpty()) {
             return false;

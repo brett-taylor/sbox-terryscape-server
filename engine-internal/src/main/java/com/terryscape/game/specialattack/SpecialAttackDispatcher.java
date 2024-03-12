@@ -47,10 +47,6 @@ public class SpecialAttackDispatcher {
         var handler = specialAttackHandlers.get(mainHand.getItemDefinition().getId());
         handler.attack(attacker, victim);
 
-        var delay = mainHand.getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().getAttackSpeed();
-        attacker.ensureCooldownOfAtLeast(delay);
-        attackerPlayer.setWantsToSpecialAttack(false);
-
         var newSpecialAttackPower = attackerPlayer.getSpecialAttackPower() - handler.getSpecialAttackPowerNeeded();
         attackerPlayer.setSpecialAttackPower(newSpecialAttackPower);
     }

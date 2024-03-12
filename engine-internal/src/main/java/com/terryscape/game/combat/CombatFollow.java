@@ -34,13 +34,15 @@ public class CombatFollow {
         var attackerMovement = attacker.getEntity().getComponentOrThrow(MovementComponent.class);
         var victimMovement = victim.getEntity().getComponentOrThrow(MovementComponent.class);
 
+        attackerMovement.face(victimMovement);
+
         clearDestinationTileIfVictimMoved(victimMovement);
 
         var inRange = calculateIfInRange(attackerMovement, victimMovement);
         var inRangeAndHasLineOfSight = inRange && pathfindingManager.hasLineOfSight(attackerMovement.getWorldCoordinate(), victimMovement.getWorldCoordinate());
         var isMoving = destinationTile != null;
 
-        if (inRangeAndHasLineOfSight && isMoving) {
+        if (inRangeAndHasLineOfSight) {
             destinationTile = null;
             attackerMovement.stop();
         }
@@ -54,12 +56,6 @@ public class CombatFollow {
 
             destinationTile = newDestinationTile.get();
             attackerMovement.move(destinationTile);
-        }
-
-        if (inRange) {
-            attackerMovement.face(victimMovement);
-        } else {
-            attackerMovement.stopFacing();
         }
 
         lastTickVictimWorldCoordinate = victim.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
@@ -79,5 +75,4 @@ public class CombatFollow {
         var attackerCombatRange = attacker.getCombatScript().range();
         return attackerMovement.getWorldCoordinate().tileDistance(victimMovement.getWorldCoordinate()) <= attackerCombatRange;
     }
-
 }

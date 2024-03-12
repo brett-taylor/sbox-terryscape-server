@@ -10,8 +10,8 @@ import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.health.HealthComponentImpl;
+import com.terryscape.game.combat.script.BasicNpcCombatScript;
 import com.terryscape.game.combat.script.PlayerCombatScript;
-import com.terryscape.game.combat.script.SimpleNpcCombatScript;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.grounditem.GroundItemComponentImpl;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
@@ -118,14 +118,14 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
-        entity.addComponent(combatComponent);
-
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        combatComponent.setCombatScript(new SimpleNpcCombatScript(npcComponent));
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
+        entity.addComponent(combatComponent);
+
+        combatComponent.setCombatScript(new BasicNpcCombatScript());
 
         var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
         entity.addComponent(overheadText);
@@ -165,14 +165,14 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
-        entity.addComponent(combatComponent);
-
         var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        combatComponent.setCombatScript(new PlayerCombatScript(worldClock, playerComponent, specialAttackDispatcher));
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
+        entity.addComponent(combatComponent);
+
+        combatComponent.setCombatScript(new PlayerCombatScript(worldClock, specialAttackDispatcher));
 
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 250);
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("food_fish"), 1);

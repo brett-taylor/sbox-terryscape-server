@@ -207,10 +207,10 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     private void onAttack(OnAttackEntityEvent onAttackEntityEvent) {
-        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
+        // soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
     }
 
     private void onAttacked(OnAttackedEntityEvent onAttackedEntityEvent) {
-        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
+        // soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
     }
 }

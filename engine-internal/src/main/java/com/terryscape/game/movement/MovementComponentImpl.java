@@ -33,6 +33,8 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     private MovementSpeed movementSpeed = MovementSpeed.WALK;
 
+    private boolean hasMovedThisTick = false;
+
     @Inject
     public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
         super(entity);
@@ -90,6 +92,11 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         }
 
         pathfindingRoute = result.get();
+
+        if (!hasMovedThisTick) {
+            tick();
+        }
+
         return true;
     }
 
@@ -104,6 +111,10 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     }
 
     public void tick() {
+        if (hasMovedThisTick) {
+            return;
+        }
+
         if (facing != null) {
             this.direction = getWorldCoordinate().directionTo(facing.getWorldCoordinate());
         }
@@ -136,6 +147,8 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
         this.worldCoordinate = newDestinationTile;
         setDirectionIfNotFacing(newDirection);
+
+        hasMovedThisTick = true;
     }
 
     @Override
@@ -163,6 +176,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         }
 
         nextUpdateWasTeleport = false;
+        hasMovedThisTick = false;
     }
 
     private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {

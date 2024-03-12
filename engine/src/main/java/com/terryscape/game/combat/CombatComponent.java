@@ -6,10 +6,11 @@ public interface CombatComponent extends EntityComponent {
 
     boolean isInCombat();
 
+    void ensureCooldownOfAtLeast(int ticks);
+
     void attack(CombatComponent victim);
 
     void stopAttacking();
 
-    void ensureCooldownOfAtLeast(int ticks);
-
+    void registerAttack(CombatComponent victim, CombatHit combatHit);
 }

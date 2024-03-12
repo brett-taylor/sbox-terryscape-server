@@ -13,6 +13,9 @@ import com.terryscape.world.pathfinding.PathfindingManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CombatComponentImpl extends BaseEntityComponent implements CombatComponent {
 
     private static final Logger LOGGER = LogManager.getLogger(CombatComponentImpl.class);
@@ -20,6 +23,8 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     private final PathfindingManager pathfindingManager;
 
     private final CombatDiceRoll combatDiceRoll;
+
+    private final List<PendingCombatHit> pendingCombatHits;
 
     private CombatScript combatScript;
 
@@ -40,6 +45,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
         this.pathfindingManager = pathfindingManager;
         this.combatDiceRoll = combatDiceRoll;
+        this.pendingCombatHits = new ArrayList<>();
     }
 
     @Override
@@ -51,6 +57,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     public void setCombatScript(CombatScript combatScript) {
         this.combatScript = combatScript;
+        this.combatScript.setOwner(this);
     }
 
     public CombatScript getCombatScript() {
@@ -109,11 +116,29 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     }
 
     @Override
+    public void registerAttack(CombatComponent victim, CombatHit combatHit) {
+        var pendingHit = new PendingCombatHit(victim, combatHit);
+        if (pendingHit.shouldExecute()) {
+            executePendingCombatHit(pendingHit);
+            return;
+        }
+
+        pendingCombatHits.add(pendingHit);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
         if (cooldown > 0) {
             cooldown -= 1;
+        }
+
+        tickPendingCombatHits();
+
+        var shouldContinue = checkVictimStateAndContinueAttacking();
+        if (!shouldContinue) {
+            return;
         }
 
         if (combatTask == null) {
@@ -129,23 +154,35 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         var combatFollowResult = combatFollow.tick();
         if (combatFollowResult.shouldStopAttacking()) {
             stopAttacking();
-        } else if (combatFollowResult.canAttack()) {
-            tickAttack();
+            return;
         }
+
+        if (!combatFollowResult.canAttack() || cooldown > 0) {
+            return;
+        }
+
+        combatScript.attack(victim);
+        checkVictimStateAndContinueAttacking();
     }
 
-    private void tickAttack() {
-        if (cooldown > 0) {
-            return;
-        }
+    private void tickPendingCombatHits() {
+        pendingCombatHits.forEach(PendingCombatHit::tick);
+        var pendingHitsToExecute = pendingCombatHits.stream().filter(PendingCombatHit::shouldExecute).toList();
+        pendingHitsToExecute.forEach(this::executePendingCombatHit);
+        pendingCombatHits.removeAll(pendingHitsToExecute);
+    }
 
-        var didAttack = combatScript.attack(this, victim, combatDiceRoll);
-        if (!didAttack) {
-            return;
-        }
+    private void executePendingCombatHit(PendingCombatHit pendingCombatHit){
+        pendingCombatHit.getCombatHit().executeHit(this, pendingCombatHit.getVictim(), combatDiceRoll);
 
-        getEntity().invoke(OnAttackEntityEvent.class, new OnAttackEntityEvent(victim));
-        victim.getEntity().invoke(OnAttackedEntityEvent.class, new OnAttackedEntityEvent(this));
+        getEntity().invoke(OnAttackEntityEvent.class, new OnAttackEntityEvent(pendingCombatHit.getVictim()));
+        pendingCombatHit.getVictim().getEntity().invoke(OnAttackedEntityEvent.class, new OnAttackedEntityEvent(this));
+    }
+
+    private boolean checkVictimStateAndContinueAttacking() {
+        if (this.victim == null) {
+            return false;
+        }
 
         // TODO: Swap this to like subscribing to the entity's death event or something
         if (victim.getEntity().getComponentOrThrow(HealthComponent.class).isDying()) {
@@ -164,6 +201,10 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             }
 
             stopAttacking();
+            return false;
         }
+
+        return true;
     }
+
 }

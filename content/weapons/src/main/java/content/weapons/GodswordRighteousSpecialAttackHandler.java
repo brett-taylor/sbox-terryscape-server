@@ -5,10 +5,10 @@ import com.google.inject.Singleton;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
-import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.specialattack.SpecialAttackHandler;
 import com.terryscape.game.specialattack.SpecialAttackHandlerUtils;
 import com.terryscape.maths.MathsUtil;
+import content.combathit.StandardMeleeSpecialAttackCombatHit;
 
 import java.util.Set;
 
@@ -29,22 +29,28 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
 
     @Override
     public void attack(CombatComponent attacker, CombatComponent victim) {
-        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("2Hand_Sword_Attack3");
+        var hit = new StandardMeleeSpecialAttackCombatHit();
 
-        attacker.getEntity().getComponent(PlayerChatComponent.class)
-            .ifPresent(playerChatComponent -> playerChatComponent.sendOverheadText("Glory to the Righteous!"));
+        hit.setAttackAnimationId("2Hand_Sword_Attack3");
 
-        var accuracyRollOne = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
-        var accuracyRollTwo = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
+        hit.setOnAccuracyRoll(() -> {
+            var accuracyRollOne = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
+            var accuracyRollTwo = specialAttackHandlerUtils.rollStandardAccuracyHitChance(attacker, victim, DamageType.SLASH);
 
-        if (!accuracyRollOne && !accuracyRollTwo) {
-            specialAttackHandlerUtils.showStandardMissedHit(victim, DamageType.SLASH);
-            return;
-        }
+            attacker.getEntity().getComponent(PlayerChatComponent.class)
+                .ifPresent(playerChatComponent -> playerChatComponent.sendOverheadText("Glory to the Righteous!"));
 
-        var damageAmountRoll = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
-        specialAttackHandlerUtils.showStandardHit(victim, damageAmountRoll, DamageType.SLASH);
+            return accuracyRollOne || accuracyRollTwo;
+        });
 
+        hit.setOnMiss(() -> specialAttackHandlerUtils.showStandardMissedHit(victim, DamageType.SLASH));
+
+        hit.setOnHit(() -> {
+            var damageAmountRoll = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
+            specialAttackHandlerUtils.showStandardHit(victim, damageAmountRoll, DamageType.SLASH);
+        });
+
+        attacker.registerAttack(victim, hit);
     }
 
     @Override
