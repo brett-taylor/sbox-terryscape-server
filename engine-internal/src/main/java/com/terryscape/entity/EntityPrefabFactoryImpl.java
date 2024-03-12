@@ -109,10 +109,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
-        movementComponent.setMovementSpeed(MovementSpeed.WALK);
-        entity.addComponent(movementComponent);
-
         var health = npcDefinition.getStatsDefinition().getHealth();
         var healthComponent = new HealthComponentImpl(entity);
         healthComponent.setMaxHealth(health);
@@ -122,9 +118,14 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var combatScript = new SimpleNpcCombatScript(npcComponent);
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
         entity.addComponent(combatComponent);
+
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        movementComponent.setMovementSpeed(MovementSpeed.WALK);
+        entity.addComponent(movementComponent);
+
+        combatComponent.setCombatScript(new SimpleNpcCombatScript(npcComponent));
 
         var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
         entity.addComponent(overheadText);
@@ -155,10 +156,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var taskComponent = new TaskComponentImpl(entity);
         entity.addComponent(taskComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
-        movementComponent.setMovementSpeed(MovementSpeed.WALK);
-        entity.addComponent(movementComponent);
-
         var health = playerSkills.getConstitution() * 10;
         var healthComponent = new HealthComponentImpl(entity);
         healthComponent.setMaxHealth(health);
@@ -168,9 +165,14 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var combatScript = new PlayerCombatScript(worldClock, playerComponent, specialAttackDispatcher);
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, cacheLoader, combatScript, combatDiceRoll);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
         entity.addComponent(combatComponent);
+
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        movementComponent.setMovementSpeed(MovementSpeed.WALK);
+        entity.addComponent(movementComponent);
+
+        combatComponent.setCombatScript(new PlayerCombatScript(worldClock, playerComponent, specialAttackDispatcher));
 
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 250);
         playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("food_fish"), 1);

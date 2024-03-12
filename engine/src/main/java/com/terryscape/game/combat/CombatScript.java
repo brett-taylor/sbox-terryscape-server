@@ -4,7 +4,7 @@ import com.terryscape.game.diceroll.CombatDiceRoll;
 
 public interface CombatScript {
 
-    boolean isInRange(CombatComponent victim);
+    int range();
 
     /**
      * @return true if an attack was performed

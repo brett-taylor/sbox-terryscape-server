@@ -1,15 +1,12 @@
 package com.terryscape.game.combat;
 
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.EntityPrefabType;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
-import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.player.PlayerComponent;
-import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.world.pathfinding.PathfindingManager;
@@ -22,11 +19,9 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private final PathfindingManager pathfindingManager;
 
-    private final CacheLoader cacheLoader;
-
-    private final CombatScript combatScript;
-
     private final CombatDiceRoll combatDiceRoll;
+
+    private CombatScript combatScript;
 
     private TaskComponent taskComponent;
 
@@ -36,16 +31,14 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private int cooldown;
 
+    private CombatFollow combatFollow;
+
     public CombatComponentImpl(Entity entity,
                                PathfindingManager pathfindingManager,
-                               CacheLoader cacheLoader,
-                               CombatScript combatScript,
                                CombatDiceRoll combatDiceRoll) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
-        this.cacheLoader = cacheLoader;
-        this.combatScript = combatScript;
         this.combatDiceRoll = combatDiceRoll;
     }
 
@@ -54,6 +47,14 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         super.onRegistered();
 
         taskComponent = getEntity().getComponentOrThrow(TaskComponent.class);
+    }
+
+    public void setCombatScript(CombatScript combatScript) {
+        this.combatScript = combatScript;
+    }
+
+    public CombatScript getCombatScript() {
+        return combatScript;
     }
 
     @Override
@@ -72,28 +73,39 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     @Override
     public void attack(CombatComponent victim) {
-        var selfMovement = getEntity().getComponentOrThrow(MovementComponent.class);
-        var victimMovement = victim.getEntity().getComponentOrThrow(MovementComponent.class);
+        var task = taskComponent.setCancellablePrimaryTask(new CombatTaskStep());
 
-        var task = taskComponent.setCancellablePrimaryTask(new CombatFollowTaskStep(pathfindingManager, cacheLoader, selfMovement, victimMovement));
-        if (task.isPresent()) {
-            this.victim = victim;
-
-            combatTask = task.get();
-            combatTask.onFinished(taskFinishedReason -> {
-                this.victim = null;
-                this.combatTask = null;
-            });
+        if (task.isEmpty()) {
+            return;
         }
+
+        this.victim = victim;
+        combatTask = task.get();
+        combatTask.onFinished(taskFinishedReason -> {
+            if (combatFollow != null) {
+                combatFollow.stop();
+                combatTask = null;
+            }
+
+            stopAttacking();
+        });
+
+        combatFollow = new CombatFollow(pathfindingManager, this, (CombatComponentImpl) victim);
     }
 
     @Override
     public void stopAttacking() {
         if (combatTask != null) {
             combatTask.cancel();
-            victim = null;
             combatTask = null;
         }
+
+        if (combatFollow != null) {
+            combatFollow.stop();
+            combatFollow = null;
+        }
+
+        victim = null;
     }
 
     @Override
@@ -104,11 +116,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             cooldown -= 1;
         }
 
-        if (cooldown > 0) {
-            return;
-        }
-
-        if (victim == null || combatTask == null) {
+        if (combatTask == null) {
             return;
         }
 
@@ -118,7 +126,16 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             return;
         }
 
-        if (!combatScript.isInRange(victim)) {
+        var combatFollowResult = combatFollow.tick();
+        if (combatFollowResult.shouldStopAttacking()) {
+            stopAttacking();
+        } else if (combatFollowResult.canAttack()) {
+            tickAttack();
+        }
+    }
+
+    private void tickAttack() {
+        if (cooldown > 0) {
             return;
         }
 
@@ -132,6 +149,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
         // TODO: Swap this to like subscribing to the entity's death event or something
         if (victim.getEntity().getComponentOrThrow(HealthComponent.class).isDying()) {
+
             // TODO: Swap this to fire like a killed event or something that we can live to in the PlayerComponent
             var playerChat = getEntity().getComponent(PlayerChatComponent.class);
             var victimNpc = victim.getEntity().getComponent(NpcComponent.class);
@@ -148,6 +166,4 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
             stopAttacking();
         }
     }
-
-
 }

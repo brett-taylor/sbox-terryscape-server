@@ -6,21 +6,15 @@ import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.CombatSkillsProviderComponent;
 import com.terryscape.game.combat.health.DamageInformation;
 import com.terryscape.game.combat.health.HealthComponent;
+import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.movement.AnimationComponent;
-import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcCombatBonusesProviderComponent;
 import com.terryscape.game.npc.NpcCombatSkillsProviderComponent;
 import com.terryscape.game.npc.NpcComponent;
-import com.terryscape.game.diceroll.CombatDiceRoll;
-import com.terryscape.game.player.PlayerBonusesProviderComponent;
-import com.terryscape.game.player.PlayerSkillsComponent;
-import com.terryscape.world.WorldClock;
 
 public class SimpleNpcCombatScript implements CombatScript {
 
     private final NpcComponent npcComponent;
-
-    private final MovementComponent movementComponent;
 
     private final AnimationComponent animationComponent;
 
@@ -30,16 +24,14 @@ public class SimpleNpcCombatScript implements CombatScript {
 
     public SimpleNpcCombatScript(NpcComponent npcComponent) {
         this.npcComponent = npcComponent;
-        this.movementComponent = npcComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = npcComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
         this.npcCombatSkillsProviderComponent = npcComponent.getEntity().getComponentOrThrow(NpcCombatSkillsProviderComponent.class);
         this.npcCombatBonusesProviderComponent = npcComponent.getEntity().getComponentOrThrow(NpcCombatBonusesProviderComponent.class);
     }
 
     @Override
-    public boolean isInRange(CombatComponent victim) {
-        var victimMovementComponent = victim.getEntity().getComponentOrThrow(MovementComponent.class);
-        return movementComponent.getWorldCoordinate().distance(victimMovementComponent.getWorldCoordinate()) <= 2f;
+    public int range() {
+        return 1;
     }
 
     @Override

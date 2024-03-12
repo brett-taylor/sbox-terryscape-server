@@ -19,12 +19,15 @@ class AStarPathFinder {
 
     private final HashMap<PathfindingNode, Float> totalScores;
 
+    private final PathfindType pathfindType;
+
     private PathfindingNode current;
 
-    AStarPathFinder(WorldCoordinate startingTile, WorldCoordinate destinationTile, CacheLoader cacheLoader) {
+    AStarPathFinder(WorldCoordinate startingTile, WorldCoordinate destinationTile, CacheLoader cacheLoader, PathfindType pathfindType) {
         this.startingTile = startingTile;
         this.destinationTile = destinationTile;
         this.cacheLoader = cacheLoader;
+        this.pathfindType = pathfindType;
 
         openSet = new PriorityQueue<>();
         closedSet = new PriorityQueue<>();
@@ -83,6 +86,10 @@ class AStarPathFinder {
     }
 
     private boolean isValidWorldCoordinate(WorldCoordinate worldCoordinate) {
+        if (pathfindType == PathfindType.PROJECTILE) {
+            return true;
+        }
+
         var region = cacheLoader.getWorldRegionDefinition(worldCoordinate.toWorldRegionCoordinate());
         return region.getWorldTileDefinition(worldCoordinate.toWorldRegionLocalCoordinate()).isWalkable();
     }

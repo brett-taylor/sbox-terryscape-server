@@ -4,6 +4,7 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
+import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
@@ -78,7 +79,7 @@ public class WanderMovementComponent extends BaseEntityComponent {
     }
 
     private void createWanderTask() {
-        if (taskComponent.hasPrimaryTask()) {
+        if (taskComponent.hasPrimaryTask() || getEntity().getComponentOrThrow(HealthComponent.class).isDying()) {
             return;
         }
 
@@ -89,7 +90,10 @@ public class WanderMovementComponent extends BaseEntityComponent {
 
         if (wanderTaskOptional.isPresent()) {
             wanderTask = wanderTaskOptional.get();
-            wanderTask.onFinished(ignored -> wanderTask = null);
+            wanderTask.onFinished(ignored -> {
+                wanderTask = null;
+                movementComponent.stop();
+            });
         }
     }
 

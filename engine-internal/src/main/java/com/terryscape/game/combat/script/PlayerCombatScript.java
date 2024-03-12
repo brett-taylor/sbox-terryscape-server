@@ -6,7 +6,6 @@ import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.movement.AnimationComponent;
-import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.player.PlayerBonusesProviderComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.player.PlayerSkillsComponent;
@@ -23,8 +22,6 @@ public class PlayerCombatScript implements CombatScript {
     private final WorldClock worldClock;
 
     private final PlayerComponent playerComponent;
-
-    private final MovementComponent movementComponent;
 
     private final AnimationComponent animationComponent;
 
@@ -43,16 +40,14 @@ public class PlayerCombatScript implements CombatScript {
         this.playerComponent = playerComponent;
         this.specialAttackDispatcher = specialAttackDispatcher;
 
-        this.movementComponent = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
         this.animationComponent = playerComponent.getEntity().getComponentOrThrow(AnimationComponent.class);
         this.playerSkillsComponent = playerComponent.getEntity().getComponentOrThrow(PlayerSkillsComponent.class);
         this.playerBonusesProviderComponent = playerComponent.getEntity().getComponentOrThrow(PlayerBonusesProviderComponent.class);
     }
 
     @Override
-    public boolean isInRange(CombatComponent victim) {
-        var victimMovementComponent = victim.getEntity().getComponentOrThrow(MovementComponent.class);
-        return movementComponent.getWorldCoordinate().distance(victimMovementComponent.getWorldCoordinate()) <= 2f;
+    public int range() {
+        return 1;
     }
 
     @Override
