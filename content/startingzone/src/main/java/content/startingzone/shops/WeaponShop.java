@@ -30,7 +30,8 @@ public class WeaponShop implements Shop {
             new ShopItem(cacheLoader.getItemDefinition("basic_sword"), 200),
             new ShopItem(cacheLoader.getItemDefinition("godsword_righteous"), 4000),
             new ShopItem(cacheLoader.getItemDefinition("godsword_evil"), 4000),
-            new ShopItem(cacheLoader.getItemDefinition("basic_air_wand"), 200)
+            new ShopItem(cacheLoader.getItemDefinition("basic_air_staff"), 200),
+            new ShopItem(cacheLoader.getItemDefinition("basic_fire_staff"), 200)
         );
     }
 

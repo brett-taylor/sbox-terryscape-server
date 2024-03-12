@@ -9,35 +9,35 @@
       "variants": {
         "green_male": {
           "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_03.vmat"
         },
         "red_male": {
           "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_01.vmat"
         },
         "blue_male": {
           "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_02.vmat"
         },
         "yellow_male": {
           "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_04.vmat"
         },
         "green_female": {
           "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_03.vmat"
         },
         "red_female": {
           "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_01.vmat"
         },
         "blue_female": {
           "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_02.vmat"
         },
         "yellow_female": {
           "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_04.vmat"
         }
       }
     },
@@ -55,35 +55,35 @@
       "variants": {
         "green_male": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_03.vmat"
         },
         "red_male": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_01.vmat"
         },
         "blue_male": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_02.vmat"
         },
         "yellow_male": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_04.vmat"
         },
         "green_female": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_green_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_03.vmat"
         },
         "red_female": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_01.vmat"
         },
         "blue_female": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_blue_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_02.vmat"
         },
         "yellow_female": {
           "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_yellow_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_04.vmat"
         }
       }
     },
@@ -101,7 +101,7 @@
       "variants": {
         "default": {
           "modelPath": "assets/npcs/goblin/goblin_shaman.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_01.vmat"
         }
       }
     },
@@ -119,7 +119,7 @@
       "variants": {
         "default": {
           "modelPath": "assets/npcs/goblin/goblin_chief.vmdl",
-          "texturePath": "assets/npcs/goblin/material/goblin_red_albedo.vmat"
+          "texturePath": "assets/materials/dungeons_texture_01.vmat"
         }
       }
     },

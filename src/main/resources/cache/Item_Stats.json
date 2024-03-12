@@ -126,7 +126,7 @@
     "strengthMagic": 5
   },
   {
-    "id": "basic_air_wand",
+    "id": "basic_air_staff",
     "weight": 1.8,
     "offensiveStab": 0,
     "offensiveSlash": 0,
@@ -136,6 +136,20 @@
     "defensiveSlash": 0,
     "defensiveAir": 1,
     "defensiveFire": 0,
+    "strengthMelee": 0,
+    "strengthMagic": 14
+  },
+  {
+    "id": "basic_fire_staff",
+    "weight": 1.8,
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "offensiveAir": 0,
+    "offensiveFire": 15,
+    "defensiveStab": 0,
+    "defensiveSlash": 0,
+    "defensiveAir": 0,
+    "defensiveFire": 1,
     "strengthMelee": 0,
     "strengthMagic": 14
   }
