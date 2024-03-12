@@ -43,8 +43,8 @@ public class GodswordEvilSpecialAttackHandler implements SpecialAttackHandler {
         hit.setOnMiss(() -> specialAttackHandlerUtils.showStandardMissedHit(victim, DamageType.SLASH));
 
         hit.setOnHit(() -> {
-            var damageAmountRollOne = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
-            var damageAmountRollTwo = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
+            var damageAmountRollOne = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker, DamageType.SLASH) * 1.5f);
+            var damageAmountRollTwo = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker, DamageType.SLASH) * 1.5f);
             specialAttackHandlerUtils.showStandardHit(victim, Math.max(damageAmountRollOne, damageAmountRollTwo), DamageType.SLASH);
         });
 

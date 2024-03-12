@@ -50,19 +50,19 @@
       "attack": 50,
       "defence": 0,
       "strength": 40,
-      "magic": 1
+      "magic": 40
     },
     "bonuses": {
-      "offensiveStab": 20,
-      "offensiveSlash": 20,
-      "offensiveAir": 0,
-      "offensiveFire": 0,
-      "defensiveStab": 0,
-      "defensiveSlash": 0,
-      "defensiveAir": 0,
-      "defensiveFire": 0,
-      "strengthMelee": 30,
-      "strengthMagic": 0
+      "offensiveStab": 0,
+      "offensiveSlash": 0,
+      "offensiveAir": 20,
+      "offensiveFire": 20,
+      "defensiveStab": 20,
+      "defensiveSlash": 20,
+      "defensiveAir": -15,
+      "defensiveFire": -15,
+      "strengthMelee": 0,
+      "strengthMagic": 20
     }
   },
   {

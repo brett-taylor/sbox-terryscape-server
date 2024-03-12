@@ -7,6 +7,7 @@ import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.command.CommandDescription;
 import com.terryscape.game.combat.CombatBonusesProviderComponent;
 import com.terryscape.game.combat.CombatSkillsProviderComponent;
+import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.player.PlayerComponent;
 
@@ -38,7 +39,14 @@ public class MaxHitCommand implements Command {
         var playerBonuses = playerComponent.getEntity().getComponentOrThrow(CombatBonusesProviderComponent.class);
         var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
 
-        var maxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses);
-        chat.sendGameMessage("Your current max hit is: %s.".formatted(maxHit));
+        var stabMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.STAB);
+        var slashMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.SLASH);
+        var airMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.AIR);
+        var fireMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.FIRE);
+        var typelessMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.TYPELESS);
+
+        chat.sendGameMessage("Stab: %s, Slash: %s".formatted(stabMaxHit, slashMaxHit));
+        chat.sendGameMessage("Air: %s, Fire: %s".formatted(airMaxHit, fireMaxHit));
+        chat.sendGameMessage("Typeless: %s".formatted(typelessMaxHit));
     }
 }

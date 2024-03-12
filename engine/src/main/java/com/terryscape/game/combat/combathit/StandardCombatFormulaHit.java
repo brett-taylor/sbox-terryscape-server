@@ -17,12 +17,12 @@ public abstract class StandardCombatFormulaHit implements CombatHit {
         var playerBonusesProviderComponent = attacker.getEntity().getComponentOrThrow(CombatBonusesProviderComponent.class);
         var victimSkills = victim.getEntity().getComponentOrThrow(CombatSkillsProviderComponent.class);
         var victimBonuses = victim.getEntity().getComponentOrThrow(CombatBonusesProviderComponent.class);
-        var didPassAccuracyRoll = combatDiceRoll.rollHitChance(getDamageType(), playerSkillsComponent, playerBonusesProviderComponent, victimSkills, victimBonuses);
+        var didPassAccuracyRoll = combatDiceRoll.rollHitChance(playerSkillsComponent, playerBonusesProviderComponent, victimSkills, victimBonuses, getDamageType());
 
         var damageInformation = new DamageInformation().setType(getDamageType());
 
         if (didPassAccuracyRoll) {
-            damageInformation.setAmount(combatDiceRoll.rollDamage(playerSkillsComponent, playerBonusesProviderComponent));
+            damageInformation.setAmount(combatDiceRoll.rollDamage(playerSkillsComponent, playerBonusesProviderComponent, getDamageType()));
         } else {
             damageInformation.setAmount(0).setBlocked(true);
         }

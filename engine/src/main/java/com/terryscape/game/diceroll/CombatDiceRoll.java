@@ -6,13 +6,13 @@ import com.terryscape.game.combat.DamageType;
 
 public interface CombatDiceRoll {
 
-    boolean rollHitChance(DamageType damageType,
-                          CombatSkillsProviderComponent attackerSkills,
+    boolean rollHitChance(CombatSkillsProviderComponent attackerSkills,
                           CombatBonusesProviderComponent attackerBonuses,
                           CombatSkillsProviderComponent victimSkills,
-                          CombatBonusesProviderComponent victimBonuses);
+                          CombatBonusesProviderComponent victimBonuses,
+                          DamageType damageType);
 
-    int rollDamage(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses);
+    int rollDamage(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses, DamageType damageType);
 
-    int calculateMaxHit(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses);
+    int calculateMaxHit(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses, DamageType damageType);
 }

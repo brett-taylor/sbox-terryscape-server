@@ -46,7 +46,7 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
         hit.setOnMiss(() -> specialAttackHandlerUtils.showStandardMissedHit(victim, DamageType.SLASH));
 
         hit.setOnHit(() -> {
-            var damageAmountRoll = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker) * 1.5f);
+            var damageAmountRoll = MathsUtil.floorToInt(specialAttackHandlerUtils.rollStandardDamageHit(attacker, DamageType.SLASH) * 1.5f);
             specialAttackHandlerUtils.showStandardHit(victim, damageAmountRoll, DamageType.SLASH);
         });
 

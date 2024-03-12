@@ -10,11 +10,7 @@ import com.terryscape.maths.RandomUtil;
 public class CombatDiceRollImpl implements CombatDiceRoll {
 
     @Override
-    public boolean rollHitChance(DamageType damageType,
-                                 CombatSkillsProviderComponent attackerSkills,
-                                 CombatBonusesProviderComponent attackerBonuses,
-                                 CombatSkillsProviderComponent victimSkills,
-                                 CombatBonusesProviderComponent victimBonuses) {
+    public boolean rollHitChance(CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses, CombatSkillsProviderComponent victimSkills, CombatBonusesProviderComponent victimBonuses, DamageType damageType) {
 
         var attackRoll = calculateAttackRoll(damageType, attackerSkills, attackerBonuses);
         var defenceRoll = calculateDefenceRoll(damageType, victimSkills, victimBonuses);
@@ -24,16 +20,17 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
     }
 
     @Override
-    public int rollDamage(CombatSkillsProviderComponent combatSkillsProviderComponent, CombatBonusesProviderComponent combatBonusesProviderComponent) {
-        var maxHit = calculateMaxHit(combatSkillsProviderComponent, combatBonusesProviderComponent);
+    public int rollDamage(CombatSkillsProviderComponent combatSkillsProviderComponent, CombatBonusesProviderComponent combatBonusesProviderComponent, DamageType damageType) {
+        var maxHit = calculateMaxHit(combatSkillsProviderComponent, combatBonusesProviderComponent, damageType);
 
         return RandomUtil.randomNumber(0, maxHit);
     }
 
     @Override
-    public int calculateMaxHit(CombatSkillsProviderComponent combatSkillsProviderComponent, CombatBonusesProviderComponent combatBonusesProviderComponent) {
-        var effectiveStrength = calculateEffectiveStrengthLevel(combatSkillsProviderComponent);
-        var strengthBonus = combatBonusesProviderComponent.getStrengthMelee() + 64f;
+    public int calculateMaxHit(CombatSkillsProviderComponent combatSkillsProviderComponent, CombatBonusesProviderComponent combatBonusesProviderComponent, DamageType damageType) {
+        var effectiveStrength = calculateEffectiveStrengthLevel(damageType, combatSkillsProviderComponent);
+        var strengthBonus = calculateEffectiveStrengthBonuses(damageType, combatBonusesProviderComponent);
+
         var a = effectiveStrength * strengthBonus;
         var b = a + 320f;
         var c = b / 640f;
@@ -46,9 +43,24 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
         return attack + 11;
     }
 
-    private int calculateEffectiveStrengthLevel(CombatSkillsProviderComponent combatSkillsProviderComponent) {
-        var strength = combatSkillsProviderComponent.getStrength();
+    private int calculateEffectiveStrengthLevel(DamageType damageType, CombatSkillsProviderComponent combatSkillsProviderComponent) {
+        var strength = switch(damageType) {
+            case STAB, SLASH -> combatSkillsProviderComponent.getStrength();
+            case AIR, FIRE -> combatSkillsProviderComponent.getMagic();
+            case TYPELESS -> 0;
+        };
+
         return strength + 11;
+    }
+
+    private float calculateEffectiveStrengthBonuses(DamageType damageType, CombatBonusesProviderComponent combatBonusesProviderComponent) {
+        var strength = switch(damageType) {
+            case STAB, SLASH -> combatBonusesProviderComponent.getStrengthMelee();
+            case AIR, FIRE -> combatBonusesProviderComponent.getStrengthMagic();
+            case TYPELESS -> 0;
+        };
+
+        return strength + 64f;
     }
 
     private int calculateAttackRoll(DamageType damageType, CombatSkillsProviderComponent attackerSkills, CombatBonusesProviderComponent attackerBonuses) {

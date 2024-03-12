@@ -26,14 +26,14 @@ public class SpecialAttackHandlerUtils {
         var victimSkills = victim.getEntity().getComponentOrThrow(CombatSkillsProviderComponent.class);
         var victimBonuses = victim.getEntity().getComponentOrThrow(CombatBonusesProviderComponent.class);
 
-        return combatDiceRoll.rollHitChance(damageType, attackerSkills, attackerBonuses, victimSkills, victimBonuses);
+        return combatDiceRoll.rollHitChance(attackerSkills, attackerBonuses, victimSkills, victimBonuses, damageType);
     }
 
-    public int rollStandardDamageHit(CombatComponent attacker) {
+    public int rollStandardDamageHit(CombatComponent attacker, DamageType damageType) {
         var attackerSkills = attacker.getEntity().getComponentOrThrow(CombatSkillsProviderComponent.class);
         var attackerBonuses = attackerSkills.getEntity().getComponentOrThrow(CombatBonusesProviderComponent.class);
 
-        return combatDiceRoll.rollDamage(attackerSkills, attackerBonuses);
+        return combatDiceRoll.rollDamage(attackerSkills, attackerBonuses, damageType);
     }
 
     public void showStandardMissedHit(CombatComponent victim, DamageType damageType) {
