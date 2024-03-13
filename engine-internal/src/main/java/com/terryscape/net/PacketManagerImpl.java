@@ -30,12 +30,9 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
 
     private final Map<String, IncomingPacket> incomingPacketHandlers = new HashMap<>();
 
-    private final WorldManager worldManager;
-
     @Inject
-    public PacketManagerImpl(Set<IncomingPacket> incomingPackets, WorldManager worldManager) {
+    public PacketManagerImpl(Set<IncomingPacket> incomingPackets) {
         super(new InetSocketAddress(Config.PORT));
-        this.worldManager = worldManager;
 
         setConnectionLostTimeout(Config.WEBSOCKET_PING_TIMEOUT_SECONDS);
 
@@ -53,7 +50,10 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         LOGGER.info("Closed websocket code={}, reason={}, remote={}.", code, reason, remote);
 
-        clients.get(conn).getPlayer().ifPresent(playerComponent -> playerComponent.getEntity().delete());
+        clients.get(conn).getPlayer().ifPresent(playerComponent -> {
+            playerComponent.getEntity().delete();
+            LOGGER.info("Logout accepted username={}", playerComponent.getUsername());
+        });
 
         clients.remove(conn);
     }
