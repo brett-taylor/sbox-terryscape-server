@@ -77,7 +77,7 @@ public class WorldManagerImpl implements WorldManager {
         var packet = new EntityAddedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(packet);
 
-        LOGGER.info("Registered {} {}", entity.getPrefabType(), entity.getIdentifier());
+        LOGGER.debug("Registered {} {}", entity.getPrefabType(), entity.getIdentifier());
     }
 
     private void unregisterSingleEntity(EntityImpl entity) {
@@ -86,7 +86,7 @@ public class WorldManagerImpl implements WorldManager {
         var packet = new EntityRemovedOutgoingPacket().setEntity(entity);
         packetManager.broadcast(packet);
 
-        LOGGER.info("Unregistered {} {}", entity.getPrefabType(), entity.getIdentifier());
+        LOGGER.debug("Unregistered {} {}", entity.getPrefabType(), entity.getIdentifier());
     }
 
     private void tickSingleEntity(EntityImpl entity) {

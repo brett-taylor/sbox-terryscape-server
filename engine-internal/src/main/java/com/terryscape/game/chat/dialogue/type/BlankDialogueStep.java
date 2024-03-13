@@ -14,9 +14,7 @@ public final class BlankDialogueStep implements DialogueStep {
 
     @Override
     public void show(Client client, InterfaceManager interfaceManager) {
-        interfaceManager.showInterface(client, "blank_chat", stream -> {
-            OutgoingPacket.writeString(stream, message);
-        });
+        interfaceManager.showInterface(client, "blank_chat", stream -> OutgoingPacket.writeString(stream, message));
     }
 
     @Override

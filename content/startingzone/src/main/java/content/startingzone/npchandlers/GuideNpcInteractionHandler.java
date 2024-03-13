@@ -2,7 +2,6 @@ package content.startingzone.npchandlers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.Config;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
@@ -11,7 +10,6 @@ import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.Set;
 
 import static com.terryscape.Config.NAME;

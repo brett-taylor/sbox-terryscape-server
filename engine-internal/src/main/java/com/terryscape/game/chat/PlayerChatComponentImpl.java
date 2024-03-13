@@ -57,6 +57,6 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
     public void sendOverheadText(String message) {
         var playerComponent = getEntity().getComponentOrThrow(PlayerComponent.class);
 
-        packetManager.send(playerComponent.getClient(), playerOverheadChat(playerComponent, message));
+        packetManager.broadcast(playerOverheadChat(playerComponent, message));
     }
 }
