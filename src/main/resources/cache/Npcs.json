@@ -196,5 +196,25 @@
     },
     "combatLevel": 1,
     "combatDamageType": null
+  },
+  {
+    "id": "players_online_counter",
+    "name": "Players Online",
+    "description": "Mmh thats weird",
+    "attackable": false,
+    "interactable": true,
+    "humanoidNpc":
+    {
+      "gender": "MALE",
+      "equippedItems": {
+        "HEAD": "wizard_hat",
+        "TORSO": "wizard_top",
+        "LEGS": "wizard_bottoms",
+        "HANDS": "wizard_gloves",
+        "FEET": "wizard_boots"
+      }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
   }
 ]

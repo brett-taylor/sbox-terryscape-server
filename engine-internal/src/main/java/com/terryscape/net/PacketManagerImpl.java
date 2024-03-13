@@ -3,9 +3,6 @@ package com.terryscape.net;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.Config;
-import com.terryscape.entity.Entity;
-import com.terryscape.game.player.PlayerComponent;
-import com.terryscape.world.WorldManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
@@ -96,6 +93,11 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
     public void broadcast(OutgoingPacket outgoingPacket) {
         var packet = generatePacket(outgoingPacket).toByteArray();
         broadcast(packet);
+    }
+
+    @Override
+    public Set<Client> getClients() {
+        return clients.values();
     }
 
     private void handleIncomingPacket(com.terryscape.net.Client client, String packetName, ByteBuffer packet) {

@@ -8,6 +8,7 @@ import com.terryscape.entity.EntityImpl;
 import com.terryscape.entity.packet.EntityAddedOutgoingPacket;
 import com.terryscape.entity.packet.EntityRemovedOutgoingPacket;
 import com.terryscape.entity.packet.EntityUpdatedOutgoingPacket;
+import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.PacketManager;
 import org.apache.logging.log4j.LogManager;
@@ -15,8 +16,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Singleton
 public class WorldManagerImpl implements WorldManager {
@@ -57,6 +61,15 @@ public class WorldManagerImpl implements WorldManager {
         }
 
         return entities.get(entityIdentifier);
+    }
+
+    @Override
+    public Set<PlayerComponent> getPlayers() {
+        return packetManager.getClients().stream()
+            .map(Client::getPlayer)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toUnmodifiableSet());
     }
 
     public void tick() {

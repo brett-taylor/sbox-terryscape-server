@@ -22,6 +22,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -144,7 +145,9 @@ public class SpawnGoblins {
         var npc = entityPrefabFactory.createNpcPrefab(goblin);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
-        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh humans"));
+
+        Supplier<String> overheadText = () -> "blurgh humans";
+        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, overheadText));
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
@@ -158,7 +161,9 @@ public class SpawnGoblins {
         var npc = entityPrefabFactory.createNpcPrefab(goblinWarrior);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
-        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, "blurgh humans"));
+
+        Supplier<String> overheadText = () -> "blurgh humans";
+        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 480, overheadText));
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
@@ -173,7 +178,8 @@ public class SpawnGoblins {
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
 
-        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, "shaman no like human"));
+        Supplier<String> overheadText = () -> "shaman no like human";
+        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, overheadText));
 
         npc.getComponentOrThrow(CombatComponent.class).setCombatScript(new GoblinShamanCombatScript());
 
@@ -189,7 +195,9 @@ public class SpawnGoblins {
         var npc = entityPrefabFactory.createNpcPrefab(goblinChief);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
-        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, "human not scary"));
+
+        Supplier<String> overheadText = () -> "human not scary";
+        npc.addComponent(new RecurringNpcOverheadTextComponent(npc, worldClock, 180, 360, overheadText));
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> {
             handleChiefDeath();
