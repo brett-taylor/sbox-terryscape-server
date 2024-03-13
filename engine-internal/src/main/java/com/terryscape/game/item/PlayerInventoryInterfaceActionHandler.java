@@ -132,5 +132,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
         var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainerItem, currentWorldCoordinate);
         worldManager.registerEntity(groundItem);
+
+        soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
     }
 }

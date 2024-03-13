@@ -21,7 +21,7 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
 
     private int magic = 30;
 
-    private int constitution = 10;
+    private int constitution = 20;
 
     public PlayerSkillsComponentImpl(Entity entity) {
         super(entity);

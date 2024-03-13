@@ -67,6 +67,8 @@ public class SpawnGoblins {
         spawnRegularGoblin();
         spawnRegularGoblin();
         spawnRegularGoblin();
+        spawnRegularGoblin();
+        spawnRegularGoblin();
 
         spawnGoblinWarrior();
         spawnGoblinWarrior();
