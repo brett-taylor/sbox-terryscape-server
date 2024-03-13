@@ -2,10 +2,7 @@ package com.terryscape.game.chat.dialogue;
 
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
-import com.terryscape.game.chat.dialogue.type.DialogueStep;
-import com.terryscape.game.chat.dialogue.type.ItemDialogueStep;
-import com.terryscape.game.chat.dialogue.type.NpcDialogueStep;
-import com.terryscape.game.chat.dialogue.type.PlayerDialogueStep;
+import com.terryscape.game.chat.dialogue.type.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +28,12 @@ public class DialogueBuilderImpl implements DialogueBuilder {
     @Override
     public DialogueBuilder item(ItemDefinition item, String message) {
         steps.add(new ItemDialogueStep(item, message));
+        return this;
+    }
+
+    @Override
+    public DialogueBuilder blank(String message) {
+        steps.add(new BlankDialogueStep(message));
         return this;
     }
 

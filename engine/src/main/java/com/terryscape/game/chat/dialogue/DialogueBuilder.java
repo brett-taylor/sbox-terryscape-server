@@ -11,4 +11,6 @@ public interface DialogueBuilder {
 
     DialogueBuilder item(ItemDefinition item, String message);
 
+    DialogueBuilder blank(String message);
+
 }

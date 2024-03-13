@@ -11,7 +11,10 @@ import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.Set;
+
+import static com.terryscape.Config.NAME;
 
 @Singleton
 public class GuideNpcInteractionHandler implements NpcInteractionHandler {
@@ -38,27 +41,39 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
         var destinationTile = npcWorldCoordinate.getClosestCardinalNeighbourFrom(playerMovement.getWorldCoordinate());
 
         var dialogue = dialogueManager.builder()
-            .npc(npcComponent.getNpcDefinition(), "Welcome to %s! A land of monsters and dangers. But a world where...".formatted(Config.NAME))
-            .player("Uh, why are are not wearing any clothes?")
-            .npc(npcComponent.getNpcDefinition(), "It doesn't matter!")
-            .npc(npcComponent.getNpcDefinition(), "To get started in %s, firstly you need some equipment.".formatted(Config.NAME))
-            .npc(npcComponent.getNpcDefinition(), "You see that shop over there?")
-            .player("Yeah?")
-            .npc(npcComponent.
-                    getNpcDefinition(),
-                " The couple that runs the place. They aren't really with it anymore. They leave all their gold on the table in the middle of the place."
+            .npc(
+                npcComponent.getNpcDefinition(),
+                "Welcome to %s, %s!".formatted(NAME, player.getUsername())
+            )
+            .player("Hi. What am I meant to be doing here?")
+            .npc(
+                npcComponent.getNpcDefinition(),
+                "Why don't you attempt to buy some items from the shops over there. They have equipment for both warriors and wizards currently. I hear they will be getting equipment for rangers soon."
             )
             .npc(
                 npcComponent.getNpcDefinition(),
-                "You're not really stealing the gold if you instantly give it back to them. You should take some and use it to buy equipment from them."
+                "You can earn money from either stealing from that table with coins on it or by defeating Goblins."
             )
             .npc(
                 npcComponent.getNpcDefinition(),
-                "To make it up to them. Maybe you could try clearing out the Goblin infestation near the shop for them."
+                "I would only attack the little Goblins right now. The Warriors can put up quite a fight. I wouldn't even look at the Chief unless you have a group of fighters like yourself ready."
             )
             .npc(
                 npcComponent.getNpcDefinition(),
-                "Oh and remember, Terry has recently made killing other people completely legal - so watch yourself out there."
+                "The Weapon Shop Keeper also sells Godswords. Their special attack has quite a punch and would be very useful when fighting other players."
+            )
+            .npc(
+                npcComponent.getNpcDefinition(),
+                "Remember when you're feeling low on health to eat some food, that will make you feel much better. You can get food from the Food Shop Keeper."
+            )
+            .blank(
+                "%s is currently in a Pre-Alpha Test. Your progress will not be saved once you exit. There are cheats you can use to help you progress. You can see these by writing ::help in your Chatbox.".formatted(NAME)
+            )
+            .blank(
+                "Your feedback will be greatly appreciated. Please pass all your feedback and ideas onto Waisie Milliams in the SBox Discord. Please also remember to report any bug or unexpected behaviour you come across!"
+            )
+            .blank(
+                "Thank you for trying out %s.".formatted(NAME)
             );
 
         playerTask.setCancellablePrimaryTask(
