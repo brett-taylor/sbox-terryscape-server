@@ -90,10 +90,15 @@ public class WorldManagerImpl implements WorldManager {
     }
 
     private void tickSingleEntity(EntityImpl entity) {
-        entity.tick();
+        try {
+            entity.tick();
 
-        var updatePacket = new EntityUpdatedOutgoingPacket().setEntity(entity);
-        packetManager.broadcast(updatePacket);
+            var updatePacket = new EntityUpdatedOutgoingPacket().setEntity(entity);
+            packetManager.broadcast(updatePacket);
+        } catch (Exception e) {
+            LOGGER.error("Failed updating Entity {} {}", entity.getPrefabType(), entity.getIdentifier());
+            LOGGER.error(e);
+        }
     }
 
 }
