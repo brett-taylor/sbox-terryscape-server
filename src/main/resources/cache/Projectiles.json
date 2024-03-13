@@ -1,0 +1,10 @@
+[
+  {
+    "id": "basic_air_strike",
+    "prefabPath": "assets/projectiles/basic_air_strike.prefab"
+  },
+  {
+    "id": "basic_fire_strike",
+    "prefabPath": "assets/projectiles/basic_fire_strike.prefab"
+  }
+]

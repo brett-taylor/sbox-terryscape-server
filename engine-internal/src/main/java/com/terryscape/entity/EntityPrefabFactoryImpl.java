@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
+import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
@@ -25,6 +26,8 @@ import com.terryscape.game.npc.*;
 import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
 import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.game.player.PlayerSkillsComponentImpl;
+import com.terryscape.game.projectile.ProjectileComponentImpl;
+import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
@@ -59,6 +62,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final LootTableManager lootTableManager;
 
+    private final ProjectileFactory projectileFactory;
+
     @Inject
     public EntityPrefabFactoryImpl(PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
@@ -69,7 +74,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    CombatDiceRoll combatDiceRoll,
                                    SpecialAttackDispatcher specialAttackDispatcher,
                                    SoundManager soundManager,
-                                   LootTableManager lootTableManager) {
+                                   LootTableManager lootTableManager,
+                                   ProjectileFactory projectileFactory) {
 
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
@@ -81,6 +87,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.specialAttackDispatcher = specialAttackDispatcher;
         this.soundManager = soundManager;
         this.lootTableManager = lootTableManager;
+        this.projectileFactory = projectileFactory;
     }
 
     @Override
@@ -122,7 +129,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll, projectileFactory);
         entity.addComponent(combatComponent);
 
         combatComponent.setCombatScript(new BasicNpcCombatScript());
@@ -169,7 +176,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll);
+        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll, projectileFactory);
         entity.addComponent(combatComponent);
 
         combatComponent.setCombatScript(new PlayerCombatScript(worldClock, specialAttackDispatcher));
@@ -189,6 +196,16 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent(entity);
         entity.addComponent(groundItemTimeAliveComponent);
+
+        return entity;
+    }
+
+    @Override
+    public Entity createProjectilePrefab(ProjectileDefinition projectileDefinition) {
+        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PROJECTILE, projectileDefinition.getId());
+
+        var projectileComponent = new ProjectileComponentImpl(entity, projectileDefinition);
+        entity.addComponent(projectileComponent);
 
         return entity;
     }

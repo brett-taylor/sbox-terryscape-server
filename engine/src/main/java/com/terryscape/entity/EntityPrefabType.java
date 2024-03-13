@@ -5,4 +5,5 @@ public enum EntityPrefabType {
     PLAYER,
     NPC,
     GROUND_ITEM,
+    PROJECTILE,
 }

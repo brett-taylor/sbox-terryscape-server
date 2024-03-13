@@ -7,6 +7,7 @@ import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.player.PlayerComponent;
+import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.world.pathfinding.PathfindingManager;
@@ -24,6 +25,8 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private final CombatDiceRoll combatDiceRoll;
 
+    private final ProjectileFactory projectileFactory;
+
     private final List<PendingCombatHit> pendingCombatHits;
 
     private CombatScript combatScript;
@@ -40,11 +43,14 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     public CombatComponentImpl(Entity entity,
                                PathfindingManager pathfindingManager,
-                               CombatDiceRoll combatDiceRoll) {
+                               CombatDiceRoll combatDiceRoll,
+                               ProjectileFactory projectileFactory) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
         this.combatDiceRoll = combatDiceRoll;
+        this.projectileFactory = projectileFactory;
+
         this.pendingCombatHits = new ArrayList<>();
     }
 
@@ -120,7 +126,7 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
     public void registerAttack(CombatComponent victim, CombatHit combatHit) {
         var pendingHit = new PendingCombatHit(this, victim, combatHit);
 
-        pendingHit.getCombatHit().onRegistered(this, victim);
+        pendingHit.getCombatHit().onRegistered(this, victim, projectileFactory);
 
         if (pendingHit.shouldExecute()) {
             executePendingCombatHit(pendingHit);

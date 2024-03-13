@@ -7,6 +7,9 @@ import com.terryscape.cache.npc.*;
 import com.terryscape.cache.object.ObjectCacheLoader;
 import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.object.ObjectDefinitionImpl;
+import com.terryscape.cache.projectile.ProjectileCacheLoader;
+import com.terryscape.cache.projectile.ProjectileDefinition;
+import com.terryscape.cache.projectile.ProjectileDefinitionImpl;
 import com.terryscape.cache.sound.SoundCacheLoader;
 import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.cache.sound.SoundDefinitionImpl;
@@ -42,6 +45,8 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final SoundCacheLoader soundCacheLoader;
 
+    private final ProjectileCacheLoader projectileCacheLoader;
+
     private final Map<String, ItemDefinitionImpl> items = new HashMap<>();
 
     private final Map<String, ItemStatsDefinition> itemStats = new HashMap<>();
@@ -56,6 +61,8 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private final Map<String, SoundDefinitionImpl> sounds = new HashMap<>();
 
+    private final Map<String, ProjectileDefinitionImpl> projectiles = new HashMap<>();
+
     @Inject
     public CacheLoaderImpl(ItemCacheLoader itemCacheLoader,
                            ItemStatsCacheLoader itemStatsCacheLoader,
@@ -63,7 +70,8 @@ public class CacheLoaderImpl implements CacheLoader {
                            NpcStatsCacheLoader npcStatsCacheLoader,
                            ObjectCacheLoader objectCacheLoader,
                            WorldRegionCacheLoader worldRegionCacheLoader,
-                           SoundCacheLoader soundCacheLoader) {
+                           SoundCacheLoader soundCacheLoader,
+                           ProjectileCacheLoader projectileCacheLoader) {
 
         this.itemCacheLoader = itemCacheLoader;
         this.itemStatsCacheLoader = itemStatsCacheLoader;
@@ -72,6 +80,7 @@ public class CacheLoaderImpl implements CacheLoader {
         this.objectCacheLoader = objectCacheLoader;
         this.worldRegionCacheLoader = worldRegionCacheLoader;
         this.soundCacheLoader = soundCacheLoader;
+        this.projectileCacheLoader = projectileCacheLoader;
     }
 
     public void loadCache() {
@@ -83,6 +92,7 @@ public class CacheLoaderImpl implements CacheLoader {
             loadObjects();
             loadWorldRegions();
             loadSounds();
+            loadProjectiles();
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException("Failed to load cache", e);
         }
@@ -150,6 +160,20 @@ public class CacheLoaderImpl implements CacheLoader {
         return Optional.ofNullable(sounds.get(id));
     }
 
+    @Override
+    public ProjectileDefinition getProjectileDefinition(String id) {
+        if (!projectiles.containsKey(id)) {
+            throw new RuntimeException("No projectile found with at %s".formatted(id));
+        }
+
+        return projectiles.get(id);
+    }
+
+    @Override
+    public Optional<ProjectileDefinition> getProjectileDefinitionSafe(String id) {
+        return Optional.ofNullable(projectiles.get(id));
+    }
+
     private void loadItems() throws IOException {
         itemStats.putAll(itemStatsCacheLoader.readItemStatsFromCache());
         LOGGER.info("Loaded {} Item Stats.", itemStats.size());
@@ -178,7 +202,12 @@ public class CacheLoaderImpl implements CacheLoader {
 
     private void loadSounds() throws IOException {
         sounds.putAll(soundCacheLoader.readSoundsFromCache());
-        LOGGER.info("Loaded {} Sounds.",sounds.size());
+        LOGGER.info("Loaded {} Sounds.", sounds.size());
+    }
+
+    private void loadProjectiles() throws IOException {
+        projectiles.putAll(projectileCacheLoader.readProjectilesFromCache());
+        LOGGER.info("Loaded {} Projectiles.", projectiles.size());
     }
 
 }

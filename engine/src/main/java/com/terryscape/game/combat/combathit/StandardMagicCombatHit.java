@@ -5,9 +5,9 @@ import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.movement.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
+import com.terryscape.game.projectile.ProjectileFactory;
 
 // TODO Probably should move into a content module?
-
 public class StandardMagicCombatHit extends StandardCombatFormulaHit {
 
     private final DamageType damageType;
@@ -20,8 +20,16 @@ public class StandardMagicCombatHit extends StandardCombatFormulaHit {
     }
 
     @Override
-    public void onRegistered(CombatComponent attacker, CombatComponent victim) {
+    public void onRegistered(CombatComponent attacker, CombatComponent victim, ProjectileFactory projectileFactory) {
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(attackAnimationId);
+
+        // TODO Better way of creating projectiles, this shouldn't be needed.
+        var projectileName = damageType == DamageType.FIRE ? "basic_fire_strike" : "basic_air_strike";
+        projectileFactory.createRegisteredProjectile(projectileName, projectileComponent -> {
+            projectileComponent.setEntitySource(attacker.getEntity());
+            projectileComponent.setEntityTarget(victim.getEntity());
+            projectileComponent.setLifeSpan(calculateHitDelayTicks(attacker, victim));
+        });
     }
 
     @Override

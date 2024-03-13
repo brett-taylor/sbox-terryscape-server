@@ -4,6 +4,7 @@ import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.CombatHit;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.projectile.ProjectileFactory;
 
 import java.util.function.Supplier;
 
@@ -34,7 +35,7 @@ public class StandardMeleeSpecialAttackCombatHit implements CombatHit {
     }
 
     @Override
-    public void onRegistered(CombatComponent attacker, CombatComponent victim) {
+    public void onRegistered(CombatComponent attacker, CombatComponent victim, ProjectileFactory projectileFactory) {
         attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(attackAnimationId);
     }
 
