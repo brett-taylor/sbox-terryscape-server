@@ -10,6 +10,8 @@ public interface PlayerComponent extends NetworkedEntityComponent {
 
     Client getClient();
 
+    String getSteamId();
+
     String getUsername();
 
     FixedSizeItemContainer getInventory();

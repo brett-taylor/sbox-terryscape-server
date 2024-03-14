@@ -35,6 +35,7 @@ public class LoginIncomingPacket implements IncomingPacket {
 
     @Override
     public void handlePacket(Client client, ByteBuffer packet) {
+        var steamId = IncomingPacket.readString(packet).trim();
         var receivedUsername = IncomingPacket.readString(packet).trim();
 
         var randomPostfix = String.valueOf(Math.random() * 10000).subSequence(0, 3);
@@ -49,6 +50,7 @@ public class LoginIncomingPacket implements IncomingPacket {
         var player = playerEntity.getComponentOrThrow(PlayerComponentImpl.class);
         player.setClient(client);
         player.setUsername(username);
+        player.setSteamId(steamId);
 
         var clientImpl = (ClientImpl) client;
         clientImpl.setPlayer(player);

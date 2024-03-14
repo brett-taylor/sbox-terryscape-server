@@ -94,6 +94,8 @@ public class WorldManagerImpl implements WorldManager {
     }
 
     private void unregisterSingleEntity(EntityImpl entity) {
+        entity.onDeleted();
+
         entities.remove(entity.getIdentifier());
 
         var packet = new EntityRemovedOutgoingPacket().setEntity(entity);

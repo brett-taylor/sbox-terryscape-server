@@ -44,9 +44,13 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private final CacheLoader cacheLoader;
 
+    private final TemporaryPlayerSaveSystem temporaryPlayerSaveSystem;
+
     private Client client;
 
     private String username;
+
+    private String steamId;
 
     private HumanoidGender gender;
 
@@ -58,13 +62,15 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
                                PacketManager packetManager,
                                InterfaceManager interfaceManager,
                                SoundManager soundManager,
-                               CacheLoader cacheLoader) {
+                               CacheLoader cacheLoader,
+                               TemporaryPlayerSaveSystem temporaryPlayerSaveSystem) {
         super(entity);
 
         this.packetManager = packetManager;
         this.interfaceManager = interfaceManager;
         this.soundManager = soundManager;
         this.cacheLoader = cacheLoader;
+        this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
@@ -98,6 +104,16 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     public PlayerComponentImpl setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    @Override
+    public String getSteamId() {
+        return steamId;
+    }
+
+    public PlayerComponentImpl setSteamId(String steamId) {
+        this.steamId = steamId;
         return this;
     }
 
@@ -157,6 +173,15 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
         var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
         packetManager.send(getClient(), setLocalEntityPacket);
+
+        temporaryPlayerSaveSystem.restorePlayerIfHasSave(this);
+    }
+
+    @Override
+    public void onDeleted() {
+        super.onDeleted();
+
+        temporaryPlayerSaveSystem.savePlayer(this);
     }
 
     @Override

@@ -5,8 +5,6 @@ import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.entity.event.EntityEvent;
 import com.terryscape.net.OutgoingPacket;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.OutputStream;
 import java.lang.reflect.Type;
@@ -26,8 +24,6 @@ public class EntityImpl implements Entity {
     private final Map<Type, List<Consumer<? extends EntityEvent>>> entityEventConsumers = new HashMap<>();
 
     private boolean isValid;
-
-    private boolean shouldDelete;
 
     private boolean hasBeenRegistered;
 
@@ -151,6 +147,10 @@ public class EntityImpl implements Entity {
         hasBeenRegistered = true;
 
         components.forEach(BaseEntityComponent::onRegistered);
+    }
+
+    public void onDeleted() {
+        components.forEach(BaseEntityComponent::onDeleted);
     }
 
     public void tick() {
