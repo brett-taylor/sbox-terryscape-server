@@ -41,7 +41,7 @@ public class LoginIncomingPacket implements IncomingPacket {
         var randomPostfix = String.valueOf(Math.random() * 10000).subSequence(0, 3);
         var username = "%s %s".formatted(receivedUsername, randomPostfix);
 
-        LOGGER.info("Login accepted username={}", username);
+        LOGGER.info("Login accepted username={}, steamId={}", username, steamId);
 
         worldManager.sendInitialUpdate(client);
 
