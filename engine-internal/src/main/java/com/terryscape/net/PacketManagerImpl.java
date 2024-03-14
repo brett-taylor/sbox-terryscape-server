@@ -112,17 +112,16 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
 
         for (var closedConnection : closedConnections) {
             LOGGER.error("A closed connection was in the clients pool. Removing it now...");
-
             var client = clients.get(closedConnection);
-            if (client.getPlayer().isPresent()) {
+            clients.remove(closedConnection);
+
+            if (client != null && client.getPlayer() != null && client.getPlayer().isPresent()) {
                 var entity = client.getPlayer().get().getEntity();
                 if (entity.isValid()) {
                     LOGGER.error("The closed connection still had a valid entity attached to it!");
                     entity.delete();
                 }
             }
-
-            clients.remove(closedConnection);
         }
     }
 
