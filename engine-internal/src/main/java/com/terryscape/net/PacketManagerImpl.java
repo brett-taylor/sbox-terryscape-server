@@ -86,7 +86,14 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
     @Override
     public void send(com.terryscape.net.Client client, OutgoingPacket outgoingPacket) {
         var packet = generatePacket(outgoingPacket).toByteArray();
-        client.getConnection().send(packet);
+        var connection = client.getConnection();
+
+        if (connection.isClosed() || connection.isClosing()) {
+            LOGGER.error("Attempted to send a packet to a closing or closed websocket. isClosed: {}, isClosing: {}", connection.isClosed(), connection.isClosing());
+            return;
+        }
+
+        connection.send(packet);
     }
 
     @Override
@@ -98,6 +105,25 @@ public class PacketManagerImpl extends WebSocketServer implements PacketManager 
     @Override
     public Set<Client> getClients() {
         return clients.values();
+    }
+
+    public void removeClosedConnections() {
+        var closedConnections = clients.keySet().stream().filter(WebSocket::isClosed).toList();
+
+        for (var closedConnection : closedConnections) {
+            LOGGER.error("A closed connection was in the clients pool. Removing it now...");
+
+            var client = clients.get(closedConnection);
+            if (client.getPlayer().isPresent()) {
+                var entity = client.getPlayer().get().getEntity();
+                if (entity.isValid()) {
+                    LOGGER.error("The closed connection still had a valid entity attached to it!");
+                    entity.delete();
+                }
+            }
+
+            clients.remove(closedConnection);
+        }
     }
 
     private void handleIncomingPacket(com.terryscape.net.Client client, String packetName, ByteBuffer packet) {

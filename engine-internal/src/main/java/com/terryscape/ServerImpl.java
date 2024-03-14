@@ -68,6 +68,8 @@ public class ServerImpl implements Server {
 
             worldClock.incrementTickCount();
 
+            packetManager.removeClosedConnections();
+
             worldManager.tick();
 
             eventSystem.invoke(OnTickSystemEvent.class, new OnTickSystemEvent());
