@@ -207,6 +207,7 @@
     {
       "gender": "MALE",
       "equippedItems": {
+        "MAIN_HAND": "basic_fire_staff",
         "HEAD": "wizard_hat",
         "TORSO": "wizard_top",
         "LEGS": "wizard_bottoms",
