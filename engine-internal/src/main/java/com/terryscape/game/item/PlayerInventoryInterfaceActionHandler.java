@@ -110,6 +110,8 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             return;
         }
 
+        var mainHand = player.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
+
         var previouslyEquippedItem = player.getEquipment().getSlot(slot);
 
         player.getInventory().removeItemAt(slotNumber);
@@ -118,6 +120,14 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         previouslyEquippedItem.ifPresent(itemContainerItem -> player.getInventory().addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
 
         soundManager.playSoundEffect(player.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+
+        if (slot == EquipmentSlot.OFF_HAND) {
+            if (mainHand.isPresent() && mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().isTwoHanded()) {
+                var mainHandItem = mainHand.get();
+                player.getEquipment().removeSlot(EquipmentSlot.MAIN_HAND);
+                player.getInventory().addItemAt(slotNumber, mainHandItem.getItemDefinition(), mainHandItem.getQuantity());
+            }
+        }
 
         if (isTwoHanded) {
             var previousEquippedOffhandItem = player.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
