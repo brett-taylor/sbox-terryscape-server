@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 @Singleton
 public class SpawnGoblins {
 
-    private static final WorldCoordinate MIN_WANDER_ZONE = new WorldCoordinate(3, -16);
+    private static final WorldCoordinate MIN_WANDER_ZONE = new WorldCoordinate(3, -15);
 
-    private static final WorldCoordinate MAX_WANDER_ZONE = new WorldCoordinate(26, 10);
+    private static final WorldCoordinate MAX_WANDER_ZONE = new WorldCoordinate(45, 4);
 
     private static final int RESPAWN_TICKS = 30;
 
@@ -70,12 +70,21 @@ public class SpawnGoblins {
         spawnRegularGoblin();
         spawnRegularGoblin();
         spawnRegularGoblin();
+        spawnRegularGoblin();
+        spawnRegularGoblin();
+        spawnRegularGoblin();
+        spawnRegularGoblin();
 
         spawnGoblinWarrior();
         spawnGoblinWarrior();
         spawnGoblinWarrior();
         spawnGoblinWarrior();
+        spawnGoblinWarrior();
+        spawnGoblinWarrior();
+        spawnGoblinWarrior();
+        spawnGoblinWarrior();
 
+        spawnGoblinShaman();
         spawnGoblinShaman();
 
         spawnGoblinChief();

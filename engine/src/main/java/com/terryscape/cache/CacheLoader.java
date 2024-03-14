@@ -22,6 +22,8 @@ public interface CacheLoader {
 
     ObjectDefinition getObjectDefinition(String id);
 
+    Optional<WorldRegionDefinition> getWorldRegionDefinitionSafe(WorldRegionCoordinate worldRegionCoordinate);
+
     WorldRegionDefinition getWorldRegionDefinition(WorldRegionCoordinate worldRegionCoordinate);
 
     SoundDefinition getSoundDefinition(String id);

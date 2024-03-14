@@ -55,7 +55,7 @@ public class SpawnHumans {
 
     private void spawnGuide() {
         var guide = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("guide"));
-        guide.addComponent(new WanderMovementComponent(guide, new WorldCoordinate(9, 19), new WorldCoordinate(19, 24), false, cacheLoader));
+        guide.addComponent(new WanderMovementComponent(guide, new WorldCoordinate(2, 19), new WorldCoordinate(21, 31), false, cacheLoader));
         guide.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(17, 20));
 
         Supplier<String> overheadText = () -> "Welcome to %s! Speak to me if you need help.".formatted(Config.NAME);
@@ -87,8 +87,8 @@ public class SpawnHumans {
 
     private void spawnPlayersOnlineCounter() {
         var playersOnlineCounter = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("players_online_counter"));
-        playersOnlineCounter.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(18, 25));
-        playersOnlineCounter.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
+        playersOnlineCounter.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(1, 24));
+        playersOnlineCounter.getComponentOrThrow(MovementComponent.class).look(Direction.EAST);
 
         Supplier<String> overheadText = () -> "There are currently %s players online.".formatted(worldManager.getPlayers().size());
         playersOnlineCounter.addComponent(new RecurringNpcOverheadTextComponent(playersOnlineCounter, worldClock, 60, 80, overheadText));

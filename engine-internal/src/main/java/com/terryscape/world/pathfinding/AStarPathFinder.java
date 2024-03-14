@@ -90,8 +90,14 @@ class AStarPathFinder {
             return true;
         }
 
-        var region = cacheLoader.getWorldRegionDefinition(worldCoordinate.toWorldRegionCoordinate());
-        return region.getWorldTileDefinition(worldCoordinate.toWorldRegionLocalCoordinate()).isWalkable();
+        var regionCoordinate = worldCoordinate.toWorldRegionCoordinate();
+        var localCoordinate = worldCoordinate.toWorldRegionLocalCoordinate();
+        var region = cacheLoader.getWorldRegionDefinitionSafe(regionCoordinate);
+
+        return region
+            .map(worldRegionDefinition -> worldRegionDefinition.getWorldTileDefinition(localCoordinate)
+            .isWalkable())
+            .orElse(false);
     }
 
     private boolean isValidDiagonalTile(WorldCoordinate worldCoordinate, List<WorldCoordinate> validNeighbours) {

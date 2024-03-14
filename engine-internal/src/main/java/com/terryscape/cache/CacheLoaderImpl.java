@@ -138,6 +138,11 @@ public class CacheLoaderImpl implements CacheLoader {
     }
 
     @Override
+    public Optional<WorldRegionDefinition> getWorldRegionDefinitionSafe(WorldRegionCoordinate worldRegionCoordinate) {
+        return Optional.ofNullable(worldRegions.get(worldRegionCoordinate));
+    }
+
+    @Override
     public WorldRegionDefinition getWorldRegionDefinition(WorldRegionCoordinate worldRegionCoordinate) {
         if (!worldRegions.containsKey(worldRegionCoordinate)) {
             throw new RuntimeException("No WorldRegion found with at %s".formatted(worldRegionCoordinate));
