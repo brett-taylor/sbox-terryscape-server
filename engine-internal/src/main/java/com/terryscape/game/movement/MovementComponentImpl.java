@@ -60,6 +60,11 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     }
 
     @Override
+    public MovementSpeed getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    @Override
     public void setMovementSpeed(MovementSpeed movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
@@ -155,6 +160,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     public void writeEntityAddedPacket(OutputStream packet) {
         getWorldCoordinate().writeToPacket(packet);
         Direction.writeToPacket(packet, getDirection());
+        OutgoingPacket.writeEnum(packet, movementSpeed);
     }
 
     @Override
@@ -162,6 +168,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         getWorldCoordinate().writeToPacket(packet);
         OutgoingPacket.writeBoolean(packet, nextUpdateWasTeleport);
         Direction.writeToPacket(packet, getDirection());
+        OutgoingPacket.writeEnum(packet, movementSpeed);
 
         if (facing == null) {
             EntityIdentifier.writeToPacketNullIdentifier(packet);

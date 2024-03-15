@@ -22,6 +22,7 @@ import com.terryscape.game.interfaces.InterfaceManagerImpl;
 import com.terryscape.game.interfaces.packet.InterfaceActionIncomingPacket;
 import com.terryscape.game.item.PlayerInventoryInterfaceActionHandler;
 import com.terryscape.game.login.LoginIncomingPacket;
+import com.terryscape.game.movement.MovementOrbInterfaceActionHandler;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
@@ -79,6 +80,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         interfaceActionHandlerMultibinder.addBinding().to(DialogueInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(ShopInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(SpecialAttackOrbInterfaceActionHandler.class);
+        interfaceActionHandlerMultibinder.addBinding().to(MovementOrbInterfaceActionHandler.class);
     }
 
 }
