@@ -53,12 +53,6 @@ public class SpawnHumans {
         spawnPlayersOnlineCounter();
 
         spawnCombatGuide();
-
-        spawnMaisie();
-
-        spawnPeters();
-
-        spawnTina();
     }
 
     private void spawnGuide() {
