@@ -216,8 +216,8 @@
     "combatDamageType": null
   },
   {
-    "id": "combat_guide",
-    "name": "Combat Guide",
+    "id": "combat_expert",
+    "name": "Combat Expert",
     "description": "He seems knowledgeable in combat, maybe I should talk to him?",
     "attackable": false,
     "interactable": true,

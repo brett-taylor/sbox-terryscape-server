@@ -52,7 +52,13 @@ public class SpawnHumans {
 
         spawnPlayersOnlineCounter();
 
-        spawnCombatGuide();
+        spawnCombatExpert();
+
+        spawnTina();
+
+        spawnMaisie();
+
+        spawnPeters();
     }
 
     private void spawnGuide() {
@@ -98,12 +104,12 @@ public class SpawnHumans {
         worldManager.registerEntity(playersOnlineCounter);
     }
 
-    private void spawnCombatGuide() {
-        var combatGuide = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("combat_guide"));
-        combatGuide.addComponent(new WanderMovementComponent(combatGuide, new WorldCoordinate(8, 28), new WorldCoordinate(12, 33), false, cacheLoader));
-        combatGuide.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(9, 30));
+    private void spawnCombatExpert() {
+        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("combat_expert"));
+        npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(8, 28), new WorldCoordinate(12, 33), false, cacheLoader));
+        npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(9, 30));
 
-        worldManager.registerEntity(combatGuide);
+        worldManager.registerEntity(npc);
     }
 
     private void spawnMaisie() {
