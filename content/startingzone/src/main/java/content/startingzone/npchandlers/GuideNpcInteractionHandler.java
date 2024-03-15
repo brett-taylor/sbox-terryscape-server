@@ -71,7 +71,7 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
                 "Your feedback will be greatly appreciated. Please pass all your feedback and ideas onto Waisie Milliams in the SBox Discord. Please also remember to report any bug or unexpected behaviour you come across!"
             )
             .blank(
-                "Thank you for trying out %s.".formatted(NAME)
+                "Thank you for trying out %s. Remember to review it on asset.party if you enjoyed it :)".formatted(NAME)
             );
 
         playerTask.setCancellablePrimaryTask(
