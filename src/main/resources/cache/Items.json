@@ -138,6 +138,39 @@
     "interactableText": null
   },
   {
+    "id": "basic_bow",
+    "name": "Basic Bow",
+    "description": "A basic bow.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/weapons/basic_bow/sm_prop_bow_01.vmdl",
+      "imagePath": "assets/items/weapons/basic_bow/sm_prop_bow_01.png"
+    },
+    "groundItem": {
+      "modelPath": "assets/items/weapons/basic_bow/sm_prop_bow_01.vmdl",
+      "position": "2.659597,-1.164466,1.971767",
+      "scale": "0.9,0.9,0.9",
+      "rotation": "0.6360422,-0.3120451,-0.3180526,0.6300167"
+    },
+    "equip": {
+      "slot": "MAIN_HAND",
+      "allModelPath": "assets/items/weapons/basic_bow/sm_prop_bow_01.vmdl",
+      "hideBodyParts": [],
+      "weapon": {
+        "twoHanded": true,
+        "damageType": "ARROW",
+        "range": 9,
+        "attackSpeed": 4,
+        "mainHandOffset": "1.84,-1.01,2.38",
+        "mainHandRotation": "0,0,9.14",
+        "mainHandAttackAnimation": "2Hand_Bow_Attack1"
+      }
+    },
+    "stats": "basic_bow",
+    "interactable": false,
+    "interactableText": null
+  },
+  {
     "id": "gold_coin",
     "name": "Gold Coin",
     "description": "Makes the world turn.",
@@ -564,10 +597,7 @@
         "attackSpeed": 5,
         "mainHandOffset": "6.269516,-0.8196973,-16.00959",
         "mainHandRotation": "0.0369845,-0.0398484,0.004105257,0.9985127",
-        "mainHandAttackAnimation": "2Hand_Axe_Attack4",
-        "offHandOffset": "0,0,0",
-        "offHandRotation": "0,0,0",
-        "offHandAttackAnimation": "2Hand_Axe_Attack4"
+        "mainHandAttackAnimation": "2Hand_Axe_Attack4"
       }
     },
     "stats": "basic_air_staff",
@@ -600,10 +630,7 @@
         "attackSpeed": 5,
         "mainHandOffset": "6.269516,-0.8196973,-16.00959",
         "mainHandRotation": "0.0369845,-0.0398484,0.004105257,0.9985127",
-        "mainHandAttackAnimation": "2Hand_Axe_Attack4",
-        "offHandOffset": "0,0,0",
-        "offHandRotation": "0,0,0",
-        "offHandAttackAnimation": "2Hand_Axe_Attack4"
+        "mainHandAttackAnimation": "2Hand_Axe_Attack4"
       }
     },
     "stats": "basic_fire_staff",

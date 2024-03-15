@@ -7,6 +7,7 @@ import com.terryscape.game.combat.CombatScript;
 import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.combat.combathit.StandardMagicCombatHit;
 import com.terryscape.game.combat.combathit.StandardMeleeCombatHit;
+import com.terryscape.game.combat.combathit.StandardRangeCombatHit;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.maths.RandomUtil;
@@ -147,7 +148,7 @@ public class PlayerCombatScript implements CombatScript {
 
             case AIR, FIRE -> new StandardMagicCombatHit(weapon.getDamageType(), attackAnimation);
 
-            case ARROW -> new StandardMeleeCombatHit(weapon.getDamageType(), attackAnimation);
+            case ARROW -> new StandardRangeCombatHit(weapon.getDamageType(), attackAnimation);
 
             case TYPELESS -> throw new NotImplementedException();
         };

@@ -185,5 +185,22 @@
     "strengthMelee": 0,
     "strengthMagic": 14,
     "strengthRange": 0
+  },
+  {
+    "id": "basic_bow",
+    "weight": 2,
+    "offensiveStab": 0,
+    "offensiveSlash": 0,
+    "offensiveAir": 0,
+    "offensiveFire": 0,
+    "offensiveArrow": 20,
+    "defensiveStab": 0,
+    "defensiveSlash": 0,
+    "defensiveAir": 0,
+    "defensiveFire": 0,
+    "defensiveArrow": 1,
+    "strengthMelee": 0,
+    "strengthMagic": 0,
+    "strengthRange": 23
   }
 ]
