@@ -94,7 +94,7 @@
         "twoHanded": true,
         "damageType": "SLASH",
         "range": 1,
-        "attackSpeed": 8,
+        "attackSpeed": 6,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "2Hand_Sword_Attack1"
@@ -127,7 +127,7 @@
         "twoHanded": true,
         "damageType": "SLASH",
         "range": 1,
-        "attackSpeed": 8,
+        "attackSpeed": 6,
         "mainHandOffset": "1.84,-1.01,2.38",
         "mainHandRotation": "0,0,9.14",
         "mainHandAttackAnimation": "2Hand_Sword_Attack1"

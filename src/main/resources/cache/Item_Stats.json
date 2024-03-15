@@ -31,14 +31,14 @@
     "id": "godsword",
     "weight": 10,
     "offensiveStab": -4,
-    "offensiveSlash": 45,
+    "offensiveSlash": 65,
     "offensiveAir": 0,
     "offensiveFire": 0,
     "defensiveStab": 0,
     "defensiveSlash": 0,
     "defensiveAir": 0,
     "defensiveFire": 0,
-    "strengthMelee": 45,
+    "strengthMelee": 65,
     "strengthMagic": 0
   },
   {
