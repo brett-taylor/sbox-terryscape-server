@@ -43,10 +43,11 @@ public class MaxHitCommand implements Command {
         var slashMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.SLASH);
         var airMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.AIR);
         var fireMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.FIRE);
+        var arrowMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.ARROW);
         var typelessMaxHit = combatDiceRoll.calculateMaxHit(playerSkills, playerBonuses, DamageType.TYPELESS);
 
-        chat.sendGameMessage("Stab: %s, Slash: %s".formatted(stabMaxHit, slashMaxHit));
-        chat.sendGameMessage("Air: %s, Fire: %s".formatted(airMaxHit, fireMaxHit));
-        chat.sendGameMessage("Typeless: %s".formatted(typelessMaxHit));
+        chat.sendGameMessage(
+            "Stab: %s, Slash: %s, Air: %s, Fire: %s, Arrow: %s, Typeless: %s".formatted(stabMaxHit, slashMaxHit, airMaxHit, fireMaxHit, arrowMaxHit, typelessMaxHit)
+        );
     }
 }

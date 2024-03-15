@@ -7,5 +7,7 @@ public enum DamageType {
     AIR,
     FIRE,
 
+    ARROW,
+
     TYPELESS,
 }

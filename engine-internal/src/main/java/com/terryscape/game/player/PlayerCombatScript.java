@@ -147,6 +147,8 @@ public class PlayerCombatScript implements CombatScript {
 
             case AIR, FIRE -> new StandardMagicCombatHit(weapon.getDamageType(), attackAnimation);
 
+            case ARROW -> new StandardMeleeCombatHit(weapon.getDamageType(), attackAnimation);
+
             case TYPELESS -> throw new NotImplementedException();
         };
     }

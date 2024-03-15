@@ -96,7 +96,7 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     }
 
     @Override
-    public float getDefensiveArrows() {
+    public float getDefensiveArrow() {
         return (float) playerComponent.getEquipment().getAllItems().stream()
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getDefensiveArrow())
             .sum();
@@ -143,7 +143,7 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
         OutgoingPacket.writeFloat(packet, getDefensiveSlash());
         OutgoingPacket.writeFloat(packet, getDefensiveAir());
         OutgoingPacket.writeFloat(packet, getDefensiveFire());
-        OutgoingPacket.writeFloat(packet, getDefensiveArrows());
+        OutgoingPacket.writeFloat(packet, getDefensiveArrow());
 
         OutgoingPacket.writeFloat(packet, getStrengthMelee());
         OutgoingPacket.writeFloat(packet, getStrengthMagic());

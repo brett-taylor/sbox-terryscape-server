@@ -60,7 +60,7 @@ public class NpcCombatBonusesProviderComponent extends BaseEntityComponent imple
     }
 
     @Override
-    public float getDefensiveArrows() {
+    public float getDefensiveArrow() {
         return npcComponent.getNpcDefinition().getStatsDefinition().getCombatBonusesDefinition().getDefensiveArrow();
     }
 

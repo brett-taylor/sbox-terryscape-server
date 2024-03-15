@@ -47,6 +47,7 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
         var strength = switch(damageType) {
             case STAB, SLASH -> combatSkillsProviderComponent.getStrength();
             case AIR, FIRE -> combatSkillsProviderComponent.getMagic();
+            case ARROW -> combatSkillsProviderComponent.getRange();
             case TYPELESS -> 0;
         };
 
@@ -57,6 +58,7 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
         var strength = switch(damageType) {
             case STAB, SLASH -> combatBonusesProviderComponent.getStrengthMelee();
             case AIR, FIRE -> combatBonusesProviderComponent.getStrengthMagic();
+            case ARROW -> combatBonusesProviderComponent.getStrengthRange();
             case TYPELESS -> 0;
         };
 
@@ -75,6 +77,7 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
             case SLASH -> combatBonuses.getOffensiveSlash();
             case AIR -> combatBonuses.getOffensiveAir();
             case FIRE -> combatBonuses.getOffensiveFire();
+            case ARROW -> combatBonuses.getOffensiveArrow();
             case TYPELESS -> 0f;
         };
     }
@@ -91,6 +94,7 @@ public class CombatDiceRollImpl implements CombatDiceRoll {
             case SLASH -> combatBonuses.getDefensiveSlash();
             case AIR -> combatBonuses.getDefensiveAir();
             case FIRE -> combatBonuses.getDefensiveFire();
+            case ARROW -> combatBonuses.getDefensiveArrow();
             case TYPELESS -> 0f;
         };
     }
