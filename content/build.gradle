@@ -1,7 +1,10 @@
 dependencies {
     implementation project(":content:commands")
-    implementation project(":content:startingzone")
+    implementation project(":content:starting-zone")
     implementation project(":content:interfaces")
     implementation project(":content:food")
     implementation project(":content:weapons")
+    implementation project(":content:skill-mining")
+    implementation project(":content:skill-woodcutting")
+    implementation project(":content:skill-fishing")
 }

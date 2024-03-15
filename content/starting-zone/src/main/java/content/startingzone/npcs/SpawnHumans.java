@@ -51,6 +51,14 @@ public class SpawnHumans {
         spawnFoodShopKeeper();
 
         spawnPlayersOnlineCounter();
+
+        spawnCombatGuide();
+
+        spawnMaisie();
+
+        spawnPeters();
+
+        spawnTina();
     }
 
     private void spawnGuide() {
@@ -94,5 +102,37 @@ public class SpawnHumans {
         playersOnlineCounter.addComponent(new RecurringNpcOverheadTextComponent(playersOnlineCounter, worldClock, 60, 80, overheadText));
 
         worldManager.registerEntity(playersOnlineCounter);
+    }
+
+    private void spawnCombatGuide() {
+        var combatGuide = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("combat_guide"));
+        combatGuide.addComponent(new WanderMovementComponent(combatGuide, new WorldCoordinate(8, 28), new WorldCoordinate(12, 33), false, cacheLoader));
+        combatGuide.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(9, 30));
+
+        worldManager.registerEntity(combatGuide);
+    }
+
+    private void spawnMaisie() {
+        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("maisie"));
+        npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(-2, 29), new WorldCoordinate(0, 33), false, cacheLoader));
+        npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(-2, 29));
+
+        worldManager.registerEntity(npc);
+    }
+
+    private void spawnPeters() {
+        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("peters"));
+        npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(2, 34), new WorldCoordinate(4, 37), false, cacheLoader));
+        npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(2, 34));
+
+        worldManager.registerEntity(npc);
+    }
+
+    private void spawnTina() {
+        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("tina"));
+        npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(6, 34), new WorldCoordinate(10, 38), false, cacheLoader));
+        npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(6, 34));
+
+        worldManager.registerEntity(npc);
     }
 }

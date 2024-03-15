@@ -173,11 +173,12 @@
     "description": "Maybe I should speak to him?",
     "attackable": false,
     "interactable": true,
-    "humanoidNpc":
-    {
-      "gender": "MALE",
-      "equippedItems": {
-        "HEAD": "wizard_hat"
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_hermit_01.vmdl",
+          "texturePath": "assets/materials/polygonfantasykingdom_texture_04_a.vmat"
+        }
       }
     },
     "combatLevel": 1,
@@ -203,16 +204,80 @@
     "description": "Mmh thats weird",
     "attackable": false,
     "interactable": true,
-    "humanoidNpc":
-    {
-      "gender": "MALE",
-      "equippedItems": {
-        "MAIN_HAND": "basic_fire_staff",
-        "HEAD": "wizard_hat",
-        "TORSO": "wizard_top",
-        "LEGS": "wizard_bottoms",
-        "HANDS": "wizard_gloves",
-        "FEET": "wizard_boots"
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_hermit_01.vmdl",
+          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+        }
+      }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
+  },
+  {
+    "id": "combat_guide",
+    "name": "Combat Guide",
+    "description": "He seems knowledgeable in combat, maybe I should talk to him?",
+    "attackable": false,
+    "interactable": true,
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_soldier_male_01.vmdl",
+          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+        }
+      }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
+  },
+  {
+    "id": "maisie",
+    "name": "Maisie",
+    "description": "Perhaps she needs my help?",
+    "attackable": false,
+    "interactable": true,
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_rider_01.vmdl",
+          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+        }
+      }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
+  },
+  {
+    "id": "peters",
+    "name": "Peters",
+    "description": "Perhaps she needs my help?",
+    "attackable": false,
+    "interactable": true,
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_blacksmith_female_01.vmdl",
+          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+        }
+      }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
+  },
+  {
+    "id": "tina",
+    "name": "Tina",
+    "description": "Perhaps he needs my help?",
+    "attackable": false,
+    "interactable": true,
+    "simpleNpc": {
+      "variants": {
+        "default": {
+          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_peasant_female_01.vmdl",
+          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+        }
       }
     },
     "combatLevel": 1,
