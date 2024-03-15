@@ -88,6 +88,11 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         if (interfaceAction.equals("drop")) {
             dropItem(player, item, slotNumber);
         }
+
+        if (interfaceAction.equals("swap")) {
+            var slotB = IncomingPacket.readInt32(packet);
+            swapItems(player, slotNumber, slotB);
+        }
     }
 
     private void equipItem(boolean modifyAction, PlayerComponent player, int slotNumber, ItemContainerItem item) {
@@ -142,6 +147,19 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
         var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainerItem, currentWorldCoordinate);
         worldManager.registerEntity(groundItem);
+
+        soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+    }
+
+    private void swapItems(PlayerComponent playerComponent, int slotA, int slotB) {
+        var slotAItem = playerComponent.getInventory().getItemAt(slotA);
+        var slotBItem = playerComponent.getInventory().getItemAt(slotB);
+
+        playerComponent.getInventory().removeItemAt(slotA);
+        playerComponent.getInventory().removeItemAt(slotB);
+
+        slotAItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotB, itemContainerItem.getItemDefinition(), itemContainerItem.getQuantity()));
+        slotBItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotA, itemContainerItem.getItemDefinition(), itemContainerItem.getQuantity()));
 
         soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
     }
