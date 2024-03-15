@@ -61,6 +61,13 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     }
 
     @Override
+    public float getOffensiveArrow() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getOffensiveArrow())
+            .sum();
+    }
+
+    @Override
     public float getDefensiveStab() {
         return (float) playerComponent.getEquipment().getAllItems().stream()
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getDefensiveStab())
@@ -89,6 +96,13 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     }
 
     @Override
+    public float getDefensiveArrows() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getDefensiveArrow())
+            .sum();
+    }
+
+    @Override
     public float getStrengthMelee() {
         return (float) playerComponent.getEquipment().getAllItems().stream()
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getStrengthMelee())
@@ -99,6 +113,13 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
     public float getStrengthMagic() {
         return (float) playerComponent.getEquipment().getAllItems().stream()
             .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getStrengthMagic())
+            .sum();
+    }
+
+    @Override
+    public float getStrengthRange() {
+        return (float) playerComponent.getEquipment().getAllItems().stream()
+            .mapToDouble(itemContainerItem -> itemContainerItem.getItemDefinition().getItemStatsDefinition().getStrengthRange())
             .sum();
     }
 
@@ -116,13 +137,16 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
         OutgoingPacket.writeFloat(packet, getOffensiveSlash());
         OutgoingPacket.writeFloat(packet, getOffensiveAir());
         OutgoingPacket.writeFloat(packet, getOffensiveFire());
+        OutgoingPacket.writeFloat(packet, getOffensiveArrow());
 
         OutgoingPacket.writeFloat(packet, getDefensiveStab());
         OutgoingPacket.writeFloat(packet, getDefensiveSlash());
         OutgoingPacket.writeFloat(packet, getDefensiveAir());
         OutgoingPacket.writeFloat(packet, getDefensiveFire());
+        OutgoingPacket.writeFloat(packet, getDefensiveArrows());
 
         OutgoingPacket.writeFloat(packet, getStrengthMelee());
         OutgoingPacket.writeFloat(packet, getStrengthMagic());
+        OutgoingPacket.writeFloat(packet, getStrengthRange());
     }
 }

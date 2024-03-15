@@ -14,6 +14,8 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     private float offensiveFire;
 
+    private float offensiveArrow;
+
     private float defensiveStab;
 
     private float defensiveSlash;
@@ -22,9 +24,13 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     private float defensiveFire;
 
+    private float defensiveArrow;
+
     private float strengthMelee;
 
     private float strengthMagic;
+
+    private float strengthRange;
 
     public String getId() {
         return id;
@@ -86,6 +92,16 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
     }
 
     @Override
+    public float getOffensiveArrow() {
+        return offensiveArrow;
+    }
+
+    public ItemStatsDefinitionImpl setOffensiveArrow(float offensiveArrow) {
+        this.offensiveArrow = offensiveArrow;
+        return this;
+    }
+
+    @Override
     public float getDefensiveStab() {
         return defensiveStab;
     }
@@ -126,6 +142,16 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
     }
 
     @Override
+    public float getDefensiveArrow() {
+        return defensiveArrow;
+    }
+
+    public ItemStatsDefinitionImpl setDefensiveArrow(float defensiveArrow) {
+        this.defensiveArrow = defensiveArrow;
+        return this;
+    }
+
+    @Override
     public float getStrengthMelee() {
         return strengthMelee;
     }
@@ -142,6 +168,16 @@ public class ItemStatsDefinitionImpl implements ItemStatsDefinition {
 
     public ItemStatsDefinitionImpl setStrengthMagic(float strengthMagic) {
         this.strengthMagic = strengthMagic;
+        return this;
+    }
+
+    @Override
+    public float getStrengthRange() {
+        return strengthRange;
+    }
+
+    public ItemStatsDefinitionImpl setStrengthRange(float strengthRange) {
+        this.strengthRange = strengthRange;
         return this;
     }
 

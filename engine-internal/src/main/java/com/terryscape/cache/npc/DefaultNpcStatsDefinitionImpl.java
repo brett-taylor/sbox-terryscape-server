@@ -80,6 +80,11 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         }
 
         @Override
+        public float getOffensiveArrow() {
+            return 1;
+        }
+
+        @Override
         public float getDefensiveStab() {
             return 1;
         }
@@ -100,12 +105,22 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         }
 
         @Override
+        public float getDefensiveArrow() {
+            return 1;
+        }
+
+        @Override
         public float getStrengthMelee() {
             return 1;
         }
 
         @Override
         public float getStrengthMagic() {
+            return 1;
+        }
+
+        @Override
+        public float getStrengthRange() {
             return 1;
         }
     }

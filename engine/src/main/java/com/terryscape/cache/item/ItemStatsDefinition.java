@@ -12,6 +12,8 @@ public interface ItemStatsDefinition {
 
     float getOffensiveFire();
 
+    float getOffensiveArrow();
+
     float getDefensiveStab();
 
     float getDefensiveSlash();
@@ -20,7 +22,11 @@ public interface ItemStatsDefinition {
 
     float getDefensiveFire();
 
+    float getDefensiveArrow();
+
     float getStrengthMelee();
 
     float getStrengthMagic();
+
+    float getStrengthRange();
 }

@@ -12,6 +12,8 @@ public interface CombatBonusesProviderComponent extends EntityComponent {
 
     float getOffensiveFire();
 
+    float getOffensiveArrow();
+
     float getDefensiveStab();
 
     float getDefensiveSlash();
@@ -20,7 +22,11 @@ public interface CombatBonusesProviderComponent extends EntityComponent {
 
     float getDefensiveFire();
 
+    float getDefensiveArrows();
+
     float getStrengthMelee();
 
     float getStrengthMagic();
+
+    float getStrengthRange();
 }

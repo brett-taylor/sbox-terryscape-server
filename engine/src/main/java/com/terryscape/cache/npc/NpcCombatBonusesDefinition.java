@@ -12,14 +12,20 @@ public interface NpcCombatBonusesDefinition {
 
     float getDefensiveStab();
 
+    float getOffensiveArrow();
+
     float getDefensiveSlash();
 
     float getDefensiveAir();
 
     float getDefensiveFire();
 
+    float getDefensiveArrow();
+
     float getStrengthMelee();
 
     float getStrengthMagic();
+
+    float getStrengthRange();
 
 }

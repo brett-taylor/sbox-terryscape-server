@@ -10,6 +10,8 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
 
     private float offensiveFire;
 
+    private float offensiveArrow;
+
     private float defensiveStab;
 
     private float defensiveSlash;
@@ -18,9 +20,13 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
 
     private float defensiveFire;
 
+    private float defensiveArrow;
+
     private float strengthMelee;
 
     private float strengthMagic;
+
+    private float strengthRange;
 
     @Override
     public float getOffensiveStab() {
@@ -59,6 +65,16 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
 
     public NpcCombatBonusesDefinitionImpl setOffensiveFire(float offensiveFire) {
         this.offensiveFire = offensiveFire;
+        return this;
+    }
+
+    @Override
+    public float getOffensiveArrow() {
+        return offensiveArrow;
+    }
+
+    public NpcCombatBonusesDefinitionImpl setOffensiveArrow(float offensiveArrow) {
+        this.offensiveArrow = offensiveArrow;
         return this;
     }
 
@@ -103,6 +119,16 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
     }
 
     @Override
+    public float getDefensiveArrow() {
+        return defensiveArrow;
+    }
+
+    public NpcCombatBonusesDefinitionImpl setDefensiveArrow(float defensiveArrow) {
+        this.defensiveArrow = defensiveArrow;
+        return this;
+    }
+
+    @Override
     public float getStrengthMelee() {
         return strengthMelee;
     }
@@ -119,6 +145,16 @@ public class NpcCombatBonusesDefinitionImpl implements NpcCombatBonusesDefinitio
 
     public NpcCombatBonusesDefinitionImpl setStrengthMagic(float strengthMagic) {
         this.strengthMagic = strengthMagic;
+        return this;
+    }
+
+    @Override
+    public float getStrengthRange() {
+        return strengthRange;
+    }
+
+    public NpcCombatBonusesDefinitionImpl setStrengthRange(float strengthRange) {
+        this.strengthRange = strengthRange;
         return this;
     }
 }

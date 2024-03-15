@@ -6,12 +6,15 @@
     "offensiveSlash": 15,
     "offensiveAir": 0,
     "offensiveFire": 0,
+    "offensiveArrow": 0,
     "defensiveStab": 0,
     "defensiveSlash": 1,
     "defensiveAir": 0,
     "defensiveFire": 0,
+    "defensiveArrow": 0,
     "strengthMelee": 14,
-    "strengthMagic": 0
+    "strengthMagic": 0,
+    "strengthRange": 0
   },
   {
     "id": "basic_sword",
@@ -20,12 +23,15 @@
     "offensiveSlash": 3,
     "offensiveAir": 0,
     "offensiveFire": 0,
+    "offensiveArrow": 0,
     "defensiveStab": 1,
     "defensiveSlash": 0,
     "defensiveAir": 0,
     "defensiveFire": 0,
+    "defensiveArrow": 0,
     "strengthMelee": 14,
-    "strengthMagic": 0
+    "strengthMagic": 0,
+    "strengthRange": 0
   },
   {
     "id": "godsword",
@@ -34,12 +40,15 @@
     "offensiveSlash": 65,
     "offensiveAir": 0,
     "offensiveFire": 0,
+    "offensiveArrow": 0,
     "defensiveStab": 0,
     "defensiveSlash": 0,
     "defensiveAir": 0,
     "defensiveFire": 0,
+    "defensiveArrow": 0,
     "strengthMelee": 65,
-    "strengthMagic": 0
+    "strengthMagic": 0,
+    "strengthRange": 0
   },
   {
     "id": "steel_full_helm",
@@ -48,12 +57,15 @@
     "offensiveSlash": 0,
     "offensiveAir": -2,
     "offensiveFire": -2,
+    "offensiveArrow": 0,
     "defensiveStab": 9,
     "defensiveSlash": 10,
     "defensiveAir": -2,
     "defensiveFire": -2,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": -2
+    "strengthMagic": -2,
+    "strengthRange": 0
   },
   {
     "id": "steel_platebody",
@@ -62,12 +74,15 @@
     "offensiveSlash": 0,
     "offensiveAir": -4,
     "offensiveFire": -4,
+    "offensiveArrow": 0,
     "defensiveStab": 32,
     "defensiveSlash": 31,
     "defensiveAir": -4,
     "defensiveFire": -4,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": -4
+    "strengthMagic": -4,
+    "strengthRange": 0
   },
   {
     "id": "steel_platelegs",
@@ -76,12 +91,15 @@
     "offensiveSlash": 0,
     "offensiveAir": -4,
     "offensiveFire": -4,
+    "offensiveArrow": 0,
     "defensiveStab": 17,
     "defensiveSlash": 16,
     "defensiveAir": -4,
     "defensiveFire": -4,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": -4
+    "strengthMagic": -4,
+    "strengthRange": 0
   },
   {
     "id": "steel_boots",
@@ -90,12 +108,15 @@
     "offensiveSlash": 0,
     "offensiveAir": -2,
     "offensiveFire": -2,
+    "offensiveArrow": 0,
     "defensiveStab": 5,
     "defensiveSlash": 6,
     "defensiveAir": -2,
     "defensiveFire": -2,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": -2
+    "strengthMagic": -2,
+    "strengthRange": 0
   },
   {
     "id": "steel_gloves",
@@ -104,12 +125,15 @@
     "offensiveSlash": 4,
     "offensiveAir": -2,
     "offensiveFire": -2,
+    "offensiveArrow": 0,
     "defensiveStab": 4,
     "defensiveSlash": 4,
     "defensiveAir": -2,
     "defensiveFire": -2,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": -2
+    "strengthMagic": -2,
+    "strengthRange": 0
   },
   {
     "id": "wizard_gear",
@@ -118,12 +142,15 @@
     "offensiveSlash": 0,
     "offensiveAir": 5,
     "offensiveFire": 5,
+    "offensiveArrow": 0,
     "defensiveStab": 0,
     "defensiveSlash": 0,
     "defensiveAir": 5,
     "defensiveFire": 5,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": 5
+    "strengthMagic": 5,
+    "strengthRange": 0
   },
   {
     "id": "basic_air_staff",
@@ -132,12 +159,15 @@
     "offensiveSlash": 0,
     "offensiveAir": 15,
     "offensiveFire": 0,
+    "offensiveArrow": 0,
     "defensiveStab": 0,
     "defensiveSlash": 0,
     "defensiveAir": 1,
     "defensiveFire": 0,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": 14
+    "strengthMagic": 14,
+    "strengthRange": 0
   },
   {
     "id": "basic_fire_staff",
@@ -146,11 +176,14 @@
     "offensiveSlash": 0,
     "offensiveAir": 0,
     "offensiveFire": 15,
+    "offensiveArrow": 0,
     "defensiveStab": 0,
     "defensiveSlash": 0,
     "defensiveAir": 0,
     "defensiveFire": 1,
+    "defensiveArrow": 0,
     "strengthMelee": 0,
-    "strengthMagic": 14
+    "strengthMagic": 14,
+    "strengthRange": 0
   }
 ]
