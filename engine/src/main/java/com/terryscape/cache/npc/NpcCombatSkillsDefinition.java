@@ -10,4 +10,6 @@ public interface NpcCombatSkillsDefinition {
 
     int getMagic();
 
+    int getRange();
+
 }

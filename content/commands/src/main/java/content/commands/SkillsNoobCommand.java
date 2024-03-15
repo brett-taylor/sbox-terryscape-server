@@ -28,6 +28,7 @@ public class SkillsNoobCommand implements Command {
         skills.setDefence(1);
         skills.setStrength(1);
         skills.setMagic(1);
+        skills.setRange(1);
 
         playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class)
             .sendGameMessage("You have set your skills to \"noob\".");

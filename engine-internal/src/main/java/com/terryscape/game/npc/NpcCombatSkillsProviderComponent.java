@@ -33,4 +33,9 @@ public class NpcCombatSkillsProviderComponent extends BaseEntityComponent implem
     public int getMagic() {
         return npcComponent.getNpcDefinition().getStatsDefinition().getCombatSkillsDefinition().getMagic();
     }
+
+    @Override
+    public int getRange() {
+        return npcComponent.getNpcDefinition().getStatsDefinition().getCombatSkillsDefinition().getRange();
+    }
 }

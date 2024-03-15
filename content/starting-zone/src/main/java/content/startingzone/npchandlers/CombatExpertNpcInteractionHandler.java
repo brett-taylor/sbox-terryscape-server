@@ -12,8 +12,6 @@ import com.terryscape.net.Client;
 
 import java.util.Set;
 
-import static com.terryscape.Config.NAME;
-
 @Singleton
 public class CombatExpertNpcInteractionHandler implements NpcInteractionHandler {
 

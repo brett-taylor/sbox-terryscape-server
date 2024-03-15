@@ -21,6 +21,8 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
 
     private int magic = 30;
 
+    private int range = 30;
+
     private int constitution = 20;
 
     public PlayerSkillsComponentImpl(Entity entity) {
@@ -48,8 +50,9 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
 
         float offensiveMeleeLevel = (getAttack() + getStrength()) * 0.325f;
         float offensiveMagicLevel = (getAttack() + getMagic()) * 0.325f;
+        float offensiveRangeLevel = (getAttack() + getRange()) * 0.325f;
 
-        float offensiveLevel = Math.max(offensiveMeleeLevel, offensiveMagicLevel);
+        float offensiveLevel = Math.max(offensiveRangeLevel, Math.max(offensiveMeleeLevel, offensiveMagicLevel));
 
         return MathsUtil.floorToInt(defensiveLevel + offensiveLevel);
     }
@@ -95,6 +98,16 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     }
 
     @Override
+    public int getRange() {
+        return range;
+    }
+
+    @Override
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    @Override
     public int getConstitution() {
         return constitution;
     }
@@ -110,6 +123,7 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
         OutgoingPacket.writeInt32(packet, getDefence());
         OutgoingPacket.writeInt32(packet, getStrength());
         OutgoingPacket.writeInt32(packet, getMagic());
+        OutgoingPacket.writeInt32(packet, getRange());
         OutgoingPacket.writeInt32(packet, getConstitution());
     }
 }

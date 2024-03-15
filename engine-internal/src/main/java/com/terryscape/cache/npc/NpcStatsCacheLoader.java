@@ -46,7 +46,8 @@ public class NpcStatsCacheLoader {
             .setAttack(skillsJsonObject.getAsJsonPrimitive("attack").getAsInt())
             .setDefence(skillsJsonObject.getAsJsonPrimitive("defence").getAsInt())
             .setStrength(skillsJsonObject.getAsJsonPrimitive("strength").getAsInt())
-            .setMagic(skillsJsonObject.getAsJsonPrimitive("magic").getAsInt());
+            .setMagic(skillsJsonObject.getAsJsonPrimitive("magic").getAsInt())
+            .setRange(skillsJsonObject.getAsJsonPrimitive("range").getAsInt());
     }
 
     private NpcCombatBonusesDefinitionImpl createNpcCombatBonusesDefinitionFromJson(JsonObject jsonObject) {

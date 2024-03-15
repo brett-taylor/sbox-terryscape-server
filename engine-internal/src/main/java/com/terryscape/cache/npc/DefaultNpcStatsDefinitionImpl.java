@@ -51,6 +51,11 @@ public class DefaultNpcStatsDefinitionImpl implements NpcStatsDefinition {
         public int getMagic() {
             return 1;
         }
+
+        @Override
+        public int getRange() {
+            return 1;
+        }
     }
 
     private static class DefaultCombatBonuses implements NpcCombatBonusesDefinition {

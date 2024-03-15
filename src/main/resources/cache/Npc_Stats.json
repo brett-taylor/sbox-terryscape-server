@@ -6,7 +6,8 @@
       "attack": 1,
       "defence": 1,
       "strength": 1,
-      "magic": 1
+      "magic": 1,
+      "range": 1
     },
     "bonuses": {
       "offensiveStab": -21,
@@ -28,7 +29,8 @@
       "attack": 18,
       "defence": 26,
       "strength": 22,
-      "magic": 1
+      "magic": 1,
+      "range": 1
     },
     "bonuses": {
       "offensiveStab": 18,
@@ -50,7 +52,8 @@
       "attack": 50,
       "defence": 0,
       "strength": 40,
-      "magic": 40
+      "magic": 40,
+      "range": 1
     },
     "bonuses": {
       "offensiveStab": 0,
@@ -72,7 +75,8 @@
       "attack": 60,
       "defence": 40,
       "strength": 30,
-      "magic": 1
+      "magic": 1,
+      "range": 1
     },
     "bonuses": {
       "offensiveStab": 0,
