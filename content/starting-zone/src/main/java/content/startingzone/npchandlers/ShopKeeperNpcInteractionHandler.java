@@ -14,6 +14,7 @@ import com.terryscape.net.Client;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import content.startingzone.shops.EquipmentShop;
 import content.startingzone.shops.FoodShop;
+import content.startingzone.shops.GeneralStoreShop;
 import content.startingzone.shops.WeaponShop;
 
 import java.util.Set;
@@ -31,23 +32,27 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
     private final FoodShop foodShop;
 
+    private final GeneralStoreShop generalStoreShop;
+
     @Inject
     public ShopKeeperNpcInteractionHandler(DialogueManager dialogueManager,
                                            ShopManager shopManager,
                                            EquipmentShop equipmentShop,
                                            WeaponShop weaponShop,
-                                           FoodShop foodShop) {
+                                           FoodShop foodShop,
+                                           GeneralStoreShop generalStoreShop) {
 
         this.dialogueManager = dialogueManager;
         this.shopManager = shopManager;
         this.equipmentShop = equipmentShop;
         this.weaponShop = weaponShop;
         this.foodShop = foodShop;
+        this.generalStoreShop = generalStoreShop;
     }
 
     @Override
     public Set<String> getNpcIds() {
-        return Set.of("armour_shop_keeper", "weapon_shop_keeper", "food_shop_keeper");
+        return Set.of("armour_shop_keeper", "weapon_shop_keeper", "food_shop_keeper", "general_store_shop_keeper");
     }
 
     @Override
@@ -74,6 +79,7 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
             case "armour_shop_keeper" -> new WorldCoordinate(11, 15);
             case "weapon_shop_keeper" -> new WorldCoordinate(17, 15);
             case "food_shop_keeper" -> new WorldCoordinate(18, 14);
+            case "general_store_shop_keeper" -> new WorldCoordinate(13, 15);
             default -> throw new IllegalStateException("Unexpected value: %s".formatted(npcComponent.getNpcDefinition().getId()));
         };
     }
@@ -83,6 +89,7 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
             case "armour_shop_keeper" -> equipmentShop;
             case "weapon_shop_keeper" -> weaponShop;
             case "food_shop_keeper" -> foodShop;
+            case "general_store_shop_keeper" -> generalStoreShop;
             default -> throw new IllegalStateException("Unexpected value: %s".formatted(npcComponent.getNpcDefinition().getId()));
         };
     }

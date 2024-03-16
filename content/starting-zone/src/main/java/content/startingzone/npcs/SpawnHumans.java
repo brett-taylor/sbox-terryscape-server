@@ -59,6 +59,8 @@ public class SpawnHumans {
         spawnMaisie();
 
         spawnPeters();
+
+        spawnGeneralStoreShopKeeper();
     }
 
     private void spawnGuide() {
@@ -132,6 +134,14 @@ public class SpawnHumans {
         var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("tina"));
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(6, 34), new WorldCoordinate(10, 38), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(6, 34));
+
+        worldManager.registerEntity(npc);
+    }
+
+    private void spawnGeneralStoreShopKeeper() {
+        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("general_store_shop_keeper"));
+        npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(13,16 ));
+        npc.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
 
         worldManager.registerEntity(npc);
     }

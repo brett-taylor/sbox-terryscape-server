@@ -199,6 +199,22 @@
     "combatDamageType": null
   },
   {
+    "id": "general_store_shop_keeper",
+    "name": "General Store Shop Keeper",
+    "description": "General!",
+    "attackable": false,
+    "interactable": true,
+    "humanoidNpc":
+    {
+      "gender": "MALE",
+      "equippedItems": {
+        "MAIN_HAND": "hatchet"
+      }
+    },
+    "combatLevel": 1,
+    "combatDamageType": null
+  },
+  {
     "id": "players_online_counter",
     "name": "Players Online",
     "description": "Mmh thats weird",
