@@ -9,6 +9,9 @@ import content.startingzone.npchandlers.CombatExpertNpcInteractionHandler;
 import content.startingzone.npchandlers.GuideNpcInteractionHandler;
 import content.startingzone.npchandlers.PlayerOnlineCounterNpcInteractionHandler;
 import content.startingzone.npchandlers.ShopKeeperNpcInteractionHandler;
+import content.startingzone.npchandlers.quests.gather.MaisieNpcInteractionHandler;
+import content.startingzone.npchandlers.quests.gather.PetersNpcInteractionHandler;
+import content.startingzone.npchandlers.quests.gather.TinaNpcInteractionHandler;
 import content.startingzone.npcs.GoblinLootTableProvider;
 import content.startingzone.npcs.SpawnGoblins;
 import content.startingzone.npcs.SpawnHumans;
@@ -29,6 +32,9 @@ public class ContentStartingZoneGuiceModule extends AbstractModule {
         npcInteractionHandlerMultibinder.addBinding().to(GuideNpcInteractionHandler.class);
         npcInteractionHandlerMultibinder.addBinding().to(PlayerOnlineCounterNpcInteractionHandler.class);
         npcInteractionHandlerMultibinder.addBinding().to(CombatExpertNpcInteractionHandler.class);
+        npcInteractionHandlerMultibinder.addBinding().to(MaisieNpcInteractionHandler.class);
+        npcInteractionHandlerMultibinder.addBinding().to(TinaNpcInteractionHandler.class);
+        npcInteractionHandlerMultibinder.addBinding().to(PetersNpcInteractionHandler.class);
 
         var lootTableProviderMultibinder = Multibinder.newSetBinder(binder(), LootTableProvider.class);
         lootTableProviderMultibinder.addBinding().to(GoblinLootTableProvider.class);
