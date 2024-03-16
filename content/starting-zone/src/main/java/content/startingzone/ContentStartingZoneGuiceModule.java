@@ -13,7 +13,6 @@ import content.startingzone.npcs.GoblinLootTableProvider;
 import content.startingzone.npcs.SpawnGoblins;
 import content.startingzone.npcs.SpawnHumans;
 import content.startingzone.worldobjecthandlers.CoinTableWorldObjectInteractionHandler;
-import content.startingzone.worldobjecthandlers.TreeWorldObjectInteractionHandler;
 
 public class ContentStartingZoneGuiceModule extends AbstractModule {
 
@@ -24,7 +23,6 @@ public class ContentStartingZoneGuiceModule extends AbstractModule {
 
         var worldObjectInteractionHandlerMultibinder = Multibinder.newSetBinder(binder(), WorldObjectInteractionHandler.class);
         worldObjectInteractionHandlerMultibinder.addBinding().to(CoinTableWorldObjectInteractionHandler.class);
-        worldObjectInteractionHandlerMultibinder.addBinding().to(TreeWorldObjectInteractionHandler.class);
 
         var npcInteractionHandlerMultibinder = Multibinder.newSetBinder(binder(), NpcInteractionHandler.class);
         npcInteractionHandlerMultibinder.addBinding().to(ShopKeeperNpcInteractionHandler.class);

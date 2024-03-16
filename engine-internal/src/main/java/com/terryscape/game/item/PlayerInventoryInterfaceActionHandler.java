@@ -11,6 +11,7 @@ import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.sound.SoundManager;
+import com.terryscape.game.task.TaskComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.world.WorldManager;
@@ -95,10 +96,10 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         }
     }
 
-    private void equipItem(boolean modifyAction, PlayerComponent player, int slotNumber, ItemContainerItem item) {
+    private void equipItem(boolean modifyAction, PlayerComponent playerComponent, int slotNumber, ItemContainerItem item) {
         var equipOptional = item.getItemDefinition().getEquipDefinition();
         if (equipOptional.isEmpty()) {
-            LOGGER.warn("Player {} attempted to equip item {} which can not be equipped", player.getUsername(), item.getItemDefinition().getId());
+            LOGGER.warn("Player {} attempted to equip item {} which can not be equipped", playerComponent.getUsername(), item.getItemDefinition().getId());
             return;
         }
 
@@ -108,37 +109,40 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
             slot = EquipmentSlot.OFF_HAND;
         }
 
-        if (isTwoHanded && !player.getInventory().hasFreeSlots(1)) {
-            player.getEntity().getComponentOrThrow(PlayerChatComponent.class)
+        if (isTwoHanded && !playerComponent.getInventory().hasFreeSlots(1)) {
+            playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class)
                 .sendGameMessage("You do not have the inventory space to equip your %s.".formatted(item.getItemDefinition().getName()));
 
             return;
         }
 
-        var mainHand = player.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
+        var mainHand = playerComponent.getEquipment().getSlot(EquipmentSlot.MAIN_HAND);
 
-        var previouslyEquippedItem = player.getEquipment().getSlot(slot);
+        var previouslyEquippedItem = playerComponent.getEquipment().getSlot(slot);
 
-        player.getInventory().removeItemAt(slotNumber);
-        player.getEquipment().setSlot(slot, item.getItemDefinition(), item.getQuantity());
+        playerComponent.getInventory().removeItemAt(slotNumber);
+        playerComponent.getEquipment().setSlot(slot, item.getItemDefinition(), item.getQuantity());
 
-        previouslyEquippedItem.ifPresent(itemContainerItem -> player.getInventory().addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
+        previouslyEquippedItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
 
-        soundManager.playSoundEffect(player.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+        soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
 
         if (slot == EquipmentSlot.OFF_HAND) {
             if (mainHand.isPresent() && mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().isTwoHanded()) {
                 var mainHandItem = mainHand.get();
-                player.getEquipment().removeSlot(EquipmentSlot.MAIN_HAND);
-                player.getInventory().addItemAt(slotNumber, mainHandItem.getItemDefinition(), mainHandItem.getQuantity());
+                playerComponent.getEquipment().removeSlot(EquipmentSlot.MAIN_HAND);
+                playerComponent.getInventory().addItemAt(slotNumber, mainHandItem.getItemDefinition(), mainHandItem.getQuantity());
             }
         }
 
         if (isTwoHanded) {
-            var previousEquippedOffhandItem = player.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
-            player.getEquipment().removeSlot(EquipmentSlot.OFF_HAND);
-            previousEquippedOffhandItem.ifPresent(itemContainerItem -> player.getInventory().addItem(itemContainerItem.getItemDefinition(), 1));
+            var previousEquippedOffhandItem = playerComponent.getEquipment().getSlot(EquipmentSlot.OFF_HAND);
+            playerComponent.getEquipment().removeSlot(EquipmentSlot.OFF_HAND);
+            previousEquippedOffhandItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItem(itemContainerItem.getItemDefinition(), 1));
         }
+
+        var taskComponent = playerComponent.getEntity().getComponentOrThrow(TaskComponent.class);
+        taskComponent.cancelPrimaryTask();
     }
 
     private void dropItem(PlayerComponent playerComponent, ItemContainerItem itemContainerItem, int slotNumber) {
@@ -149,6 +153,9 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         worldManager.registerEntity(groundItem);
 
         soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+
+        var taskComponent = playerComponent.getEntity().getComponentOrThrow(TaskComponent.class);
+        taskComponent.cancelPrimaryTask();
     }
 
     private void swapItems(PlayerComponent playerComponent, int slotA, int slotB) {
@@ -162,5 +169,8 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         slotBItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotA, itemContainerItem.getItemDefinition(), itemContainerItem.getQuantity()));
 
         soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+
+        var taskComponent = playerComponent.getEntity().getComponentOrThrow(TaskComponent.class);
+        taskComponent.cancelPrimaryTask();
     }
 }

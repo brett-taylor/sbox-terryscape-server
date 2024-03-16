@@ -6,10 +6,10 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceManager;
-import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.sound.SoundManager;
+import com.terryscape.game.task.TaskComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 
@@ -93,6 +93,9 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         player.getEquipment().removeSlot(slot);
         player.getInventory().addItem(item.getItemDefinition(), item.getQuantity());
         soundManager.playSoundEffect(player.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+
+        var taskComponent = player.getEntity().getComponentOrThrow(TaskComponent.class);
+        taskComponent.cancelPrimaryTask();
     }
 
     private void examineItem(PlayerComponent player, ItemContainerItem item) {

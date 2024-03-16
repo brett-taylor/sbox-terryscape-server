@@ -30,5 +30,9 @@
   {
     "id": "combat_hit",
     "soundEventPath": "assets/sounds/combat/zapsplat_cartoon_slime_gloop_drip_fall_hit_surface_14616.sound"
+  },
+  {
+    "id": "skill_chop",
+    "soundEventPath": "assets/sounds/skills/industrial_tools_axe_chop_wood_001.sound"
   }
 ]
