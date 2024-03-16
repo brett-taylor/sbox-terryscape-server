@@ -9,6 +9,15 @@
     "description": "What a small tree, bet I could climb it."
   },
   {
+    "id": "sm_env_tree_round_01_mat4",
+    "modelPath": "assets/world/polygonfantasykingdom/trees/sm_env_tree_round_01_mat4.vmdl",
+    "scale": "0.241,0.241,0.241",
+    "interactable": true,
+    "interactableText": "Chop-down",
+    "name": "Maple Tree",
+    "description": "What a small tree, bet I could climb it."
+  },
+  {
     "id": "sm_env_tree_round_03",
     "modelPath": "assets/world/polygonfantasykingdom/trees/sm_env_tree_round_03.vmdl",
     "scale": "0.241,0.241,0.241",

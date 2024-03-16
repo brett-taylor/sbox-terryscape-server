@@ -636,5 +636,79 @@
     "stats": "basic_fire_staff",
     "interactable": false,
     "interactableText": null
+  },
+  {
+    "id": "logs",
+    "name": "Logs",
+    "description": "Some wooden logs.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/general/logs/logs.vmdl",
+      "imagePath": "assets/items/general/logs/logs.png"
+    },
+    "groundItem": {
+      "modelPath": "assets/items/general/logs/logs.vmdl",
+      "position": "0,0,0",
+      "rotation": "0,0,0,0",
+      "scale": "3.1,10,10"
+    },
+    "stats": null,
+    "interactable": false,
+    "interactableText": null
+  },
+  {
+    "id": "maple_logs",
+    "name": "Maple Logs",
+    "description": "Some wooden logs but from a Maple Tree.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/general/logs/maple_logs.vmdl",
+      "imagePath": "assets/items/general/logs/maple_logs.png"
+    },
+    "groundItem": {
+      "modelPath": "assets/items/general/logs/maple_logs.vmdl",
+      "position": "0,0,0",
+      "rotation": "0,0,0,0",
+      "scale": "3.1,10,10"
+    },
+    "stats": null,
+    "interactable": false,
+    "interactableText": null
+  },
+  {
+    "id": "hatchet",
+    "name": "Hatchet",
+    "description": "I could cut down a tree with this.",
+    "stackable": false,
+    "icon": {
+      "modelPath": "assets/items/tools/hatchet/hatchet.vmdl",
+      "imagePath": "assets/items/tools/hatchet/hatchet.png"
+    },
+    "groundItem": {
+      "modelPath": "assets/items/tools/hatchet/hatchet.vmdl",
+      "position": "0,0,0",
+      "rotation": "0,0,0,0",
+      "scale": "3.1,10,10"
+    },
+    "equip": {
+      "slot": "MAIN_HAND",
+      "allModelPath": "assets/items/tools/hatchet/hatchet.vmdl",
+      "hideBodyParts": [],
+      "weapon": {
+        "twoHanded": false,
+        "damageType": "SLASH",
+        "range": 1,
+        "attackSpeed": 6,
+        "mainHandOffset": "5.67,-0.92,4.28",
+        "mainHandRotation": "0,0,-6.40",
+        "mainHandAttackAnimation": "Sword_Attack_L3",
+        "offHandOffset": "-5.67,0.92,-4.28",
+        "offHandRotation": "180,0,6.40",
+        "offHandAttackAnimation": "Sword_Attack_R3"
+      }
+    },
+    "stats": null,
+    "interactable": false,
+    "interactableText": null
   }
 ]
