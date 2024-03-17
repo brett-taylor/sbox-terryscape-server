@@ -2,6 +2,8 @@ package content.startingzone.npchandlers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
@@ -19,14 +21,19 @@ public class GuideNpcInteractionHandler implements NpcInteractionHandler {
 
     private final DialogueManager dialogueManager;
 
+    private final NpcDefinition guiceNpcDefinition;
+
     @Inject
-    public GuideNpcInteractionHandler(DialogueManager dialogueManager) {
+    public GuideNpcInteractionHandler(DialogueManager dialogueManager,
+                                      @Named("guide") NpcDefinition guiceNpcDefinition) {
+
         this.dialogueManager = dialogueManager;
+        this.guiceNpcDefinition = guiceNpcDefinition;
     }
 
     @Override
-    public Set<String> getNpcIds() {
-        return Set.of("guide");
+    public Set<NpcDefinition> getNpcs() {
+        return Set.of(guiceNpcDefinition);
     }
 
     @Override

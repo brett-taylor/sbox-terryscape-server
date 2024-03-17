@@ -2,8 +2,10 @@ package content.startingzone.npcs;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.terryscape.Config;
 import com.terryscape.cache.CacheLoader;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
@@ -26,17 +28,57 @@ public class SpawnHumans {
 
     private final WorldClock worldClock;
 
+    private final NpcDefinition guiceNpcDefinition;
+
+    private final NpcDefinition armourShopKeeperNpcDefinition;
+
+    private final NpcDefinition weaponShopKeeperNpcDefinition;
+
+    private final NpcDefinition foodShopKeeperNpcDefinition;
+
+    private final NpcDefinition generalStoreShopKeeperNpcDefinition;
+
+    private final NpcDefinition playersOnlineNpcDefinition;
+
+    private final NpcDefinition combatExpertNpcDefinition;
+
+    private final NpcDefinition maisieNpcDefinition;
+
+    private final NpcDefinition tinaNpcDefinition;
+
+    private final NpcDefinition petersNpcDefinition;
+
     @Inject
     public SpawnHumans(WorldManager worldManager,
                        EntityPrefabFactory entityPrefabFactory,
                        CacheLoader cacheLoader,
                        EventSystem eventSystem,
-                       WorldClock worldClock) {
+                       WorldClock worldClock,
+                       @Named("guide") NpcDefinition guiceNpcDefinition,
+                       @Named("armour_shop_keeper") NpcDefinition armourShopKeeperNpcDefinition,
+                       @Named("weapon_shop_keeper") NpcDefinition weaponShopKeeperNpcDefinition,
+                       @Named("food_shop_keeper") NpcDefinition foodShopKeeperNpcDefinition,
+                       @Named("general_store_shop_keeper") NpcDefinition generalStoreShopKeeperNpcDefinition,
+                       @Named("players_online_counter") NpcDefinition playersOnlineNpcDefinition,
+                       @Named("combat_expert") NpcDefinition combatExpertNpcDefinition,
+                       @Named("maisie") NpcDefinition maisieNpcDefinition,
+                       @Named("tina") NpcDefinition tinaNpcDefinition,
+                       @Named("peters") NpcDefinition petersNpcDefinition) {
 
         this.worldManager = worldManager;
         this.entityPrefabFactory = entityPrefabFactory;
         this.cacheLoader = cacheLoader;
         this.worldClock = worldClock;
+        this.guiceNpcDefinition = guiceNpcDefinition;
+        this.armourShopKeeperNpcDefinition = armourShopKeeperNpcDefinition;
+        this.weaponShopKeeperNpcDefinition = weaponShopKeeperNpcDefinition;
+        this.foodShopKeeperNpcDefinition = foodShopKeeperNpcDefinition;
+        this.generalStoreShopKeeperNpcDefinition = generalStoreShopKeeperNpcDefinition;
+        this.playersOnlineNpcDefinition = playersOnlineNpcDefinition;
+        this.combatExpertNpcDefinition = combatExpertNpcDefinition;
+        this.maisieNpcDefinition = maisieNpcDefinition;
+        this.tinaNpcDefinition = tinaNpcDefinition;
+        this.petersNpcDefinition = petersNpcDefinition;
 
         eventSystem.subscribe(OnGameStartedSystemEvent.class, this::onGameStartedEvent);
     }
@@ -64,7 +106,7 @@ public class SpawnHumans {
     }
 
     private void spawnGuide() {
-        var guide = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("guide"));
+        var guide = entityPrefabFactory.createNpcPrefab(guiceNpcDefinition);
         guide.addComponent(new WanderMovementComponent(guide, new WorldCoordinate(2, 19), new WorldCoordinate(21, 31), false, cacheLoader));
         guide.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(17, 20));
 
@@ -75,28 +117,28 @@ public class SpawnHumans {
     }
 
     private void spawnArmourShopKeeper() {
-        var armourShopKeeper = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("armour_shop_keeper"));
+        var armourShopKeeper = entityPrefabFactory.createNpcPrefab(armourShopKeeperNpcDefinition);
         armourShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(11, 16));
         armourShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
         worldManager.registerEntity(armourShopKeeper);
     }
 
     private void spawnWeaponShopKeeper() {
-        var weaponShopKeeper = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("weapon_shop_keeper"));
+        var weaponShopKeeper = entityPrefabFactory.createNpcPrefab(weaponShopKeeperNpcDefinition);
         weaponShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(17, 16));
         weaponShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
         worldManager.registerEntity(weaponShopKeeper);
     }
 
     private void spawnFoodShopKeeper() {
-        var foodShopKeeper = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("food_shop_keeper"));
+        var foodShopKeeper = entityPrefabFactory.createNpcPrefab(foodShopKeeperNpcDefinition);
         foodShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(19, 14));
         foodShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.WEST);
         worldManager.registerEntity(foodShopKeeper);
     }
 
     private void spawnPlayersOnlineCounter() {
-        var playersOnlineCounter = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("players_online_counter"));
+        var playersOnlineCounter = entityPrefabFactory.createNpcPrefab(playersOnlineNpcDefinition);
         playersOnlineCounter.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(1, 24));
         playersOnlineCounter.getComponentOrThrow(MovementComponent.class).look(Direction.EAST);
 
@@ -107,7 +149,7 @@ public class SpawnHumans {
     }
 
     private void spawnCombatExpert() {
-        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("combat_expert"));
+        var npc = entityPrefabFactory.createNpcPrefab(combatExpertNpcDefinition);
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(8, 28), new WorldCoordinate(12, 33), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(9, 30));
 
@@ -115,7 +157,7 @@ public class SpawnHumans {
     }
 
     private void spawnMaisie() {
-        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("maisie"));
+        var npc = entityPrefabFactory.createNpcPrefab(maisieNpcDefinition);
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(-2, 29), new WorldCoordinate(0, 33), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(-2, 29));
 
@@ -123,7 +165,7 @@ public class SpawnHumans {
     }
 
     private void spawnPeters() {
-        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("peters"));
+        var npc = entityPrefabFactory.createNpcPrefab(petersNpcDefinition);
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(2, 34), new WorldCoordinate(4, 37), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(2, 34));
 
@@ -131,7 +173,7 @@ public class SpawnHumans {
     }
 
     private void spawnTina() {
-        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("tina"));
+        var npc = entityPrefabFactory.createNpcPrefab(tinaNpcDefinition);
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(6, 34), new WorldCoordinate(10, 38), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(6, 34));
 
@@ -139,7 +181,7 @@ public class SpawnHumans {
     }
 
     private void spawnGeneralStoreShopKeeper() {
-        var npc = entityPrefabFactory.createNpcPrefab(cacheLoader.getNpcDefinition("general_store_shop_keeper"));
+        var npc = entityPrefabFactory.createNpcPrefab(generalStoreShopKeeperNpcDefinition);
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(13,16 ));
         npc.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
 

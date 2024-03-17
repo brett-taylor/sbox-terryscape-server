@@ -1,7 +1,9 @@
 package com.terryscape.cache;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.terryscape.cache.item.*;
 import com.terryscape.cache.npc.*;
 import com.terryscape.cache.object.ObjectCacheLoader;
@@ -83,9 +85,7 @@ public class CacheLoaderImpl implements CacheLoader {
         this.projectileCacheLoader = projectileCacheLoader;
     }
 
-    public void loadCache() {
-        var startTime = System.currentTimeMillis();
-
+    public AbstractModule loadCache() {
         try {
             loadItems();
             loadNpcs();
@@ -97,7 +97,32 @@ public class CacheLoaderImpl implements CacheLoader {
             throw new RuntimeException("Failed to load cache", e);
         }
 
-        LOGGER.info("Loading cache in {} milliseconds.", System.currentTimeMillis() - startTime);
+        return new AbstractModule() {
+            @Override
+            protected void configure() {
+                super.configure();
+
+                for (Map.Entry<String, ItemDefinitionImpl> entry : items.entrySet()) {
+                    binder().bind(ItemDefinition.class).annotatedWith(Names.named(entry.getKey())).toInstance(entry.getValue());
+                }
+
+                for (Map.Entry<String, NpcDefinitionImpl> entry : npcs.entrySet()) {
+                    binder().bind(NpcDefinition.class).annotatedWith(Names.named(entry.getKey())).toInstance(entry.getValue());
+                }
+
+                for (Map.Entry<String, ObjectDefinitionImpl> entry : objects.entrySet()) {
+                    binder().bind(ObjectDefinition.class).annotatedWith(Names.named(entry.getKey())).toInstance(entry.getValue());
+                }
+
+                for (Map.Entry<String, SoundDefinitionImpl> entry : sounds.entrySet()) {
+                    binder().bind(SoundDefinition.class).annotatedWith(Names.named(entry.getKey())).toInstance(entry.getValue());
+                }
+
+                for (Map.Entry<String, ProjectileDefinitionImpl> entry : projectiles.entrySet()) {
+                    binder().bind(ProjectileDefinition.class).annotatedWith(Names.named(entry.getKey())).toInstance(entry.getValue());
+                }
+            }
+        };
     }
 
     @Override

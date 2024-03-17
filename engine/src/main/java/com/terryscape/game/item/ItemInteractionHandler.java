@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface ItemInteractionHandler {
 
-    Set<String> getItemIds();
+    Set<ItemDefinition> getItems();
 
     void invoke(Client client, ItemDefinition itemDefinition, FixedSizeItemContainer playerInventory, int inventorySlot);
 

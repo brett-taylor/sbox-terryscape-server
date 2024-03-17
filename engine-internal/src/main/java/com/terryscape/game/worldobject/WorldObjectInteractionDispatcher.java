@@ -2,6 +2,7 @@ package com.terryscape.game.worldobject;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.world.WorldObjectDefinition;
 import com.terryscape.net.Client;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ public class WorldObjectInteractionDispatcher {
 
     private static final Logger LOGGER = LogManager.getLogger(WorldObjectInteractionDispatcher.class);
 
-    private final Map<String, WorldObjectInteractionHandler> worldObjectHandlers;
+    private final Map<ObjectDefinition, WorldObjectInteractionHandler> worldObjectHandlers;
 
     @Inject
     public WorldObjectInteractionDispatcher(Set<WorldObjectInteractionHandler> handlers) {
@@ -27,9 +28,9 @@ public class WorldObjectInteractionDispatcher {
     }
 
     public void dispatchWorldObjectInteraction(Client client, WorldObjectDefinition worldObjectDefinition) {
-        var handler = worldObjectHandlers.get(worldObjectDefinition.getObjectDefinition().getId());
+        var handler = worldObjectHandlers.get(worldObjectDefinition.getObjectDefinition());
         if (handler == null) {
-            LOGGER.error("No world object interaction handler found for object with id {}.", worldObjectDefinition.getObjectDefinition().getId());
+            LOGGER.error("No world object interaction handler found for object {}.", worldObjectDefinition.getObjectDefinition());
             return;
         }
 
@@ -38,12 +39,12 @@ public class WorldObjectInteractionDispatcher {
 
 
     private void registerSingleWorldObjectInteractionHandler(WorldObjectInteractionHandler handler) {
-        for (var objectId : handler.getObjectIds()) {
-            if (worldObjectHandlers.containsKey(objectId)) {
-                throw new RuntimeException("A WorldObjectInteractionHandler can't be registered to object %s as it already has one".formatted(objectId));
+        for (var object : handler.getObjects()) {
+            if (worldObjectHandlers.containsKey(object)) {
+                throw new RuntimeException("A WorldObjectInteractionHandler can't be registered to object %s as it already has one".formatted(object));
             }
 
-            worldObjectHandlers.put(objectId, handler);
+            worldObjectHandlers.put(object, handler);
         }
     }
 }

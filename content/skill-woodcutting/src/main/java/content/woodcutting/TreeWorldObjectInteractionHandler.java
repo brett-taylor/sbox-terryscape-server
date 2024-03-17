@@ -3,6 +3,7 @@ package content.woodcutting;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
+import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.world.WorldObjectDefinition;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.sound.SoundManager;
@@ -33,10 +34,10 @@ public class TreeWorldObjectInteractionHandler implements WorldObjectInteraction
     }
 
     @Override
-    public Set<String> getObjectIds() {
+    public Set<ObjectDefinition> getObjects() {
         return enumValueRetriever
             .getEnumValues(Tree.class).stream()
-            .map(Tree::getTreeObjectId)
+            .map(tree -> cacheLoader.getObjectDefinition(tree.getTreeObjectId()))
             .collect(Collectors.toSet());
     }
 

@@ -1,8 +1,6 @@
 package content.commands;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.command.CommandArgumentDescription;
@@ -14,13 +12,6 @@ import java.util.List;
 
 @Singleton
 public class AnimationCommand implements Command {
-
-    private final CacheLoader cacheLoader;
-
-    @Inject
-    public AnimationCommand(CacheLoader cacheLoader) {
-        this.cacheLoader = cacheLoader;
-    }
 
     @Override
     public String getPhrase() {

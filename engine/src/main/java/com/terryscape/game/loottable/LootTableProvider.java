@@ -6,7 +6,7 @@ import java.util.Set;
 
 public interface LootTableProvider {
 
-    Set<String> getNpcIds();
+    Set<NpcDefinition> getNpcs();
 
     LootTable getLootTable(NpcDefinition npcDefinition);
 }

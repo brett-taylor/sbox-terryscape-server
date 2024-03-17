@@ -2,6 +2,7 @@ package com.terryscape.game.npc;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.net.Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +16,7 @@ public class NpcInteractionDispatcher {
 
     private static final Logger LOGGER = LogManager.getLogger(NpcInteractionDispatcher.class);
 
-    private final Map<String, NpcInteractionHandler> npcHandlers;
+    private final Map<NpcDefinition, NpcInteractionHandler> npcHandlers;
 
     @Inject
     public NpcInteractionDispatcher(Set<NpcInteractionHandler> handlers) {
@@ -26,9 +27,9 @@ public class NpcInteractionDispatcher {
     }
 
     public void dispatchNpcInteraction(Client client, NpcComponent npcComponent) {
-        var handler = npcHandlers.get(npcComponent.getNpcDefinition().getId());
+        var handler = npcHandlers.get(npcComponent.getNpcDefinition());
         if (handler == null) {
-            LOGGER.error("No npc interaction handler found for npc with id {}.", npcComponent.getNpcDefinition().getId());
+            LOGGER.error("No npc interaction handler found for npc {}.", npcComponent.getNpcDefinition());
             return;
         }
 
@@ -37,12 +38,12 @@ public class NpcInteractionDispatcher {
 
 
     private void registerSingleNpcInteractionHandler(NpcInteractionHandler handler) {
-        for (var npcId : handler.getNpcIds()) {
-            if (npcHandlers.containsKey(npcId)) {
-                throw new RuntimeException("A NpcInteractionHandler can't be registered to npc %s as it already has one".formatted(npcId));
+        for (var npc : handler.getNpcs()) {
+            if (npcHandlers.containsKey(npc)) {
+                throw new RuntimeException("A NpcInteractionHandler can't be registered to npc %s as it already has one".formatted(npc));
             }
 
-            npcHandlers.put(npcId, handler);
+            npcHandlers.put(npc, handler);
         }
     }
 }

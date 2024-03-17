@@ -2,6 +2,8 @@ package content.weapons;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
@@ -17,14 +19,19 @@ public class GodswordEvilSpecialAttackHandler implements SpecialAttackHandler {
 
     private final SpecialAttackHandlerUtils specialAttackHandlerUtils;
 
+    private final ItemDefinition godswordEvilItemDefinition;
+
     @Inject
-    public GodswordEvilSpecialAttackHandler(SpecialAttackHandlerUtils specialAttackHandlerUtils) {
+    public GodswordEvilSpecialAttackHandler(SpecialAttackHandlerUtils specialAttackHandlerUtils,
+                                            @Named("godsword_evil") ItemDefinition godswordEvilItemDefinition) {
+
         this.specialAttackHandlerUtils = specialAttackHandlerUtils;
+        this.godswordEvilItemDefinition = godswordEvilItemDefinition;
     }
 
     @Override
-    public Set<String> getItemIds() {
-        return Set.of("godsword_evil");
+    public Set<ItemDefinition> getItems() {
+        return Set.of(godswordEvilItemDefinition);
     }
 
     @Override

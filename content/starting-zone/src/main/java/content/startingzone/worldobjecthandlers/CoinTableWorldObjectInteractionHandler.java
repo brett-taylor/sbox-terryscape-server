@@ -2,7 +2,10 @@ package content.startingzone.worldobjecthandlers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
+import com.google.inject.name.Named;
+import com.terryscape.cache.item.ItemDefinition;
+import com.terryscape.cache.object.ObjectDefinition;
+import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.cache.world.WorldObjectDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.chat.dialogue.DialogueManager;
@@ -25,34 +28,37 @@ import java.util.Set;
 @Singleton
 public class CoinTableWorldObjectInteractionHandler implements WorldObjectInteractionHandler {
 
-    // TODO: Instead of storing the cache loader here we want to be able to just grab them once on startup.
-    // TODO: We need to load the cache before the rest of the server
-    // TODO: Then either things can get the cahceLoader and get them when they are constructed with the rest of the server
-    // TODO: Or they should be able to DI ItemDefinitions in straight away. That would be better I think.
-
-    private final CacheLoader cacheLoader;
-
     private final DialogueManager dialogueManager;
 
     private final SoundManager soundManager;
 
+    private final ItemDefinition goldCoinItemDefinition;
+
+    private final SoundDefinition stealCoinsSoundDefinition;
+
+    private final ObjectDefinition coinTableObjectDefinition;
 
     @Inject
-    public CoinTableWorldObjectInteractionHandler(CacheLoader cacheLoader, DialogueManager dialogueManager, SoundManager soundManager) {
-        this.cacheLoader = cacheLoader;
+    public CoinTableWorldObjectInteractionHandler(DialogueManager dialogueManager,
+                                                  SoundManager soundManager,
+                                                  @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
+                                                  @Named("steal_coins") SoundDefinition stealCoinsSoundDefinition,
+                                                  @Named("coin_table") ObjectDefinition coinTableObjectDefinition) {
+
         this.dialogueManager = dialogueManager;
         this.soundManager = soundManager;
+        this.goldCoinItemDefinition = goldCoinItemDefinition;
+        this.stealCoinsSoundDefinition = stealCoinsSoundDefinition;
+        this.coinTableObjectDefinition = coinTableObjectDefinition;
     }
 
     @Override
-    public Set<String> getObjectIds() {
-        return Set.of("coin_table");
+    public Set<ObjectDefinition> getObjects() {
+        return Set.of(coinTableObjectDefinition);
     }
 
     @Override
     public void invoke(Client client, WorldObjectDefinition worldObjectDefinition) {
-        var goldCoin = cacheLoader.getItemDefinition("gold_coin");
-
         var player = client.getPlayer().orElseThrow();
         var playerInventory = player.getInventory();
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
@@ -61,10 +67,10 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
         var playerAnimation = player.getEntity().getComponentOrThrow(AnimationComponent.class);
 
         var randomAmountToGive = RandomUtil.randomNumber(15, 70);
-        var itemDialogue = dialogueManager.builder().item(goldCoin, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
+        var itemDialogue = dialogueManager.builder().item(goldCoinItemDefinition, "You managed to find %s Gold Coins.".formatted(randomAmountToGive));
 
         // Check if player has a free slot or has item coins already
-        var hasSpace = playerInventory.hasItem(goldCoin) || playerInventory.getFreeSlotCount() > 0;
+        var hasSpace = playerInventory.hasItem(goldCoinItemDefinition) || playerInventory.getFreeSlotCount() > 0;
         if (!hasSpace) {
             playerChat.sendGameMessage("You need at least one free inventory spot to loot the table.");
             return;
@@ -77,20 +83,20 @@ public class CoinTableWorldObjectInteractionHandler implements WorldObjectIntera
                 playerMovement.look(Direction.SOUTH);
                 playerAnimation.playAnimation("pickup");
                 playerChat.sendGameMessage("You begin to loot the table...");
-                soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("steal_coins"));
+                soundManager.playSoundEffect(client, stealCoinsSoundDefinition);
             }),
 
             // Wait
             WaitTaskStep.ticks(3),
             NextTickTaskStep.doThis(() -> {
                 playerAnimation.playAnimation("pickup");
-                soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("steal_coins"));
+                soundManager.playSoundEffect(client, stealCoinsSoundDefinition);
             }),
 
             WaitTaskStep.ticks(2),
             NextTickTaskStep.doThis(() -> {
-                playerInventory.addItem(goldCoin, randomAmountToGive);
-                soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("success_generic"));
+                playerInventory.addItem(goldCoinItemDefinition, randomAmountToGive);
+                soundManager.playSoundEffect(client, stealCoinsSoundDefinition);
             }),
 
             dialogueManager.createViewDialogueTaskStep(client, itemDialogue)

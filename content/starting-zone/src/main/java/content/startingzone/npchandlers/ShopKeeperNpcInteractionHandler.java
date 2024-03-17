@@ -2,6 +2,7 @@ package content.startingzone.npchandlers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
@@ -16,6 +17,7 @@ import content.startingzone.shops.EquipmentShop;
 import content.startingzone.shops.FoodShop;
 import content.startingzone.shops.GeneralStoreShop;
 import content.startingzone.shops.WeaponShop;
+import jakarta.inject.Named;
 
 import java.util.Set;
 
@@ -34,13 +36,25 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
 
     private final GeneralStoreShop generalStoreShop;
 
+    private final NpcDefinition armourShopKeeperNpcDefinition;
+
+    private final NpcDefinition weaponShopKeeperNpcDefinition;
+
+    private final NpcDefinition foodShopKeeperNpcDefinition;
+
+    private final NpcDefinition generalStoreShopKeeperNpcDefinition;
+
     @Inject
     public ShopKeeperNpcInteractionHandler(DialogueManager dialogueManager,
                                            ShopManager shopManager,
                                            EquipmentShop equipmentShop,
                                            WeaponShop weaponShop,
                                            FoodShop foodShop,
-                                           GeneralStoreShop generalStoreShop) {
+                                           GeneralStoreShop generalStoreShop,
+                                           @Named("armour_shop_keeper") NpcDefinition armourShopKeeperNpcDefinition,
+                                           @Named("weapon_shop_keeper") NpcDefinition weaponShopKeeperNpcDefinition,
+                                           @Named("food_shop_keeper") NpcDefinition foodShopKeeperNpcDefinition,
+                                           @Named("general_store_shop_keeper") NpcDefinition generalStoreShopKeeperNpcDefinition) {
 
         this.dialogueManager = dialogueManager;
         this.shopManager = shopManager;
@@ -48,11 +62,15 @@ public class ShopKeeperNpcInteractionHandler implements NpcInteractionHandler {
         this.weaponShop = weaponShop;
         this.foodShop = foodShop;
         this.generalStoreShop = generalStoreShop;
+        this.armourShopKeeperNpcDefinition = armourShopKeeperNpcDefinition;
+        this.weaponShopKeeperNpcDefinition = weaponShopKeeperNpcDefinition;
+        this.foodShopKeeperNpcDefinition = foodShopKeeperNpcDefinition;
+        this.generalStoreShopKeeperNpcDefinition = generalStoreShopKeeperNpcDefinition;
     }
 
     @Override
-    public Set<String> getNpcIds() {
-        return Set.of("armour_shop_keeper", "weapon_shop_keeper", "food_shop_keeper", "general_store_shop_keeper");
+    public Set<NpcDefinition> getNpcs() {
+        return Set.of(armourShopKeeperNpcDefinition, weaponShopKeeperNpcDefinition, foodShopKeeperNpcDefinition, generalStoreShopKeeperNpcDefinition);
     }
 
     @Override

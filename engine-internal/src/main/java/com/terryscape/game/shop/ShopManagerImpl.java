@@ -2,8 +2,9 @@ package com.terryscape.game.shop;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
+import com.google.inject.name.Named;
 import com.terryscape.cache.item.ItemDefinition;
+import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.player.PlayerComponent;
@@ -22,15 +23,25 @@ public class ShopManagerImpl implements ShopManager {
 
     private final InterfaceManager interfaceManager;
 
-    private final CacheLoader cacheLoader;
-
     private final SoundManager soundManager;
 
+    private final ItemDefinition goldCoinItemDefinition;
+
+    private final SoundDefinition failedSoundDefinition;
+
+    private final SoundDefinition purchasedSoundDefinition;
+
     @Inject
-    public ShopManagerImpl(InterfaceManager interfaceManager, CacheLoader cacheLoader, SoundManager soundManager) {
+    public ShopManagerImpl(InterfaceManager interfaceManager, SoundManager soundManager,
+                           @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
+                           @Named("shop_purchased") SoundDefinition failedSoundDefinition,
+                           @Named("shop_failed") SoundDefinition purchasedSoundDefinition) {
+
         this.interfaceManager = interfaceManager;
-        this.cacheLoader = cacheLoader;
         this.soundManager = soundManager;
+        this.goldCoinItemDefinition = goldCoinItemDefinition;
+        this.failedSoundDefinition = failedSoundDefinition;
+        this.purchasedSoundDefinition = purchasedSoundDefinition;
     }
 
     @Override
@@ -46,7 +57,6 @@ public class ShopManagerImpl implements ShopManager {
 
         var playerInventory = playerComponent.getInventory();
         var playerChat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
-        var goldCoins = cacheLoader.getItemDefinition("gold_coin");
 
         var price = getPriceForItemInShop(shop, itemDefinition);
         var totalPrice = price * quantity;
@@ -57,13 +67,13 @@ public class ShopManagerImpl implements ShopManager {
             return;
         }
 
-        if (playerInventory.removeItemOfTypeAndQuantity(goldCoins, totalPrice)) {
+        if (playerInventory.removeItemOfTypeAndQuantity(goldCoinItemDefinition, totalPrice)) {
             playerInventory.addItem(itemDefinition, quantity);
             playerChat.sendGameMessage("You bought %d %s.".formatted(quantity, itemDefinition.getName()));
-            soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("shop_purchased"));
+            soundManager.playSoundEffect(playerComponent.getClient(), purchasedSoundDefinition);
         } else {
-            soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("shop_failed"));
-            playerChat.sendGameMessage("You do not have the required %d %s.".formatted(totalPrice, goldCoins.getName()));
+            soundManager.playSoundEffect(playerComponent.getClient(), failedSoundDefinition);
+            playerChat.sendGameMessage("You do not have the required %d %s.".formatted(totalPrice, goldCoinItemDefinition.getName()));
         }
     }
 

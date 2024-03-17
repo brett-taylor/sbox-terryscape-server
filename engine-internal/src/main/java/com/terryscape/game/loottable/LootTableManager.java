@@ -2,6 +2,7 @@ package com.terryscape.game.loottable;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.MovementComponent;
@@ -24,7 +25,7 @@ public class LootTableManager {
 
     private final WorldManager worldManager;
 
-    private final HashMap<String, LootTableProvider> lootTableProviders;
+    private final HashMap<NpcDefinition, LootTableProvider> lootTableProviders;
 
     @Inject
     public LootTableManager(Set<LootTableProvider> lootTables, EntityPrefabFactory entityPrefabFactory, WorldManager worldManager) {
@@ -37,7 +38,7 @@ public class LootTableManager {
     }
 
     public void createDropForNpc(NpcComponent npcComponent) {
-        var lootTableProvider = lootTableProviders.get(npcComponent.getNpcDefinition().getId());
+        var lootTableProvider = lootTableProviders.get(npcComponent.getNpcDefinition());
         if (lootTableProvider == null) {
             return;
         }
@@ -53,12 +54,12 @@ public class LootTableManager {
     }
 
     private void registerSingleLootTableProvider(LootTableProvider lootTableProvider) {
-        for (var npcId : lootTableProvider.getNpcIds()) {
-            if (lootTableProviders.containsKey(npcId)) {
-                throw new RuntimeException("A LootTableProvider can't be registered to npc %s as it already has one".formatted(npcId));
+        for (var npc : lootTableProvider.getNpcs()) {
+            if (lootTableProviders.containsKey(npc)) {
+                throw new RuntimeException("A LootTableProvider can't be registered to npc %s as it already has one".formatted(npc));
             }
 
-            lootTableProviders.put(npcId, lootTableProvider);
+            lootTableProviders.put(npc, lootTableProvider);
         }
     }
 

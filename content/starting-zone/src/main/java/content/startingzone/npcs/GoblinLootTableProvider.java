@@ -2,11 +2,9 @@ package content.startingzone.npcs;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
+import com.google.inject.name.Named;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
-import com.terryscape.event.EventSystem;
-import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.loottable.LootTable;
 import com.terryscape.game.loottable.LootTableItem;
 import com.terryscape.game.loottable.LootTableProvider;
@@ -17,59 +15,85 @@ import java.util.Set;
 @Singleton
 public class GoblinLootTableProvider implements LootTableProvider {
 
-    private NpcDefinition goblin;
-    private NpcDefinition goblinWarrior;
-    private NpcDefinition goblinShaman;
-    private NpcDefinition goblinChief;
+    private final NpcDefinition goblin;
 
-    private ItemDefinition goldCoin;
-    private ItemDefinition steelFullHelm;
-    private ItemDefinition steelPlatebody;
-    private ItemDefinition steelPlatelegs;
-    private ItemDefinition steelBoots;
-    private ItemDefinition steelGloves;
+    private final NpcDefinition goblinWarrior;
 
-    private ItemDefinition basicScimitar;
-    private ItemDefinition basicSword;
-    private ItemDefinition godswordEvil;
-    private ItemDefinition godswordRighteous;
+    private final NpcDefinition goblinShaman;
 
-    private ItemDefinition foodFish;
-    private ItemDefinition foodPie;
-    private ItemDefinition foodChicken;
-    private ItemDefinition foodPotato;
+    private final NpcDefinition goblinChief;
+
+    private final ItemDefinition goldCoin;
+
+    private final ItemDefinition steelFullHelm;
+
+    private final ItemDefinition steelPlatebody;
+
+    private final ItemDefinition steelPlatelegs;
+
+    private final ItemDefinition steelBoots;
+
+    private final ItemDefinition steelGloves;
+
+    private final ItemDefinition basicScimitar;
+
+    private final ItemDefinition basicSword;
+
+    private final ItemDefinition godswordEvil;
+
+    private final ItemDefinition godswordRighteous;
+
+    private final ItemDefinition foodFish;
+
+    private final ItemDefinition foodPie;
+
+    private final ItemDefinition foodChicken;
+
+    private final ItemDefinition foodPotato;
 
     @Inject
-    public GoblinLootTableProvider(CacheLoader cacheLoader, EventSystem eventSystem) {
-        eventSystem.subscribe(OnGameStartedSystemEvent.class, ignored -> {
-            goblin = cacheLoader.getNpcDefinition("goblin");
-            goblinWarrior = cacheLoader.getNpcDefinition("goblin_warrior");
-            goblinShaman = cacheLoader.getNpcDefinition("goblin_shaman");
-            goblinChief = cacheLoader.getNpcDefinition("goblin_chief");
+    public GoblinLootTableProvider(@Named("goblin") NpcDefinition goblin,
+                                   @Named("goblin_warrior") NpcDefinition goblinWarrior,
+                                   @Named("goblin_shaman") NpcDefinition goblinShaman,
+                                   @Named("goblin_chief") NpcDefinition goblinChief,
+                                   @Named("gold_coin") ItemDefinition goldCoin,
+                                   @Named("steel_full_helm") ItemDefinition steelFullHelm,
+                                   @Named("steel_platebody") ItemDefinition steelPlatebody,
+                                   @Named("steel_platelegs") ItemDefinition steelPlatelegs,
+                                   @Named("steel_boots") ItemDefinition steelBoots,
+                                   @Named("steel_gloves") ItemDefinition steelGloves,
+                                   @Named("basic_scimitar") ItemDefinition basicScimitar,
+                                   @Named("basic_sword") ItemDefinition basicSword,
+                                   @Named("godsword_evil") ItemDefinition godswordEvil,
+                                   @Named("godsword_righteous") ItemDefinition godswordRighteous,
+                                   @Named("food_fish") ItemDefinition foodFish,
+                                   @Named("food_pie") ItemDefinition foodPie,
+                                   @Named("food_chicken") ItemDefinition foodChicken,
+                                   @Named("food_potato") ItemDefinition foodPotato) {
 
-            goldCoin = cacheLoader.getItemDefinition("gold_coin");
-
-            steelFullHelm = cacheLoader.getItemDefinition("steel_full_helm");
-            steelPlatebody = cacheLoader.getItemDefinition("steel_platebody");
-            steelPlatelegs = cacheLoader.getItemDefinition("steel_platelegs");
-            steelBoots = cacheLoader.getItemDefinition("steel_boots");
-            steelGloves = cacheLoader.getItemDefinition("steel_gloves");
-
-            basicScimitar = cacheLoader.getItemDefinition("basic_scimitar");
-            basicSword = cacheLoader.getItemDefinition("basic_sword");
-            godswordEvil = cacheLoader.getItemDefinition("godsword_evil");
-            godswordRighteous = cacheLoader.getItemDefinition("godsword_righteous");
-
-            foodFish = cacheLoader.getItemDefinition("food_fish");
-            foodPie = cacheLoader.getItemDefinition("food_pie");
-            foodChicken = cacheLoader.getItemDefinition("food_chicken");
-            foodPotato = cacheLoader.getItemDefinition("food_potato");
-        });
+        this.goblin = goblin;
+        this.goblinWarrior = goblinWarrior;
+        this.goblinShaman = goblinShaman;
+        this.goblinChief = goblinChief;
+        this.goldCoin = goldCoin;
+        this.steelFullHelm = steelFullHelm;
+        this.steelPlatebody = steelPlatebody;
+        this.steelPlatelegs = steelPlatelegs;
+        this.steelBoots = steelBoots;
+        this.steelGloves = steelGloves;
+        this.basicScimitar = basicScimitar;
+        this.basicSword = basicSword;
+        this.godswordEvil = godswordEvil;
+        this.godswordRighteous = godswordRighteous;
+        this.foodFish = foodFish;
+        this.foodPie = foodPie;
+        this.foodChicken = foodChicken;
+        this.foodPotato = foodPotato;
     }
 
     @Override
-    public Set<String> getNpcIds() {
-        return Set.of("goblin", "goblin_warrior", "goblin_shaman", "goblin_chief");
+    public Set<NpcDefinition> getNpcs() {
+        return Set.of(goblin, goblinWarrior, goblinShaman, goblinChief);
     }
 
     @Override

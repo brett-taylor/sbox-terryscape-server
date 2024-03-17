@@ -2,7 +2,9 @@ package content.startingzone.npchandlers.quests.gather;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
+import com.google.inject.name.Named;
+import com.terryscape.cache.item.ItemDefinition;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
@@ -20,17 +22,27 @@ public class MaisieNpcInteractionHandler implements NpcInteractionHandler {
 
     private final DialogueManager dialogueManager;
 
-    private final CacheLoader cacheLoader;
+    private final ItemDefinition goldCoinItemDefinition;
+
+    private final ItemDefinition mapleLogsItemDefinition;
+
+    private final NpcDefinition maisieNpcDefinition;
 
     @Inject
-    public MaisieNpcInteractionHandler(DialogueManager dialogueManager, CacheLoader cacheLoader) {
+    public MaisieNpcInteractionHandler(DialogueManager dialogueManager,
+                                       @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
+                                       @Named("maple_logs") ItemDefinition mapleLogsItemDefinition,
+                                       @Named("maisie") NpcDefinition maisieNpcDefinition) {
+
         this.dialogueManager = dialogueManager;
-        this.cacheLoader = cacheLoader;
+        this.goldCoinItemDefinition = goldCoinItemDefinition;
+        this.mapleLogsItemDefinition = mapleLogsItemDefinition;
+        this.maisieNpcDefinition = maisieNpcDefinition;
     }
 
     @Override
-    public Set<String> getNpcIds() {
-        return Set.of("maisie");
+    public Set<NpcDefinition> getNpcs() {
+        return Set.of(maisieNpcDefinition);
     }
 
     @Override
@@ -68,24 +80,21 @@ public class MaisieNpcInteractionHandler implements NpcInteractionHandler {
                 "Thank you adventurer for the Maple Logs."
             );
 
-        var mapleLogs = cacheLoader.getItemDefinition("maple_logs");
-        var goldCoins = cacheLoader.getItemDefinition("gold_coin");
-
         playerTask.setCancellablePrimaryTask(
             WalkToTaskStep.worldCoordinate(playerMovement, destinationTile),
 
             LookAtTaskStep.worldCoordinate(playerMovement, npcComponent.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate()),
 
             ImmediateTaskStep.doThis(() -> {
-               if (player.getInventory().hasItem(mapleLogs)) {
-                   var mapleLogCount = player.getInventory().getQuantityOfItem(mapleLogs);
-                   if (player.getInventory().removeItemOfTypeAndQuantity(mapleLogs, mapleLogCount)) {
-                       player.getInventory().addItem(goldCoins, mapleLogCount * 25);
-                   }
-               }
+                if (player.getInventory().hasItem(mapleLogsItemDefinition)) {
+                    var mapleLogCount = player.getInventory().getQuantityOfItem(mapleLogsItemDefinition);
+                    if (player.getInventory().removeItemOfTypeAndQuantity(mapleLogsItemDefinition, mapleLogCount)) {
+                        player.getInventory().addItem(goldCoinItemDefinition, mapleLogCount * 25);
+                    }
+                }
             }),
 
-            dialogueManager.createViewDialogueTaskStep(client, player.getInventory().hasItem(mapleLogs) ? thankYouDialogue : getMeMapleLogsDialogue)
+            dialogueManager.createViewDialogueTaskStep(client, player.getInventory().hasItem(mapleLogsItemDefinition) ? thankYouDialogue : getMeMapleLogsDialogue)
         );
     }
 }

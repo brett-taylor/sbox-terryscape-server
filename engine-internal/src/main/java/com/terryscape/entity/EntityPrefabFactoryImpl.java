@@ -2,7 +2,9 @@ package com.terryscape.entity;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.terryscape.cache.CacheLoader;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.cache.projectile.ProjectileDefinition;
@@ -10,9 +12,8 @@ import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.combat.CombatComponentImpl;
-import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.combat.combatscript.BasicNpcCombatScript;
-import com.terryscape.game.player.*;
+import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.grounditem.GroundItemComponentImpl;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
@@ -23,6 +24,7 @@ import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.*;
+import com.terryscape.game.player.*;
 import com.terryscape.game.projectile.ProjectileComponentImpl;
 import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.sound.SoundManager;
@@ -63,6 +65,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final TemporaryPlayerSaveSystem temporaryPlayerSaveSystem;
 
+    private final ItemDefinition goldCoinItemDefinition;
+
+    private final ItemDefinition foodFishItemDefinition;
+
     @Inject
     public EntityPrefabFactoryImpl(PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
@@ -75,7 +81,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    SoundManager soundManager,
                                    LootTableManager lootTableManager,
                                    ProjectileFactory projectileFactory,
-                                   TemporaryPlayerSaveSystem temporaryPlayerSaveSystem) {
+                                   TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
+                                   @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
+                                   @Named("food_fish") ItemDefinition foodFishItemDefinition) {
 
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
@@ -89,6 +97,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.lootTableManager = lootTableManager;
         this.projectileFactory = projectileFactory;
         this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
+        this.goldCoinItemDefinition = goldCoinItemDefinition;
+        this.foodFishItemDefinition = foodFishItemDefinition;
     }
 
     @Override
@@ -182,8 +192,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         combatComponent.setCombatScript(new PlayerCombatScript(worldClock, specialAttackDispatcher));
 
-        playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("gold_coin"), 250);
-        playerComponent.getInventory().addItem(cacheLoader.getItemDefinition("food_fish"), 1);
+        playerComponent.getInventory().addItem(goldCoinItemDefinition, 250);
+        playerComponent.getInventory().addItem(foodFishItemDefinition, 1);
 
         return entity;
     }

@@ -2,8 +2,10 @@ package content.food;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.item.ItemDefinition;
+import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
@@ -26,18 +28,25 @@ public class FoodItemInteractionHandler implements ItemInteractionHandler {
 
     private final SoundManager soundManager;
 
+    private final SoundDefinition eatGenericSoundDefinition;
+
     @Inject
-    public FoodItemInteractionHandler(EnumValueRetriever enumValueRetriever, CacheLoader cacheLoader, SoundManager soundManager) {
+    public FoodItemInteractionHandler(EnumValueRetriever enumValueRetriever,
+                                      CacheLoader cacheLoader,
+                                      SoundManager soundManager,
+                                      @Named("eat_generic") SoundDefinition eatGenericSoundDefinition) {
+
         this.enumValueRetriever = enumValueRetriever;
         this.cacheLoader = cacheLoader;
         this.soundManager = soundManager;
+        this.eatGenericSoundDefinition = eatGenericSoundDefinition;
     }
 
     @Override
-    public Set<String> getItemIds() {
+    public Set<ItemDefinition> getItems() {
         return enumValueRetriever
             .getEnumValues(Food.class).stream()
-            .map(Food::getItemId)
+            .map(food ->  cacheLoader.getItemDefinition(food.getItemId()))
             .collect(Collectors.toSet());
     }
 
@@ -66,7 +75,7 @@ public class FoodItemInteractionHandler implements ItemInteractionHandler {
         playerEntity.getComponentOrThrow(AnimationComponent.class).playAnimation("drink1");
         playerEntity.getComponentOrThrow(HealthComponent.class).heal(foodType.getHealAmount());
 
-        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("eat_generic"));
+        soundManager.playSoundEffect(client, eatGenericSoundDefinition);
     }
 
     private Food getFoodType(ItemDefinition itemDefinition) {

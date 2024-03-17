@@ -2,8 +2,9 @@ package com.terryscape.game.item;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
+import com.google.inject.name.Named;
 import com.terryscape.cache.item.WeaponItemDefinition;
+import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.equipment.EquipmentSlot;
@@ -28,23 +29,23 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
     private final ItemInteractionDispatcher itemInteractionDispatcher;
 
-    private final CacheLoader cacheLoader;
-
     private final SoundManager soundManager;
 
     private final EntityPrefabFactory entityPrefabFactory;
 
     private final WorldManager worldManager;
 
+    private final SoundDefinition equipGenericSoundDefinition;
+
     @Inject
     public PlayerInventoryInterfaceActionHandler(ItemInteractionDispatcher itemInteractionDispatcher,
-                                                 CacheLoader cacheLoader,
                                                  SoundManager soundManager,
                                                  EntityPrefabFactory entityPrefabFactory,
-                                                 WorldManager worldManager) {
+                                                 WorldManager worldManager,
+                                                 @Named("equip_generic") SoundDefinition equipGenericSoundDefinition) {
 
         this.itemInteractionDispatcher = itemInteractionDispatcher;
-        this.cacheLoader = cacheLoader;
+        this.equipGenericSoundDefinition = equipGenericSoundDefinition;
         this.soundManager = soundManager;
         this.entityPrefabFactory = entityPrefabFactory;
         this.worldManager = worldManager;
@@ -125,7 +126,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
         previouslyEquippedItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotNumber, itemContainerItem.getItemDefinition(), 1));
 
-        soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+        soundManager.playSoundEffect(playerComponent.getClient(), equipGenericSoundDefinition);
 
         if (slot == EquipmentSlot.OFF_HAND) {
             if (mainHand.isPresent() && mainHand.get().getItemDefinition().getEquipDefinitionOrThrow().getWeaponDefinitionOrThrow().isTwoHanded()) {
@@ -152,7 +153,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainerItem, currentWorldCoordinate);
         worldManager.registerEntity(groundItem);
 
-        soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+        soundManager.playSoundEffect(playerComponent.getClient(), equipGenericSoundDefinition);
 
         var taskComponent = playerComponent.getEntity().getComponentOrThrow(TaskComponent.class);
         taskComponent.cancelPrimaryTask();
@@ -168,7 +169,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         slotAItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotB, itemContainerItem.getItemDefinition(), itemContainerItem.getQuantity()));
         slotBItem.ifPresent(itemContainerItem -> playerComponent.getInventory().addItemAt(slotA, itemContainerItem.getItemDefinition(), itemContainerItem.getQuantity()));
 
-        soundManager.playSoundEffect(playerComponent.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+        soundManager.playSoundEffect(playerComponent.getClient(), equipGenericSoundDefinition);
 
         var taskComponent = playerComponent.getEntity().getComponentOrThrow(TaskComponent.class);
         taskComponent.cancelPrimaryTask();

@@ -3,20 +3,10 @@ rootProject.name = 'terryscape'
 include 'engine'
 include 'engine-internal'
 include 'content'
+include 'cache'
 
 project(":content").projectDir.eachDir { dir ->
     if (!dir.name.startsWith('src')) {
         include "content:${dir.name}"
     }
 }
-include 'content:food'
-findProject(':content:food')?.name = 'food'
-include 'content:weapons'
-findProject(':content:weapons')?.name = 'weapons'
-include 'content:skill-fishing'
-findProject(':content:skill-fishing')?.name = 'skill-fishing'
-include 'content:skill-mining'
-findProject(':content:skill-mining')?.name = 'skill-mining'
-include 'content:skill-woodcutting'
-findProject(':content:skill-woodcutting')?.name = 'skill-woodcutting'
-

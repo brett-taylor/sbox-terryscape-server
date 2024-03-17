@@ -2,6 +2,7 @@ package content.weapons;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
@@ -9,6 +10,7 @@ import com.terryscape.game.specialattack.SpecialAttackHandler;
 import com.terryscape.game.specialattack.SpecialAttackHandlerUtils;
 import com.terryscape.maths.MathsUtil;
 import content.combathit.StandardMeleeSpecialAttackCombatHit;
+import jakarta.inject.Named;
 
 import java.util.Set;
 
@@ -17,14 +19,19 @@ public class GodswordRighteousSpecialAttackHandler implements SpecialAttackHandl
 
     private final SpecialAttackHandlerUtils specialAttackHandlerUtils;
 
+    private final ItemDefinition godswordRighteousItemDefinition;
+
     @Inject
-    public GodswordRighteousSpecialAttackHandler(SpecialAttackHandlerUtils specialAttackHandlerUtils) {
+    public GodswordRighteousSpecialAttackHandler(SpecialAttackHandlerUtils specialAttackHandlerUtils,
+                                                 @Named("godsword_righteous") ItemDefinition godswordRighteousItemDefinition) {
+
         this.specialAttackHandlerUtils = specialAttackHandlerUtils;
+        this.godswordRighteousItemDefinition = godswordRighteousItemDefinition;
     }
 
     @Override
-    public Set<String> getItemIds() {
-        return Set.of("godsword_righteous");
+    public Set<ItemDefinition> getItems() {
+        return Set.of(godswordRighteousItemDefinition);
     }
 
     @Override

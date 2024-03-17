@@ -2,7 +2,8 @@ package com.terryscape.game.equipment;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
+import com.google.inject.name.Named;
+import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceManager;
@@ -21,15 +22,18 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
 
     private final InterfaceManager interfaceManager;
 
-    private final CacheLoader cacheLoader;
-
     private final SoundManager soundManager;
 
+    private final SoundDefinition equipGenericSoundDefinition;
+
     @Inject
-    public PlayerEquipmentInterfaceActionHandler(InterfaceManager interfaceManager, CacheLoader cacheLoader, SoundManager soundManager) {
+    public PlayerEquipmentInterfaceActionHandler(InterfaceManager interfaceManager,
+                                                 SoundManager soundManager,
+                                                 @Named("equip_generic") SoundDefinition equipGenericSoundDefinition) {
+
         this.interfaceManager = interfaceManager;
-        this.cacheLoader = cacheLoader;
         this.soundManager = soundManager;
+        this.equipGenericSoundDefinition = equipGenericSoundDefinition;
     }
 
     @Override
@@ -92,7 +96,7 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
     private void removeItem(PlayerComponent player, ItemContainerItem item, EquipmentSlot slot) {
         player.getEquipment().removeSlot(slot);
         player.getInventory().addItem(item.getItemDefinition(), item.getQuantity());
-        soundManager.playSoundEffect(player.getClient(), cacheLoader.getSoundDefinition("equip_generic"));
+        soundManager.playSoundEffect(player.getClient(), equipGenericSoundDefinition);
 
         var taskComponent = player.getEntity().getComponentOrThrow(TaskComponent.class);
         taskComponent.cancelPrimaryTask();

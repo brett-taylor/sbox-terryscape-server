@@ -2,6 +2,7 @@ package com.terryscape.game.item;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.net.Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +16,7 @@ public class ItemInteractionDispatcher {
 
     private static final Logger LOGGER = LogManager.getLogger(ItemInteractionDispatcher.class);
 
-    private final Map<String, ItemInteractionHandler> itemHandlers;
+    private final Map<ItemDefinition, ItemInteractionHandler> itemHandlers;
 
     @Inject
     public ItemInteractionDispatcher(Set<ItemInteractionHandler> handlers) {
@@ -29,9 +30,9 @@ public class ItemInteractionDispatcher {
         var playerInventory = client.getPlayer().orElseThrow().getInventory();
         var item = playerInventory.getItemAt(inventorySlot).orElseThrow();
 
-        var handler = itemHandlers.get(item.getItemDefinition().getId());
+        var handler = itemHandlers.get(item.getItemDefinition());
         if (handler == null) {
-            LOGGER.error("No item interaction handler found for item with id {}.", item.getItemDefinition().getId());
+            LOGGER.error("No item interaction handler found for item {}.", item.getItemDefinition());
             return;
         }
 
@@ -39,12 +40,12 @@ public class ItemInteractionDispatcher {
     }
 
     private void registerSingleItemInteractionHandler(ItemInteractionHandler handler) {
-        for (var itemId : handler.getItemIds()) {
-            if (itemHandlers.containsKey(itemId)) {
-                throw new RuntimeException("A ItemInteractionHandler can't be registered to item %s as it already has one".formatted(itemId));
+        for (var item : handler.getItems()) {
+            if (itemHandlers.containsKey(item)) {
+                throw new RuntimeException("A ItemInteractionHandler can't be registered to item %s as it already has one".formatted(item));
             }
 
-            itemHandlers.put(itemId, handler);
+            itemHandlers.put(item, handler);
         }
     }
 }

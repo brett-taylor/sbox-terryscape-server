@@ -1,8 +1,6 @@
 package content.commands;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.command.CommandDescription;
@@ -13,13 +11,6 @@ import java.util.List;
 
 @Singleton
 public class CoordinatesCommand implements Command {
-
-    private final CacheLoader cacheLoader;
-
-    @Inject
-    public CoordinatesCommand(CacheLoader cacheLoader) {
-        this.cacheLoader = cacheLoader;
-    }
 
     @Override
     public String getPhrase() {

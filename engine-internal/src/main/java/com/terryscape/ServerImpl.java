@@ -3,7 +3,6 @@ package com.terryscape;
 import com.google.common.base.Stopwatch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.cache.CacheLoaderImpl;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.event.type.OnTickSystemEvent;
@@ -29,18 +28,17 @@ public class ServerImpl implements Server {
 
     private final WorldManagerImpl worldManager;
 
-    private final CacheLoaderImpl cacheLoader;
-
     private final WorldClockImpl worldClock;
 
     @Inject
-    public ServerImpl(EventSystemImpl eventSystem, PacketManagerImpl packetManager, WorldManagerImpl worldManager, CacheLoaderImpl cacheLoader,
+    public ServerImpl(EventSystemImpl eventSystem,
+                      PacketManagerImpl packetManager,
+                      WorldManagerImpl worldManager,
                       WorldClockImpl worldClock) {
 
         this.eventSystem = eventSystem;
         this.packetManager = packetManager;
         this.worldManager = worldManager;
-        this.cacheLoader = cacheLoader;
         this.worldClock = worldClock;
     }
 
@@ -48,8 +46,6 @@ public class ServerImpl implements Server {
     public void start() {
         var stopwatch = Stopwatch.createStarted();
         LOGGER.info("Starting {}...", Config.NAME);
-
-        cacheLoader.loadCache();
 
         packetManager.start();
 

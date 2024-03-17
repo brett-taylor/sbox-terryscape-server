@@ -2,6 +2,8 @@ package content.startingzone.npchandlers.quests.gather;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
@@ -17,14 +19,17 @@ public class PetersNpcInteractionHandler implements NpcInteractionHandler {
 
     private final DialogueManager dialogueManager;
 
+    private final NpcDefinition peterNpcDefinition;
+
     @Inject
-    public PetersNpcInteractionHandler(DialogueManager dialogueManager) {
+    public PetersNpcInteractionHandler(DialogueManager dialogueManager, @Named("peters") NpcDefinition peterNpcDefinition) {
         this.dialogueManager = dialogueManager;
+        this.peterNpcDefinition = peterNpcDefinition;
     }
 
     @Override
-    public Set<String> getNpcIds() {
-        return Set.of("peters");
+    public Set<NpcDefinition> getNpcs() {
+        return Set.of(peterNpcDefinition);
     }
 
     @Override

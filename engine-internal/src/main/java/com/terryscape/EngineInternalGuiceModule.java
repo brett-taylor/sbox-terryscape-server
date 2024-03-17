@@ -2,8 +2,6 @@ package com.terryscape;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
-import com.terryscape.cache.CacheLoader;
-import com.terryscape.cache.CacheLoaderImpl;
 import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.entity.EntityPrefabFactoryImpl;
 import com.terryscape.event.EventSystem;
@@ -53,7 +51,6 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(PacketManager.class).to(PacketManagerImpl.class);
         binder().bind(EventSystem.class).to(EventSystemImpl.class);
         binder().bind(PathfindingManager.class).to(PathfindingManagerImpl.class);
-        binder().bind(CacheLoader.class).to(CacheLoaderImpl.class);
         binder().bind(WorldClock.class).to(WorldClockImpl.class);
         binder().bind(WorldManager.class).to(WorldManagerImpl.class);
         binder().bind(EntityPrefabFactory.class).to(EntityPrefabFactoryImpl.class);

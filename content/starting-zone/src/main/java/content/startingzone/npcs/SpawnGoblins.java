@@ -2,6 +2,7 @@ package content.startingzone.npcs;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
@@ -38,9 +39,17 @@ public class SpawnGoblins {
 
     private final EntityPrefabFactory entityPrefabFactory;
 
+    private final WorldClock worldClock;
+
     private final CacheLoader cacheLoader;
 
-    private final WorldClock worldClock;
+    private final NpcDefinition goblinNpcDefinition;
+
+    private final NpcDefinition goblinWarriorNpcDefinition;
+
+    private final NpcDefinition goblinShamanNpcDefinition;
+
+    private final NpcDefinition goblinChiefNpcDefinition;
 
     private final List<NpcComponent> nonChiefAliveGoblins = new ArrayList<>();
 
@@ -51,13 +60,22 @@ public class SpawnGoblins {
     @Inject
     public SpawnGoblins(WorldManager worldManager,
                         EntityPrefabFactory entityPrefabFactory,
+                        EventSystem eventSystem,
+                        WorldClock worldClock,
                         CacheLoader cacheLoader,
-                        EventSystem eventSystem, WorldClock worldClock) {
+                        @Named("goblin") NpcDefinition goblinNpcDefinition,
+                        @Named("goblin_warrior") NpcDefinition goblinWarriorNpcDefinition,
+                        @Named("goblin_shaman") NpcDefinition goblinShamanNpcDefinition,
+                        @Named("goblin_chief") NpcDefinition goblinChiefNpcDefinition) {
 
         this.worldManager = worldManager;
         this.entityPrefabFactory = entityPrefabFactory;
-        this.cacheLoader = cacheLoader;
         this.worldClock = worldClock;
+        this.cacheLoader = cacheLoader;
+        this.goblinNpcDefinition = goblinNpcDefinition;
+        this.goblinWarriorNpcDefinition = goblinWarriorNpcDefinition;
+        this.goblinShamanNpcDefinition = goblinShamanNpcDefinition;
+        this.goblinChiefNpcDefinition = goblinChiefNpcDefinition;
 
         eventSystem.subscribe(OnGameStartedSystemEvent.class, this::onGameStartedEvent);
         eventSystem.subscribe(OnTickSystemEvent.class, this::onTick);
@@ -150,8 +168,7 @@ public class SpawnGoblins {
     }
 
     private void spawnRegularGoblin() {
-        var goblin = cacheLoader.getNpcDefinition("goblin");
-        var npc = entityPrefabFactory.createNpcPrefab(goblin);
+        var npc = entityPrefabFactory.createNpcPrefab(goblinNpcDefinition);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
 
@@ -166,8 +183,7 @@ public class SpawnGoblins {
     }
 
     private void spawnGoblinWarrior() {
-        var goblinWarrior = cacheLoader.getNpcDefinition("goblin_warrior");
-        var npc = entityPrefabFactory.createNpcPrefab(goblinWarrior);
+        var npc = entityPrefabFactory.createNpcPrefab(goblinWarriorNpcDefinition);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
 
@@ -182,8 +198,7 @@ public class SpawnGoblins {
     }
 
     private void spawnGoblinShaman() {
-        var goblinShaman = cacheLoader.getNpcDefinition("goblin_shaman");
-        var npc = entityPrefabFactory.createNpcPrefab(goblinShaman);
+        var npc = entityPrefabFactory.createNpcPrefab(goblinShamanNpcDefinition);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
 
@@ -200,8 +215,7 @@ public class SpawnGoblins {
     }
 
     private void spawnGoblinChief() {
-        var goblinChief = cacheLoader.getNpcDefinition("goblin_chief");
-        var npc = entityPrefabFactory.createNpcPrefab(goblinChief);
+        var npc = entityPrefabFactory.createNpcPrefab(goblinChiefNpcDefinition);
 
         npc.addComponent(new WanderMovementComponent(npc, MIN_WANDER_ZONE, MAX_WANDER_ZONE, true, cacheLoader));
 

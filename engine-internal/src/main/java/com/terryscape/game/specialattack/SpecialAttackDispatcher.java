@@ -18,7 +18,7 @@ public class SpecialAttackDispatcher {
 
     private static final Logger LOGGER = LogManager.getLogger(SpecialAttackDispatcher.class);
 
-    private final Map<String, SpecialAttackHandler> specialAttackHandlers;
+    private final Map<ItemDefinition, SpecialAttackHandler> specialAttackHandlers;
 
     @Inject
     public SpecialAttackDispatcher(Set<SpecialAttackHandler> handlers) {
@@ -29,12 +29,12 @@ public class SpecialAttackDispatcher {
     }
 
     public boolean shouldSpecialAttack(CombatComponent attacker, ItemDefinition itemDefinition) {
-        var isSpecialWeapon = specialAttackHandlers.containsKey(itemDefinition.getId());
+        var isSpecialWeapon = specialAttackHandlers.containsKey(itemDefinition);
         if (!isSpecialWeapon) {
             return false;
         }
 
-        var specialAttackPowerRequired = specialAttackHandlers.get(itemDefinition.getId()).getSpecialAttackPowerNeeded();
+        var specialAttackPowerRequired = specialAttackHandlers.get(itemDefinition).getSpecialAttackPowerNeeded();
         var player = attacker.getEntity().getComponentOrThrow(PlayerComponent.class);
 
         return specialAttackPowerRequired <= player.getSpecialAttackPower();
@@ -44,7 +44,7 @@ public class SpecialAttackDispatcher {
         var attackerPlayer = attacker.getEntity().getComponentOrThrow(PlayerComponent.class);
         var mainHand = attackerPlayer.getEquipment().getSlotOrThrow(EquipmentSlot.MAIN_HAND);
 
-        var handler = specialAttackHandlers.get(mainHand.getItemDefinition().getId());
+        var handler = specialAttackHandlers.get(mainHand.getItemDefinition());
         handler.attack(attacker, victim);
 
         var newSpecialAttackPower = attackerPlayer.getSpecialAttackPower() - handler.getSpecialAttackPowerNeeded();
@@ -52,12 +52,12 @@ public class SpecialAttackDispatcher {
     }
 
     private void registerSingleWeaponSpecialAttackInteractionHandler(SpecialAttackHandler handler) {
-        for (var itemId : handler.getItemIds()) {
-            if (specialAttackHandlers.containsKey(itemId)) {
-                throw new RuntimeException("A SpecialAttackHandler can't be registered to weapon %s as it already has one".formatted(itemId));
+        for (var item : handler.getItems()) {
+            if (specialAttackHandlers.containsKey(item)) {
+                throw new RuntimeException("A SpecialAttackHandler can't be registered to weapon %s as it already has one".formatted(item));
             }
 
-            specialAttackHandlers.put(itemId, handler);
+            specialAttackHandlers.put(item, handler);
         }
     }
 }

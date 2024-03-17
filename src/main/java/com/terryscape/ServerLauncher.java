@@ -3,6 +3,8 @@ package com.terryscape;
 import com.google.common.base.Stopwatch;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.terryscape.cache.CacheLoaderImpl;
 import content.ContentModules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,16 +17,33 @@ public class ServerLauncher {
     private static final Logger LOGGER = LogManager.getLogger(ServerLauncher.class);
 
     public static void main(String... args) {
-        LOGGER.info("Creating Guice Injector...");
+        var cacheGuice = loadCache();
+        startServer(cacheGuice);
+    }
+
+    private static Injector loadCache() {
+        LOGGER.info("Loading Cache...");
+        var stopwatch = Stopwatch.createStarted();
+
+        var guice = Guice.createInjector(new CacheGuiceModule());
+        var cacheContentModule = guice.getInstance(CacheLoaderImpl.class).loadCache();
+        var guiceWithCacheDefinitions = guice.createChildInjector(cacheContentModule);
+
+        LOGGER.info("Cache loading completed in {} milliseconds.", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+        return guiceWithCacheDefinitions;
+    }
+
+    private static void startServer(Injector cacheGuice) {
+        LOGGER.info("Creating Guice Injector for Server...");
         var stopwatch = Stopwatch.createStarted();
 
         var contentModules = new HashSet<AbstractModule>();
         contentModules.add(new EngineInternalGuiceModule());
         contentModules.addAll(ContentModules.getContentModules());
 
-        var guice = Guice.createInjector(contentModules);
+        var serverGuice = cacheGuice.createChildInjector(contentModules);
 
-        LOGGER.info("Guice completed in {} milliseconds.", stopwatch.elapsed(TimeUnit.MILLISECONDS));
-        guice.getInstance(Server.class).start();
+        LOGGER.info("Guice for Server completed in {} milliseconds.", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+        serverGuice.getInstance(Server.class).start();
     }
 }
