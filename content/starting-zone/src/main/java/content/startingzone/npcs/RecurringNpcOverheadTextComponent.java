@@ -5,7 +5,7 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.game.npc.NpcOverheadTextComponent;
 import com.terryscape.maths.RandomUtil;
-import com.terryscape.world.WorldClock;
+import com.terryscape.game.world.WorldClock;
 
 import java.util.function.Supplier;
 

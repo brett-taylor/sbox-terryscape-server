@@ -9,7 +9,7 @@ import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.entity.EntityManager;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

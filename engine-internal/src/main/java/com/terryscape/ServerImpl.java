@@ -7,7 +7,7 @@ import com.terryscape.event.EventSystemImpl;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.event.type.OnTickSystemEvent;
 import com.terryscape.net.PacketManagerImpl;
-import com.terryscape.world.WorldClockImpl;
+import com.terryscape.game.world.WorldClockImpl;
 import com.terryscape.entity.EntityManagerImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

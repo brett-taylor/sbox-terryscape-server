@@ -1,6 +1,7 @@
-package com.terryscape.world.pathfinding;
+package com.terryscape.game.world.pathfinding;
 
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.pathfinding.PathfindingRoute;
 
 import java.util.ArrayList;
 

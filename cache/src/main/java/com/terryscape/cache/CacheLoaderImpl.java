@@ -18,7 +18,7 @@ import com.terryscape.cache.sound.SoundDefinitionImpl;
 import com.terryscape.cache.world.WorldRegionCacheLoader;
 import com.terryscape.cache.world.WorldRegionDefinition;
 import com.terryscape.cache.world.WorldRegionDefinitionImpl;
-import com.terryscape.world.coordinate.WorldRegionCoordinate;
+import com.terryscape.game.world.coordinate.WorldRegionCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

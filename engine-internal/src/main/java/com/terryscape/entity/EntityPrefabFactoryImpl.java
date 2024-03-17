@@ -32,9 +32,9 @@ import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.PacketManager;
-import com.terryscape.world.WorldClock;
-import com.terryscape.world.coordinate.WorldCoordinate;
-import com.terryscape.world.pathfinding.PathfindingManager;
+import com.terryscape.game.world.WorldClock;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.pathfinding.PathfindingManager;
 
 // TODO: Work out a plan on how to get rid of this.
 

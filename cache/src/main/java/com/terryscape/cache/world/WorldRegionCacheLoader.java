@@ -7,9 +7,9 @@ import com.google.inject.Singleton;
 import com.terryscape.Config;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.object.ObjectDefinitionImpl;
-import com.terryscape.world.coordinate.WorldRealPosition;
-import com.terryscape.world.coordinate.WorldRegionCoordinate;
-import com.terryscape.world.coordinate.WorldRegionLocalCoordinate;
+import com.terryscape.game.world.coordinate.WorldRealPosition;
+import com.terryscape.game.world.coordinate.WorldRegionCoordinate;
+import com.terryscape.game.world.coordinate.WorldRegionLocalCoordinate;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 

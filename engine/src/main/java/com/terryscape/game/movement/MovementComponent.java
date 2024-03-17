@@ -1,8 +1,8 @@
 package com.terryscape.game.movement;
 
 import com.terryscape.entity.component.NetworkedEntityComponent;
-import com.terryscape.world.Direction;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.Direction;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 public interface MovementComponent extends NetworkedEntityComponent {
 

@@ -15,9 +15,9 @@ import com.terryscape.game.combat.OnAttackedEntityEvent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcOverheadTextComponent;
 import com.terryscape.maths.RandomUtil;
-import com.terryscape.world.WorldClock;
+import com.terryscape.game.world.WorldClock;
 import com.terryscape.entity.EntityManager;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 

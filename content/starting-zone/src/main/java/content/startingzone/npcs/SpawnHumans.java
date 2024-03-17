@@ -10,10 +10,10 @@ import com.terryscape.entity.EntityPrefabFactory;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.world.Direction;
-import com.terryscape.world.WorldClock;
+import com.terryscape.game.world.Direction;
+import com.terryscape.game.world.WorldClock;
 import com.terryscape.entity.EntityManager;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.util.function.Supplier;
 

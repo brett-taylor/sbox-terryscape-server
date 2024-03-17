@@ -2,7 +2,7 @@ package com.terryscape.cache.world;
 
 import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.object.ObjectDefinitionImpl;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 public class WorldObjectDefinitionImpl implements WorldObjectDefinition {
 

@@ -1,7 +1,7 @@
-package com.terryscape.world.pathfinding;
+package com.terryscape.game.world.pathfinding;
 
 import com.terryscape.cache.CacheLoader;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.util.*;
 

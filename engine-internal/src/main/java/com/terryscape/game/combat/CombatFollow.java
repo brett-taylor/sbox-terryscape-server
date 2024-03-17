@@ -1,8 +1,8 @@
 package com.terryscape.game.combat;
 
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.world.coordinate.WorldCoordinate;
-import com.terryscape.world.pathfinding.PathfindingManager;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.pathfinding.PathfindingManager;
 
 import java.util.Objects;
 

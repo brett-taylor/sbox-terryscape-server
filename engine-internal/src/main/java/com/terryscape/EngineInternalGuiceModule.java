@@ -36,12 +36,12 @@ import com.terryscape.game.worldobject.WorldObjectActionIncomingPacket;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.PacketManager;
 import com.terryscape.net.PacketManagerImpl;
-import com.terryscape.world.WorldClock;
-import com.terryscape.world.WorldClockImpl;
+import com.terryscape.game.world.WorldClock;
+import com.terryscape.game.world.WorldClockImpl;
 import com.terryscape.entity.EntityManager;
 import com.terryscape.entity.EntityManagerImpl;
-import com.terryscape.world.pathfinding.PathfindingManager;
-import com.terryscape.world.pathfinding.PathfindingManagerImpl;
+import com.terryscape.game.world.pathfinding.PathfindingManager;
+import com.terryscape.game.world.pathfinding.PathfindingManagerImpl;
 
 public class EngineInternalGuiceModule extends AbstractModule {
 

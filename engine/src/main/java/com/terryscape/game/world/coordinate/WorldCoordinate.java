@@ -1,11 +1,11 @@
-package com.terryscape.world.coordinate;
+package com.terryscape.game.world.coordinate;
 
 import com.terryscape.Config;
 import com.terryscape.maths.Vector2Int;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketSerializable;
-import com.terryscape.world.Direction;
+import com.terryscape.game.world.Direction;
 
 import java.io.OutputStream;
 import java.nio.ByteBuffer;

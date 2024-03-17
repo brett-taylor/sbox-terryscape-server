@@ -11,7 +11,7 @@ import com.terryscape.game.combat.combathit.StandardRangeCombatHit;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.maths.RandomUtil;
-import com.terryscape.world.WorldClock;
+import com.terryscape.game.world.WorldClock;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.terryscape.world;
+package com.terryscape.game.world;
 
 public interface WorldClock {
 

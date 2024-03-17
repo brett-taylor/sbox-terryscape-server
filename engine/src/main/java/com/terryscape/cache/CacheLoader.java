@@ -6,7 +6,7 @@ import com.terryscape.cache.object.ObjectDefinition;
 import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.cache.world.WorldRegionDefinition;
-import com.terryscape.world.coordinate.WorldRegionCoordinate;
+import com.terryscape.game.world.coordinate.WorldRegionCoordinate;
 
 import java.util.Optional;
 

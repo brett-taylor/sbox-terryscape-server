@@ -1,6 +1,7 @@
-package com.terryscape.world;
+package com.terryscape.game.world;
 
 import com.google.inject.Singleton;
+import com.terryscape.game.world.WorldClock;
 
 @Singleton
 public class WorldClockImpl implements WorldClock {

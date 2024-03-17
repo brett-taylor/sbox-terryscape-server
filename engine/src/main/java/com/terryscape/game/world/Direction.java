@@ -1,4 +1,4 @@
-package com.terryscape.world;
+package com.terryscape.game.world;
 
 import com.terryscape.maths.Vector2Int;
 import com.terryscape.net.IncomingPacket;

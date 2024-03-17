@@ -1,6 +1,6 @@
 package com.terryscape.cache.world;
 
-import com.terryscape.world.coordinate.WorldRegionLocalCoordinate;
+import com.terryscape.game.world.coordinate.WorldRegionLocalCoordinate;
 
 import java.util.HashMap;
 

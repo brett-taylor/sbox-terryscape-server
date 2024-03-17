@@ -2,7 +2,7 @@ package com.terryscape.game.task.step.impl;
 
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.task.step.TaskStep;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 public class LookAtTaskStep extends TaskStep {
 

@@ -6,7 +6,7 @@ import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.sound.SoundManager;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.io.OutputStream;
 

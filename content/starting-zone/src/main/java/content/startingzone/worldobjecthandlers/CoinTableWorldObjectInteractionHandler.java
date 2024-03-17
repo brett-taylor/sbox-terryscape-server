@@ -20,8 +20,8 @@ import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.game.worldobject.WorldObjectInteractionHandler;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.net.Client;
-import com.terryscape.world.Direction;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.Direction;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.util.Set;
 

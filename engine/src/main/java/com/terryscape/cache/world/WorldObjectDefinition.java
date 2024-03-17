@@ -1,7 +1,7 @@
 package com.terryscape.cache.world;
 
 import com.terryscape.cache.object.ObjectDefinition;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 public interface WorldObjectDefinition {
 

@@ -25,8 +25,8 @@ import com.terryscape.game.task.step.impl.WaitTaskStep;
 import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketManager;
-import com.terryscape.world.Direction;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.Direction;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.io.OutputStream;
 

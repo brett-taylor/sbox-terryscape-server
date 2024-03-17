@@ -1,4 +1,4 @@
-package com.terryscape.world.pathfinding;
+package com.terryscape.game.world.pathfinding;
 
 import com.google.common.base.Stopwatch;
 import com.google.inject.Inject;
@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import com.terryscape.Config;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.maths.RandomUtil;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -4,7 +4,7 @@ import com.google.inject.Singleton;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.nio.ByteBuffer;
 

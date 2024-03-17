@@ -1,4 +1,4 @@
-package com.terryscape.world.coordinate;
+package com.terryscape.game.world.coordinate;
 
 import com.terryscape.Config;
 

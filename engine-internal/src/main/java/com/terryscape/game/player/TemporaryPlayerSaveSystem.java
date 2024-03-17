@@ -3,7 +3,7 @@ package com.terryscape.game.player;
 import com.google.inject.Singleton;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.util.HashMap;
 

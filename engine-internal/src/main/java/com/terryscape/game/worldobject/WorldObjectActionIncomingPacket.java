@@ -6,7 +6,7 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.coordinate.WorldRegionCoordinate;
+import com.terryscape.game.world.coordinate.WorldRegionCoordinate;
 
 import java.nio.ByteBuffer;
 

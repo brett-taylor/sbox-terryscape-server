@@ -6,10 +6,10 @@ import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.net.OutgoingPacket;
-import com.terryscape.world.Direction;
-import com.terryscape.world.coordinate.WorldCoordinate;
-import com.terryscape.world.pathfinding.PathfindingManager;
-import com.terryscape.world.pathfinding.PathfindingRoute;
+import com.terryscape.game.world.Direction;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.pathfinding.PathfindingManager;
+import com.terryscape.game.world.pathfinding.PathfindingRoute;
 
 import java.io.OutputStream;
 

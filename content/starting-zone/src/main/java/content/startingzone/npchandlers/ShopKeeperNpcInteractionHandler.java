@@ -12,7 +12,7 @@ import com.terryscape.game.shop.ShopManager;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 import content.startingzone.shops.EquipmentShop;
 import content.startingzone.shops.FoodShop;
 import content.startingzone.shops.GeneralStoreShop;

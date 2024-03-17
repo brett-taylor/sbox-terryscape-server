@@ -3,7 +3,7 @@ package com.terryscape.entity;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.game.item.ItemContainerItem;
-import com.terryscape.world.coordinate.WorldCoordinate;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 public interface EntityPrefabFactory {
 

@@ -10,7 +10,7 @@ import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.task.Task;
 import com.terryscape.game.task.TaskComponent;
-import com.terryscape.world.pathfinding.PathfindingManager;
+import com.terryscape.game.world.pathfinding.PathfindingManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
