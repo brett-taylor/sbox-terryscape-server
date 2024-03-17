@@ -1,7 +1,5 @@
 package com.terryscape.entity;
 
-import com.terryscape.entity.Entity;
-import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.Client;
 
