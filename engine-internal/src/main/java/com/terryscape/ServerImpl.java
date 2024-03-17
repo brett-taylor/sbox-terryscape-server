@@ -8,7 +8,7 @@ import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.event.type.OnTickSystemEvent;
 import com.terryscape.net.PacketManagerImpl;
 import com.terryscape.world.WorldClockImpl;
-import com.terryscape.world.WorldManagerImpl;
+import com.terryscape.entity.EntityManagerImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,19 +26,19 @@ public class ServerImpl implements Server {
 
     private final PacketManagerImpl packetManager;
 
-    private final WorldManagerImpl worldManager;
+    private final EntityManagerImpl entityManager;
 
     private final WorldClockImpl worldClock;
 
     @Inject
     public ServerImpl(EventSystemImpl eventSystem,
                       PacketManagerImpl packetManager,
-                      WorldManagerImpl worldManager,
+                      EntityManagerImpl entityManager,
                       WorldClockImpl worldClock) {
 
         this.eventSystem = eventSystem;
         this.packetManager = packetManager;
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
         this.worldClock = worldClock;
     }
 
@@ -66,7 +66,7 @@ public class ServerImpl implements Server {
 
             packetManager.removeClosedConnections();
 
-            worldManager.tick();
+            entityManager.tick();
 
             eventSystem.invoke(OnTickSystemEvent.class, new OnTickSystemEvent());
 

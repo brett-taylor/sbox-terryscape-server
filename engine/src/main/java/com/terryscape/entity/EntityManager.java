@@ -1,4 +1,4 @@
-package com.terryscape.world;
+package com.terryscape.entity;
 
 import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
@@ -7,7 +7,7 @@ import com.terryscape.net.Client;
 
 import java.util.Set;
 
-public interface WorldManager {
+public interface EntityManager {
 
     void sendInitialUpdate(Client client);
 

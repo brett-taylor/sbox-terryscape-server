@@ -12,7 +12,7 @@ import com.terryscape.event.type.OnGameStartedSystemEvent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.world.Direction;
 import com.terryscape.world.WorldClock;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
 
 import java.util.function.Supplier;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 @Singleton
 public class SpawnHumans {
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final EntityPrefabFactory entityPrefabFactory;
 
@@ -49,7 +49,7 @@ public class SpawnHumans {
     private final NpcDefinition petersNpcDefinition;
 
     @Inject
-    public SpawnHumans(WorldManager worldManager,
+    public SpawnHumans(EntityManager entityManager,
                        EntityPrefabFactory entityPrefabFactory,
                        CacheLoader cacheLoader,
                        EventSystem eventSystem,
@@ -65,7 +65,7 @@ public class SpawnHumans {
                        @Named("tina") NpcDefinition tinaNpcDefinition,
                        @Named("peters") NpcDefinition petersNpcDefinition) {
 
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
         this.entityPrefabFactory = entityPrefabFactory;
         this.cacheLoader = cacheLoader;
         this.worldClock = worldClock;
@@ -113,28 +113,28 @@ public class SpawnHumans {
         Supplier<String> overheadText = () -> "Welcome to %s! Speak to me if you need help.".formatted(Config.NAME);
         guide.addComponent(new RecurringNpcOverheadTextComponent(guide, worldClock, 60, 80, overheadText));
 
-        worldManager.registerEntity(guide);
+        entityManager.registerEntity(guide);
     }
 
     private void spawnArmourShopKeeper() {
         var armourShopKeeper = entityPrefabFactory.createNpcPrefab(armourShopKeeperNpcDefinition);
         armourShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(11, 16));
         armourShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
-        worldManager.registerEntity(armourShopKeeper);
+        entityManager.registerEntity(armourShopKeeper);
     }
 
     private void spawnWeaponShopKeeper() {
         var weaponShopKeeper = entityPrefabFactory.createNpcPrefab(weaponShopKeeperNpcDefinition);
         weaponShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(17, 16));
         weaponShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
-        worldManager.registerEntity(weaponShopKeeper);
+        entityManager.registerEntity(weaponShopKeeper);
     }
 
     private void spawnFoodShopKeeper() {
         var foodShopKeeper = entityPrefabFactory.createNpcPrefab(foodShopKeeperNpcDefinition);
         foodShopKeeper.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(19, 14));
         foodShopKeeper.getComponentOrThrow(MovementComponent.class).look(Direction.WEST);
-        worldManager.registerEntity(foodShopKeeper);
+        entityManager.registerEntity(foodShopKeeper);
     }
 
     private void spawnPlayersOnlineCounter() {
@@ -142,10 +142,10 @@ public class SpawnHumans {
         playersOnlineCounter.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(1, 24));
         playersOnlineCounter.getComponentOrThrow(MovementComponent.class).look(Direction.EAST);
 
-        Supplier<String> overheadText = () -> "There are currently %s players online.".formatted(worldManager.getPlayers().size());
+        Supplier<String> overheadText = () -> "There are currently %s players online.".formatted(entityManager.getPlayers().size());
         playersOnlineCounter.addComponent(new RecurringNpcOverheadTextComponent(playersOnlineCounter, worldClock, 60, 80, overheadText));
 
-        worldManager.registerEntity(playersOnlineCounter);
+        entityManager.registerEntity(playersOnlineCounter);
     }
 
     private void spawnCombatExpert() {
@@ -153,7 +153,7 @@ public class SpawnHumans {
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(8, 28), new WorldCoordinate(12, 33), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(9, 30));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
     }
 
     private void spawnMaisie() {
@@ -161,7 +161,7 @@ public class SpawnHumans {
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(-2, 29), new WorldCoordinate(0, 33), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(-2, 29));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
     }
 
     private void spawnPeters() {
@@ -169,7 +169,7 @@ public class SpawnHumans {
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(2, 34), new WorldCoordinate(4, 37), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(2, 34));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
     }
 
     private void spawnTina() {
@@ -177,7 +177,7 @@ public class SpawnHumans {
         npc.addComponent(new WanderMovementComponent(npc, new WorldCoordinate(6, 34), new WorldCoordinate(10, 38), false, cacheLoader));
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(6, 34));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
     }
 
     private void spawnGeneralStoreShopKeeper() {
@@ -185,6 +185,6 @@ public class SpawnHumans {
         npc.getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(13,16 ));
         npc.getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
     }
 }

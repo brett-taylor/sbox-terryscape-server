@@ -15,7 +15,7 @@ import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +33,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
     private final EntityPrefabFactory entityPrefabFactory;
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final SoundDefinition equipGenericSoundDefinition;
 
@@ -41,14 +41,14 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
     public PlayerInventoryInterfaceActionHandler(ItemInteractionDispatcher itemInteractionDispatcher,
                                                  SoundManager soundManager,
                                                  EntityPrefabFactory entityPrefabFactory,
-                                                 WorldManager worldManager,
+                                                 EntityManager entityManager,
                                                  @Named("equip_generic") SoundDefinition equipGenericSoundDefinition) {
 
         this.itemInteractionDispatcher = itemInteractionDispatcher;
         this.equipGenericSoundDefinition = equipGenericSoundDefinition;
         this.soundManager = soundManager;
         this.entityPrefabFactory = entityPrefabFactory;
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -151,7 +151,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var currentWorldCoordinate = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class).getWorldCoordinate();
 
         var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainerItem, currentWorldCoordinate);
-        worldManager.registerEntity(groundItem);
+        entityManager.registerEntity(groundItem);
 
         soundManager.playSoundEffect(playerComponent.getClient(), equipGenericSoundDefinition);
 

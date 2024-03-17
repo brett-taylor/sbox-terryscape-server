@@ -8,20 +8,20 @@ import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 
 import java.nio.ByteBuffer;
 
 @Singleton
 public class NpcActionIncomingPacket implements IncomingPacket {
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final NpcInteractionDispatcher npcInteractionDispatcher;
 
     @Inject
-    public NpcActionIncomingPacket(WorldManager worldManager, NpcInteractionDispatcher npcInteractionDispatcher) {
-        this.worldManager = worldManager;
+    public NpcActionIncomingPacket(EntityManager entityManager, NpcInteractionDispatcher npcInteractionDispatcher) {
+        this.entityManager = entityManager;
         this.npcInteractionDispatcher = npcInteractionDispatcher;
     }
 
@@ -35,7 +35,7 @@ public class NpcActionIncomingPacket implements IncomingPacket {
         var npcIdentifier = EntityIdentifier.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
-        var npc = worldManager.getEntity(npcIdentifier).getComponentOrThrow(NpcComponentImpl.class);
+        var npc = entityManager.getEntity(npcIdentifier).getComponentOrThrow(NpcComponentImpl.class);
         var player = client.getPlayer().orElseThrow();
 
         // TODO: Refactor this examine and attack into their own handlers

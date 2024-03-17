@@ -7,7 +7,7 @@ import com.terryscape.game.player.PlayerComponentImpl;
 import com.terryscape.net.Client;
 import com.terryscape.net.ClientImpl;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,13 +18,13 @@ public class LoginIncomingPacket implements IncomingPacket {
 
     private static final Logger LOGGER = LogManager.getLogger(LoginIncomingPacket.class);
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final EntityPrefabFactory entityFactory;
 
     @Inject
-    public LoginIncomingPacket(WorldManager worldManager, EntityPrefabFactory entityFactory) {
-        this.worldManager = worldManager;
+    public LoginIncomingPacket(EntityManager entityManager, EntityPrefabFactory entityFactory) {
+        this.entityManager = entityManager;
         this.entityFactory = entityFactory;
     }
 
@@ -43,7 +43,7 @@ public class LoginIncomingPacket implements IncomingPacket {
 
         LOGGER.info("Login accepted username={}, steamId={}", username, steamId);
 
-        worldManager.sendInitialUpdate(client);
+        entityManager.sendInitialUpdate(client);
 
         var playerEntity = entityFactory.createPlayerPrefab();
 
@@ -55,7 +55,7 @@ public class LoginIncomingPacket implements IncomingPacket {
         var clientImpl = (ClientImpl) client;
         clientImpl.setPlayer(player);
 
-        worldManager.registerEntity(playerEntity);
+        entityManager.registerEntity(playerEntity);
     }
 
 }

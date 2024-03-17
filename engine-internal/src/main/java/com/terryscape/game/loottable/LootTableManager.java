@@ -8,7 +8,7 @@ import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.maths.RandomUtil;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,14 +23,14 @@ public class LootTableManager {
 
     private final EntityPrefabFactory entityPrefabFactory;
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final HashMap<NpcDefinition, LootTableProvider> lootTableProviders;
 
     @Inject
-    public LootTableManager(Set<LootTableProvider> lootTables, EntityPrefabFactory entityPrefabFactory, WorldManager worldManager) {
+    public LootTableManager(Set<LootTableProvider> lootTables, EntityPrefabFactory entityPrefabFactory, EntityManager entityManager) {
         this.entityPrefabFactory = entityPrefabFactory;
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
 
         lootTableProviders = new HashMap<>();
         lootTables.forEach(this::registerSingleLootTableProvider);
@@ -69,14 +69,14 @@ public class LootTableManager {
         if (lootTableItem.getItemDefinition().isStackable()) {
             var itemContainer = new ItemContainerItem(lootTableItem.getItemDefinition(), amount);
             var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainer, worldCoordinate);
-            worldManager.registerEntity(groundItem);
+            entityManager.registerEntity(groundItem);
             return;
         }
 
         for (var i = 0; i < amount; i++) {
             var itemContainer = new ItemContainerItem(lootTableItem.getItemDefinition(), 1);
             var groundItem = entityPrefabFactory.createGroundItemPrefab(itemContainer, worldCoordinate);
-            worldManager.registerEntity(groundItem);
+            entityManager.registerEntity(groundItem);
         }
     }
 }

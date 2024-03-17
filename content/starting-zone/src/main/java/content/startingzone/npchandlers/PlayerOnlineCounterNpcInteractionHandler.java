@@ -11,7 +11,7 @@ import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 import jakarta.inject.Named;
 
 import java.util.Set;
@@ -21,17 +21,17 @@ public class PlayerOnlineCounterNpcInteractionHandler implements NpcInteractionH
 
     private final DialogueManager dialogueManager;
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final NpcDefinition combatExpertNpcDefinition;
 
     @Inject
     public PlayerOnlineCounterNpcInteractionHandler(DialogueManager dialogueManager,
-                                                    WorldManager worldManager,
+                                                    EntityManager entityManager,
                                                     @Named("players_online_counter") NpcDefinition combatExpertNpcDefinition) {
 
         this.dialogueManager = dialogueManager;
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
         this.combatExpertNpcDefinition = combatExpertNpcDefinition;
     }
 
@@ -46,7 +46,7 @@ public class PlayerOnlineCounterNpcInteractionHandler implements NpcInteractionH
         var playerTask = player.getEntity().getComponentOrThrow(TaskComponent.class);
         var playerMovement = player.getEntity().getComponentOrThrow(MovementComponent.class);
 
-        var playerCount = worldManager.getPlayers().size();
+        var playerCount = entityManager.getPlayers().size();
         var message = playerCount == 1
             ? "You are currently the only player on %s.".formatted(Config.NAME)
             : "There are currently %s players on %s.".formatted(playerCount, Config.NAME);

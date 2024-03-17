@@ -11,18 +11,18 @@ import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.WalkToTaskStep;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 
 import java.nio.ByteBuffer;
 
 @Singleton
 public class GroundItemActionIncomingPacket implements IncomingPacket {
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     @Inject
-    public GroundItemActionIncomingPacket(WorldManager worldManager) {
-        this.worldManager = worldManager;
+    public GroundItemActionIncomingPacket(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class GroundItemActionIncomingPacket implements IncomingPacket {
         var groundItemIdentifier = EntityIdentifier.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
-        var groundItem = worldManager.getEntity(groundItemIdentifier).getComponentOrThrow(GroundItemComponentImpl.class);
+        var groundItem = entityManager.getEntity(groundItemIdentifier).getComponentOrThrow(GroundItemComponentImpl.class);
         var player = client.getPlayer().orElseThrow();
 
         if (action.equals("examine")) {

@@ -1,10 +1,7 @@
-package com.terryscape.world;
+package com.terryscape.entity;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.terryscape.entity.Entity;
-import com.terryscape.entity.EntityIdentifier;
-import com.terryscape.entity.EntityImpl;
 import com.terryscape.entity.packet.EntityAddedOutgoingPacket;
 import com.terryscape.entity.packet.EntityRemovedOutgoingPacket;
 import com.terryscape.entity.packet.EntityUpdatedOutgoingPacket;
@@ -23,9 +20,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Singleton
-public class WorldManagerImpl implements WorldManager {
+public class EntityManagerImpl implements EntityManager {
 
-    private static final Logger LOGGER = LogManager.getLogger(WorldManagerImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(EntityManagerImpl.class);
 
     private final PacketManager packetManager;
 
@@ -33,7 +30,7 @@ public class WorldManagerImpl implements WorldManager {
     private final Map<EntityIdentifier, EntityImpl> entities;
 
     @Inject
-    public WorldManagerImpl(PacketManager packetManager) {
+    public EntityManagerImpl(PacketManager packetManager) {
         this.packetManager = packetManager;
 
         entities = new HashMap<>();

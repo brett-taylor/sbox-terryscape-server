@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 
 import java.util.function.Consumer;
 
@@ -14,14 +14,14 @@ public class ProjectileFactoryImpl implements ProjectileFactory {
 
     private final EntityPrefabFactory entityPrefabFactory;
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final CacheLoader cacheLoader;
 
     @Inject
-    public ProjectileFactoryImpl(EntityPrefabFactory entityPrefabFactory, WorldManager worldManager, CacheLoader cacheLoader) {
+    public ProjectileFactoryImpl(EntityPrefabFactory entityPrefabFactory, EntityManager entityManager, CacheLoader cacheLoader) {
         this.entityPrefabFactory = entityPrefabFactory;
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
         this.cacheLoader = cacheLoader;
     }
 
@@ -37,7 +37,7 @@ public class ProjectileFactoryImpl implements ProjectileFactory {
 
         projectileSetup.accept(projectileComponent);
 
-        worldManager.registerEntity(projectile);
+        entityManager.registerEntity(projectile);
         return projectileComponent;
     }
 }

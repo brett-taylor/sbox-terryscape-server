@@ -38,8 +38,8 @@ import com.terryscape.net.PacketManager;
 import com.terryscape.net.PacketManagerImpl;
 import com.terryscape.world.WorldClock;
 import com.terryscape.world.WorldClockImpl;
-import com.terryscape.world.WorldManager;
-import com.terryscape.world.WorldManagerImpl;
+import com.terryscape.entity.EntityManager;
+import com.terryscape.entity.EntityManagerImpl;
 import com.terryscape.world.pathfinding.PathfindingManager;
 import com.terryscape.world.pathfinding.PathfindingManagerImpl;
 
@@ -52,7 +52,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(EventSystem.class).to(EventSystemImpl.class);
         binder().bind(PathfindingManager.class).to(PathfindingManagerImpl.class);
         binder().bind(WorldClock.class).to(WorldClockImpl.class);
-        binder().bind(WorldManager.class).to(WorldManagerImpl.class);
+        binder().bind(EntityManager.class).to(EntityManagerImpl.class);
         binder().bind(EntityPrefabFactory.class).to(EntityPrefabFactoryImpl.class);
         binder().bind(InterfaceManager.class).to(InterfaceManagerImpl.class);
         binder().bind(ShopManager.class).to(ShopManagerImpl.class);

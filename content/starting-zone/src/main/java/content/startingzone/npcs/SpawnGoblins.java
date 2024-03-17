@@ -16,7 +16,7 @@ import com.terryscape.game.npc.NpcComponent;
 import com.terryscape.game.npc.NpcOverheadTextComponent;
 import com.terryscape.maths.RandomUtil;
 import com.terryscape.world.WorldClock;
-import com.terryscape.world.WorldManager;
+import com.terryscape.entity.EntityManager;
 import com.terryscape.world.coordinate.WorldCoordinate;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -35,7 +35,7 @@ public class SpawnGoblins {
 
     private static final int RESPAWN_TICKS = 30;
 
-    private final WorldManager worldManager;
+    private final EntityManager entityManager;
 
     private final EntityPrefabFactory entityPrefabFactory;
 
@@ -58,7 +58,7 @@ public class SpawnGoblins {
     private NpcComponent goblinShaman;
 
     @Inject
-    public SpawnGoblins(WorldManager worldManager,
+    public SpawnGoblins(EntityManager entityManager,
                         EntityPrefabFactory entityPrefabFactory,
                         EventSystem eventSystem,
                         WorldClock worldClock,
@@ -68,7 +68,7 @@ public class SpawnGoblins {
                         @Named("goblin_shaman") NpcDefinition goblinShamanNpcDefinition,
                         @Named("goblin_chief") NpcDefinition goblinChiefNpcDefinition) {
 
-        this.worldManager = worldManager;
+        this.entityManager = entityManager;
         this.entityPrefabFactory = entityPrefabFactory;
         this.worldClock = worldClock;
         this.cacheLoader = cacheLoader;
@@ -177,7 +177,7 @@ public class SpawnGoblins {
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
 
         nonChiefAliveGoblins.add(npc.getComponentOrThrow(NpcComponent.class));
     }
@@ -192,7 +192,7 @@ public class SpawnGoblins {
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
 
         nonChiefAliveGoblins.add(npc.getComponentOrThrow(NpcComponent.class));
     }
@@ -209,7 +209,7 @@ public class SpawnGoblins {
 
         npc.subscribe(OnDeathEntityEvent.class, ignored -> registerNpcRespawn(npc.getComponentOrThrow(NpcComponent.class)));
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
         nonChiefAliveGoblins.add(npc.getComponentOrThrow(NpcComponent.class));
         this.goblinShaman = npc.getComponentOrThrow(NpcComponent.class);
     }
@@ -229,6 +229,6 @@ public class SpawnGoblins {
 
         npc.subscribe(OnAttackedEntityEvent.class, this::handleChiefAttacked);
 
-        worldManager.registerEntity(npc);
+        entityManager.registerEntity(npc);
     }
 }
