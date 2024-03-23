@@ -16,7 +16,7 @@ import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.combatscript.BasicNpcCombatScript;
 import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.diceroll.CombatDiceRoll;
-import com.terryscape.game.grounditem.GroundItemComponentImpl;
+import com.terryscape.game.grounditem.GroundItemComponent;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.ItemContainerItem;
@@ -207,7 +207,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createGroundItemPrefab(ItemContainerItem itemContainerItem, WorldCoordinate worldCoordinate) {
         var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.GROUND_ITEM, null);
 
-        var groundItemComponent = new GroundItemComponentImpl(itemContainerItem, worldCoordinate, cacheLoader, soundManager);
+        var groundItemComponent = new GroundItemComponent(itemContainerItem, worldCoordinate);
         entity.addComponent(groundItemComponent);
 
         var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent();

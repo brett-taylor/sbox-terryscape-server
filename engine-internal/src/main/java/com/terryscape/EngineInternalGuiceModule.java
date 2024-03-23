@@ -16,6 +16,8 @@ import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.diceroll.CombatDiceRollImpl;
 import com.terryscape.game.equipment.PlayerEquipmentInterfaceActionHandler;
 import com.terryscape.game.grounditem.GroundItemActionIncomingPacket;
+import com.terryscape.game.grounditem.GroundItemComponentSystem;
+import com.terryscape.game.grounditem.GroundItemTimeAliveComponentSystem;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.interfaces.InterfaceManagerImpl;
@@ -85,6 +87,10 @@ public class EngineInternalGuiceModule extends AbstractModule {
         interfaceActionHandlerMultibinder.addBinding().to(ShopInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(SpecialAttackOrbInterfaceActionHandler.class);
         interfaceActionHandlerMultibinder.addBinding().to(MovementOrbInterfaceActionHandler.class);
+
+        var componentSystemMultibinder = Multibinder.newSetBinder(binder(), ComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(GroundItemComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(GroundItemTimeAliveComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);

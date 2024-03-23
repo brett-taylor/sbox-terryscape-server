@@ -35,7 +35,7 @@ public class GroundItemActionIncomingPacket implements IncomingPacket {
         var groundItemIdentifier = EntityIdentifier.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
-        var groundItem = entityManager.getEntity(groundItemIdentifier).getComponentOrThrow(GroundItemComponentImpl.class);
+        var groundItem = entityManager.getEntity(groundItemIdentifier).getComponentOrThrow(GroundItemComponent.class);
         var player = client.getPlayer().orElseThrow();
 
         if (action.equals("examine")) {
@@ -52,7 +52,7 @@ public class GroundItemActionIncomingPacket implements IncomingPacket {
         }
     }
 
-    private void handleExamine(GroundItemComponentImpl groundItemComponent, PlayerComponent playerComponent) {
+    private void handleExamine(GroundItemComponent groundItemComponent, PlayerComponent playerComponent) {
         var itemName = groundItemComponent.getItemContainerItem().getItemDefinition().getName();
         var quantity = groundItemComponent.getItemContainerItem().getQuantity();
 
@@ -60,7 +60,7 @@ public class GroundItemActionIncomingPacket implements IncomingPacket {
         chatComponent.sendGameMessage("%s x%s".formatted(itemName, quantity));
     }
 
-    private void handleTake(GroundItemComponentImpl groundItemComponent, PlayerComponent playerComponent) {
+    private void handleTake(GroundItemComponent groundItemComponent, PlayerComponent playerComponent) {
         var taskComponent = playerComponent.getEntity().getComponentOrThrow(TaskComponent.class);
         var movementComponent = playerComponent.getEntity().getComponentOrThrow(MovementComponent.class);
 
