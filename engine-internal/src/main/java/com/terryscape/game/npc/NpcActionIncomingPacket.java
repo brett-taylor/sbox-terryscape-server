@@ -38,7 +38,7 @@ public class NpcActionIncomingPacket implements IncomingPacket {
         var npcIdentifier = EntityIdentifier.readFromPacket(packet);
         var action = IncomingPacket.readString(packet);
 
-        var npc = entityManager.getEntity(npcIdentifier).getComponentOrThrow(NpcComponentImpl.class);
+        var npc = entityManager.getEntity(npcIdentifier).getComponentOrThrow(NpcComponent.class);
         var player = client.getPlayer().orElseThrow();
 
         // TODO: Refactor this examine and attack into their own handlers

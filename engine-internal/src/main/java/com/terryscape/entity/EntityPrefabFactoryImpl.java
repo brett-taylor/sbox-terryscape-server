@@ -18,7 +18,6 @@ import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.grounditem.GroundItemComponent;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
 import com.terryscape.game.item.ItemContainerItem;
-import com.terryscape.game.loottable.LootTableManager;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.*;
@@ -51,8 +50,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final SpecialAttackDispatcher specialAttackDispatcher;
 
-    private final LootTableManager lootTableManager;
-
     private final ProjectileFactory projectileFactory;
 
     private final ItemDefinition goldCoinItemDefinition;
@@ -69,7 +66,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    PacketManager packetManager,
                                    CombatDiceRoll combatDiceRoll,
                                    SpecialAttackDispatcher specialAttackDispatcher,
-                                   LootTableManager lootTableManager,
                                    ProjectileFactory projectileFactory,
                                    @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
                                    @Named("food_fish") ItemDefinition foodFishItemDefinition,
@@ -81,7 +77,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.packetManager = packetManager;
         this.combatDiceRoll = combatDiceRoll;
         this.specialAttackDispatcher = specialAttackDispatcher;
-        this.lootTableManager = lootTableManager;
         this.projectileFactory = projectileFactory;
         this.goldCoinItemDefinition = goldCoinItemDefinition;
         this.foodFishItemDefinition = foodFishItemDefinition;
@@ -93,7 +88,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createNpcPrefab(NpcDefinition npcDefinition) {
         var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
 
-        var npcComponent = new NpcComponentImpl(lootTableManager);
+        var npcComponent = new NpcComponent();
         npcComponent.setNpcDefinition(npcDefinition);
         entity.addComponent(npcComponent);
 

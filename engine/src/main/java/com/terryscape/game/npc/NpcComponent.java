@@ -1,10 +1,17 @@
 package com.terryscape.game.npc;
 
 import com.terryscape.cache.npc.NpcDefinition;
-import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.entity.component.BaseEntityComponent;
 
-public interface NpcComponent extends NetworkedEntityComponent {
+public class NpcComponent extends BaseEntityComponent {
 
-    NpcDefinition getNpcDefinition();
+    private NpcDefinition npcDefinition;
 
+    public NpcDefinition getNpcDefinition() {
+        return npcDefinition;
+    }
+
+    public void setNpcDefinition(NpcDefinition npcDefinition) {
+        this.npcDefinition = npcDefinition;
+    }
 }
