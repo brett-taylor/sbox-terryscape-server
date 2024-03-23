@@ -10,8 +10,7 @@ import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.entity.component.ComponentSystemManager;
 import com.terryscape.game.appearance.HumanoidGender;
-import com.terryscape.game.chat.PlayerChatComponentImpl;
-import com.terryscape.game.chat.command.CommandManager;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.combat.CombatComponentImpl;
 import com.terryscape.game.combat.combatscript.BasicNpcCombatScript;
 import com.terryscape.game.combat.health.HealthComponentImpl;
@@ -31,11 +30,11 @@ import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
-import com.terryscape.maths.RandomUtil;
-import com.terryscape.net.PacketManager;
 import com.terryscape.game.world.WorldClock;
 import com.terryscape.game.world.coordinate.WorldCoordinate;
 import com.terryscape.game.world.pathfinding.PathfindingManager;
+import com.terryscape.maths.RandomUtil;
+import com.terryscape.net.PacketManager;
 
 // TODO: Work out a plan on how to get rid of this.
 
@@ -47,8 +46,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     private final WorldClock worldClock;
 
     private final PacketManager packetManager;
-
-    private final CommandManager commandManager;
 
     private final CacheLoader cacheLoader;
 
@@ -72,11 +69,12 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final ComponentSystemManager componentSystemManager;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
     public EntityPrefabFactoryImpl(PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
                                    PacketManager packetManager,
-                                   CommandManager commandManager,
                                    CacheLoader cacheLoader,
                                    InterfaceManager interfaceManager,
                                    CombatDiceRoll combatDiceRoll,
@@ -87,12 +85,12 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
                                    @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
                                    @Named("food_fish") ItemDefinition foodFishItemDefinition,
-                                   ComponentSystemManager componentSystemManager) {
+                                   ComponentSystemManager componentSystemManager,
+                                   PlayerChatSystem playerChatSystem) {
 
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
         this.packetManager = packetManager;
-        this.commandManager = commandManager;
         this.cacheLoader = cacheLoader;
         this.interfaceManager = interfaceManager;
         this.combatDiceRoll = combatDiceRoll;
@@ -104,6 +102,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.goldCoinItemDefinition = goldCoinItemDefinition;
         this.foodFishItemDefinition = foodFishItemDefinition;
         this.componentSystemManager = componentSystemManager;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -145,7 +144,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var combatComponent = new CombatComponentImpl(pathfindingManager, combatDiceRoll, projectileFactory);
+        var combatComponent = new CombatComponentImpl(pathfindingManager, combatDiceRoll, projectileFactory, playerChatSystem);
         entity.addComponent(combatComponent);
 
         combatComponent.setCombatScript(new BasicNpcCombatScript());
@@ -163,7 +162,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createPlayerPrefab() {
         var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(packetManager, interfaceManager, soundManager, cacheLoader, temporaryPlayerSaveSystem);
+        var playerComponent = new PlayerComponentImpl(packetManager, interfaceManager, soundManager, cacheLoader, temporaryPlayerSaveSystem, playerChatSystem);
         playerComponent.setGender(RandomUtil.randomBool() ? HumanoidGender.MALE : HumanoidGender.FEMALE);
         entity.addComponent(playerComponent);
 
@@ -172,9 +171,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
         var playerSkills = new PlayerSkillsComponentImpl();
         entity.addComponent(playerSkills);
-
-        var playerChatComponent = new PlayerChatComponentImpl(packetManager, commandManager);
-        entity.addComponent(playerChatComponent);
 
         var taskComponent = new TaskComponentImpl();
         entity.addComponent(taskComponent);
@@ -192,7 +188,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var combatComponent = new CombatComponentImpl(pathfindingManager, combatDiceRoll, projectileFactory);
+        var combatComponent = new CombatComponentImpl(pathfindingManager, combatDiceRoll, projectileFactory, playerChatSystem);
         entity.addComponent(combatComponent);
 
         combatComponent.setCombatScript(new PlayerCombatScript(worldClock, specialAttackDispatcher));

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.terryscape.cache.sound.SoundDefinition;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.ItemContainerItem;
@@ -26,14 +26,18 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
 
     private final SoundDefinition equipGenericSoundDefinition;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
     public PlayerEquipmentInterfaceActionHandler(InterfaceManager interfaceManager,
                                                  SoundManager soundManager,
-                                                 @Named("equip_generic") SoundDefinition equipGenericSoundDefinition) {
+                                                 @Named("equip_generic") SoundDefinition equipGenericSoundDefinition,
+                                                 PlayerChatSystem playerChatSystem) {
 
         this.interfaceManager = interfaceManager;
         this.soundManager = soundManager;
         this.equipGenericSoundDefinition = equipGenericSoundDefinition;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -74,8 +78,7 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         }
 
         if (!playerInventory.hasFreeSlots(1)) {
-            var chat = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
-            chat.sendGameMessage("You do not have the space to remove your %s.".formatted(itemOptional.get().getItemDefinition().getName()));
+            playerChatSystem.sendGameMessage(player, "You do not have the space to remove your %s.".formatted(itemOptional.get().getItemDefinition().getName()));
             return;
         }
 
@@ -103,6 +106,6 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
     }
 
     private void examineItem(PlayerComponent player, ItemContainerItem item) {
-        player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getItemDefinition().getDescription());
+        playerChatSystem.sendGameMessage(player, item.getItemDefinition().getDescription());
     }
 }

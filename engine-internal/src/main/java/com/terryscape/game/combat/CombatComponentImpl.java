@@ -1,7 +1,7 @@
 package com.terryscape.game.combat;
 
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.npc.NpcComponent;
@@ -28,6 +28,8 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private final List<PendingCombatHit> pendingCombatHits;
 
+    private final PlayerChatSystem playerChatSystem;
+
     private CombatScript combatScript;
 
     private TaskComponent taskComponent;
@@ -42,11 +44,13 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     public CombatComponentImpl(PathfindingManager pathfindingManager,
                                CombatDiceRoll combatDiceRoll,
-                               ProjectileFactory projectileFactory) {
+                               ProjectileFactory projectileFactory,
+                               PlayerChatSystem playerChatSystem) {
 
         this.pathfindingManager = pathfindingManager;
         this.combatDiceRoll = combatDiceRoll;
         this.projectileFactory = projectileFactory;
+        this.playerChatSystem = playerChatSystem;
 
         this.pendingCombatHits = new ArrayList<>();
     }
@@ -195,16 +199,16 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
         if (victim.getEntity().getComponentOrThrow(HealthComponent.class).isDying()) {
 
             // TODO: Swap this to fire like a killed event or something that we can live to in the PlayerComponent
-            var playerChat = getEntity().getComponent(PlayerChatComponent.class);
+            var playerComponent = getEntity().getComponent(PlayerComponent.class);
             var victimNpc = victim.getEntity().getComponent(NpcComponent.class);
             var victimPlayer = victim.getEntity().getComponent(PlayerComponent.class);
 
-            if (playerChat.isPresent() && victimNpc.isPresent()) {
-                playerChat.get().sendGameMessage("You killed npc %s".formatted(victimNpc.get().getNpcDefinition().getName()));
+            if (playerComponent.isPresent() && victimNpc.isPresent()) {
+                playerChatSystem.sendGameMessage(playerComponent.get(), "You killed npc %s".formatted(victimNpc.get().getNpcDefinition().getName()));
             }
 
-            if (playerChat.isPresent() && victimPlayer.isPresent()) {
-                playerChat.get().sendGameMessage("You killed player %s".formatted(victimPlayer.get().getUsername()));
+            if (playerComponent.isPresent() && victimPlayer.isPresent()) {
+                playerChatSystem.sendGameMessage(playerComponent.get(), "You killed player %s".formatted(victimPlayer.get().getUsername()));
             }
 
             stopAttacking();

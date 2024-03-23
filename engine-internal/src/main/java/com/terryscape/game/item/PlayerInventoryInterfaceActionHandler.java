@@ -6,7 +6,7 @@ import com.google.inject.name.Named;
 import com.terryscape.cache.item.WeaponItemDefinition;
 import com.terryscape.cache.sound.SoundDefinition;
 import com.terryscape.entity.EntityPrefabFactory;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.equipment.EquipmentSlot;
 import com.terryscape.game.interfaces.InterfaceActionHandler;
 import com.terryscape.game.movement.MovementComponent;
@@ -37,18 +37,22 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
 
     private final SoundDefinition equipGenericSoundDefinition;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
     public PlayerInventoryInterfaceActionHandler(ItemInteractionDispatcher itemInteractionDispatcher,
                                                  SoundManager soundManager,
                                                  EntityPrefabFactory entityPrefabFactory,
                                                  EntityManager entityManager,
-                                                 @Named("equip_generic") SoundDefinition equipGenericSoundDefinition) {
+                                                 @Named("equip_generic") SoundDefinition equipGenericSoundDefinition,
+                                                 PlayerChatSystem playerChatSystem) {
 
         this.itemInteractionDispatcher = itemInteractionDispatcher;
         this.equipGenericSoundDefinition = equipGenericSoundDefinition;
         this.soundManager = soundManager;
         this.entityPrefabFactory = entityPrefabFactory;
         this.entityManager = entityManager;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -72,7 +76,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         var item = itemOptional.get();
 
         if (interfaceAction.equals("examine")) {
-            player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(item.getItemDefinition().getDescription());
+            playerChatSystem.sendGameMessage(player, item.getItemDefinition().getDescription());
         }
 
         if (!player.canDoActions()) {
@@ -111,9 +115,7 @@ public class PlayerInventoryInterfaceActionHandler implements InterfaceActionHan
         }
 
         if (isTwoHanded && !playerComponent.getInventory().hasFreeSlots(1)) {
-            playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class)
-                .sendGameMessage("You do not have the inventory space to equip your %s.".formatted(item.getItemDefinition().getName()));
-
+            playerChatSystem.sendGameMessage(playerComponent, "You do not have the inventory space to equip your %s.".formatted(item.getItemDefinition().getName()));
             return;
         }
 

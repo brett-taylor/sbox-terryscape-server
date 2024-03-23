@@ -1,6 +1,7 @@
 package com.terryscape.game.chat;
 
-import com.terryscape.entity.component.BaseEntityComponent;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.net.PacketManager;
@@ -10,9 +11,10 @@ import org.apache.logging.log4j.Logger;
 
 import static com.terryscape.game.chat.GameMessageOutgoingPacket.*;
 
-public class PlayerChatComponentImpl extends BaseEntityComponent implements PlayerChatComponent {
+@Singleton
+public class PlayerChatSystemImpl implements PlayerChatSystem {
 
-    private static final Logger LOGGER = LogManager.getLogger(PlayerChatComponent.class);
+    private static final Logger LOGGER = LogManager.getLogger(PlayerChatSystemImpl.class);
 
     private static final int PLAYER_MESSAGE_LENGTH_LIMIT = 120;
 
@@ -20,22 +22,19 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
 
     private final CommandManager commandManager;
 
-    public PlayerChatComponentImpl(PacketManager packetManager, CommandManager commandManager) {
+    @Inject
+    public PlayerChatSystemImpl(PacketManager packetManager, CommandManager commandManager) {
         this.packetManager = packetManager;
         this.commandManager = commandManager;
     }
 
     @Override
-    public void sendGameMessage(String message) {
-        var client = getEntity().getComponentOrThrow(PlayerComponent.class).getClient();
-
-        packetManager.send(client, gameMessage(message));
+    public void sendGameMessage(PlayerComponent playerComponent, String message) {
+        packetManager.send(playerComponent.getClient(), gameMessage(message));
     }
 
     @Override
-    public void handleChat(String message) {
-        var playerComponent = getEntity().getComponentOrThrow(PlayerComponent.class);
-
+    public void handleChat(PlayerComponent playerComponent, String message) {
         if (commandManager.checkForCommandPhaseAndExecuteIfFound(playerComponent, message)) {
             return;
         }
@@ -52,9 +51,7 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
     }
 
     @Override
-    public void sendOverheadText(String message) {
-        var playerComponent = getEntity().getComponentOrThrow(PlayerComponent.class);
-
+    public void sendOverheadText(PlayerComponent playerComponent, String message) {
         packetManager.broadcast(playerOverheadChat(playerComponent, message));
     }
 }

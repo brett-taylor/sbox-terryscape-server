@@ -3,7 +3,7 @@ package com.terryscape.game.worldobject;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.CacheLoader;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
 import com.terryscape.game.world.coordinate.WorldRegionCoordinate;
@@ -17,10 +17,16 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
 
     private final WorldObjectInteractionDispatcher worldObjectInteractionDispatcher;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
-    public WorldObjectActionIncomingPacket(CacheLoader cacheLoader, WorldObjectInteractionDispatcher worldObjectInteractionDispatcher) {
+    public WorldObjectActionIncomingPacket(CacheLoader cacheLoader,
+                                           WorldObjectInteractionDispatcher worldObjectInteractionDispatcher,
+                                           PlayerChatSystem playerChatSystem) {
+
         this.cacheLoader = cacheLoader;
         this.worldObjectInteractionDispatcher = worldObjectInteractionDispatcher;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -44,7 +50,7 @@ public class WorldObjectActionIncomingPacket implements IncomingPacket {
         
         if (action.equals("examine")) {
             var description = "%s (id=%s)".formatted(objectDefinition.getDescription(), objectDefinition.getId());
-            player.getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage(description);
+            playerChatSystem.sendGameMessage(player, description);
         }
 
         // TODO check the player can interact with world objects currently?

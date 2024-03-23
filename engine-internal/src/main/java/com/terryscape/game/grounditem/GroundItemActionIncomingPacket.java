@@ -3,7 +3,7 @@ package com.terryscape.game.grounditem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.entity.EntityIdentifier;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.task.TaskComponent;
@@ -20,9 +20,12 @@ public class GroundItemActionIncomingPacket implements IncomingPacket {
 
     private final EntityManager entityManager;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
-    public GroundItemActionIncomingPacket(EntityManager entityManager) {
+    public GroundItemActionIncomingPacket(EntityManager entityManager, PlayerChatSystem playerChatSystem) {
         this.entityManager = entityManager;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -56,8 +59,7 @@ public class GroundItemActionIncomingPacket implements IncomingPacket {
         var itemName = groundItemComponent.getItemContainerItem().getItemDefinition().getName();
         var quantity = groundItemComponent.getItemContainerItem().getQuantity();
 
-        var chatComponent = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
-        chatComponent.sendGameMessage("%s x%s".formatted(itemName, quantity));
+        playerChatSystem.sendGameMessage(playerComponent, "%s x%s".formatted(itemName, quantity));
     }
 
     private void handleTake(GroundItemComponent groundItemComponent, PlayerComponent playerComponent) {

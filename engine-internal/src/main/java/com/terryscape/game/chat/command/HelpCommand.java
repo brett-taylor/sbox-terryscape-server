@@ -1,6 +1,6 @@
 package com.terryscape.game.chat.command;
 
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.player.PlayerComponent;
 
 import java.util.Collection;
@@ -11,10 +11,13 @@ public class HelpCommand implements Command {
 
     private final List<Command> orderedCommands;
 
-    public HelpCommand(Collection<Command> registeredCommands) {
+    private final PlayerChatSystem playerChatSystem;
+
+    public HelpCommand(Collection<Command> registeredCommands, PlayerChatSystem playerChatSystem) {
         orderedCommands = registeredCommands.stream()
             .sorted(Comparator.comparing(Command::getPhrase))
             .toList();
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -29,13 +32,11 @@ public class HelpCommand implements Command {
 
     @Override
     public void execute(PlayerComponent playerComponent, List<String> arguments) {
-        var chat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
-
         for (var command : orderedCommands) {
             var commandPhrase = "%s%s".formatted(CommandManager.COMMAND_PREFIX, command.getPhrase());
 
             if (command.getDescription().getArgumentDescriptions().isEmpty()) {
-                chat.sendGameMessage("%s - %s.".formatted(commandPhrase, command.getDescription().getDescription()));
+                playerChatSystem.sendGameMessage(playerComponent, "%s - %s.".formatted(commandPhrase, command.getDescription().getDescription()));
                 continue;
             }
 
@@ -47,7 +48,7 @@ public class HelpCommand implements Command {
                 ))
                 .toList();
 
-            chat.sendGameMessage("%s %s - %s.".formatted(
+            playerChatSystem.sendGameMessage(playerComponent, "%s %s - %s.".formatted(
                 commandPhrase,
                 String.join(" ", argumentParameters),
                 command.getDescription().getDescription()

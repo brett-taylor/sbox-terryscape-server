@@ -2,6 +2,7 @@ package com.terryscape.game.chat.command;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.player.PlayerComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,9 +26,12 @@ public class CommandManager {
 
     private final Map<String, Command> commands;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
-    public CommandManager(Set<Command> possibleCommands) {
+    public CommandManager(Set<Command> possibleCommands, PlayerChatSystem playerChatSystem) {
         this.commands = createCommands(possibleCommands);
+        this.playerChatSystem = playerChatSystem;
     }
 
     public boolean checkForCommandPhaseAndExecuteIfFound(PlayerComponent player, String phase) {
@@ -61,7 +65,7 @@ public class CommandManager {
             Function.identity()
         ));
 
-        var helpCommand = new HelpCommand(mapToReturn.values());
+        var helpCommand = new HelpCommand(mapToReturn.values(), playerChatSystem);
         mapToReturn.put(helpCommand.getPhrase(), helpCommand);
 
         return mapToReturn;

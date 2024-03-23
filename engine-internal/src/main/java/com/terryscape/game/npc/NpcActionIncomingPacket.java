@@ -4,11 +4,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.entity.EntityIdentifier;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.entity.EntityManager;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.net.Client;
 import com.terryscape.net.IncomingPacket;
-import com.terryscape.entity.EntityManager;
 
 import java.nio.ByteBuffer;
 
@@ -19,10 +19,13 @@ public class NpcActionIncomingPacket implements IncomingPacket {
 
     private final NpcInteractionDispatcher npcInteractionDispatcher;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
-    public NpcActionIncomingPacket(EntityManager entityManager, NpcInteractionDispatcher npcInteractionDispatcher) {
+    public NpcActionIncomingPacket(EntityManager entityManager, NpcInteractionDispatcher npcInteractionDispatcher, PlayerChatSystem playerChatSystem) {
         this.entityManager = entityManager;
         this.npcInteractionDispatcher = npcInteractionDispatcher;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -51,9 +54,8 @@ public class NpcActionIncomingPacket implements IncomingPacket {
                 extraInformation = ", variant=%s".formatted(variant);
             }
 
-            var chatComponent = player.getEntity().getComponentOrThrow(PlayerChatComponent.class);
             var description = "%s (id=%s%s)".formatted(npcDefinition.getDescription(), npcDefinition.getId(), extraInformation);
-            chatComponent.sendGameMessage(description);
+            playerChatSystem.sendGameMessage(player, description);
         }
 
         if (!player.canDoActions()) {

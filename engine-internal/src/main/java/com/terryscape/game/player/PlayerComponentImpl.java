@@ -4,7 +4,7 @@ import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.appearance.HumanoidGender;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.combat.OnAttackEntityEvent;
 import com.terryscape.game.combat.OnAttackedEntityEvent;
 import com.terryscape.game.combat.health.HealthComponent;
@@ -45,6 +45,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private final TemporaryPlayerSaveSystem temporaryPlayerSaveSystem;
 
+    private final PlayerChatSystem playerChatSystem;
+
     private Client client;
 
     private String username;
@@ -61,13 +63,15 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
                                InterfaceManager interfaceManager,
                                SoundManager soundManager,
                                CacheLoader cacheLoader,
-                               TemporaryPlayerSaveSystem temporaryPlayerSaveSystem) {
+                               TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
+                               PlayerChatSystem playerChatSystem) {
 
         this.packetManager = packetManager;
         this.interfaceManager = interfaceManager;
         this.soundManager = soundManager;
         this.cacheLoader = cacheLoader;
         this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
+        this.playerChatSystem = playerChatSystem;
 
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
@@ -206,7 +210,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
-        getEntity().getComponentOrThrow(PlayerChatComponent.class).sendGameMessage("You died!");
+        playerChatSystem.sendGameMessage(this, "You died!");
         getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(

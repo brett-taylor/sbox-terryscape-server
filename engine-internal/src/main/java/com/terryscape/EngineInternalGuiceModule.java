@@ -8,6 +8,8 @@ import com.terryscape.entity.component.ComponentSystem;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
+import com.terryscape.game.chat.PlayerChatSystem;
+import com.terryscape.game.chat.PlayerChatSystemImpl;
 import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.dialogue.DialogueInterfaceActionHandler;
 import com.terryscape.game.chat.dialogue.DialogueManager;
@@ -69,6 +71,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         binder().bind(CombatDiceRoll.class).to(CombatDiceRollImpl.class);
         binder().bind(SoundManager.class).to(SoundManagerImpl.class);
         binder().bind(ProjectileFactory.class).to(ProjectileFactoryImpl.class);
+        binder().bind(PlayerChatSystem.class).to(PlayerChatSystemImpl.class);
 
         var incomingPacketMultibinder = Multibinder.newSetBinder(binder(), IncomingPacket.class);
         incomingPacketMultibinder.addBinding().to(LoginIncomingPacket.class);

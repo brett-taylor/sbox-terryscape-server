@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.sound.SoundDefinition;
-import com.terryscape.game.chat.PlayerChatComponent;
+import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.player.PlayerComponent;
 import com.terryscape.game.sound.SoundManager;
@@ -31,17 +31,22 @@ public class ShopManagerImpl implements ShopManager {
 
     private final SoundDefinition purchasedSoundDefinition;
 
+    private final PlayerChatSystem playerChatSystem;
+
     @Inject
-    public ShopManagerImpl(InterfaceManager interfaceManager, SoundManager soundManager,
+    public ShopManagerImpl(InterfaceManager interfaceManager,
+                           SoundManager soundManager,
                            @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
                            @Named("shop_purchased") SoundDefinition failedSoundDefinition,
-                           @Named("shop_failed") SoundDefinition purchasedSoundDefinition) {
+                           @Named("shop_failed") SoundDefinition purchasedSoundDefinition,
+                           PlayerChatSystem playerChatSystem) {
 
         this.interfaceManager = interfaceManager;
         this.soundManager = soundManager;
         this.goldCoinItemDefinition = goldCoinItemDefinition;
         this.failedSoundDefinition = failedSoundDefinition;
         this.purchasedSoundDefinition = purchasedSoundDefinition;
+        this.playerChatSystem = playerChatSystem;
     }
 
     @Override
@@ -56,24 +61,23 @@ public class ShopManagerImpl implements ShopManager {
         }
 
         var playerInventory = playerComponent.getInventory();
-        var playerChat = playerComponent.getEntity().getComponentOrThrow(PlayerChatComponent.class);
 
         var price = getPriceForItemInShop(shop, itemDefinition);
         var totalPrice = price * quantity;
 
         // Check player inventory has n slots
         if (!playerInventory.hasFreeSlots(quantity)) {
-            playerChat.sendGameMessage("You do not have the space in your inventory to buy %d %s.".formatted(quantity, itemDefinition.getName()));
+            playerChatSystem.sendGameMessage(playerComponent, "You do not have the space in your inventory to buy %d %s.".formatted(quantity, itemDefinition.getName()));
             return;
         }
 
         if (playerInventory.removeItemOfTypeAndQuantity(goldCoinItemDefinition, totalPrice)) {
             playerInventory.addItem(itemDefinition, quantity);
-            playerChat.sendGameMessage("You bought %d %s.".formatted(quantity, itemDefinition.getName()));
+            playerChatSystem.sendGameMessage(playerComponent, "You bought %d %s.".formatted(quantity, itemDefinition.getName()));
             soundManager.playSoundEffect(playerComponent.getClient(), purchasedSoundDefinition);
         } else {
             soundManager.playSoundEffect(playerComponent.getClient(), failedSoundDefinition);
-            playerChat.sendGameMessage("You do not have the required %d %s.".formatted(totalPrice, goldCoinItemDefinition.getName()));
+            playerChatSystem.sendGameMessage(playerComponent, "You do not have the required %d %s.".formatted(totalPrice, goldCoinItemDefinition.getName()));
         }
     }
 
