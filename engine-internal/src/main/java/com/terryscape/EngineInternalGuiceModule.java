@@ -32,6 +32,7 @@ import com.terryscape.game.loottable.LootTableProvider;
 import com.terryscape.game.movement.MovementOrbInterfaceActionHandler;
 import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
+import com.terryscape.game.npc.NpcCombatAggressionComponentSystem;
 import com.terryscape.game.npc.NpcComponentSystem;
 import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
@@ -102,6 +103,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         componentSystemMultibinder.addBinding().to(AnimationComponentSystem.class);
         componentSystemMultibinder.addBinding().to(PlayerComponentSystem.class);
         componentSystemMultibinder.addBinding().to(NpcComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(NpcCombatAggressionComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);
