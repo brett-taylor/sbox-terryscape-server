@@ -1,8 +1,8 @@
 package com.terryscape.game.combat.health;
 
-import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.entity.component.EntityComponent;
 
-public interface HealthComponent extends NetworkedEntityComponent {
+public interface HealthComponent extends EntityComponent {
 
     int getMaxHealth();
 

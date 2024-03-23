@@ -15,6 +15,7 @@ import com.terryscape.game.chat.command.Command;
 import com.terryscape.game.chat.dialogue.DialogueInterfaceActionHandler;
 import com.terryscape.game.chat.dialogue.DialogueManager;
 import com.terryscape.game.chat.dialogue.DialogueManagerImpl;
+import com.terryscape.game.combat.health.HealthComponentSystem;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.diceroll.CombatDiceRollImpl;
 import com.terryscape.game.equipment.PlayerEquipmentInterfaceActionHandler;
@@ -106,6 +107,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         componentSystemMultibinder.addBinding().to(SimpleNpcAppearanceComponentSystem.class);
         componentSystemMultibinder.addBinding().to(PlayerSkillsComponentSystem.class);
         componentSystemMultibinder.addBinding().to(PlayerBonusesProviderComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(HealthComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);

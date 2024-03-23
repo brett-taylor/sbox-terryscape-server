@@ -2,9 +2,7 @@ package com.terryscape.game.combat.health;
 
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
-import com.terryscape.net.OutgoingPacket;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +13,6 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     private int maxHealth;
 
     private int health;
-
-    @Override
-    public String getComponentIdentifier() {
-        return "component_health";
-    }
 
     @Override
     public int getMaxHealth() {
@@ -91,19 +84,8 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
         this.health = this.maxHealth;
     }
 
-    @Override
-    public void writeEntityAddedPacket(OutputStream packet) {
-        OutgoingPacket.writeInt32(packet, maxHealth);
-        OutgoingPacket.writeInt32(packet, health);
-    }
-
-    @Override
-    public void writeEntityUpdatedPacket(OutputStream packet) {
-        OutgoingPacket.writeInt32(packet, maxHealth);
-        OutgoingPacket.writeInt32(packet, health);
-
-        OutgoingPacket.writeCollection(packet, recentHealthChangeInformation);
-        recentHealthChangeInformation.clear();
+    public List<HealthChangeInformation> getRecentHealthChangeInformation() {
+        return recentHealthChangeInformation;
     }
 
     private void handleDeath() {
