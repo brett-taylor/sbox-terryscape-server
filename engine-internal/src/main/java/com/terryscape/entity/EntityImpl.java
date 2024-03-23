@@ -165,6 +165,7 @@ public class EntityImpl implements Entity {
 
     public void onDeleted() {
         components.forEach(component -> componentSystemManager.notifyDeleted(this, component));
+        entityEventConsumers.clear();
     }
 
     public void tick() {
