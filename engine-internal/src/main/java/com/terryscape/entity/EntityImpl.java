@@ -165,7 +165,6 @@ public class EntityImpl implements Entity {
 
     public void onDeleted() {
         components.forEach(component -> {
-            component.onDeleted();
             componentSystemManager.notifyDeleted(this, component);
         });
     }

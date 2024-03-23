@@ -22,9 +22,6 @@ public abstract class BaseEntityComponent implements EntityComponent {
     public void onRegistered() {
     }
 
-    public void onDeleted() {
-    }
-
     public void removeFromEntity() {
         isRemoved = true;
     }
