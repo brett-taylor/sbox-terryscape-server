@@ -31,12 +31,11 @@ import com.terryscape.game.login.LoginIncomingPacket;
 import com.terryscape.game.loottable.LootTableProvider;
 import com.terryscape.game.movement.MovementOrbInterfaceActionHandler;
 import com.terryscape.game.movement.WalkIncomingPacket;
-import com.terryscape.game.npc.NpcActionIncomingPacket;
-import com.terryscape.game.npc.NpcCombatAggressionComponentSystem;
-import com.terryscape.game.npc.NpcComponentSystem;
-import com.terryscape.game.npc.NpcInteractionHandler;
+import com.terryscape.game.npc.*;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
+import com.terryscape.game.player.PlayerBonusesProviderComponentSystem;
 import com.terryscape.game.player.PlayerComponentSystem;
+import com.terryscape.game.player.PlayerSkillsComponentSystem;
 import com.terryscape.game.projectile.ProjectileComponentComponentSystem;
 import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.projectile.ProjectileFactoryImpl;
@@ -104,6 +103,9 @@ public class EngineInternalGuiceModule extends AbstractModule {
         componentSystemMultibinder.addBinding().to(PlayerComponentSystem.class);
         componentSystemMultibinder.addBinding().to(NpcComponentSystem.class);
         componentSystemMultibinder.addBinding().to(NpcCombatAggressionComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(SimpleNpcAppearanceComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(PlayerSkillsComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(PlayerBonusesProviderComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);

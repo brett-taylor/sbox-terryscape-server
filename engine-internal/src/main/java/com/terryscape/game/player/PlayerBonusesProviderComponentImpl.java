@@ -2,9 +2,6 @@ package com.terryscape.game.player;
 
 import com.google.common.collect.Streams;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.net.OutgoingPacket;
-
-import java.io.OutputStream;
 
 public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent implements PlayerBonusesProviderComponent {
 
@@ -12,21 +9,6 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
 
     public PlayerBonusesProviderComponentImpl(PlayerComponent playerComponent) {
         this.playerComponent = playerComponent;
-    }
-
-    @Override
-    public String getComponentIdentifier() {
-        return "component_player_bonuses_provider";
-    }
-
-    @Override
-    public void writeEntityAddedPacket(OutputStream packet) {
-        writePacket(packet);
-    }
-
-    @Override
-    public void writeEntityUpdatedPacket(OutputStream packet) {
-        writePacket(packet);
     }
 
     @Override
@@ -127,23 +109,4 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
             .sum();
     }
 
-    private void writePacket(OutputStream packet) {
-        OutgoingPacket.writeFloat(packet, getWeight());
-
-        OutgoingPacket.writeFloat(packet, getOffensiveStab());
-        OutgoingPacket.writeFloat(packet, getOffensiveSlash());
-        OutgoingPacket.writeFloat(packet, getOffensiveAir());
-        OutgoingPacket.writeFloat(packet, getOffensiveFire());
-        OutgoingPacket.writeFloat(packet, getOffensiveArrow());
-
-        OutgoingPacket.writeFloat(packet, getDefensiveStab());
-        OutgoingPacket.writeFloat(packet, getDefensiveSlash());
-        OutgoingPacket.writeFloat(packet, getDefensiveAir());
-        OutgoingPacket.writeFloat(packet, getDefensiveFire());
-        OutgoingPacket.writeFloat(packet, getDefensiveArrow());
-
-        OutgoingPacket.writeFloat(packet, getStrengthMelee());
-        OutgoingPacket.writeFloat(packet, getStrengthMagic());
-        OutgoingPacket.writeFloat(packet, getStrengthRange());
-    }
 }

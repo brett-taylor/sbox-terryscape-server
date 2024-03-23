@@ -2,9 +2,6 @@ package com.terryscape.game.player;
 
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.maths.MathsUtil;
-import com.terryscape.net.OutgoingPacket;
-
-import java.io.OutputStream;
 
 // TODO: Consider whether this should be moved into a regular java object onto the player?
 // TODO: OR should the inventory and equipment be instead moved into their own components?
@@ -23,21 +20,6 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     private int range = 30;
 
     private int constitution = 20;
-
-    @Override
-    public String getComponentIdentifier() {
-        return "component_player_skills";
-    }
-
-    @Override
-    public void writeEntityAddedPacket(OutputStream packet) {
-        writePacket(packet);
-    }
-
-    @Override
-    public void writeEntityUpdatedPacket(OutputStream packet) {
-        writePacket(packet);
-    }
 
     @Override
     public int getCombat() {
@@ -112,13 +94,4 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
         this.constitution = constitution;
     }
 
-    private void writePacket(OutputStream packet) {
-        OutgoingPacket.writeInt32(packet, getCombat());
-        OutgoingPacket.writeInt32(packet, getAttack());
-        OutgoingPacket.writeInt32(packet, getDefence());
-        OutgoingPacket.writeInt32(packet, getStrength());
-        OutgoingPacket.writeInt32(packet, getMagic());
-        OutgoingPacket.writeInt32(packet, getRange());
-        OutgoingPacket.writeInt32(packet, getConstitution());
-    }
 }
