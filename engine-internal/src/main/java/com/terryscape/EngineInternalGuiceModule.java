@@ -34,6 +34,7 @@ import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
 import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
+import com.terryscape.game.player.PlayerComponentSystem;
 import com.terryscape.game.projectile.ProjectileComponentComponentSystem;
 import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.projectile.ProjectileFactoryImpl;
@@ -98,6 +99,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         componentSystemMultibinder.addBinding().to(GroundItemTimeAliveComponentSystem.class);
         componentSystemMultibinder.addBinding().to(ProjectileComponentComponentSystem.class);
         componentSystemMultibinder.addBinding().to(AnimationComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(PlayerComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);

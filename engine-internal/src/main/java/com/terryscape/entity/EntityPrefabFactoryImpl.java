@@ -3,7 +3,6 @@ package com.terryscape.entity;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
@@ -23,10 +22,12 @@ import com.terryscape.game.loottable.LootTableManager;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.*;
-import com.terryscape.game.player.*;
+import com.terryscape.game.player.PlayerBonusesProviderComponentImpl;
+import com.terryscape.game.player.PlayerCombatScript;
+import com.terryscape.game.player.PlayerComponentImpl;
+import com.terryscape.game.player.PlayerSkillsComponentImpl;
 import com.terryscape.game.projectile.ProjectileComponent;
 import com.terryscape.game.projectile.ProjectileFactory;
-import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
 import com.terryscape.game.task.TaskComponentImpl;
 import com.terryscape.game.world.WorldClock;
@@ -46,19 +47,13 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final PacketManager packetManager;
 
-    private final CacheLoader cacheLoader;
-
     private final CombatDiceRoll combatDiceRoll;
 
     private final SpecialAttackDispatcher specialAttackDispatcher;
 
-    private final SoundManager soundManager;
-
     private final LootTableManager lootTableManager;
 
     private final ProjectileFactory projectileFactory;
-
-    private final TemporaryPlayerSaveSystem temporaryPlayerSaveSystem;
 
     private final ItemDefinition goldCoinItemDefinition;
 
@@ -72,13 +67,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public EntityPrefabFactoryImpl(PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
                                    PacketManager packetManager,
-                                   CacheLoader cacheLoader,
                                    CombatDiceRoll combatDiceRoll,
                                    SpecialAttackDispatcher specialAttackDispatcher,
-                                   SoundManager soundManager,
                                    LootTableManager lootTableManager,
                                    ProjectileFactory projectileFactory,
-                                   TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
                                    @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
                                    @Named("food_fish") ItemDefinition foodFishItemDefinition,
                                    ComponentSystemManager componentSystemManager,
@@ -87,13 +79,10 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
         this.packetManager = packetManager;
-        this.cacheLoader = cacheLoader;
         this.combatDiceRoll = combatDiceRoll;
         this.specialAttackDispatcher = specialAttackDispatcher;
-        this.soundManager = soundManager;
         this.lootTableManager = lootTableManager;
         this.projectileFactory = projectileFactory;
-        this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
         this.goldCoinItemDefinition = goldCoinItemDefinition;
         this.foodFishItemDefinition = foodFishItemDefinition;
         this.componentSystemManager = componentSystemManager;
@@ -156,7 +145,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createPlayerPrefab() {
         var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(packetManager, soundManager, cacheLoader, temporaryPlayerSaveSystem, playerChatSystem);
+        var playerComponent = new PlayerComponentImpl();
         playerComponent.setGender(RandomUtil.randomBool() ? HumanoidGender.MALE : HumanoidGender.FEMALE);
         entity.addComponent(playerComponent);
 
@@ -174,7 +163,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         healthComponent.setMaxHealth(health);
         healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
-        
+
         entity.addComponent(new AnimationComponent());
 
         var movementComponent = new MovementComponentImpl(pathfindingManager);

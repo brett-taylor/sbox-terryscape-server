@@ -1,48 +1,19 @@
 package com.terryscape.game.player;
 
-import com.terryscape.cache.CacheLoader;
 import com.terryscape.entity.component.BaseEntityComponent;
-import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.appearance.HumanoidGender;
-import com.terryscape.game.chat.PlayerChatSystem;
-import com.terryscape.game.combat.OnAttackEntityEvent;
-import com.terryscape.game.combat.OnAttackedEntityEvent;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.PlayerInventory;
-import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
-import com.terryscape.game.animation.AnimationComponent;
-import com.terryscape.game.movement.MovementComponent;
-import com.terryscape.game.sound.SoundManager;
-import com.terryscape.game.task.TaskComponent;
-import com.terryscape.game.task.step.impl.ImmediateTaskStep;
-import com.terryscape.game.task.step.impl.NextTickTaskStep;
-import com.terryscape.game.task.step.impl.WaitTaskStep;
-import com.terryscape.game.world.Direction;
-import com.terryscape.game.world.coordinate.WorldCoordinate;
 import com.terryscape.net.Client;
-import com.terryscape.net.OutgoingPacket;
-import com.terryscape.net.PacketManager;
-
-import java.io.OutputStream;
 
 public class PlayerComponentImpl extends BaseEntityComponent implements PlayerComponent {
-
-    private final PacketManager packetManager;
 
     private final FixedSizeItemContainer inventory;
 
     private final PlayerEquipment equipment;
-
-    private final SoundManager soundManager;
-
-    private final CacheLoader cacheLoader;
-
-    private final TemporaryPlayerSaveSystem temporaryPlayerSaveSystem;
-
-    private final PlayerChatSystem playerChatSystem;
 
     private Client client;
 
@@ -56,27 +27,11 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private boolean wantsToSpecialAttack;
 
-    public PlayerComponentImpl(PacketManager packetManager,
-                               SoundManager soundManager,
-                               CacheLoader cacheLoader,
-                               TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
-                               PlayerChatSystem playerChatSystem) {
-
-        this.packetManager = packetManager;
-        this.soundManager = soundManager;
-        this.cacheLoader = cacheLoader;
-        this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
-        this.playerChatSystem = playerChatSystem;
-
+    public PlayerComponentImpl() {
         inventory = new PlayerInventory();
         equipment = new PlayerEquipmentImpl();
 
         specialAttackPower = 100f;
-    }
-
-    @Override
-    public String getComponentIdentifier() {
-        return "component_player";
     }
 
     @Override
@@ -152,81 +107,4 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         return !getEntity().getComponentOrThrow(HealthComponent.class).isDying();
     }
 
-    @Override
-    public void onRegistered() {
-        super.onRegistered();
-
-        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
-        getEntity().subscribe(OnAttackEntityEvent.class, this::onAttack);
-        getEntity().subscribe(OnAttackedEntityEvent.class, this::onAttacked);
-
-        respawn();
-
-        var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
-        packetManager.send(getClient(), setLocalEntityPacket);
-
-        temporaryPlayerSaveSystem.restorePlayerIfHasSave(this);
-    }
-
-    @Override
-    public void onDeleted() {
-        super.onDeleted();
-
-        temporaryPlayerSaveSystem.savePlayer(this);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        if (specialAttackPower < 100) {
-            specialAttackPower += 0.5f;
-        }
-    }
-
-    @Override
-    public void writeEntityAddedPacket(OutputStream packet) {
-        OutgoingPacket.writeString(packet, getUsername());
-        getInventory().writeToPacket(packet);
-        getEquipment().writeToPacket(packet);
-        OutgoingPacket.writeEnum(packet, getGender());
-        OutgoingPacket.writeFloat(packet, getSpecialAttackPower());
-    }
-
-    @Override
-    public void writeEntityUpdatedPacket(OutputStream packet) {
-        getInventory().writeToPacket(packet);
-        getEquipment().writeToPacket(packet);
-        OutgoingPacket.writeEnum(packet, getGender());
-        OutgoingPacket.writeFloat(packet, getSpecialAttackPower());
-        OutgoingPacket.writeBoolean(packet, wantsToSpecialAttack());
-    }
-
-    private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
-        playerChatSystem.sendGameMessage(this, "You died!");
-        getEntity().getComponentOrThrow(AnimationComponent.class).setPlayingAnimation("death");
-
-        getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
-            WaitTaskStep.ticks(3),
-            ImmediateTaskStep.doThis(() -> soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_death"))),
-            WaitTaskStep.ticks(5),
-            NextTickTaskStep.doThis(this::respawn)
-        );
-    }
-
-    private void respawn() {
-        getEntity().getComponentOrThrow(AnimationComponent.class).setResetAnimation(true);
-        getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(14, 20));
-        getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
-
-        getEntity().getComponentOrThrow(HealthComponent.class).resetHealthToMax();
-    }
-
-    private void onAttack(OnAttackEntityEvent onAttackEntityEvent) {
-        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
-    }
-
-    private void onAttacked(OnAttackedEntityEvent onAttackedEntityEvent) {
-        soundManager.playSoundEffect(client, cacheLoader.getSoundDefinition("combat_hit"));
-    }
 }
