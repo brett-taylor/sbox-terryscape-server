@@ -9,6 +9,7 @@ import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.entity.component.ComponentSystemManager;
+import com.terryscape.game.animation.AnimationComponent;
 import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.combat.CombatComponentImpl;
@@ -19,7 +20,6 @@ import com.terryscape.game.grounditem.GroundItemComponent;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.loottable.LootTableManager;
-import com.terryscape.game.movement.AnimationComponentImpl;
 import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.*;
@@ -132,8 +132,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
 
-        var animationComponent = new AnimationComponentImpl();
-        entity.addComponent(animationComponent);
+        entity.addComponent(new AnimationComponent());
 
         var movementComponent = new MovementComponentImpl(pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
@@ -175,9 +174,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         healthComponent.setMaxHealth(health);
         healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
-
-        var animationComponent = new AnimationComponentImpl();
-        entity.addComponent(animationComponent);
+        
+        entity.addComponent(new AnimationComponent());
 
         var movementComponent = new MovementComponentImpl(pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);

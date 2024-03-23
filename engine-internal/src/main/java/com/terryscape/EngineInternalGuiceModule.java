@@ -7,6 +7,7 @@ import com.terryscape.entity.EntityPrefabFactoryImpl;
 import com.terryscape.entity.component.ComponentSystem;
 import com.terryscape.event.EventSystem;
 import com.terryscape.event.EventSystemImpl;
+import com.terryscape.game.animation.AnimationComponentSystem;
 import com.terryscape.game.chat.PlayerChatIncomingPacket;
 import com.terryscape.game.chat.PlayerChatSystem;
 import com.terryscape.game.chat.PlayerChatSystemImpl;
@@ -96,6 +97,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         componentSystemMultibinder.addBinding().to(GroundItemComponentSystem.class);
         componentSystemMultibinder.addBinding().to(GroundItemTimeAliveComponentSystem.class);
         componentSystemMultibinder.addBinding().to(ProjectileComponentComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(AnimationComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);

@@ -13,7 +13,7 @@ import com.terryscape.game.equipment.PlayerEquipmentImpl;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.PlayerInventory;
 import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
-import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.animation.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.task.TaskComponent;
@@ -204,7 +204,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
         playerChatSystem.sendGameMessage(this, "You died!");
-        getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
+        getEntity().getComponentOrThrow(AnimationComponent.class).setPlayingAnimation("death");
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitTaskStep.ticks(3),
@@ -215,7 +215,7 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     }
 
     private void respawn() {
-        getEntity().getComponentOrThrow(AnimationComponent.class).resetAnimation();
+        getEntity().getComponentOrThrow(AnimationComponent.class).setResetAnimation(true);
         getEntity().getComponentOrThrow(MovementComponent.class).teleport(new WorldCoordinate(14, 20));
         getEntity().getComponentOrThrow(MovementComponent.class).look(Direction.SOUTH);
 

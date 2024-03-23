@@ -2,7 +2,7 @@ package com.terryscape.game.combat.combathit;
 
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
-import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.animation.AnimationComponent;
 import com.terryscape.game.projectile.ProjectileFactory;
 
 // TODO Probably should move into a content module?
@@ -20,7 +20,7 @@ public class StandardMeleeCombatHit extends StandardCombatFormulaHit {
 
     @Override
     public void onRegistered(CombatComponent attacker, CombatComponent victim, ProjectileFactory projectileFactory) {
-        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(attackAnimationId);
+        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).setPlayingAnimation(attackAnimationId);
     }
 
     @Override

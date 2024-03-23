@@ -4,7 +4,7 @@ import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.loottable.LootTableManager;
-import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.animation.AnimationComponent;
 import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
@@ -49,7 +49,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
     }
 
     private void onDeath(OnDeathEntityEvent onDeathEntityEvent) {
-        getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation("death");
+        getEntity().getComponentOrThrow(AnimationComponent.class).setPlayingAnimation("death");
 
         getEntity().getComponentOrThrow(TaskComponent.class).setPrimaryTask(
             WaitTaskStep.ticks(8),

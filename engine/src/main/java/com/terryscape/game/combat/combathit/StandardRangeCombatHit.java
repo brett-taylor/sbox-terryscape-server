@@ -3,7 +3,7 @@ package com.terryscape.game.combat.combathit;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.DamageType;
 import com.terryscape.game.diceroll.CombatDiceRoll;
-import com.terryscape.game.movement.AnimationComponent;
+import com.terryscape.game.animation.AnimationComponent;
 import com.terryscape.game.movement.MovementComponent;
 import com.terryscape.game.projectile.ProjectileFactory;
 
@@ -21,7 +21,7 @@ public class StandardRangeCombatHit extends StandardCombatFormulaHit {
 
     @Override
     public void onRegistered(CombatComponent attacker, CombatComponent victim, ProjectileFactory projectileFactory) {
-        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).playAnimation(attackAnimationId);
+        attacker.getEntity().getComponentOrThrow(AnimationComponent.class).setPlayingAnimation(attackAnimationId);
 
         // TODO Better way of creating projectiles, this shouldn't be needed.
         projectileFactory.createRegisteredProjectile("basic_arrow", projectileComponent -> {
