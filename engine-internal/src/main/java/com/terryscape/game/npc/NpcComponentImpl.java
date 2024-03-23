@@ -1,7 +1,6 @@
 package com.terryscape.game.npc;
 
 import com.terryscape.cache.npc.NpcDefinition;
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.loottable.LootTableManager;
@@ -20,9 +19,7 @@ public class NpcComponentImpl extends BaseEntityComponent implements NpcComponen
 
     private NpcDefinition npcDefinition;
 
-    public NpcComponentImpl(Entity entity, LootTableManager lootTableManager) {
-        super(entity);
-
+    public NpcComponentImpl(LootTableManager lootTableManager) {
         this.lootTableManager = lootTableManager;
 
         getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);

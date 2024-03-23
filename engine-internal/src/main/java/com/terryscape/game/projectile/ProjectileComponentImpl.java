@@ -19,8 +19,7 @@ public class ProjectileComponentImpl extends BaseEntityComponent implements Proj
 
     private int lifeSpanLeft;
 
-    public ProjectileComponentImpl(Entity entity, ProjectileDefinition projectileDefinition) {
-        super(entity);
+    public ProjectileComponentImpl(ProjectileDefinition projectileDefinition) {
         this.projectileDefinition = projectileDefinition;
     }
 

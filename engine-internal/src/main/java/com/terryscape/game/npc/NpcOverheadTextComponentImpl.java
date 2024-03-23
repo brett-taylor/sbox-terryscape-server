@@ -1,6 +1,5 @@
 package com.terryscape.game.npc;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.net.PacketManager;
 
@@ -10,8 +9,7 @@ public class NpcOverheadTextComponentImpl extends BaseEntityComponent implements
 
     private final PacketManager packetManager;
 
-    public NpcOverheadTextComponentImpl(Entity entity, PacketManager packetManager) {
-        super(entity);
+    public NpcOverheadTextComponentImpl(PacketManager packetManager) {
         this.packetManager = packetManager;
     }
 

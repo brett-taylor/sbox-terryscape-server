@@ -1,6 +1,7 @@
 package com.terryscape.entity;
 
 import com.terryscape.entity.component.BaseEntityComponent;
+import com.terryscape.entity.component.ComponentSystemManager;
 import com.terryscape.entity.component.EntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.entity.event.EntityEvent;
@@ -12,6 +13,8 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class EntityImpl implements Entity {
+
+    private final ComponentSystemManager componentSystemManager;
 
     private final EntityIdentifier entityIdentifier;
 
@@ -28,7 +31,8 @@ public class EntityImpl implements Entity {
     private boolean hasBeenRegistered;
 
     // TODO: Change EntityPrefabType to EntityTags and network those instead.
-    public EntityImpl(EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType, String entityPrefabIdentifier) {
+    public EntityImpl(ComponentSystemManager componentSystemManager, EntityIdentifier entityIdentifier, EntityPrefabType entityPrefabType, String entityPrefabIdentifier) {
+        this.componentSystemManager = componentSystemManager;
         this.entityIdentifier = entityIdentifier;
         this.entityPrefabType = entityPrefabType;
         this.entityPrefabIdentifier = entityPrefabIdentifier;
@@ -65,14 +69,16 @@ public class EntityImpl implements Entity {
 
     @Override
     public void addComponent(BaseEntityComponent component) {
-        if (!component.getEntity().equals(this)) {
+        if (component.getEntity() != null) {
             throw new RuntimeException("Attempted to add a component owned by a different entity.");
         }
 
+        component.setEntity(this);
         components.add(component);
 
         if (hasBeenRegistered) {
             component.onRegistered();
+            componentSystemManager.notifyRegister(this, component);
         }
     }
 
@@ -128,6 +134,8 @@ public class EntityImpl implements Entity {
             OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
             networkedComponent.writeEntityAddedPacket(packet);
         }
+
+        components.forEach(entityComponent -> componentSystemManager.writeEntityAddedPacket(this, entityComponent, packet));
     }
 
     public void writeEntityUpdatedPacket(OutputStream packet) {
@@ -137,6 +145,8 @@ public class EntityImpl implements Entity {
             OutgoingPacket.writeString(packet, networkedComponent.getComponentIdentifier());
             networkedComponent.writeEntityUpdatedPacket(packet);
         }
+
+        components.forEach(entityComponent -> componentSystemManager.writeEntityUpdatedPacket(this, entityComponent, packet));
     }
 
     public void writeEntityRemovedPacket(OutputStream packet) {
@@ -146,15 +156,24 @@ public class EntityImpl implements Entity {
     public void onRegistered() {
         hasBeenRegistered = true;
 
-        components.forEach(BaseEntityComponent::onRegistered);
+        components.forEach(component -> {
+            component.onRegistered();
+            componentSystemManager.notifyRegister(this, component);
+        });
     }
 
     public void onDeleted() {
-        components.forEach(BaseEntityComponent::onDeleted);
+        components.forEach(component -> {
+            component.onDeleted();
+            componentSystemManager.notifyDeleted(this, component);
+        });
     }
 
     public void tick() {
-        components.forEach(BaseEntityComponent::tick);
+        components.forEach(component -> {
+            component.tick();
+            componentSystemManager.notifyTick(this, component);
+        });
 
         var componentsToRemove = components.stream().filter(BaseEntityComponent::shouldDelete).toList();
         componentsToRemove.forEach(this::removeComponentImmediate);

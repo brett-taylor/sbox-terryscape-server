@@ -1,6 +1,5 @@
 package com.terryscape.game.task;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.task.step.TaskStep;
 
@@ -12,10 +11,6 @@ import java.util.Queue;
 public class TaskComponentImpl extends BaseEntityComponent implements TaskComponent {
 
     private TaskImpl runningPrimaryTask;
-
-    public TaskComponentImpl(Entity entity) {
-        super(entity);
-    }
 
     @Override
     public Optional<Task> setCancellablePrimaryTask(TaskStep... taskSteps) {

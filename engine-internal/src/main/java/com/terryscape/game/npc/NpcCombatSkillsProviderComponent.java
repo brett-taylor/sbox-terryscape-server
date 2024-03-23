@@ -1,6 +1,5 @@
 package com.terryscape.game.npc;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.combat.CombatSkillsProviderComponent;
 
@@ -8,9 +7,7 @@ public class NpcCombatSkillsProviderComponent extends BaseEntityComponent implem
 
     private final NpcComponent npcComponent;
 
-    public NpcCombatSkillsProviderComponent(Entity entity, NpcComponent npcComponent) {
-        super(entity);
-
+    public NpcCombatSkillsProviderComponent(NpcComponent npcComponent) {
         this.npcComponent = npcComponent;
     }
 

@@ -4,16 +4,16 @@ import com.terryscape.entity.Entity;
 
 public abstract class BaseEntityComponent implements EntityComponent {
 
-    private final Entity entity;
+    private Entity entity;
 
     private boolean isRemoved = false;
 
-    public BaseEntityComponent(Entity entity) {
-        this.entity = entity;
-    }
-
     public Entity getEntity() {
         return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public void tick() {
@@ -23,7 +23,6 @@ public abstract class BaseEntityComponent implements EntityComponent {
     }
 
     public void onDeleted() {
-
     }
 
     public void removeFromEntity() {

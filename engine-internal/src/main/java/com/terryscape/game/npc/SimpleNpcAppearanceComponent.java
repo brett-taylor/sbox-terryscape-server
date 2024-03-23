@@ -1,6 +1,5 @@
 package com.terryscape.game.npc;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.component.NetworkedEntityComponent;
 import com.terryscape.net.OutgoingPacket;
@@ -10,10 +9,6 @@ import java.io.OutputStream;
 public class SimpleNpcAppearanceComponent extends BaseEntityComponent implements NetworkedEntityComponent {
 
     private String variant;
-
-    public SimpleNpcAppearanceComponent(Entity entity) {
-        super(entity);
-    }
 
     public String getVariant() {
         return variant;

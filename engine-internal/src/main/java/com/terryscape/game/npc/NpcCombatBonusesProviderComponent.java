@@ -1,6 +1,5 @@
 package com.terryscape.game.npc;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.combat.CombatBonusesProviderComponent;
 
@@ -8,8 +7,7 @@ public class NpcCombatBonusesProviderComponent extends BaseEntityComponent imple
 
     private final NpcComponent npcComponent;
 
-    public NpcCombatBonusesProviderComponent(Entity entity, NpcComponent npcComponent) {
-        super(entity);
+    public NpcCombatBonusesProviderComponent(NpcComponent npcComponent) {
 
         this.npcComponent = npcComponent;
     }

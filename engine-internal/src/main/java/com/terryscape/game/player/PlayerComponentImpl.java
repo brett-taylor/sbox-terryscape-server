@@ -1,7 +1,6 @@
 package com.terryscape.game.player;
 
 import com.terryscape.cache.CacheLoader;
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.game.appearance.HumanoidGender;
@@ -22,11 +21,11 @@ import com.terryscape.game.task.TaskComponent;
 import com.terryscape.game.task.step.impl.ImmediateTaskStep;
 import com.terryscape.game.task.step.impl.NextTickTaskStep;
 import com.terryscape.game.task.step.impl.WaitTaskStep;
+import com.terryscape.game.world.Direction;
+import com.terryscape.game.world.coordinate.WorldCoordinate;
 import com.terryscape.net.Client;
 import com.terryscape.net.OutgoingPacket;
 import com.terryscape.net.PacketManager;
-import com.terryscape.game.world.Direction;
-import com.terryscape.game.world.coordinate.WorldCoordinate;
 
 import java.io.OutputStream;
 
@@ -58,13 +57,11 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     private boolean wantsToSpecialAttack;
 
-    public PlayerComponentImpl(Entity entity,
-                               PacketManager packetManager,
+    public PlayerComponentImpl(PacketManager packetManager,
                                InterfaceManager interfaceManager,
                                SoundManager soundManager,
                                CacheLoader cacheLoader,
                                TemporaryPlayerSaveSystem temporaryPlayerSaveSystem) {
-        super(entity);
 
         this.packetManager = packetManager;
         this.interfaceManager = interfaceManager;
@@ -76,10 +73,6 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         equipment = new PlayerEquipmentImpl();
 
         specialAttackPower = 100f;
-
-        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
-        getEntity().subscribe(OnAttackEntityEvent.class, this::onAttack);
-        getEntity().subscribe(OnAttackedEntityEvent.class, this::onAttacked);
     }
 
     @Override
@@ -159,17 +152,18 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
 
     @Override
     public boolean canDoActions() {
-        var isAlive = !getEntity().getComponentOrThrow(HealthComponent.class).isDying();
-        return isAlive;
+        return !getEntity().getComponentOrThrow(HealthComponent.class).isDying();
     }
 
     @Override
     public void onRegistered() {
         super.onRegistered();
 
-        respawn();
+        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
+        getEntity().subscribe(OnAttackEntityEvent.class, this::onAttack);
+        getEntity().subscribe(OnAttackedEntityEvent.class, this::onAttacked);
 
-        interfaceManager.showInterface(getClient(), "welcome_screen");
+        respawn();
 
         var setLocalEntityPacket = new SetLocalPlayerOutgoingPacket().setLocalEntity(this);
         packetManager.send(getClient(), setLocalEntityPacket);

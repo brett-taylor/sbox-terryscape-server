@@ -31,7 +31,7 @@ allprojects {
 dependencies {
     implementation project(':engine')
     implementation project(':engine-internal')
-    implementation project(':content')
+    // implementation project(':content')
     implementation project(':cache')
 
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'

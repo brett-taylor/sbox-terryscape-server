@@ -1,7 +1,6 @@
 package com.terryscape.game.grounditem;
 
 import com.terryscape.cache.CacheLoader;
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.player.PlayerComponent;
@@ -22,12 +21,10 @@ public class GroundItemComponentImpl extends BaseEntityComponent implements Grou
 
     private boolean hasBeenTaken = false;
 
-    public GroundItemComponentImpl(Entity entity,
-                                   ItemContainerItem itemContainerItem,
+    public GroundItemComponentImpl(ItemContainerItem itemContainerItem,
                                    WorldCoordinate worldCoordinate,
                                    CacheLoader cacheLoader,
                                    SoundManager soundManager) {
-        super(entity);
 
         this.itemContainerItem = itemContainerItem;
         this.worldCoordinate = worldCoordinate;

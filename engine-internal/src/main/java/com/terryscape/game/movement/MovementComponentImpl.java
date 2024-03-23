@@ -1,15 +1,14 @@
 package com.terryscape.game.movement;
 
 import com.google.inject.Inject;
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.EntityIdentifier;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
-import com.terryscape.net.OutgoingPacket;
 import com.terryscape.game.world.Direction;
 import com.terryscape.game.world.coordinate.WorldCoordinate;
 import com.terryscape.game.world.pathfinding.PathfindingManager;
 import com.terryscape.game.world.pathfinding.PathfindingRoute;
+import com.terryscape.net.OutgoingPacket;
 
 import java.io.OutputStream;
 
@@ -36,12 +35,8 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     private boolean hasMovedThisTick = false;
 
     @Inject
-    public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
-        super(entity);
-
+    public MovementComponentImpl(PathfindingManager pathfindingManager) {
         this.pathfindingManager = pathfindingManager;
-
-        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
     }
 
     @Override
@@ -115,6 +110,14 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
         facing = null;
     }
 
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+
+        getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
+    }
+
+    @Override
     public void tick() {
         if (hasMovedThisTick) {
             return;

@@ -1,6 +1,5 @@
 package com.terryscape.game.combat;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.PlayerChatComponent;
 import com.terryscape.game.combat.health.HealthComponent;
@@ -41,11 +40,9 @@ public class CombatComponentImpl extends BaseEntityComponent implements CombatCo
 
     private CombatFollow combatFollow;
 
-    public CombatComponentImpl(Entity entity,
-                               PathfindingManager pathfindingManager,
+    public CombatComponentImpl(PathfindingManager pathfindingManager,
                                CombatDiceRoll combatDiceRoll,
                                ProjectileFactory projectileFactory) {
-        super(entity);
 
         this.pathfindingManager = pathfindingManager;
         this.combatDiceRoll = combatDiceRoll;

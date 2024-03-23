@@ -1,7 +1,6 @@
 package com.terryscape.game.player;
 
 import com.google.common.collect.Streams;
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.net.OutgoingPacket;
 
@@ -11,9 +10,7 @@ public class PlayerBonusesProviderComponentImpl extends BaseEntityComponent impl
 
     private final PlayerComponent playerComponent;
 
-    public PlayerBonusesProviderComponentImpl(Entity entity, PlayerComponent playerComponent) {
-        super(entity);
-
+    public PlayerBonusesProviderComponentImpl(PlayerComponent playerComponent) {
         this.playerComponent = playerComponent;
     }
 

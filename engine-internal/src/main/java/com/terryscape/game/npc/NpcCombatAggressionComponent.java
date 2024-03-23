@@ -1,6 +1,5 @@
 package com.terryscape.game.npc;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.combat.CombatComponent;
 import com.terryscape.game.combat.OnAttackEntityEvent;
@@ -19,9 +18,7 @@ public class NpcCombatAggressionComponent extends BaseEntityComponent {
 
     private int ticksSinceLastAttacked;
 
-    public NpcCombatAggressionComponent(Entity entity, CombatComponent combatComponent, MovementComponent movementComponent) {
-        super(entity);
-
+    public NpcCombatAggressionComponent(CombatComponent combatComponent, MovementComponent movementComponent) {
         this.combatComponent = combatComponent;
         this.movementComponent = movementComponent;
 
@@ -41,7 +38,7 @@ public class NpcCombatAggressionComponent extends BaseEntityComponent {
         if (ticksSinceLastAttack >= NO_LONGER_AGGRESSIVE_TIMER && ticksSinceLastAttacked >= NO_LONGER_AGGRESSIVE_TIMER) {
             ticksSinceLastAttack = 0;
             ticksSinceLastAttacked = 0;
-            
+
             combatComponent.stopAttacking();
             movementComponent.stop();
         }

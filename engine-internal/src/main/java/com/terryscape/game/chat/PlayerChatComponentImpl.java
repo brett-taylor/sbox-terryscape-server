@@ -1,6 +1,5 @@
 package com.terryscape.game.chat;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.game.chat.command.CommandManager;
 import com.terryscape.game.player.PlayerComponent;
@@ -21,8 +20,7 @@ public class PlayerChatComponentImpl extends BaseEntityComponent implements Play
 
     private final CommandManager commandManager;
 
-    public PlayerChatComponentImpl(Entity entity, PacketManager packetManager, CommandManager commandManager) {
-        super(entity);
+    public PlayerChatComponentImpl(PacketManager packetManager, CommandManager commandManager) {
         this.packetManager = packetManager;
         this.commandManager = commandManager;
     }

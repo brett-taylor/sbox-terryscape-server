@@ -5,7 +5,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.terryscape.cache.CacheLoaderImpl;
-import content.ContentModules;
+// import content.ContentModules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +39,7 @@ public class ServerLauncher {
 
         var contentModules = new HashSet<AbstractModule>();
         contentModules.add(new EngineInternalGuiceModule());
-        contentModules.addAll(ContentModules.getContentModules());
+        // contentModules.addAll(ContentModules.getContentModules());
 
         var serverGuice = cacheGuice.createChildInjector(contentModules);
 

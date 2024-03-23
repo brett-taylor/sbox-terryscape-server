@@ -1,6 +1,5 @@
 package com.terryscape.game.movement;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.net.OutgoingPacket;
 
@@ -11,10 +10,6 @@ public class AnimationComponentImpl extends BaseEntityComponent implements Anima
     private String playingAnimation;
 
     private boolean resetAnimation;
-
-    public AnimationComponentImpl(Entity entity) {
-        super(entity);
-    }
 
     @Override
     public String getComponentIdentifier() {

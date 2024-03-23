@@ -2,11 +2,11 @@ rootProject.name = 'terryscape'
 
 include 'engine'
 include 'engine-internal'
-include 'content'
+// include 'content'
 include 'cache'
 
-project(":content").projectDir.eachDir { dir ->
-    if (!dir.name.startsWith('src')) {
-        include "content:${dir.name}"
-    }
-}
+//  project(":content").projectDir.eachDir { dir ->
+//      if (!dir.name.startsWith('src')) {
+//          include "content:${dir.name}"
+//      }
+//  }

@@ -1,6 +1,5 @@
 package com.terryscape.game.player;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.maths.MathsUtil;
 import com.terryscape.net.OutgoingPacket;
@@ -24,10 +23,6 @@ public class PlayerSkillsComponentImpl extends BaseEntityComponent implements Pl
     private int range = 30;
 
     private int constitution = 20;
-
-    public PlayerSkillsComponentImpl(Entity entity) {
-        super(entity);
-    }
 
     @Override
     public String getComponentIdentifier() {

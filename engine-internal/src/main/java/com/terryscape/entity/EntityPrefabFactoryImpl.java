@@ -8,6 +8,7 @@ import com.terryscape.cache.item.ItemDefinition;
 import com.terryscape.cache.npc.NpcDefinition;
 import com.terryscape.cache.npc.NpcDefinitionNpcAppearanceType;
 import com.terryscape.cache.projectile.ProjectileDefinition;
+import com.terryscape.entity.component.ComponentSystemManager;
 import com.terryscape.game.appearance.HumanoidGender;
 import com.terryscape.game.chat.PlayerChatComponentImpl;
 import com.terryscape.game.chat.command.CommandManager;
@@ -69,6 +70,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final ItemDefinition foodFishItemDefinition;
 
+    private final ComponentSystemManager componentSystemManager;
+
     @Inject
     public EntityPrefabFactoryImpl(PathfindingManager pathfindingManager,
                                    WorldClock worldClock,
@@ -83,7 +86,8 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    ProjectileFactory projectileFactory,
                                    TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
                                    @Named("gold_coin") ItemDefinition goldCoinItemDefinition,
-                                   @Named("food_fish") ItemDefinition foodFishItemDefinition) {
+                                   @Named("food_fish") ItemDefinition foodFishItemDefinition,
+                                   ComponentSystemManager componentSystemManager) {
 
         this.pathfindingManager = pathfindingManager;
         this.worldClock = worldClock;
@@ -99,56 +103,57 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
         this.goldCoinItemDefinition = goldCoinItemDefinition;
         this.foodFishItemDefinition = foodFishItemDefinition;
+        this.componentSystemManager = componentSystemManager;
     }
 
     @Override
     public Entity createNpcPrefab(NpcDefinition npcDefinition) {
-        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
+        var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.NPC, npcDefinition.getId());
 
-        var npcComponent = new NpcComponentImpl(entity, lootTableManager);
+        var npcComponent = new NpcComponentImpl(lootTableManager);
         npcComponent.setNpcDefinition(npcDefinition);
         entity.addComponent(npcComponent);
 
-        var npcCombatBonusesProviderComponent = new NpcCombatBonusesProviderComponent(entity, npcComponent);
+        var npcCombatBonusesProviderComponent = new NpcCombatBonusesProviderComponent(npcComponent);
         entity.addComponent(npcCombatBonusesProviderComponent);
 
-        var npcCombatSkillsProviderComponent = new NpcCombatSkillsProviderComponent(entity, npcComponent);
+        var npcCombatSkillsProviderComponent = new NpcCombatSkillsProviderComponent(npcComponent);
         entity.addComponent(npcCombatSkillsProviderComponent);
 
         if (npcDefinition.getAppearanceType() == NpcDefinitionNpcAppearanceType.SIMPLE) {
             var variants = npcDefinition.getSimpleNpc().orElseThrow().getVariants();
             var randomVariant = RandomUtil.randomCollection(variants);
 
-            var simpleNpcAppearanceComponent = new SimpleNpcAppearanceComponent(entity);
+            var simpleNpcAppearanceComponent = new SimpleNpcAppearanceComponent();
             simpleNpcAppearanceComponent.setVariant(randomVariant);
             entity.addComponent(simpleNpcAppearanceComponent);
         }
 
-        var taskComponent = new TaskComponentImpl(entity);
+        var taskComponent = new TaskComponentImpl();
         entity.addComponent(taskComponent);
 
         var health = npcDefinition.getStatsDefinition().getHealth();
-        var healthComponent = new HealthComponentImpl(entity);
+        var healthComponent = new HealthComponentImpl();
         healthComponent.setMaxHealth(health);
         healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
 
-        var animationComponent = new AnimationComponentImpl(entity);
+        var animationComponent = new AnimationComponentImpl();
         entity.addComponent(animationComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        var movementComponent = new MovementComponentImpl(pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll, projectileFactory);
+        var combatComponent = new CombatComponentImpl(pathfindingManager, combatDiceRoll, projectileFactory);
         entity.addComponent(combatComponent);
 
         combatComponent.setCombatScript(new BasicNpcCombatScript());
 
-        var overheadText = new NpcOverheadTextComponentImpl(entity, packetManager);
+        var overheadText = new NpcOverheadTextComponentImpl(packetManager);
         entity.addComponent(overheadText);
 
-        var npcCombatAggressionComponent = new NpcCombatAggressionComponent(entity, combatComponent, movementComponent);
+        var npcCombatAggressionComponent = new NpcCombatAggressionComponent(combatComponent, movementComponent);
         entity.addComponent(npcCombatAggressionComponent);
 
         return entity;
@@ -156,38 +161,38 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     @Override
     public Entity createPlayerPrefab() {
-        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
+        var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(entity, packetManager, interfaceManager, soundManager, cacheLoader, temporaryPlayerSaveSystem);
+        var playerComponent = new PlayerComponentImpl(packetManager, interfaceManager, soundManager, cacheLoader, temporaryPlayerSaveSystem);
         playerComponent.setGender(RandomUtil.randomBool() ? HumanoidGender.MALE : HumanoidGender.FEMALE);
         entity.addComponent(playerComponent);
 
-        var playerBonusesProviderComponent = new PlayerBonusesProviderComponentImpl(entity, playerComponent);
+        var playerBonusesProviderComponent = new PlayerBonusesProviderComponentImpl(playerComponent);
         entity.addComponent(playerBonusesProviderComponent);
 
-        var playerSkills = new PlayerSkillsComponentImpl(entity);
+        var playerSkills = new PlayerSkillsComponentImpl();
         entity.addComponent(playerSkills);
 
-        var playerChatComponent = new PlayerChatComponentImpl(entity, packetManager, commandManager);
+        var playerChatComponent = new PlayerChatComponentImpl(packetManager, commandManager);
         entity.addComponent(playerChatComponent);
 
-        var taskComponent = new TaskComponentImpl(entity);
+        var taskComponent = new TaskComponentImpl();
         entity.addComponent(taskComponent);
 
         var health = playerSkills.getConstitution() * 10;
-        var healthComponent = new HealthComponentImpl(entity);
+        var healthComponent = new HealthComponentImpl();
         healthComponent.setMaxHealth(health);
         healthComponent.setHealth(health);
         entity.addComponent(healthComponent);
 
-        var animationComponent = new AnimationComponentImpl(entity);
+        var animationComponent = new AnimationComponentImpl();
         entity.addComponent(animationComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        var movementComponent = new MovementComponentImpl(pathfindingManager);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
-        var combatComponent = new CombatComponentImpl(entity, pathfindingManager, combatDiceRoll, projectileFactory);
+        var combatComponent = new CombatComponentImpl(pathfindingManager, combatDiceRoll, projectileFactory);
         entity.addComponent(combatComponent);
 
         combatComponent.setCombatScript(new PlayerCombatScript(worldClock, specialAttackDispatcher));
@@ -200,12 +205,12 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     @Override
     public Entity createGroundItemPrefab(ItemContainerItem itemContainerItem, WorldCoordinate worldCoordinate) {
-        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.GROUND_ITEM, null);
+        var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.GROUND_ITEM, null);
 
-        var groundItemComponent = new GroundItemComponentImpl(entity, itemContainerItem, worldCoordinate, cacheLoader, soundManager);
+        var groundItemComponent = new GroundItemComponentImpl(itemContainerItem, worldCoordinate, cacheLoader, soundManager);
         entity.addComponent(groundItemComponent);
 
-        var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent(entity);
+        var groundItemTimeAliveComponent = new GroundItemTimeAliveComponent();
         entity.addComponent(groundItemTimeAliveComponent);
 
         return entity;
@@ -213,9 +218,9 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     @Override
     public Entity createProjectilePrefab(ProjectileDefinition projectileDefinition) {
-        var entity = new EntityImpl(EntityIdentifier.randomIdentifier(), EntityPrefabType.PROJECTILE, projectileDefinition.getId());
+        var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.PROJECTILE, projectileDefinition.getId());
 
-        var projectileComponent = new ProjectileComponentImpl(entity, projectileDefinition);
+        var projectileComponent = new ProjectileComponentImpl(projectileDefinition);
         entity.addComponent(projectileComponent);
 
         return entity;

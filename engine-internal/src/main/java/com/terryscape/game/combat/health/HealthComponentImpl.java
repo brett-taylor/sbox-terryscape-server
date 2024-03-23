@@ -1,6 +1,5 @@
 package com.terryscape.game.combat.health;
 
-import com.terryscape.entity.Entity;
 import com.terryscape.entity.component.BaseEntityComponent;
 import com.terryscape.entity.event.type.OnDeathEntityEvent;
 import com.terryscape.net.OutgoingPacket;
@@ -16,10 +15,6 @@ public class HealthComponentImpl extends BaseEntityComponent implements HealthCo
     private int maxHealth;
 
     private int health;
-
-    public HealthComponentImpl(Entity entity) {
-        super(entity);
-    }
 
     @Override
     public String getComponentIdentifier() {
