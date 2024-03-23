@@ -56,7 +56,7 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         if (interfaceId.equals("equipment")) {
             handleEquipmentInterfaceAction(player, interfaceAction, packet);
         } else if (interfaceId.equals("character_equipment")) {
-            handleCharacterEquipmentInterfaceAction(player, interfaceAction, packet);
+            handleCharacterEquipmentInterfaceAction(player, interfaceAction);
         }
     }
 
@@ -90,7 +90,7 @@ public class PlayerEquipmentInterfaceActionHandler implements InterfaceActionHan
         }
     }
 
-    private void handleCharacterEquipmentInterfaceAction(PlayerComponent playerComponent, String interfaceAction, ByteBuffer packet) {
+    private void handleCharacterEquipmentInterfaceAction(PlayerComponent playerComponent, String interfaceAction) {
         if (interfaceAction.equals("close")) {
             interfaceManager.closeInterface(playerComponent.getClient(), "character_equipment");
         }

@@ -10,7 +10,6 @@ import com.terryscape.game.combat.OnAttackedEntityEvent;
 import com.terryscape.game.combat.health.HealthComponent;
 import com.terryscape.game.equipment.PlayerEquipment;
 import com.terryscape.game.equipment.PlayerEquipmentImpl;
-import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.FixedSizeItemContainer;
 import com.terryscape.game.item.PlayerInventory;
 import com.terryscape.game.login.SetLocalPlayerOutgoingPacket;
@@ -32,8 +31,6 @@ import java.io.OutputStream;
 public class PlayerComponentImpl extends BaseEntityComponent implements PlayerComponent {
 
     private final PacketManager packetManager;
-
-    private final InterfaceManager interfaceManager;
 
     private final FixedSizeItemContainer inventory;
 
@@ -60,14 +57,12 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
     private boolean wantsToSpecialAttack;
 
     public PlayerComponentImpl(PacketManager packetManager,
-                               InterfaceManager interfaceManager,
                                SoundManager soundManager,
                                CacheLoader cacheLoader,
                                TemporaryPlayerSaveSystem temporaryPlayerSaveSystem,
                                PlayerChatSystem playerChatSystem) {
 
         this.packetManager = packetManager;
-        this.interfaceManager = interfaceManager;
         this.soundManager = soundManager;
         this.cacheLoader = cacheLoader;
         this.temporaryPlayerSaveSystem = temporaryPlayerSaveSystem;
@@ -99,9 +94,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         return username;
     }
 
-    public PlayerComponentImpl setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
 
     @Override
@@ -109,9 +103,8 @@ public class PlayerComponentImpl extends BaseEntityComponent implements PlayerCo
         return steamId;
     }
 
-    public PlayerComponentImpl setSteamId(String steamId) {
+    public void setSteamId(String steamId) {
         this.steamId = steamId;
-        return this;
     }
 
     @Override

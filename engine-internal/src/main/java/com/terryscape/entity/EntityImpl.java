@@ -113,6 +113,7 @@ public class EntityImpl implements Entity {
         entityEventConsumers.get(eventType).add(eventConsumer);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends EntityEvent> void invoke(Class<T> eventType, T entityEvent) {
         if (!entityEventConsumers.containsKey(eventType)) {

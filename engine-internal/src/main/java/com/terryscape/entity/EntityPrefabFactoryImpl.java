@@ -17,7 +17,6 @@ import com.terryscape.game.combat.health.HealthComponentImpl;
 import com.terryscape.game.diceroll.CombatDiceRoll;
 import com.terryscape.game.grounditem.GroundItemComponent;
 import com.terryscape.game.grounditem.GroundItemTimeAliveComponent;
-import com.terryscape.game.interfaces.InterfaceManager;
 import com.terryscape.game.item.ItemContainerItem;
 import com.terryscape.game.loottable.LootTableManager;
 import com.terryscape.game.movement.AnimationComponentImpl;
@@ -49,8 +48,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
 
     private final CacheLoader cacheLoader;
 
-    private final InterfaceManager interfaceManager;
-
     private final CombatDiceRoll combatDiceRoll;
 
     private final SpecialAttackDispatcher specialAttackDispatcher;
@@ -76,7 +73,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
                                    WorldClock worldClock,
                                    PacketManager packetManager,
                                    CacheLoader cacheLoader,
-                                   InterfaceManager interfaceManager,
                                    CombatDiceRoll combatDiceRoll,
                                    SpecialAttackDispatcher specialAttackDispatcher,
                                    SoundManager soundManager,
@@ -92,7 +88,6 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         this.worldClock = worldClock;
         this.packetManager = packetManager;
         this.cacheLoader = cacheLoader;
-        this.interfaceManager = interfaceManager;
         this.combatDiceRoll = combatDiceRoll;
         this.specialAttackDispatcher = specialAttackDispatcher;
         this.soundManager = soundManager;
@@ -162,7 +157,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createPlayerPrefab() {
         var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.PLAYER, null);
 
-        var playerComponent = new PlayerComponentImpl(packetManager, interfaceManager, soundManager, cacheLoader, temporaryPlayerSaveSystem, playerChatSystem);
+        var playerComponent = new PlayerComponentImpl(packetManager, soundManager, cacheLoader, temporaryPlayerSaveSystem, playerChatSystem);
         playerComponent.setGender(RandomUtil.randomBool() ? HumanoidGender.MALE : HumanoidGender.FEMALE);
         entity.addComponent(playerComponent);
 

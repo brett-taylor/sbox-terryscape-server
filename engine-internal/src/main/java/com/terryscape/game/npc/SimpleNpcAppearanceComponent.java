@@ -14,9 +14,8 @@ public class SimpleNpcAppearanceComponent extends BaseEntityComponent implements
         return variant;
     }
 
-    public SimpleNpcAppearanceComponent setVariant(String variant) {
+    public void setVariant(String variant) {
         this.variant = variant;
-        return this;
     }
 
     @Override
