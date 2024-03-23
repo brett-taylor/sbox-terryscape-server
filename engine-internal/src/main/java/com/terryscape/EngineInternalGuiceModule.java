@@ -33,6 +33,7 @@ import com.terryscape.game.movement.WalkIncomingPacket;
 import com.terryscape.game.npc.NpcActionIncomingPacket;
 import com.terryscape.game.npc.NpcInteractionHandler;
 import com.terryscape.game.player.PlayerActionIncomingPacket;
+import com.terryscape.game.projectile.ProjectileComponentComponentSystem;
 import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.projectile.ProjectileFactoryImpl;
 import com.terryscape.game.shop.ShopInterfaceActionHandler;
@@ -94,6 +95,7 @@ public class EngineInternalGuiceModule extends AbstractModule {
         var componentSystemMultibinder = Multibinder.newSetBinder(binder(), ComponentSystem.class);
         componentSystemMultibinder.addBinding().to(GroundItemComponentSystem.class);
         componentSystemMultibinder.addBinding().to(GroundItemTimeAliveComponentSystem.class);
+        componentSystemMultibinder.addBinding().to(ProjectileComponentComponentSystem.class);
 
         Multibinder.newSetBinder(binder(), Command.class);
         Multibinder.newSetBinder(binder(), ItemInteractionHandler.class);

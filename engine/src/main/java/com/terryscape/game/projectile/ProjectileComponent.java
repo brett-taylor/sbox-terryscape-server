@@ -2,16 +2,58 @@ package com.terryscape.game.projectile;
 
 import com.terryscape.cache.projectile.ProjectileDefinition;
 import com.terryscape.entity.Entity;
-import com.terryscape.entity.component.NetworkedEntityComponent;
+import com.terryscape.entity.component.BaseEntityComponent;
 
-public interface ProjectileComponent extends NetworkedEntityComponent {
+public class ProjectileComponent extends BaseEntityComponent {
 
-    ProjectileDefinition getProjectileDefinition();
+    private final ProjectileDefinition projectileDefinition;
 
-    void setEntityTarget(Entity entityTarget);
+    private Entity entitySource;
 
-    void setEntitySource(Entity entitySource);
+    private Entity entityTarget;
 
-    void setLifeSpan(int lifeSpan);
+    private int lifeSpan;
+
+    private int lifeSpanLeft;
+
+    public ProjectileComponent(ProjectileDefinition projectileDefinition) {
+        this.projectileDefinition = projectileDefinition;
+    }
+
+    public ProjectileDefinition getProjectileDefinition() {
+        return projectileDefinition;
+    }
+
+    public Entity getEntitySource() {
+        return entitySource;
+    }
+
+    public void setEntitySource(Entity entitySource) {
+        this.entitySource = entitySource;
+    }
+
+    public Entity getEntityTarget() {
+        return entityTarget;
+    }
+
+    public void setEntityTarget(Entity entityTarget) {
+        this.entityTarget = entityTarget;
+    }
+
+    public int getLifeSpan() {
+        return lifeSpan;
+    }
+
+    public void setLifeSpan(int lifeSpan) {
+        this.lifeSpan = lifeSpan;
+    }
+
+    public int getLifeSpanLeft() {
+        return lifeSpanLeft;
+    }
+
+    public void decrementLifeSpanLeft() {
+        this.lifeSpanLeft -= 1;
+    }
 
 }

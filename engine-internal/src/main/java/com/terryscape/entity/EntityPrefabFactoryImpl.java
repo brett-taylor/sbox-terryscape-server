@@ -24,7 +24,7 @@ import com.terryscape.game.movement.MovementComponentImpl;
 import com.terryscape.game.movement.MovementSpeed;
 import com.terryscape.game.npc.*;
 import com.terryscape.game.player.*;
-import com.terryscape.game.projectile.ProjectileComponentImpl;
+import com.terryscape.game.projectile.ProjectileComponent;
 import com.terryscape.game.projectile.ProjectileFactory;
 import com.terryscape.game.sound.SoundManager;
 import com.terryscape.game.specialattack.SpecialAttackDispatcher;
@@ -211,7 +211,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
     public Entity createProjectilePrefab(ProjectileDefinition projectileDefinition) {
         var entity = new EntityImpl(componentSystemManager, EntityIdentifier.randomIdentifier(), EntityPrefabType.PROJECTILE, projectileDefinition.getId());
 
-        var projectileComponent = new ProjectileComponentImpl(projectileDefinition);
+        var projectileComponent = new ProjectileComponent(projectileDefinition);
         entity.addComponent(projectileComponent);
 
         return entity;
