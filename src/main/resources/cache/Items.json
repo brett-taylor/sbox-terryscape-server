@@ -5,18 +5,18 @@
     "description": "A basic scimitar.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
-      "imagePath": "assets/items/weapons/basic_scimitar/basic_scimitar_icon.png"
+      "modelPath": "items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "imagePath": "items/weapons/basic_scimitar/basic_scimitar_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "modelPath": "items/weapons/basic_scimitar/basic_scimitar.vmdl",
       "position": "-10.9,5.3,0.0",
       "rotation": "0.65,0.27,0.27,0.65",
       "scale": "1,1,1"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/basic_scimitar/basic_scimitar.vmdl",
+      "allModelPath": "items/weapons/basic_scimitar/basic_scimitar.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": false,
@@ -41,18 +41,18 @@
     "description": "A basic sword.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
-      "imagePath": "assets/items/weapons/basic_sword/basic_sword_icon.png"
+      "modelPath": "items/weapons/basic_sword/basic_sword.vmdl",
+      "imagePath": "items/weapons/basic_sword/basic_sword_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
+      "modelPath": "items/weapons/basic_sword/basic_sword.vmdl",
       "position": "-9.6,9.6,0.0",
       "rotation": "0.65,0.27,0.27,0.65",
       "scale": "1,1,1"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/basic_sword/basic_sword.vmdl",
+      "allModelPath": "items/weapons/basic_sword/basic_sword.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": false,
@@ -77,18 +77,18 @@
     "description": "Many people died for this sword.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/godsword/godsword_righteous.vmdl",
-      "imagePath": "assets/items/weapons/godsword/godsword_righteous.png"
+      "modelPath": "items/weapons/godsword/godsword_righteous.vmdl",
+      "imagePath": "items/weapons/godsword/godsword_righteous.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/godsword/godsword_righteous.vmdl",
+      "modelPath": "items/weapons/godsword/godsword_righteous.vmdl",
       "position": "-14,-14,3",
       "rotation": "-0.28,0.65,0.24,0.65",
       "scale": "0.79,0.79,0.79"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/godsword/godsword_righteous.vmdl",
+      "allModelPath": "items/weapons/godsword/godsword_righteous.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": true,
@@ -110,18 +110,18 @@
     "description": "Many people died for this sword.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/godsword/godsword_evil.vmdl",
-      "imagePath": "assets/items/weapons/godsword/godsword_evil.png"
+      "modelPath": "items/weapons/godsword/godsword_evil.vmdl",
+      "imagePath": "items/weapons/godsword/godsword_evil.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/godsword/godsword_evil.vmdl",
+      "modelPath": "items/weapons/godsword/godsword_evil.vmdl",
       "position": "-14,-14,3",
       "rotation": "-0.28,0.65,0.24,0.65",
       "scale": "0.79,0.79,0.79"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/godsword/godsword_evil.vmdl",
+      "allModelPath": "items/weapons/godsword/godsword_evil.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": true,
@@ -143,18 +143,18 @@
     "description": "A basic bow.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/basic_bow/sm_prop_bow_01.vmdl",
-      "imagePath": "assets/items/weapons/basic_bow/sm_prop_bow_01.png"
+      "modelPath": "items/weapons/basic_bow/sm_prop_bow_01.vmdl",
+      "imagePath": "items/weapons/basic_bow/sm_prop_bow_01.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/basic_bow/sm_prop_bow_01.vmdl",
+      "modelPath": "items/weapons/basic_bow/sm_prop_bow_01.vmdl",
       "position": "2.659597,-1.164466,1.971767",
       "scale": "0.9,0.9,0.9",
       "rotation": "0.6360422,-0.3120451,-0.3180526,0.6300167"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/basic_bow/sm_prop_bow_01.vmdl",
+      "allModelPath": "items/weapons/basic_bow/sm_prop_bow_01.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": true,
@@ -176,11 +176,11 @@
     "description": "Makes the world turn.",
     "stackable": true,
     "icon": {
-      "modelPath": "assets/items/general/gold_coins/sm_prop_gold_coins_06.vmdl",
-      "imagePath": "assets/items/general/gold_coins/sm_prop_gold_coins_06_icon.png"
+      "modelPath": "items/general/gold_coins/sm_prop_gold_coins_06.vmdl",
+      "imagePath": "items/general/gold_coins/sm_prop_gold_coins_06_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/general/gold_coins/sm_prop_gold_coins_06.vmdl",
+      "modelPath": "items/general/gold_coins/sm_prop_gold_coins_06.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.3,0.3,0.3"
@@ -195,19 +195,19 @@
     "description": "This will protect me.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
       "position": "0,0,-59.35",
       "rotation": "0,0,0,0",
       "scale": "1,1,1"
     },
     "equip": {
       "slot": "HEAD",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/steel_full_helm/steel_full_helm_female.vmdl",
       "hideBodyParts": ["head"]
     },
     "stats": "steel_full_helm",
@@ -220,19 +220,19 @@
     "description": "This will protect me.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_world.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_world_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_world.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_world_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_world.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_world.vmdl",
       "position": "19.38,0,5.21",
       "scale": "1.34,1.34,1.34",
       "rotation": "0,-0.7,0,0.7"
     },
     "equip": {
       "slot": "TORSO",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/steel_platebody/steel_platebody_female.vmdl",
       "hideBodyParts": ["torso", "arms"]
     },
     "stats": "steel_platebody",
@@ -245,19 +245,19 @@
     "description": "This will protect me.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
       "position": "35.38,2.43,-1.36",
       "scale": "1.29,1.29,1.29",
       "rotation": "-0.69,-0.071,0.71,0.067"
     },
     "equip": {
       "slot": "LEGS",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/steel_platelegs/steel_platelegs_female.vmdl",
       "hideBodyParts": ["hips"]
     },
     "stats": "steel_platelegs",
@@ -270,19 +270,19 @@
     "description": "This will protect me.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.8,0.8,0.8"
     },
     "equip": {
       "slot": "FEET",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/steel_boots/steel_boots_female.vmdl",
       "hideBodyParts": ["legs"]
     },
     "stats": "steel_boots",
@@ -295,19 +295,19 @@
     "description": "This will protect me.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_world.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_world_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_world.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_world_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_world.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_world.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.5,0.5,0.5"
     },
     "equip": {
       "slot": "HANDS",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/steel_gloves/steel_gloves_female.vmdl",
       "hideBodyParts": ["hands"]
     },
     "stats": "steel_gloves",
@@ -320,18 +320,18 @@
     "description": "Maybe this has magical powers?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
       "position": "0,0,-57.73",
       "rotation": "0,0,0,0",
       "scale": "0.9,0.9,0.9"
     },
     "equip": {
       "slot": "HEAD",
-      "allModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
+      "allModelPath": "items/equipment/polygonmodularfantasyhero/wizard_hat/wizard_hat_all.vmdl",
       "hideBodyParts": []
     },
     "stats": "wizard_gear",
@@ -344,19 +344,19 @@
     "description": "Maybe this has magical powers?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_world.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_world_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_world.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_world_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_world.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_world.vmdl",
       "position": "19.38,0,5.21",
       "scale": "1.34,1.34,1.34",
       "rotation": "0,-0.7,0,0.7"
     },
     "equip": {
       "slot": "TORSO",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_top/wizard_top_female.vmdl",
       "hideBodyParts": ["torso", "arms"]
     },
     "stats": "wizard_gear",
@@ -369,19 +369,19 @@
     "description": "Maybe this has magical powers?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
       "position": "27.40,0,6.12",
       "scale": "1.11,1.11,1.11",
       "rotation": "0,-0.7,0,0.7"
     },
     "equip": {
       "slot": "LEGS",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_bottom/wizard_bottom_female.vmdl",
       "hideBodyParts": ["hips"]
     },
     "stats": "wizard_gear",
@@ -394,19 +394,19 @@
     "description": "Maybe this has magical powers?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.8,0.8,0.8"
     },
     "equip": {
       "slot": "FEET",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_boots/wizard_boots_female.vmdl",
       "hideBodyParts": ["legs"]
     },
     "stats": "wizard_gear",
@@ -419,19 +419,19 @@
     "description": "Maybe this has magical powers?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_world.vmdl",
-      "imagePath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_world_icon.png"
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_world.vmdl",
+      "imagePath": "items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_world_icon.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_world.vmdl",
+      "modelPath": "items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_world.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.5,0.5,0.5"
     },
     "equip": {
       "slot": "HANDS",
-      "maleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl",
-      "femaleModelPath": "assets/items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_female.vmdl",
+      "maleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_male.vmdl",
+      "femaleModelPath": "items/equipment/polygonmodularfantasyhero/wizard_gloves/wizard_gloves_female.vmdl",
       "hideBodyParts": ["hands"]
     },
     "stats": "wizard_gear",
@@ -444,11 +444,11 @@
     "description": "Yellow and stinky... lovely.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/cheese_slice_01/sm_item_cheese_slice_01.vmdl",
-      "imagePath": "assets/items/food/cheese_slice_01/sm_item_cheese_slice_01.png"
+      "modelPath": "items/food/cheese_slice_01/sm_item_cheese_slice_01.vmdl",
+      "imagePath": "items/food/cheese_slice_01/sm_item_cheese_slice_01.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/cheese_slice_01/sm_item_cheese_slice_01.vmdl",
+      "modelPath": "items/food/cheese_slice_01/sm_item_cheese_slice_01.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "1,1,1"
@@ -463,11 +463,11 @@
     "description": "Yellow and stinky and bigger.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/cheese_wheel_03/sm_item_cheese_wheel_03.vmdl",
-      "imagePath": "assets/items/food/cheese_wheel_03/sm_item_cheese_wheel_03.png"
+      "modelPath": "items/food/cheese_wheel_03/sm_item_cheese_wheel_03.vmdl",
+      "imagePath": "items/food/cheese_wheel_03/sm_item_cheese_wheel_03.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/cheese_wheel_03/sm_item_cheese_wheel_03.vmdl",
+      "modelPath": "items/food/cheese_wheel_03/sm_item_cheese_wheel_03.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.7,0.7,0.7"
@@ -482,11 +482,11 @@
     "description": "Hope it doesnt swim away.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/meat_fish_02/sm_item_meat_fish_02.vmdl",
-      "imagePath": "assets/items/food/meat_fish_02/sm_item_meat_fish_02.png"
+      "modelPath": "items/food/meat_fish_02/sm_item_meat_fish_02.vmdl",
+      "imagePath": "items/food/meat_fish_02/sm_item_meat_fish_02.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/meat_fish_02/sm_item_meat_fish_02.vmdl",
+      "modelPath": "items/food/meat_fish_02/sm_item_meat_fish_02.vmdl",
       "position": "0,0,2.06",
       "scale": "0.46,0.46,0.46",
       "Rotation": "-0.65,-0.27,0.27,0.65"
@@ -501,11 +501,11 @@
     "description": "This used to be a Dinosaur?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.vmdl",
-      "imagePath": "assets/items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.png"
+      "modelPath": "items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.vmdl",
+      "imagePath": "items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.vmdl",
+      "modelPath": "items/food/meat_turkey_cooked_01/sm_item_meat_turkey_cooked_01.vmdl",
       "position": "0,0,3.50",
       "rotation": "0,0,0,0",
       "scale": "0.37,0.37,0.37"
@@ -520,11 +520,11 @@
     "description": "This used to be a Dinosaur?",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.vmdl",
-      "imagePath": "assets/items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.png"
+      "modelPath": "items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.vmdl",
+      "imagePath": "items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.vmdl",
+      "modelPath": "items/food/meat_turkey_raw_01/sm_item_meat_turkey_raw_01.vmdl",
       "position": "0,0,3.50",
       "rotation": "0,0,0,0",
       "scale": "0.37,0.37,0.37"
@@ -539,11 +539,11 @@
     "description": "Smells nice.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/pie_03/sm_item_pie_03.vmdl",
-      "imagePath": "assets/items/food/pie_03/sm_item_pie_03.png"
+      "modelPath": "items/food/pie_03/sm_item_pie_03.vmdl",
+      "imagePath": "items/food/pie_03/sm_item_pie_03.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/pie_03/sm_item_pie_03.vmdl",
+      "modelPath": "items/food/pie_03/sm_item_pie_03.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "0.4,0.4,0.4"
@@ -558,11 +558,11 @@
     "description": "Gary likes these.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/food/potato_02/sm_item_potato_02.vmdl",
-      "imagePath": "assets/items/food/potato_02/sm_item_potato_02.png"
+      "modelPath": "items/food/potato_02/sm_item_potato_02.vmdl",
+      "imagePath": "items/food/potato_02/sm_item_potato_02.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/food/potato_02/sm_item_potato_02.vmdl",
+      "modelPath": "items/food/potato_02/sm_item_potato_02.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "1,1,1"
@@ -577,18 +577,18 @@
     "description": "A basic staff that fires air spells.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/staff/air_staff.vmdl",
-      "imagePath": "assets/items/weapons/staff/air_staff.png"
+      "modelPath": "items/weapons/staff/air_staff.vmdl",
+      "imagePath": "items/weapons/staff/air_staff.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/staff/air_staff.vmdl",
+      "modelPath": "items/weapons/staff/air_staff.vmdl",
       "position": "-10.9,5.3,0.0",
       "rotation": "0.65,0.27,0.27,0.65",
       "scale": "1,1,1"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/staff/air_staff.vmdl",
+      "allModelPath": "items/weapons/staff/air_staff.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": true,
@@ -610,18 +610,18 @@
     "description": "A basic staff that fires fire spells.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/weapons/staff/fire_staff.vmdl",
-      "imagePath": "assets/items/weapons/staff/fire_staff.png"
+      "modelPath": "items/weapons/staff/fire_staff.vmdl",
+      "imagePath": "items/weapons/staff/fire_staff.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/weapons/staff/fire_staff.vmdl",
+      "modelPath": "items/weapons/staff/fire_staff.vmdl",
       "position": "-10.9,5.3,0.0",
       "rotation": "0.65,0.27,0.27,0.65",
       "scale": "1,1,1"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/weapons/staff/fire_staff.vmdl",
+      "allModelPath": "items/weapons/staff/fire_staff.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": true,
@@ -643,11 +643,11 @@
     "description": "Some wooden logs.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/general/logs/logs.vmdl",
-      "imagePath": "assets/items/general/logs/logs.png"
+      "modelPath": "items/general/logs/logs.vmdl",
+      "imagePath": "items/general/logs/logs.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/general/logs/logs.vmdl",
+      "modelPath": "items/general/logs/logs.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "3.1,10,10"
@@ -662,11 +662,11 @@
     "description": "Some wooden logs but from a Maple Tree.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/general/logs/maple_logs.vmdl",
-      "imagePath": "assets/items/general/logs/maple_logs.png"
+      "modelPath": "items/general/logs/maple_logs.vmdl",
+      "imagePath": "items/general/logs/maple_logs.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/general/logs/maple_logs.vmdl",
+      "modelPath": "items/general/logs/maple_logs.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "3.1,10,10"
@@ -681,18 +681,18 @@
     "description": "I could cut down a tree with this.",
     "stackable": false,
     "icon": {
-      "modelPath": "assets/items/tools/hatchet/hatchet.vmdl",
-      "imagePath": "assets/items/tools/hatchet/hatchet.png"
+      "modelPath": "items/tools/hatchet/hatchet.vmdl",
+      "imagePath": "items/tools/hatchet/hatchet.png"
     },
     "groundItem": {
-      "modelPath": "assets/items/tools/hatchet/hatchet.vmdl",
+      "modelPath": "items/tools/hatchet/hatchet.vmdl",
       "position": "0,0,0",
       "rotation": "0,0,0,0",
       "scale": "3.1,10,10"
     },
     "equip": {
       "slot": "MAIN_HAND",
-      "allModelPath": "assets/items/tools/hatchet/hatchet.vmdl",
+      "allModelPath": "items/tools/hatchet/hatchet.vmdl",
       "hideBodyParts": [],
       "weapon": {
         "twoHanded": false,

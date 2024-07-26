@@ -1,14 +1,14 @@
 [
   {
     "id": "basic_air_strike",
-    "prefabPath": "assets/projectiles/basic_air_strike.prefab"
+    "prefabPath": "projectiles/basic_air_strike.prefab"
   },
   {
     "id": "basic_fire_strike",
-    "prefabPath": "assets/projectiles/basic_fire_strike.prefab"
+    "prefabPath": "projectiles/basic_fire_strike.prefab"
   },
   {
     "id": "basic_arrow",
-    "prefabPath": "assets/projectiles/basic_arrow.prefab"
+    "prefabPath": "projectiles/basic_arrow.prefab"
   }
 ]

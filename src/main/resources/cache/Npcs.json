@@ -8,36 +8,36 @@
     "simpleNpc": {
       "variants": {
         "green_male": {
-          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_03.vmat"
+          "modelPath": "npcs/goblin/goblin_male.vmdl",
+          "texturePath": "materials/dungeons_texture_03.vmat"
         },
         "red_male": {
-          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_01.vmat"
+          "modelPath": "npcs/goblin/goblin_male.vmdl",
+          "texturePath": "materials/dungeons_texture_01.vmat"
         },
         "blue_male": {
-          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_02.vmat"
+          "modelPath": "npcs/goblin/goblin_male.vmdl",
+          "texturePath": "materials/dungeons_texture_02.vmat"
         },
         "yellow_male": {
-          "modelPath": "assets/npcs/goblin/goblin_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_04.vmat"
+          "modelPath": "npcs/goblin/goblin_male.vmdl",
+          "texturePath": "materials/dungeons_texture_04.vmat"
         },
         "green_female": {
-          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_03.vmat"
+          "modelPath": "npcs/goblin/goblin_female.vmdl",
+          "texturePath": "materials/dungeons_texture_03.vmat"
         },
         "red_female": {
-          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_01.vmat"
+          "modelPath": "npcs/goblin/goblin_female.vmdl",
+          "texturePath": "materials/dungeons_texture_01.vmat"
         },
         "blue_female": {
-          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_02.vmat"
+          "modelPath": "npcs/goblin/goblin_female.vmdl",
+          "texturePath": "materials/dungeons_texture_02.vmat"
         },
         "yellow_female": {
-          "modelPath": "assets/npcs/goblin/goblin_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_04.vmat"
+          "modelPath": "npcs/goblin/goblin_female.vmdl",
+          "texturePath": "materials/dungeons_texture_04.vmat"
         }
       }
     },
@@ -54,36 +54,36 @@
     "simpleNpc": {
       "variants": {
         "green_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_03.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "materials/dungeons_texture_03.vmat"
         },
         "red_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_01.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "materials/dungeons_texture_01.vmat"
         },
         "blue_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_02.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "materials/dungeons_texture_02.vmat"
         },
         "yellow_male": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_male.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_04.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_male.vmdl",
+          "texturePath": "materials/dungeons_texture_04.vmat"
         },
         "green_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_03.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "materials/dungeons_texture_03.vmat"
         },
         "red_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_01.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "materials/dungeons_texture_01.vmat"
         },
         "blue_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_02.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "materials/dungeons_texture_02.vmat"
         },
         "yellow_female": {
-          "modelPath": "assets/npcs/goblin/goblin_warrior_female.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_04.vmat"
+          "modelPath": "npcs/goblin/goblin_warrior_female.vmdl",
+          "texturePath": "materials/dungeons_texture_04.vmat"
         }
       }
     },
@@ -100,8 +100,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/goblin/goblin_shaman.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_01.vmat"
+          "modelPath": "npcs/goblin/goblin_shaman.vmdl",
+          "texturePath": "materials/dungeons_texture_01.vmat"
         }
       }
     },
@@ -118,8 +118,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/goblin/goblin_chief.vmdl",
-          "texturePath": "assets/materials/dungeons_texture_01.vmat"
+          "modelPath": "npcs/goblin/goblin_chief.vmdl",
+          "texturePath": "materials/dungeons_texture_01.vmat"
         }
       }
     },
@@ -176,8 +176,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_hermit_01.vmdl",
-          "texturePath": "assets/materials/polygonfantasykingdom_texture_04_a.vmat"
+          "modelPath": "npcs/polygonfantasykingdom/sm_chr_hermit_01.vmdl",
+          "texturePath": "materials/polygonfantasykingdom_texture_04_a.vmat"
         }
       }
     },
@@ -223,8 +223,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_hermit_01.vmdl",
-          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+          "modelPath": "npcs/polygonfantasykingdom/sm_chr_hermit_01.vmdl",
+          "texturePath": "materials/polygonfantasykingdom_texture_01_a.vmat"
         }
       }
     },
@@ -240,8 +240,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_soldier_male_01.vmdl",
-          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+          "modelPath": "npcs/polygonfantasykingdom/sm_chr_soldier_male_01.vmdl",
+          "texturePath": "materials/polygonfantasykingdom_texture_01_a.vmat"
         }
       }
     },
@@ -257,8 +257,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_rider_01.vmdl",
-          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+          "modelPath": "npcs/polygonfantasykingdom/sm_chr_rider_01.vmdl",
+          "texturePath": "materials/polygonfantasykingdom_texture_01_a.vmat"
         }
       }
     },
@@ -274,8 +274,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_blacksmith_female_01.vmdl",
-          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+          "modelPath": "npcs/polygonfantasykingdom/sm_chr_blacksmith_female_01.vmdl",
+          "texturePath": "materials/polygonfantasykingdom_texture_01_a.vmat"
         }
       }
     },
@@ -291,8 +291,8 @@
     "simpleNpc": {
       "variants": {
         "default": {
-          "modelPath": "assets/npcs/polygonfantasykingdom/sm_chr_peasant_female_01.vmdl",
-          "texturePath": "assets/materials/polygonfantasykingdom_texture_01_a.vmat"
+          "modelPath": "npcs/polygonfantasykingdom/sm_chr_peasant_female_01.vmdl",
+          "texturePath": "materials/polygonfantasykingdom_texture_01_a.vmat"
         }
       }
     },
