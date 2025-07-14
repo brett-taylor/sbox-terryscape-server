@@ -136,7 +136,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager, 1);
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 
@@ -183,7 +183,7 @@ public class EntityPrefabFactoryImpl implements EntityPrefabFactory {
         var animationComponent = new AnimationComponentImpl(entity);
         entity.addComponent(animationComponent);
 
-        var movementComponent = new MovementComponentImpl(entity, pathfindingManager);
+        var movementComponent = new MovementComponentImpl(entity, pathfindingManager, 3); // Players have size 3
         movementComponent.setMovementSpeed(MovementSpeed.WALK);
         entity.addComponent(movementComponent);
 

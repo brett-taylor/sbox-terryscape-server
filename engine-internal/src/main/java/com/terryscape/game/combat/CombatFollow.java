@@ -39,7 +39,7 @@ public class CombatFollow {
         clearDestinationTileIfVictimMoved(victimMovement);
 
         var inRange = calculateIfInRange(attackerMovement, victimMovement);
-        var inRangeAndHasLineOfSight = inRange && pathfindingManager.hasLineOfSight(attackerMovement.getWorldCoordinate(), victimMovement.getWorldCoordinate());
+        var inRangeAndHasLineOfSight = inRange && pathfindingManager.hasLineOfSight(attackerMovement.getWorldCoordinate(), victimMovement.getWorldCoordinate(), attackerMovement.getAgentSize());
         var isMoving = destinationTile != null;
 
         if (inRangeAndHasLineOfSight) {
@@ -49,7 +49,7 @@ public class CombatFollow {
 
         var onSameTile = Objects.equals(attackerMovement.getWorldCoordinate(), victimMovement.getWorldCoordinate());
         if (onSameTile || (!inRangeAndHasLineOfSight && !isMoving)) {
-            var newDestinationTile = pathfindingManager.getClosestNeighbourToDestination(attackerMovement.getWorldCoordinate(), victimMovement.getWorldCoordinate());
+            var newDestinationTile = pathfindingManager.getClosestNeighbourToDestination(attackerMovement.getWorldCoordinate(), victimMovement.getWorldCoordinate(), attackerMovement.getAgentSize());
             if (newDestinationTile.isEmpty()) {
                 return CombatFollowResult.stopAttacking();
             }

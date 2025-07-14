@@ -14,6 +14,8 @@ public interface MovementComponent extends NetworkedEntityComponent {
 
     void setMovementSpeed(MovementSpeed movementSpeed);
 
+    int getAgentSize();
+
     void look(Direction direction);
 
     void face(MovementComponent movementComponent);
