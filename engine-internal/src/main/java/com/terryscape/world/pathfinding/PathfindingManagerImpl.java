@@ -23,33 +23,36 @@ public class PathfindingManagerImpl implements PathfindingManager {
     private static final Logger LOGGER = LogManager.getLogger(PathfindingManagerImpl.class);
 
     private final CacheLoader cacheLoader;
+    private final PathfindingCache pathfindingCache;
 
     @Inject
-    public PathfindingManagerImpl(CacheLoader cacheLoader) {
+    public PathfindingManagerImpl(CacheLoader cacheLoader, PathfindingCache pathfindingCache) {
         this.cacheLoader = cacheLoader;
+        this.pathfindingCache = pathfindingCache;
     }
 
     @Override
-    public Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
+    public Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile, int agentSize) {
         var stopwatch = Stopwatch.createStarted();
 
-        var optionalPath = pathfind(startingTile, destinationTile, PathfindType.MOB);
+        var optionalPath = pathfind(startingTile, destinationTile, PathfindType.MOB, agentSize);
 
         if (optionalPath.isPresent()) {
             var tickTimeMs = stopwatch.elapsed(TimeUnit.MILLISECONDS);
             var level = tickTimeMs > Config.SLOW_PATHFIND_THRESHOLD_MS ? Level.WARN : Level.DEBUG;
-            LOGGER.log(level, "Successfully found a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);
+            LOGGER.log(level, "Successfully found a navigation path in {}ms from {} to {} with agent size {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile, agentSize);
             return Optional.of(new PathfindingRouteImpl(optionalPath.get()));
         } else {
-            LOGGER.warn("Failed to find a navigation path in {}ms from {} to {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile);
+            LOGGER.warn("Failed to find a navigation path in {}ms from {} to {} with agent size {}.", stopwatch.elapsed(TimeUnit.MILLISECONDS), startingTile, destinationTile, agentSize);
             return Optional.empty();
         }
     }
 
     @Override
-    public boolean hasLineOfSight(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
-        var projectilePathfind = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE);
-        var mobPathfind = pathfind(startingTile, destinationTile, PathfindType.MOB);
+    public boolean hasLineOfSight(WorldCoordinate startingTile, WorldCoordinate destinationTile, int agentSize) {
+        // Always use agent size 1 for line of sight checks
+        var projectilePathfind = pathfind(startingTile, destinationTile, PathfindType.PROJECTILE, 1);
+        var mobPathfind = pathfind(startingTile, destinationTile, PathfindType.MOB, 1);
         if (projectilePathfind.isEmpty() || mobPathfind.isEmpty()) {
             return false;
         }
@@ -58,13 +61,13 @@ public class PathfindingManagerImpl implements PathfindingManager {
     }
 
     @Override
-    public Optional<WorldCoordinate> getClosestNeighbourToDestination(WorldCoordinate startingTile, WorldCoordinate destinationTile) {
+    public Optional<WorldCoordinate> getClosestNeighbourToDestination(WorldCoordinate startingTile, WorldCoordinate destinationTile, int agentSize) {
         var onSameTile = startingTile.equals(destinationTile);
         if (onSameTile) {
-            return Optional.of(getWalkableNeighbour(destinationTile));
+            return Optional.of(getWalkableNeighbour(destinationTile, agentSize));
         }
 
-        var route = findRoute(startingTile, destinationTile);
+        var route = findRoute(startingTile, destinationTile, agentSize);
         if (route.isEmpty()) {
             return Optional.empty();
         }
@@ -87,7 +90,7 @@ public class PathfindingManagerImpl implements PathfindingManager {
         return Optional.of(WorldCoordinate.getClosestWorldCoordinate(startingTile, cardinalToVictim));
     }
 
-    private WorldCoordinate getWalkableNeighbour(WorldCoordinate worldCoordinate) {
+    private WorldCoordinate getWalkableNeighbour(WorldCoordinate worldCoordinate, int agentSize) {
         var cardinalNeighbours = worldCoordinate.getCardinalNeighbours();
 
         var validCardinalNeighbours = Arrays.stream(cardinalNeighbours).filter(cardinalNeighbour -> {
@@ -102,7 +105,7 @@ public class PathfindingManagerImpl implements PathfindingManager {
         }
     }
 
-    private Optional<ArrayList<WorldCoordinate>> pathfind(WorldCoordinate startingTile, WorldCoordinate destinationTile, PathfindType pathfindType) {
+    private Optional<ArrayList<WorldCoordinate>> pathfind(WorldCoordinate startingTile, WorldCoordinate destinationTile, PathfindType pathfindType, int agentSize) {
         var isStartTileWalkable = cacheLoader
             .getWorldRegionDefinition(startingTile.toWorldRegionCoordinate())
             .getWorldTileDefinition(startingTile.toWorldRegionLocalCoordinate())
@@ -117,7 +120,7 @@ public class PathfindingManagerImpl implements PathfindingManager {
             return Optional.empty();
         }
 
-        var pathfinder = new AStarPathFinder(startingTile, destinationTile, cacheLoader, pathfindType);
+        var pathfinder = new AStarPathFinder(startingTile, destinationTile, cacheLoader, pathfindType, agentSize, pathfindingCache);
         return pathfinder.find();
     }
 }

@@ -6,9 +6,9 @@ import java.util.Optional;
 
 public interface PathfindingManager {
 
-    Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile);
+    Optional<PathfindingRoute> findRoute(WorldCoordinate startingTile, WorldCoordinate destinationTile, int agentSize);
 
-    boolean hasLineOfSight(WorldCoordinate startingTile, WorldCoordinate destinationTile);
+    boolean hasLineOfSight(WorldCoordinate startingTile, WorldCoordinate destinationTile, int agentSize);
 
-    Optional<WorldCoordinate> getClosestNeighbourToDestination(WorldCoordinate startingTile, WorldCoordinate destinationTile);
+    Optional<WorldCoordinate> getClosestNeighbourToDestination(WorldCoordinate startingTile, WorldCoordinate destinationTile, int agentSize);
 }

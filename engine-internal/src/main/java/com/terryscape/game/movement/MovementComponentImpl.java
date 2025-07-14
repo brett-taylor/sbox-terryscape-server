@@ -33,13 +33,16 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     private MovementSpeed movementSpeed = MovementSpeed.WALK;
 
+    private final int agentSize;
+
     private boolean hasMovedThisTick = false;
 
     @Inject
-    public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager) {
+    public MovementComponentImpl(Entity entity, PathfindingManager pathfindingManager, int agentSize) {
         super(entity);
 
         this.pathfindingManager = pathfindingManager;
+        this.agentSize = agentSize;
 
         getEntity().subscribe(OnDeathEntityEvent.class, this::onDeath);
     }
@@ -70,6 +73,11 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
     }
 
     @Override
+    public int getAgentSize() {
+        return agentSize;
+    }
+
+    @Override
     public void look(Direction direction) {
         this.direction = direction;
         stop();
@@ -91,7 +99,7 @@ public class MovementComponentImpl extends BaseEntityComponent implements Moveme
 
     @Override
     public boolean move(WorldCoordinate destination) {
-        var result = this.pathfindingManager.findRoute(getWorldCoordinate(), destination);
+        var result = this.pathfindingManager.findRoute(getWorldCoordinate(), destination, agentSize);
         if (result.isEmpty()) {
             return false;
         }
